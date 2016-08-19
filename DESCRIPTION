@@ -1,0 +1,13 @@
+Package: shinytest
+Title: Test Shiny Apps
+Version: 1.0.0
+Author: Gábor Csárdi
+Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
+Description: Uses a headless browser, driven through 'WebDriver'.
+License: MIT + file LICENSE
+LazyData: true
+URL: https://github.com/gaborcsardi/shinytest
+BugReports: https://github.com/gaborcsardi/shinytest/issues
+RoxygenNote: 5.0.1
+Suggests: 
+    testthat
