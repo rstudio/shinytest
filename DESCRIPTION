@@ -11,3 +11,4 @@ BugReports: https://github.com/gaborcsardi/shinytest/issues
 RoxygenNote: 5.0.1
 Suggests: 
     testthat
+Encoding: UTF-8
