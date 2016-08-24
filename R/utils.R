@@ -1,8 +1,17 @@
 
-## TODO
+#' Generate a random port number
+#'
+#' Ideally, phantomjs should support a random port, assigned by the OS.
+#' But it does not, so we generate one randomly and hope for the best.
+#'
+#' @param min lower limit
+#' @param max upper limit
+#' @return integer scalar, generated port number
+#'
+#' @keywords internal
 
-random_port <- function() {
-  8910
+random_port <- function(min = 3000, max = 9000) {
+  if (min < max) sample(min:max, 1) else min
 }
 
 check_external <- function(x) {
