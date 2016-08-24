@@ -1,5 +1,22 @@
 
+#' Class to manage shiny app and phantom.js processes for testing
+#'
+#' @section Usage:
+#'
+#' TODO
+#'
+#' @section Arguments:
+#'
+#' TODO
+#'
+#' @section Details:
+#'
+#' TODO
+#'
 #' @importFrom R6 R6Class
+#' @name shinyapp
+NULL
+
 #' @export
 
 shinyapp <- R6Class(
