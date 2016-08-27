@@ -67,8 +67,8 @@ shinyapp <- R6Class(
       app_find_element(self, private, css, link_text, partial_link_text,
                        xpath),
 
-    find_widget = function(name, type = c("auto", "input", "output"))
-      app_find_widget(self, private, name, match.arg(type))
+    find_widget = function(name, iotype = c("auto", "input", "output"))
+      app_find_widget(self, private, name, match.arg(iotype))
   ),
 
   private = list(

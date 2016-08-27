@@ -4,13 +4,13 @@
 #' @param self me
 #' @param private private me
 #' @param name The name of the Shiny input or output to search for.
-#' @param wtype It is possible that an input has the same name as
+#' @param iotype It is possible that an input has the same name as
 #'   an output, and in this case there is no way to get element without
 #'   knowing whether it is an input or output element.
 #'
 #' @keywords internal
 
-app_find_widget <- function(self, private, name, wtype) {
+app_find_widget <- function(self, private, name, iotype) {
 
   ## TODO: handle error, for el, tag, type and class?
   el <- self$find_element(css = paste0("#", name))
@@ -18,10 +18,10 @@ app_find_widget <- function(self, private, name, wtype) {
   type <- el$get_attribute("type")
   class <- parse_class(el$get_attribute("class"))
 
-  res <- if (wtype == "auto") {
+  res <- if (iotype == "auto") {
     find_input_widget(self, private, el, tag, type, class) %||%
     find_output_widget(self, private, el, tag, type, class)
-  } else if (wtype == "input") {
+  } else if (iotype == "input") {
     find_input_widget(self, private, el, tag, type, class)
   } else {
     find_output_widget(self, private, el, tag, type, class)
@@ -31,13 +31,18 @@ app_find_widget <- function(self, private, name, wtype) {
     stop("Cannot find shiny input/output widget ", sQuote(name))
   }
 
-  res
+  widget$new(
+    name = name,
+    element = res$element,
+    type = res$type,
+    iotype = res$iotype
+  )
 }
 
 find_input_widget <- function(self, private, el, tag, type, class) {
 
-  e <- function(name, input = TRUE, output = !input) {
-    list(element = el, input = input, output = output, type = name)
+  e <- function(name) {
+    list(element = el, iotype = "input", type = name)
   }
 
   ## If a <button>, then it is an actionbutton
@@ -93,8 +98,8 @@ find_input_widget <- function(self, private, el, tag, type, class) {
 
 find_output_widget <- function(self, private, el, tag, type, class) {
 
-  e <- function(name, output = TRUE, input = !output) {
-    list(element = el, input = input, output = output, type = name)
+  e <- function(name) {
+    list(element = el, iotype = "output", type = name)
   }
 
   ## htmlOutput has class

@@ -113,7 +113,7 @@ Also a somewhat strange one.
   <input class="js-range-slider" id="#"
 ```
 
-## Text input
+## Text input (`textInput`)
 
 ```
 <input id="#" type="text" class="shiny-bound-input" ...
