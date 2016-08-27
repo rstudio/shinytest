@@ -27,15 +27,48 @@ shinyapp <- R6Class(
     initialize = function(path = ".")
       app_initialize(self, private, path),
 
+    stop = function()
+      app_stop(self, private),
+
     value = function(name)
       app_value(self, private, name),
 
-    update = function(...)
-      app_update(self, private, ...),
+    focus_on = function(name)
+      app_focus_on(self, private, name),
 
-    stop = function()
-      app_stop(self, private)
+    send_keys = function(name = NULL, keys)
+      app_send_keys(self, private, name, keys),
 
+    set_window_size = function(width, height)
+      app_set_window_size(self, private, width, height),
+
+    ## These are just forwarded to the webdriver session
+
+    get_url = function()
+      app_get_url(self, private),
+
+    go_back = function()
+      app_go_back(self, private),
+
+    refresh = function()
+      app_refresh(self, private),
+
+    get_title = function()
+      app_get_title(self, private),
+
+    get_source = function()
+      app_get_source(self, private),
+
+    take_screenshot = function(file = NULL)
+      app_take_screenshot(self, private, file),
+
+    find_element = function(css = NULL, link_text = NULL,
+      partial_link_text = NULL, xpath = NULL)
+      app_find_element(self, private, css, link_text, partial_link_text,
+                       xpath),
+
+    find_widget = function(name, type = c("auto", "input", "output"))
+      app_find_widget(self, private, name, match.arg(type))
   ),
 
   private = list(
@@ -64,8 +97,16 @@ app_value <- function(self, private, name) {
   ## TODO
 }
 
-app_update <- function(self, private, ...) {
-  ## TODO
+app_focus_on <- function(self, private, name) {
+
+}
+
+app_send_keys <- function(self, private, name, keys) {
+
+}
+
+app_set_window_size <- function(self, private, width, height) {
+
 }
 
 app_stop <- function(self, private) {

@@ -20,3 +20,4 @@ Imports:
 Remotes:
     gaborcsardi/processx
 Encoding: UTF-8
+SystemRequirements: PhantomJS (http://phantomjs.org/)

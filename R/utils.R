@@ -19,3 +19,9 @@ check_external <- function(x) {
     stop("Cannot start '", x, "', make sure it is in the path")
   }
 }
+
+parse_class <- function(x) {
+  strsplit(x, "\\s+")[[1]]
+}
+
+`%||%` <- function(l, r) if (is.null(l)) r else l

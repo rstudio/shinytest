@@ -4,71 +4,81 @@
 ## Action button (`actionButton`)
 
 ```
-<button id="..." ...
+<button id="#" type="button" class="shiny-bound-button" ...
 ```
 
 ## Single checkbox (`checkboxInput`)
 
 ```
-<input id="..." type="checkbox" ...
+<input id="#" type="checkbox" class="shiny-bound-input" ...
 ```
 
 ## Checkbox group (`checkboxGroupInput`)
 
 ```
-<div id="..."
-  <div>
-    <div><input type="checkbox" ...
-    <div><input type="checkbox" ...
-    <div><input type="checkbox" ...
+<div id="#"
+     class="shiny-input-container shiny-input-checkboxgroup shiny-bound-input"
+  <div class="shiny-options-group">
+    <div class="checkbox"><label><input type="checkbox" name="#" id="#1" ...
+    <div class="checkbox"><label><input type="checkbox" name="#" id="#2" ...
+    <div class="checkbox"><label><input type="checkbox" name="#" id="#3" ...
     ...
 ```
 
-## Date input (`dataInput`)
+## Date input (`dateInput`)
 
 ```
-<div id="..." ...
-  <input type="text"
+<div id="#"
+     class="shiny-date-input shiny-input-container shiny-bound-input" ...
+  <input type="text" class="datepicker" ...
 ```
 
 ## Date range (`dateRangeInput`)
 
 ```
-<div id="..." ...
-  <input type="text" ...
-  <input type="text" ...
+<div id="#"
+     class="shiny-date-range-input shiny-input-container shiny-bound-input ...
+  <div class="input-daterange input-group"
+    <input type="text" ...
+    <input type="text" ...
 ```
 
 ## File input (`fileInput`)
 
 ```
-<input id="..." type="file"
+<input id="#" type="file" class="shiny-bound-input" ...
 ```
 
 ## Numeric input (`numericInput`)
 
 ```
-<input id="..." type="number"
+<input id="#" type="number" class="shiny-bound-input" ...
 ```
 
 ## Radio buttons (`radioButtons`)
 
 ```
-<div id="..."
-  <div>
-    <div><input type="radio" ...
-    <div><input type="radio" ...
-    <div><input type="radio" ...
+<div id="#"
+     class="shiny-input-radiogroup shiny-input-container shiny-bound-input" ...
+  <div class="shiny-options-group">
+    <div class="radio"><label><input type="radio" id="#1" ...
+    <div class="radio"><label><input type="radio" id="#2" ...
+    <div class="radio"><label><input type="radio" id="#3" ...
     ...
 ```
 
 ## Select box (`selectInput`)
 
+Somewhat messy. The id is apparently on the previous element, at least
+if selectize is used:
+
 ```
-<select id="..." ...
-  <div>
-    <div>
-      <input type="text"
+<div>
+  <select id="#" class="shiny-bound-input" style="display:none;" ...
+  <div class="selectize-control">
+    <div class="selectize-input">
+      <div class="item" data-value="1">Chice 1</dic>
+      <input type="text" ...
 ```
 
 ## Submit button (`submitButton`)
@@ -76,63 +86,84 @@
 This one does not really have an ID. It is just a `<button type="submit">`
 within a form.
 
-## Slider
+## Slider (`sliderInput`)
+
+Also a somewhat strange one.
 
 ```
-<input class="js-range-slider" id="..."
+<div class="shiny-input-container">
+  <span class="irs" ...
+    <span class="irs">
+      <span class="irs-single" ...>32</span>
+    </span>
+  </span>
+  <input class="js-range-slider" id="#" ...
 ```
 
-## Slider range
+## Slider range (`sliderInput`)
 
 ```
-<input class="js-range-slider" id="..."
+<div class="shiny-input-container">
+  <span class="irs" ...
+    <span class="irs">
+	  <span class="irs-from" ...>25</span>
+	  <span class="irs-to" ...>75</span>
+    </span>
+  </span>
+  <input class="js-range-slider" id="#"
 ```
 
 ## Text input
 
 ```
-<input id="..."
+<input id="#" type="text" class="shiny-bound-input" ...
 ```
 
 ## Password input (`passwordInput`)
 
 ```
-<input id="..." type="password"
+<input id="#" type="password" ...
 ```
 
 # Output
 
 ## HTML output (`htmlOutput`)
 
+But it might not be a `<div>`, actually, this can be customized.
+The class and the id should still hold.
+
 ```
-<div id="..."
+<div id="#" class="shiny-html-output">The HTML is here</div>
 ```
 
 ## Plot output (`plotOutput`)
 
 ```
-<div id="..."
-  <img
+<div id="#" class="shiny-plot-output shiny-bound-output" ...
+  <img src="data:image/...
 ```
 
 ## Table output (`tableOutput`)
 
+The table itself is not visible.
+
 ```
-<div id="..."
-  <div>
+<div id="#" class="datatables shiny-bound-output"
+  <div class="dataTables_wrapper" ...
+    ...
     <table class="dataTable"
 ```
 
 ## Text output (`textOutput`)
 
 ```
-<div id="..."
+<div id="#" class="shiny-text-output" ...>Text</div>
 ```
 
 ## Verbatim text output (`verbatimTextOutput`)
 
 ```
-<pre id="..."
+<pre id="#" class="shiny-text-output shiny-bound-output">[1] 0</pre>
 ```
 
 ## Download button
