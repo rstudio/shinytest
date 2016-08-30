@@ -115,11 +115,15 @@ Also a somewhat strange one.
 
 ## Text input (`textInput`)
 
+Value is in `$("#")[0].value`.
+
 ```
 <input id="#" type="text" class="shiny-bound-input" ...
 ```
 
 ## Password input (`passwordInput`)
+
+Value is in `$("#")[0].value`.
 
 ```
 <input id="#" type="password" ...
