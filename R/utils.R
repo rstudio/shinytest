@@ -29,3 +29,11 @@ parse_class <- function(x) {
 package_version <- function(pkg = packageName()) {
   asNamespace(pkg)$`.__NAMESPACE__.`$spec[["version"]]
 }
+
+`%+%` <- function(l, r) {
+  assert_string(l)
+  assert_string(r)
+  paste0(l, r)
+}
+
+str <- function(x) as.character(x)

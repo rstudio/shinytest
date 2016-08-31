@@ -20,3 +20,16 @@ assert_integerish <- function(x) {
 }
 
 assert_port <- assert_integerish
+
+assert_count <- assert_integerish
+
+assert_character <- function(x) {
+  stopifnot(is.character(x))
+}
+
+assert_all_named <- function(x) {
+  stopifnot(
+    !is.null(names(x)),
+    all(names(x) != "")
+  )
+}

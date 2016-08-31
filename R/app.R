@@ -68,7 +68,12 @@ shinyapp <- R6Class(
                        xpath),
 
     find_widget = function(name, iotype = c("auto", "input", "output"))
-      app_find_widget(self, private, name, match.arg(iotype))
+      app_find_widget(self, private, name, match.arg(iotype)),
+
+    expect_update = function(output, ..., timeout = 3000,
+      iotype = c("auto", "input", "output"))
+      app_expect_update(self, private, output, ..., timeout = timeout,
+                        iotype = match.arg(iotype))
   ),
 
   private = list(
