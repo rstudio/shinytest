@@ -46,10 +46,11 @@ app_expect_update <- function(self, private, output, ..., timeout,
   expect(
     res,
     sprintf(
-      paste0("Updating %s did not update %s, or it is taking longer",
-             "than %i ms."),
-      paste(names(inputs), collapse = ", "),
-      paste(output, collapse = ", "),
+      strwrap(paste0(
+        "Updating %s did not update %s, or it is taking longer ",
+        "than %i ms.")),
+      paste(sQuote(names(inputs)), collapse = ", "),
+      paste(sQuote(output), collapse = ", "),
       timeout
     )
   )
