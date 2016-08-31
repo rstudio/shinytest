@@ -17,10 +17,11 @@ app_initialize <- function(self, private, path, load_timeout) {
   private$web$go(private$get_shiny_url())
 
   ## Wait until shiny starts
-  private$web$wait_for(
+  load_ok <- private$web$wait_for(
     'window.shinytest && window.shinytest.connected === true',
     timeout = load_timeout
   )
+  if (!load_ok) stop("Shiny app did not load in ", timeout, "ms")
 
   private$state <- "running"
 
