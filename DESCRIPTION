@@ -18,6 +18,7 @@ Imports:
     shiny,
     webdriver
 Remotes:
-    gaborcsardi/processx
+    gaborcsardi/processx,
+    gaborcsardi/webdriver
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
