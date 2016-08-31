@@ -21,7 +21,7 @@ app_initialize <- function(self, private, path, load_timeout) {
     'window.shinytest && window.shinytest.connected === true',
     timeout = load_timeout
   )
-  if (!load_ok) stop("Shiny app did not load in ", timeout, "ms")
+  if (!load_ok) stop("Shiny app did not load in ", load_timeout, "ms")
 
   private$state <- "running"
 

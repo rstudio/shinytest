@@ -3,7 +3,7 @@
 
 run_app <- function(path) {
   suppressMessages(
-    trace(shiny:::uiHttpHandler, ui_tracer, print = FALSE)
+    trace(shiny:::uiHttpHandler, shinytest:::ui_tracer, print = FALSE)
   )
   runApp(path)
 }
