@@ -30,6 +30,7 @@ widget_get_value_dateRangeInput <- function(self, private) {
 }
 
 widget_get_value_fileInput <- function(self, private) {
+  stop("get_value is not yet implemented for fileInput")
   ## TODO
 }
 
@@ -45,10 +46,7 @@ widget_get_value_radioButtons <- function(self, private) {
 }
 
 widget_get_value_selectInput <- function(self, private) {
-  opt <- private$element$find_elements(
-    xpath = ".//option[boolean(@selected)]"
-  )
-  vapply(opt, function(o) o$get_value(), "")
+  private$element$execute_script("return $(arguments[0]).val();");
 }
 
 widget_get_value_sliderInput <- function(self, private) {
@@ -94,23 +92,28 @@ widget_get_value_passwordInput <- function(self, private) {
 }
 
 widget_get_value_htmlOutput <- function(self, private) {
-
+  stop("get_value is not yet implemented for htmlOutput")
+  ## TODO
 }
 
 widget_get_value_plotOutput <- function(self, private) {
-
+  stop("get_value is not yet implemented for plotOutput")
+  ## TODO
 }
 
 widget_get_value_tableOutput <- function(self, private) {
-
+  stop("get_value is not yet implemented for tableOutput")
+  ## TODO
 }
 
 widget_get_value_verbatimTextOutput <- function(self, private) {
-
+  stop("get_value is not yet implemented for verbatimTextOutput")
+  ## TODO
 }
 
 widget_get_value_textOutput <- function(self, private) {
-
+  stop("get_value is not yet implemented for textOutput")
+  ## TODO
 }
 
 widget_get_value_list = list(
