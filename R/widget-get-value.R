@@ -92,8 +92,7 @@ widget_get_value_passwordInput <- function(self, private) {
 }
 
 widget_get_value_htmlOutput <- function(self, private) {
-  stop("get_value is not yet implemented for htmlOutput")
-  ## TODO
+  private$element$execute_script("return $(arguments[0]).html();")
 }
 
 widget_get_value_plotOutput <- function(self, private) {
@@ -107,13 +106,11 @@ widget_get_value_tableOutput <- function(self, private) {
 }
 
 widget_get_value_verbatimTextOutput <- function(self, private) {
-  stop("get_value is not yet implemented for verbatimTextOutput")
-  ## TODO
+  private$element$get_text()
 }
 
 widget_get_value_textOutput <- function(self, private) {
-  stop("get_value is not yet implemented for textOutput")
-  ## TODO
+  private$element$get_text()
 }
 
 widget_get_value_list = list(

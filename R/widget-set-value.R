@@ -10,23 +10,23 @@ widget_set_value_actionButton <- function(self, private, value) {
 }
 
 widget_set_value_checkboxInput <- function(self, private, value) {
-
+  ## TODO
 }
 
 widget_set_value_checkboxGroupInput <- function(self, private, value) {
-
+  ## TODO
 }
 
 widget_set_value_dateInput <- function(self, private, value) {
-
+  ## TODO
 }
 
 widget_set_value_dateRangeInput <- function(self, private, value) {
-
+  ## TODO
 }
 
 widget_set_value_fileInput <- function(self, private, value) {
-
+  ## TODO
 }
 
 widget_set_value_numericInput <- function(self, private, value) {
@@ -34,7 +34,7 @@ widget_set_value_numericInput <- function(self, private, value) {
 }
 
 widget_set_value_radioButtons <- function(self, private, value) {
-
+  ## TODO
 }
 
 widget_set_value_selectInput <- function(self, private, value) {
@@ -52,15 +52,15 @@ widget_set_value_selectInput <- function(self, private, value) {
 }
 
 widget_set_value_sliderInput <- function(self, private, value) {
-
+  ## TODO
 }
 
 widget_set_value_textInput <- function(self, private, value) {
-
+  ## TODO
 }
 
 widget_set_value_passwordInput <- function(self, private, value) {
-
+  ## TODO
 }
 
 widget_set_value_htmlOutput <- function(self, private, value) {
