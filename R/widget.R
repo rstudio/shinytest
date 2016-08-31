@@ -39,7 +39,3 @@ widget_initialize <- function(self, private, name, element, type, iotype) {
   private$iotype <- iotype
   invisible(self)
 }
-
-widget_set_value <- function(self, private, value) {
-  ## TODO
-}
