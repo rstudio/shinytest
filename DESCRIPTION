@@ -9,14 +9,13 @@ LazyData: true
 URL: https://github.com/gaborcsardi/shinytest
 BugReports: https://github.com/gaborcsardi/shinytest/issues
 RoxygenNote: 5.0.1
-Suggests:
-    testthat
 Imports:
     htmltools,
     processx,
     R6,
     rematch,
     shiny,
+    testthat,
     webdriver
 Remotes:
     gaborcsardi/processx,

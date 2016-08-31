@@ -1,8 +1,15 @@
 
 #' @export
+#' @importFrom testthat expect
 
-expect_update <- function(app, output, ..., timeout, iotype) {
-  app$expect_update(output, ..., timeout = timeout, iotype = iotype)
+expect_update <- function(app, output, ..., timeout = 3000,
+                          iotype = c("auto", "input", "output")) {
+  app$expect_update(
+    output,
+    ...,
+    timeout = timeout,
+    iotype = match.arg(iotype)
+  )
 }
 
 app_expect_update <- function(self, private, output, ..., timeout,
@@ -31,9 +38,20 @@ app_expect_update <- function(self, private, output, ..., timeout,
   }
 
   ## Wait for all the updates to happen, or a timeout
-  private$web$wait_for(
+  res <- private$web$wait_for(
     "window.shinytest.updating.length == 0",
     timeout = timeout
+  )
+
+  expect(
+    res,
+    sprintf(
+      paste0("Updating %s did not update %s, or it is taking longer",
+             "than %i ms."),
+      paste(names(inputs), collapse = ", "),
+      paste(output, collapse = ", "),
+      timeout
+    )
   )
 
   ## "updating" is cleaned up automatically by on.exit()
