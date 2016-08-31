@@ -9,7 +9,7 @@ widget_get_value_actionButton <- function(self, private) {
 }
 
 widget_get_value_checkboxInput <- function(self, private) {
-  private$element$get_attribute("checked") == "true"
+  private$element$execute_script("return arguments[0].checked;")
 }
 
 widget_get_value_checkboxGroupInput <- function(self, private) {

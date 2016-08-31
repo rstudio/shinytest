@@ -10,7 +10,10 @@ widget_set_value_actionButton <- function(self, private, value) {
 }
 
 widget_set_value_checkboxInput <- function(self, private, value) {
-  ## TODO
+  private$element$execute_script(
+    "arguments[0].checked = arguments[1];",
+    value
+  )
 }
 
 widget_set_value_checkboxGroupInput <- function(self, private, value) {
@@ -26,6 +29,7 @@ widget_set_value_dateRangeInput <- function(self, private, value) {
 }
 
 widget_set_value_fileInput <- function(self, private, value) {
+  stop("set_value() is not implemented for fileInput")
   ## TODO
 }
 
@@ -56,31 +60,31 @@ widget_set_value_sliderInput <- function(self, private, value) {
 }
 
 widget_set_value_textInput <- function(self, private, value) {
-  ## TODO
+  private$element$clear()$send_keys(value)
 }
 
 widget_set_value_passwordInput <- function(self, private, value) {
-  ## TODO
+  private$element$clear()$send_keys(value)
 }
 
 widget_set_value_htmlOutput <- function(self, private, value) {
-  ## TODO
+  stop("set_value() is not implemented for htmlOutput")
 }
 
 widget_set_value_plotOutput <- function(self, private, value) {
-  ## TODO
+  stop("set_value() is not implemented for plotOutput")
 }
 
 widget_set_value_tableOutput <- function(self, private, value) {
-  ## TODO
+  stop("set_value() is not implemented for tableOutput")
 }
 
 widget_set_value_verbatimTextOutput <- function(self, private, value) {
-  ## TODO
+  stop("set_value() is not implemented for verbatimTextOutput")
 }
 
 widget_set_value_textOutput <- function(self, private, value) {
-  ## TODO
+  stop("set_value() is not implemented for textOutput")
 }
 
 widget_set_value_list = list(
