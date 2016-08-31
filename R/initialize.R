@@ -2,7 +2,7 @@
 #' @importFrom processx process
 #' @importFrom webdriver session
 
-app_initialize <- function(self, private, path) {
+app_initialize <- function(self, private, path, load_timeout) {
 
   ## Start up phantomjs
   private$start_phantomjs()
@@ -15,6 +15,12 @@ app_initialize <- function(self, private, path) {
 
   ## Navigate to shiny app
   private$web$go(private$get_shiny_url())
+
+  ## Wait until shiny starts
+  private$web$wait_for(
+    'window.shinytest && window.shinytest.connected === true',
+    timeout = load_timeout
+  )
 
   private$state <- "running"
 

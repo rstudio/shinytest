@@ -12,6 +12,7 @@ RoxygenNote: 5.0.1
 Suggests:
     testthat
 Imports:
+    htmltools,
     processx,
     R6,
     rematch,

@@ -2,7 +2,10 @@
 
 export(shinyapp)
 importFrom(R6,R6Class)
+importFrom(htmltools,attachDependencies)
+importFrom(htmltools,htmlDependency)
 importFrom(processx,process)
 importFrom(rematch,re_match)
+importFrom(shiny,as.shiny.appobj)
 importFrom(shiny,runApp)
 importFrom(webdriver,session)

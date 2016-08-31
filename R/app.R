@@ -24,8 +24,8 @@ shinyapp <- R6Class(
 
   public = list(
 
-    initialize = function(path = ".")
-      app_initialize(self, private, path),
+    initialize = function(path = ".", load_timeout = 5000)
+      app_initialize(self, private, path, load_timeout),
 
     stop = function()
       app_stop(self, private),
