@@ -39,10 +39,9 @@ widget_get_value_numericInput <- function(self, private) {
 }
 
 widget_get_value_radioButtons <- function(self, private) {
-  selected <- private$element$find_elements(
-    xpath = ".//input[@type='radio'][boolean(@checked)]"
-  )[[1]]
-  selected$get_value()
+  private$element$execute_script(
+    "return $(arguments[0]).find('input:radio:checked').val();"
+  )
 }
 
 widget_get_value_selectInput <- function(self, private) {
