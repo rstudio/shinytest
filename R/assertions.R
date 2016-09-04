@@ -42,3 +42,19 @@ assert_date_range <- function(x) {
   assert_date(x)
   stopifnot(length(x) == 2)
 }
+
+assert_scalar_number <- function(x) {
+  stopifnot(
+    is.numeric(x),
+    length(x) == 1,
+    ! is.na(x)
+  )
+}
+
+assert_numeric <- function(x, .length = 1) {
+  stopifnot(
+    is.numeric(x),
+    length(x) == .length,
+    all(! is.na(x))
+  )
+}

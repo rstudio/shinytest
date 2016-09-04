@@ -86,7 +86,32 @@ widget_set_value_selectInput <- function(self, private, value) {
 }
 
 widget_set_value_sliderInput <- function(self, private, value) {
-  ## TODO
+
+  if (!identical(private$element$get_data("type"), "double")) {
+    assert_scalar_number(value)
+    js <- "
+      var el = $(arguments[0]);
+      var value = arguments[1];
+      var slider = el.data('ionRangeSlider');
+      slider.update({ from: value });
+      if (slider.$cache && slider.$cache.input) {
+        slider.$cache.input.trigger('change');
+      }
+    "
+  } else {
+    assert_numeric(value, .length =2)
+    js <- "
+      var el = $(arguments[0]);
+      var values = arguments[1];
+      var slider = el.data('ionRangeSlider');
+      slider.update({ from: values[0], to: values[1] });
+      if (slider.$cache && slider.$cache.input) {
+        slider.$cache.input.trigger('change');
+      }
+    "
+  }
+
+  private$element$execute_script(js, value)
 }
 
 widget_set_value_textInput <- function(self, private, value) {

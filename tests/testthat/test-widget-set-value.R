@@ -61,6 +61,25 @@ test_that("widget$set_value for all input widgets", {
   expect_equal(app$find_widget("radio")$set_value(2)$get_value(), "2")
   expect_equal(app$find_widget("radio")$set_value(3)$get_value(), "3")
 
+  ## sliderInput, single
+  expect_equal(app$find_widget("slider1")$set_value(42)$get_value(), 42)
+  expect_equal(app$find_widget("slider1")$set_value(100)$get_value(), 100)
+  expect_equal(app$find_widget("slider1")$set_value(0)$get_value(), 0)
+
+  ## sliderInput double
+  expect_equal(
+    app$find_widget("slider2")$set_value(c(42, 42))$get_value(),
+    c(42, 42)
+  )
+  expect_equal(
+    app$find_widget("slider2")$set_value(c(0, 100))$get_value(),
+    c(0,100)
+  )
+  expect_equal(
+    app$find_widget("slider2")$set_value(c(1, 4))$get_value(),
+    c(1, 4)
+  )
+
   ## textInput
   expect_equal(
     app$find_widget("text")$set_value("Hello world!")$get_value(),
