@@ -21,3 +21,14 @@ test_that("get_value", {
 
   ## passwordInput, TODO
 })
+
+test_that("window size", {
+
+  app <- shinyapp$new("apps/081-widgets-gallery")
+
+  app$set_window_size(1200, 800);
+  expect_identical(
+    app$get_window_size(),
+    list(width = 1200L, height = 800L)
+  )
+})

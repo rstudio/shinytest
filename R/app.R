@@ -42,6 +42,9 @@ shinyapp <- R6Class(
     set_window_size = function(width, height)
       app_set_window_size(self, private, width, height),
 
+    get_window_size = function()
+      app_get_window_size(self, private),
+
     ## These are just forwarded to the webdriver session
 
     get_url = function()
@@ -103,15 +106,20 @@ app_get_value <- function(self, private, name) {
 }
 
 app_focus_on <- function(self, private, name) {
-
+  ## TODO
 }
 
 app_send_keys <- function(self, private, name, keys) {
+  ## TODO
+}
 
+app_get_window_size <- function(self, private) {
+  private$web$get_window()$get_size()
 }
 
 app_set_window_size <- function(self, private, width, height) {
-
+  private$web$get_window()$set_size(width, height)
+  invisible(self)
 }
 
 app_stop <- function(self, private) {
