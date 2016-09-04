@@ -17,7 +17,16 @@ widget_set_value_checkboxInput <- function(self, private, value) {
 }
 
 widget_set_value_checkboxGroupInput <- function(self, private, value) {
-  ## TODO
+
+  js <-
+    "var root = $(arguments[0])
+     var newvals = arguments[1];
+     var inputs = root.find('input');
+     inputs.attr('checked', function(i) {
+       return newvals.indexOf(this.value) >= 0;
+     });"
+
+  private$element$execute_script(js, value);
 }
 
 widget_set_value_dateInput <- function(self, private, value) {

@@ -25,6 +25,20 @@ test_that("widget$set_value for all input widgets", {
     app$find_widget("checkbox")$set_value(FALSE)$get_value()
   )
 
+  ## checkboxGroupInput
+  expect_equal(
+    app$find_widget("checkGroup")$set_value(c("1", "2"))$get_value(),
+    c("1", "2")
+  )
+  expect_equal(
+    app$find_widget("checkGroup")$set_value(c("3"))$get_value(),
+    "3"
+  )
+  expect_equal(
+    app$find_widget("checkGroup")$set_value(character())$get_value(),
+    character()
+  )
+
   ## textInput
   expect_equal(
     app$find_widget("text")$set_value("Hello world!")$get_value(),
