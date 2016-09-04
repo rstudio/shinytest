@@ -30,8 +30,8 @@ shinyapp <- R6Class(
     stop = function()
       app_stop(self, private),
 
-    value = function(name)
-      app_value(self, private, name),
+    get_value = function(name)
+      app_get_value(self, private, name),
 
     focus_on = function(name)
       app_focus_on(self, private, name),
@@ -98,8 +98,8 @@ shinyapp <- R6Class(
   )
 )
 
-app_value <- function(self, private, name) {
-  ## TODO
+app_get_value <- function(self, private, name) {
+  self$find_widget(name)$get_value()
 }
 
 app_focus_on <- function(self, private, name) {
