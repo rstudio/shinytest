@@ -12,7 +12,6 @@
 
 app_find_widget <- function(self, private, name, iotype) {
 
-  ## TODO: handle error, for el, tag, type and class?
   el <- self$find_element(css = paste0("#", name))
   tag <- el$get_name()
   type <- el$get_attribute("type")
