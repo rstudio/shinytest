@@ -33,9 +33,6 @@ shinyapp <- R6Class(
     get_value = function(name)
       app_get_value(self, private, name),
 
-    focus_on = function(name)
-      app_focus_on(self, private, name),
-
     send_keys = function(name = NULL, keys)
       app_send_keys(self, private, name, keys),
 
@@ -105,12 +102,9 @@ app_get_value <- function(self, private, name) {
   self$find_widget(name)$get_value()
 }
 
-app_focus_on <- function(self, private, name) {
-  ## TODO
-}
-
 app_send_keys <- function(self, private, name, keys) {
-  ## TODO
+  self$find_widget(name)$send_keys(keys)
+  invisible(self)
 }
 
 app_get_window_size <- function(self, private) {

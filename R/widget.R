@@ -21,7 +21,11 @@ widget <- R6Class(
       widget_get_value(self, private),
 
     set_value = function(value)
-      widget_set_value(self, private, value)
+      widget_set_value(self, private, value),
+
+    send_keys = function(keys)
+      widget_send_keys(self, private, keys)
+
   ),
 
   private = list(
@@ -38,4 +42,8 @@ widget_initialize <- function(self, private, name, element, type, iotype) {
   private$type <- type
   private$iotype <- iotype
   invisible(self)
+}
+
+widget_send_keys <- function(self, private, keys) {
+  private$element$send_keys(keys)
 }
