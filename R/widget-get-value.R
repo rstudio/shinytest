@@ -50,35 +50,17 @@ widget_get_value_selectInput <- function(self, private) {
 
 widget_get_value_sliderInput <- function(self, private) {
   if (! identical(private$element$get_data("type"), "double")) {
-    single <- private$element$find_elements(
-      xpath = paste0(
-        ## all <div> ancestors
-        "./ancestor::div",
-        ## the first that has this class
-        "[contains(concat(' ', @class, ' '), ' shiny-input-container ')][1]",
-        ## and then down to span.irs-single
-        "//span[contains(concat(' ', @class, ' '), ' irs-single ')]"
-      )
+    res <- private$element$execute_script(
+      "return $(arguments[0]).data('ionRangeSlider').result;"
     )
-    as.numeric(single[[1]]$get_text())
+    as.numeric(res$from)
 
   } else {
     ## otherwise slider range
-    range <- private$element$find_elements(
-      xpath = paste0(
-        ## all <div> ancestors
-        "./ancestor::div",
-        ## the first that has this class
-        "[contains(concat(' ', @class, ' '), ' shiny-input-container ')][1]",
-        ## and then down to span.irs-from or span.irs-to
-        "//span[",
-        "contains(concat(' ', @class, ' '), ' irs-from ') or ",
-        "contains(concat(' ', @class, ' '), ' irs-to ')",
-        "]"
-      )
+    res <- private$element$execute_script(
+      "return $(arguments[0]).data('ionRangeSlider').result;"
     )
-
-    as.numeric(vapply(range, function(e) e$get_text(), ""))
+    as.numeric(c(res$from, res$to))
   }
 }
 
