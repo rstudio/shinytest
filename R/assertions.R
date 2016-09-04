@@ -37,3 +37,8 @@ assert_all_named <- function(x) {
 assert_date <- function(x) {
   stopifnot(inherits(x, "Date"))
 }
+
+assert_date_range <- function(x) {
+  assert_date(x)
+  stopifnot(length(x) == 2)
+}

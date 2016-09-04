@@ -44,7 +44,11 @@ widget_set_value_dateInput <- function(self, private, value) {
 }
 
 widget_set_value_dateRangeInput <- function(self, private, value) {
-  ## TODO
+  assert_date_range(value)
+
+  inputs <- private$element$find_elements(xpath = ".//input")
+  inputs[[1]]$clear()$send_keys(as.character(value[1]))
+  inputs[[2]]$clear()$send_keys(as.character(value[2]))
 }
 
 widget_set_value_fileInput <- function(self, private, value) {

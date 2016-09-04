@@ -49,6 +49,13 @@ test_that("widget$set_value for all input widgets", {
     as.Date("2012-06-30")
   )
 
+  ## dateRangeInput
+  v <- as.Date(c("2012-06-30", "2015-01-21"))
+  expect_equal(
+    as.character(app$find_widget("dates")$set_value(v)$get_value()),
+    as.character(v)
+  )
+
   ## textInput
   expect_equal(
     app$find_widget("text")$set_value("Hello world!")$get_value(),
