@@ -30,7 +30,17 @@ widget_set_value_checkboxGroupInput <- function(self, private, value) {
 }
 
 widget_set_value_dateInput <- function(self, private, value) {
-  ## TODO
+  assert_date(value)
+
+  js <-
+    "var newval = arguments[1];
+    if (newval === null) {
+      $(arguments[0]).find('input').val('').datepicker('update');
+    } else {
+      $(arguments[0]).find('input').datepicker('update', arguments[1]);
+    }"
+
+  private$element$execute_script(js, value);
 }
 
 widget_set_value_dateRangeInput <- function(self, private, value) {

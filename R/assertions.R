@@ -33,3 +33,7 @@ assert_all_named <- function(x) {
     all(names(x) != "")
   )
 }
+
+assert_date <- function(x) {
+  stopifnot(inherits(x, "Date"))
+}

@@ -39,6 +39,16 @@ test_that("widget$set_value for all input widgets", {
     character()
   )
 
+  ## dateInput
+  expect_equal(
+    app$find_widget("date")$set_value(Sys.Date())$get_value(),
+    Sys.Date()
+  )
+  expect_equal(
+    app$find_widget("date")$set_value(as.Date("2012-06-30"))$get_value(),
+    as.Date("2012-06-30")
+  )
+
   ## textInput
   expect_equal(
     app$find_widget("text")$set_value("Hello world!")$get_value(),
