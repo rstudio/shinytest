@@ -56,6 +56,11 @@ test_that("widget$set_value for all input widgets", {
     as.character(v)
   )
 
+  ## radioButtons
+  expect_equal(app$find_widget("radio")$set_value(1)$get_value(), "1")
+  expect_equal(app$find_widget("radio")$set_value(2)$get_value(), "2")
+  expect_equal(app$find_widget("radio")$set_value(3)$get_value(), "3")
+
   ## textInput
   expect_equal(
     app$find_widget("text")$set_value("Hello world!")$get_value(),

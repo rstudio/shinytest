@@ -61,7 +61,14 @@ widget_set_value_numericInput <- function(self, private, value) {
 }
 
 widget_set_value_radioButtons <- function(self, private, value) {
-  ## TODO
+  stopifnot(length(value) == 1)
+
+  sel <- private$element$find_elements(
+    xpath = paste0(".//input[@value='", value, "']")
+  )
+  if (!length(sel)) stop("Invalid value in radio buttons")
+
+  sel[[1]]$click()
 }
 
 widget_set_value_selectInput <- function(self, private, value) {
