@@ -13,10 +13,14 @@
 app_find_widget <- function(self, private, name, iotype) {
 
   el <- self$find_element(css = paste0("#", name))
-  el_input <-
-    self$find_element(css = paste0("#", name, ".shiny-bound-input"))
-  el_output <-
-    self$find_element(css = paste0("#", name, ".shiny-bound-output"))
+  el_input <- tryCatch(
+    self$find_element(css = paste0("#", name, ".shiny-bound-input")),
+    error = function(x) NULL
+  )
+  el_output <- tryCatch(
+    self$find_element(css = paste0("#", name, ".shiny-bound-output")),
+    error = function(x) NULL
+  )
 
   res <- if (iotype == "auto") {
     find_input_widget(self, private, el_input) %||%
@@ -42,6 +46,8 @@ app_find_widget <- function(self, private, name, iotype) {
 }
 
 find_input_widget <- function(self, private, el) {
+
+  if (is.null(el)) return(NULL)
 
   tag <- el$get_name()
   type <- el$get_attribute("type")
@@ -103,6 +109,8 @@ find_input_widget <- function(self, private, el) {
 }
 
 find_output_widget <- function(self, private, el) {
+
+  if (is.null(el)) return(NULL)
 
   tag <- el$get_name()
   type <- el$get_attribute("type")
