@@ -11,7 +11,8 @@ widget_set_value_actionButton <- function(self, private, value) {
 
 widget_set_value_checkboxInput <- function(self, private, value) {
   private$element$execute_script(
-    "arguments[0].checked = arguments[1];",
+    "arguments[0].checked = arguments[1];
+     $(arguments[0]).trigger('change');",
     value
   )
 }
