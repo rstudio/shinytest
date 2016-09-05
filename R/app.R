@@ -67,6 +67,11 @@ shinyapp <- R6Class(
       app_find_element(self, private, css, link_text, partial_link_text,
                        xpath),
 
+    wait_for = function(expr, check_interval = 100, timeout = 3000)
+      app_wait_for(self, private, expr, check_interval, timeout),
+
+    ## Main methods
+
     find_widget = function(name, iotype = c("auto", "input", "output"))
       app_find_widget(self, private, name, match.arg(iotype)),
 
@@ -121,4 +126,8 @@ app_stop <- function(self, private) {
   private$phantom_process$kill()
   private$state <- "stopped"
   invisible(self)
+}
+
+app_wait_for <- function(self, private, expr, check_interval, timeout) {
+  private$web$wait_for(expr, check_interval, timeout)
 }
