@@ -13,17 +13,20 @@
 app_find_widget <- function(self, private, name, iotype) {
 
   el <- self$find_element(css = paste0("#", name))
-  tag <- el$get_name()
-  type <- el$get_attribute("type")
-  class <- parse_class(el$get_attribute("class"))
+  el_input <-
+    self$find_element(css = paste0("#", name, ".shiny-bound-input"))
+  el_output <-
+    self$find_element(css = paste0("#", name, ".shiny-bound-output"))
 
   res <- if (iotype == "auto") {
-    find_input_widget(self, private, el, tag, type, class) %||%
-    find_output_widget(self, private, el, tag, type, class)
+    find_input_widget(self, private, el_input) %||%
+    find_output_widget(self, private, el_output) %||%
+    find_input_widget(self, private, el) %||%
+    find_output_widget(self, private, el)
   } else if (iotype == "input") {
-    find_input_widget(self, private, el, tag, type, class)
+    find_input_widget(self, private, el_input)
   } else {
-    find_output_widget(self, private, el, tag, type, class)
+    find_output_widget(self, private, el_output)
   }
 
   if (is.null(res)) {
@@ -38,7 +41,11 @@ app_find_widget <- function(self, private, name, iotype) {
   )
 }
 
-find_input_widget <- function(self, private, el, tag, type, class) {
+find_input_widget <- function(self, private, el) {
+
+  tag <- el$get_name()
+  type <- el$get_attribute("type")
+  class <- parse_class(el$get_attribute("class"))
 
   e <- function(name) {
     list(element = el, iotype = "input", type = name)
@@ -95,7 +102,11 @@ find_input_widget <- function(self, private, el, tag, type, class) {
   NULL
 }
 
-find_output_widget <- function(self, private, el, tag, type, class) {
+find_output_widget <- function(self, private, el) {
+
+  tag <- el$get_name()
+  type <- el$get_attribute("type")
+  class <- parse_class(el$get_attribute("class"))
 
   e <- function(name) {
     list(element = el, iotype = "output", type = name)

@@ -19,3 +19,22 @@ test_that("input widgets", {
   expect_equal(app$find_widget("text")$get_type(),       "textInput")
   
 })
+
+test_that("output widgets with the same name", {
+
+  app <- shinyapp$new("apps/081-widgets-gallery")
+
+  names <- c(
+    "action", "checkbox", "checkGroup", "date", "dates", "file", "num",
+    "radio", "select", "slider1", "slider2", "text"
+  )
+
+  for (n in names) {
+    expect_equal(
+      app$find_widget(n, "output")$get_type(),
+      "verbatimTextOutput",
+      info = n
+    )
+  }
+
+})
