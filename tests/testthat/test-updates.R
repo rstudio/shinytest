@@ -38,6 +38,24 @@ test_that("updates for all widget in the gallery", {
     app$wait_for("$('#num.shiny-bound-output').text() == '[1] 42'")
   )
   expect_equal(app$get_value("num", "output"), "[1] 42")
+
+  expect_update(app, radio = "2", output = "radio")
+  expect_equal(app$get_value("radio"), "2")
+
+  expect_update(app, select = "2", output = "select")
+  expect_equal(app$get_value("select"), "2")
+
+  expect_update(app, slider1 = 42, output = "slider1")
+  expect_equal(app$get_value("slider1"), 42)
+
+  expect_update(app, slider2 = c(0, 100), output = "slider2")
+  expect_equal(app$get_value("slider2"), c(0, 100))
+
+  expect_update(app, text = "foobar", output = "text")
+  expect_true(
+    app$wait_for("$('#text.shiny-bound-output').text() == '[1] \"foobar\"'")
+  )
+  expect_equal(app$get_value("text", "output"), "[1] \"foobar\"")
 })
 
 test_that("simple updates", {
