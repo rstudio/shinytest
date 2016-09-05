@@ -25,7 +25,9 @@ widget_set_value_checkboxGroupInput <- function(self, private, value) {
      var inputs = root.find('input');
      inputs.attr('checked', function(i) {
        return newvals.indexOf(this.value) >= 0;
-     });"
+     });
+     root.trigger('change');
+  "
 
   private$element$execute_script(js, value);
 }
