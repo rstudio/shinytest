@@ -30,8 +30,8 @@ shinyapp <- R6Class(
     stop = function()
       app_stop(self, private),
 
-    get_value = function(name)
-      app_get_value(self, private, name),
+    get_value = function(name, iotype = c("auto", "input", "output"))
+      app_get_value(self, private, name, match.arg(iotype)),
 
     send_keys = function(name = NULL, keys)
       app_send_keys(self, private, name, keys),
@@ -98,8 +98,8 @@ shinyapp <- R6Class(
   )
 )
 
-app_get_value <- function(self, private, name) {
-  self$find_widget(name)$get_value()
+app_get_value <- function(self, private, name, iotype) {
+  self$find_widget(name, iotype)$get_value()
 }
 
 app_send_keys <- function(self, private, name, keys) {
