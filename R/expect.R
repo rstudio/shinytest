@@ -1,6 +1,22 @@
 
+#' \code{testthat} expectation for a Shiny update
+#'
+#' @param app A \code{\link{shinyapp}} object.
+#' @param output Character vector, the name(s) of the output widgets
+#'   that are required to update for the test to succeed.
+#' @param ... Named arguments specifying updates for Shiny input
+#'   widgets.
+#'
 #' @export
 #' @importFrom testthat expect
+#' @examples
+#' \dontrun{
+#' ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
+#' app <- shinyapp$new("050-kmeans-example")
+#' expect_update(app, xcol = "Sepal.Width", output = "plot1")
+#' expect_update(app, ycol = "Petal.Width", output = "plot1")
+#' expect_update(app, clusters = 4, output = "plot1")
+#' }
 
 expect_update <- function(app, output, ..., timeout = 3000,
                           iotype = c("auto", "input", "output")) {

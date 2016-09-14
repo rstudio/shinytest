@@ -1,22 +1,146 @@
 
-#' Class to manage shiny app and phantom.js processes for testing
+#' Class to manage a shiny app and a phantom.js headless browser
 #'
 #' @section Usage:
+#' \preformatted{app <- shinyapp$new(path = ".", load_timeout = 5000)
+#' app$stop()
 #'
-#' TODO
+#' app$get_value(name, iotype = c("auto", "input", "output"))
+#' app$send_keys(name = NULL, keys)
+#'
+#' app$get_windows_size()
+#' app$set_window_size(width, height)
+#'
+#' app$get_url()
+#' app$go_back()
+#' app$refresh()
+#' app$get_title()
+#' app$get_source()
+#' app$take_screenshot(file = NULL)
+#'
+#' app$find_element(css = NULL, link_text = NULL,
+#'      partial_link_text = NULL, xpath = NULL)
+#'
+#' app$wait_for(expr, check_interval = 100, timeout = 3000)
+#'
+#' app$find_widget(name, iotype = c("auto", "input", "output"))
+#'
+#' app$expect_update(output, ..., timeout = 3000,
+#'     iotype = c("auto", "input", "output"))
+#' }
 #'
 #' @section Arguments:
-#'
-#' TODO
+#' \describe{
+#'   \item{app}{A \code{shinyapp} instance.}
+#'   \item{path}{Path to a directory containing a Shiny app, i.e. a
+#'      single \code{app.R} file or a \code{server.R} and \code{ui.R}
+#'      pair.}
+#'   \item{load_timeout}{How long to wait for the app to load, in ms.
+#'      This includes the time to start R.}
+#'   \item{name}{Name of a shiny widget. For \code{$send_keys} it can
+#'      be \code{NULL}, in which case the keys are sent to the active
+#'      HTML element.}
+#'   \item{iotype}{Type of the Shiny widget. Usually \code{shinytest}
+#'      finds the widgets by their name, so this need not be specified,
+#'      but Shiny allows input and output widgets with identical names.}
+#'   \item{keys}{Keys to send to the widget or the app. See the
+#'      \code{send_keys} method of the \code{webdriver} package.}
+#'   \item{width}{Scalar integer, the desired width of the browser window.}
+#'   \item{height}{Scalar integer, the desired height of the browser
+#'      window.}
+#'   \item{file}{File name to save the screenshot to. If \code{NULL}, then
+#'     it will be shown on the R graphics device.}
+#'   \item{css}{CSS selector to find an HTML element.}
+#'   \item{link_text}{Find \code{<a>} HTML elements based on their
+#'     \code{innerText}.}
+#'   \item{partial_link_text}{Find \code{<a>} HTML elements based on their
+#'     \code{innerText}. It uses partial matching.}
+#'   \item{xpath}{Find HTML elements using XPath expressions.}
+#'   \item{expr}{A string scalar containing JavaScript code that
+#'     evaluates to the condition to wait for.}
+#'   \item{check_interval}{How often to check for the condition, in
+#'     milliseconds.}
+#'   \item{timeout}{Timeout for the condition, in milliseconds.}
+#'   \item{output}{Character vector, the name(s) of the Shiny output
+#'     widgets that should be updated.}
+#'   \item{...}{For \code{expect_update} these can be named arguments.
+#'     The argument names correspond to Shiny input widgets: each input
+#'     widget will be set to the specified value.}
+#' }
 #'
 #' @section Details:
 #'
-#' TODO
+#' \code{shiny$new()} function creates a \code{shinyapp} object. It starts
+#' the Shiny app in a new R session, and it also starts a \code{phantomjs}
+#' headless browser that connects to the app. It waits until the app is
+#' ready to use. It waits at most \code{load_timeout} milliseconds, and if
+#' the app is not ready, then it throws an error. You can increase
+#' \code{load_timeout} for slow loading apps. Currently it supports apps
+#' that are defined in a single \code{app.R} file, or in a \code{server.R}
+#' and \code{ui.R} pair.
 #'
-#' @importFrom R6 R6Class
+#' \code{app$stop()} stops the app, i.e. the external R process that runs
+#' the app, and also the phantomjs instance.
+#'
+#' \code{app$get_value()} finds a widget and queries its value. See
+#' the \code{get_value} method of the \code{\link{widget}} class.
+#'
+#' \code{w$send_keys} sends the specified keys to the HTML element of the
+#' widget.
+#'
+#' \code{app$get_window_size()} returns the current size of the browser
+#' window, in a list of two integer scalars named \sQuote{width} and
+#' \sQuote{height}.
+#'
+#' \code{app$set_window_size()} sets the size of the browser window to the
+#' specified width and height.
+#'
+#' \code{app$get_url()} returns the current URL.
+#'
+#' \code{app$go_back()} \dQuote{presses} the browser's \sQuote{back}
+#' button.
+#'
+#' \code{app$refresh()} \dQuote{presses} the browser's \sQuote{refresh}
+#' button.
+#'
+#' \code{app$get_title()} returns the title of the page. (More precisely
+#' the document title.)
+#'
+#' \code{app$get_source()} returns the complete HTML source of the current
+#' page, in a character scalar.
+#'
+#' \code{app$take_screenshot()} takes a screenshot of the current page
+#' and writes it to a file, or (if \code{file} is \code{NULL}) shows it
+#' on the R graphics device. The output file has PNG format.
+#'
+#' \code{app$find_element()} find an HTML element on the page, using a
+#' CSS selector or an XPath expression.
+#'
+#' \code{app$wait_for()} waits until a JavaScript expression evaluates
+#' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
+#' expression evaluated to \code{true}, possible after some waiting.
+#'
+#' \code{find_widget()} finds the corresponding HTML element of a Shiny
+#' widget. It returns a \code{\link{widget}} object.
+#'
+#' \code{expect_update()} is one of the main functions to test Shiny apps.
+#' It performs one or more update operations via the browser, and then
+#' waits for the specified output widgets to update. The test succeeds if
+#' all specified output widgets are updated before the timeout. For
+#' updates that involve a lot of computation, you increase the timeout.
+#'
 #' @name shinyapp
+#' @examples
+#' \dontrun{
+#' ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
+#' app <- shinyapp$new("050-kmeans-example")
+#' expect_update(app, xcol = "Sepal.Width", output = "plot1")
+#' expect_update(app, ycol = "Petal.Width", output = "plot1")
+#' expect_update(app, clusters = 4, output = "plot1")
+#' }
 NULL
 
+#' @importFrom R6 R6Class
 #' @export
 
 shinyapp <- R6Class(

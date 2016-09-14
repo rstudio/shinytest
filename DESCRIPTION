@@ -8,8 +8,8 @@ License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/gaborcsardi/shinytest
 BugReports: https://github.com/gaborcsardi/shinytest/issues
-RoxygenNote: 5.0.1
-Imports:
+RoxygenNote: 5.0.1.9000
+Imports: 
     htmltools,
     processx,
     R6,
@@ -17,7 +17,7 @@ Imports:
     shiny,
     testthat,
     webdriver
-Remotes:
+Remotes: 
     gaborcsardi/processx,
     gaborcsardi/webdriver
 Encoding: UTF-8
