@@ -12,6 +12,7 @@ Class to manage a shiny app and a phantom.js headless browser
 app$stop()
 
 app$get_value(name, iotype = c("auto", "input", "output"))
+app$set_value(name, value, iotype = c("auto", "input", "output"))
 app$send_keys(name = NULL, keys)
 
 app$get_windows_size()
@@ -94,6 +95,9 @@ the app, and also the phantomjs instance.
 
 \code{app$get_value()} finds a widget and queries its value. See
 the \code{get_value} method of the \code{\link{widget}} class.
+
+\code{app$set_value()} finds a widget and sets its value. See the
+\code{set_value} method of the \code{\link{widget}} class.
 
 \code{app$send_keys} sends the specified keys to the HTML element of the
 widget.

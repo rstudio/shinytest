@@ -6,6 +6,7 @@
 #' app$stop()
 #'
 #' app$get_value(name, iotype = c("auto", "input", "output"))
+#' app$set_value(name, value, iotype = c("auto", "input", "output"))
 #' app$send_keys(name = NULL, keys)
 #'
 #' app$get_windows_size()
@@ -85,6 +86,9 @@
 #' \code{app$get_value()} finds a widget and queries its value. See
 #' the \code{get_value} method of the \code{\link{widget}} class.
 #'
+#' \code{app$set_value()} finds a widget and sets its value. See the
+#' \code{set_value} method of the \code{\link{widget}} class.
+#'
 #' \code{app$send_keys} sends the specified keys to the HTML element of the
 #' widget.
 #'
@@ -159,6 +163,9 @@ shinyapp <- R6Class(
     get_value = function(name, iotype = c("auto", "input", "output"))
       app_get_value(self, private, name, match.arg(iotype)),
 
+    set_value = function(name, value, iotype = c("auto", "input", "output"))
+      app_set_value(self, private, name, value, match.arg(iotype)),
+
     send_keys = function(name = NULL, keys)
       app_send_keys(self, private, name, keys),
 
@@ -231,6 +238,10 @@ shinyapp <- R6Class(
 
 app_get_value <- function(self, private, name, iotype) {
   self$find_widget(name, iotype)$get_value()
+}
+
+app_set_value <- function(self, private, name, value, iotype) {
+  self$find_widget(name, iotype)$set_value(value)
 }
 
 app_send_keys <- function(self, private, name, keys) {
