@@ -70,7 +70,7 @@
 #'
 #' @section Details:
 #'
-#' \code{shiny$new()} function creates a \code{shinyapp} object. It starts
+#' \code{shinyapp$new()} function creates a \code{shinyapp} object. It starts
 #' the Shiny app in a new R session, and it also starts a \code{phantomjs}
 #' headless browser that connects to the app. It waits until the app is
 #' ready to use. It waits at most \code{load_timeout} milliseconds, and if
