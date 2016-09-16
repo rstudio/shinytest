@@ -15,6 +15,11 @@ that are required to update for the test to succeed.}
 
 \item{...}{Named arguments specifying updates for Shiny input
 widgets.}
+
+\item{timeout}{Timeout for the update to happen, in milliseconds.}
+
+\item{iotype}{Type of the widget(s) to change. These are normally
+input widgets.}
 }
 \description{
 \code{testthat} expectation for a Shiny update

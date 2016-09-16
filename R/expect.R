@@ -6,6 +6,9 @@
 #'   that are required to update for the test to succeed.
 #' @param ... Named arguments specifying updates for Shiny input
 #'   widgets.
+#' @param timeout Timeout for the update to happen, in milliseconds.
+#' @param iotype Type of the widget(s) to change. These are normally
+#'   input widgets.
 #'
 #' @export
 #' @importFrom testthat expectation expect_that
