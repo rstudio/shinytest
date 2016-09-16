@@ -8,7 +8,7 @@
 #'   widgets.
 #'
 #' @export
-#' @importFrom testthat expect
+#' @importFrom testthat expectation expect_that
 #' @examples
 #' \dontrun{
 #' ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
@@ -59,17 +59,55 @@ app_expect_update <- function(self, private, output, ..., timeout,
     timeout = timeout
   )
 
-  expect(
-    res,
-    sprintf(
-      strwrap(paste0(
-        "Updating %s did not update %s, or it is taking longer ",
-        "than %i ms.")),
-      paste(sQuote(names(inputs)), collapse = ", "),
-      paste(sQuote(output), collapse = ", "),
-      timeout
+  expect_old <- function() {
+
+    condition <- function(result) {
+
+      failure_msg <- strwrap(sprintf(
+        paste0(
+          "Updating %s did not update %s, or it is taking longer ",
+          "than %i ms."),
+        paste(sQuote(names(inputs)), collapse = ", "),
+        paste(sQuote(output), collapse = ", "),
+        timeout
+      ))
+
+      success_msg <- strwrap(sprintf(
+        "Changing %s updated %s before the %i ms timeout",
+        paste(sQuote(names(inputs)), collapse = ", "),
+        paste(sQuote(output), collapse = ", "),
+        timeout
+      ))
+
+      expectation(
+        passed = result,
+        failure_msg = failure_msg,
+        success_msg = success_msg
+      )
+    }
+
+    expect_that(res, condition)
+  }
+
+  expect_new <- function() {
+    testthat::expect(
+      res,
+      sprintf(
+        strwrap(paste0(
+          "Updating %s did not update %s, or it is taking longer ",
+          "than %i ms.")),
+        paste(sQuote(names(inputs)), collapse = ", "),
+        paste(sQuote(output), collapse = ", "),
+        timeout
+      )
     )
-  )
+  }
+
+  if (compareVersion(package_version("testthat"), "1.0.0") >= 0) {
+    expect_new()
+  } else {
+    expect_old()
+  }
 
   ## "updating" is cleaned up automatically by on.exit()
 }
