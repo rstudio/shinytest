@@ -16,6 +16,7 @@ Imports:
     rematch,
     shiny,
     testthat,
+    utils,
     webdriver
 Remotes: 
     gaborcsardi/processx,

@@ -9,6 +9,7 @@
 #'
 #' @export
 #' @importFrom testthat expectation expect_that
+#' @importFrom utils compareVersion
 #' @examples
 #' \dontrun{
 #' ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example

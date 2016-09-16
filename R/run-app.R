@@ -9,6 +9,7 @@ run_app <- function(path) {
 }
 
 #' @importFrom htmltools htmlDependency attachDependencies
+#' @importFrom utils packageName
 
 ui_tracer <- function() {
 

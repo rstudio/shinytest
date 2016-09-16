@@ -26,6 +26,8 @@ parse_class <- function(x) {
 
 `%||%` <- function(l, r) if (is.null(l)) r else l
 
+#' @importFrom utils packageName
+
 package_version <- function(pkg = packageName()) {
   asNamespace(pkg)$`.__NAMESPACE__.`$spec[["version"]]
 }
