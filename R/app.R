@@ -114,7 +114,9 @@
 #' on the R graphics device. The output file has PNG format.
 #'
 #' \code{app$find_element()} find an HTML element on the page, using a
-#' CSS selector or an XPath expression.
+#' CSS selector or an XPath expression. The return value is an
+#' \code{\link[webdriver]{element}} object from the \code{webdriver}
+#' package.
 #'
 #' \code{app$wait_for()} waits until a JavaScript expression evaluates
 #' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
