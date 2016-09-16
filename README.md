@@ -20,6 +20,8 @@ Uses a headless browser, driven through 'WebDriver'.
 source("https://install-github.me/gaborcsardi/shinytest")
 ```
 
+You also need to download PhantomJS and add it to your PATH (http://phantomjs.org/).
+
 ## Usage
 
 
