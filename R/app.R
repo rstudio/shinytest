@@ -85,7 +85,7 @@
 #' \code{app$get_value()} finds a widget and queries its value. See
 #' the \code{get_value} method of the \code{\link{widget}} class.
 #'
-#' \code{w$send_keys} sends the specified keys to the HTML element of the
+#' \code{app$send_keys} sends the specified keys to the HTML element of the
 #' widget.
 #'
 #' \code{app$get_window_size()} returns the current size of the browser
@@ -120,7 +120,7 @@
 #' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 #' expression evaluated to \code{true}, possible after some waiting.
 #'
-#' \code{find_widget()} finds the corresponding HTML element of a Shiny
+#' \code{app$find_widget()} finds the corresponding HTML element of a Shiny
 #' widget. It returns a \code{\link{widget}} object.
 #'
 #' \code{expect_update()} is one of the main functions to test Shiny apps.
