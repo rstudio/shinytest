@@ -22,6 +22,9 @@
 #' app$find_element(css = NULL, link_text = NULL,
 #'      partial_link_text = NULL, xpath = NULL)
 #'
+#' app$find_elements(css = NULL, link_text = NULL,
+#'      partial_link_text = NULL, xpath = NULL)
+#'
 #' app$wait_for(expr, check_interval = 100, timeout = 3000)
 #'
 #' app$find_widget(name, iotype = c("auto", "input", "output"))
@@ -122,6 +125,10 @@
 #' \code{\link[webdriver]{element}} object from the \code{webdriver}
 #' package.
 #'
+#' \code{app$find_elements()} finds potentially multiple HTML elements,
+#' and returns them in a list of \code{\link[webdriver]{element}} objects
+#' from the \code{webdriver} package.
+#'
 #' \code{app$wait_for()} waits until a JavaScript expression evaluates
 #' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 #' expression evaluated to \code{true}, possible after some waiting.
@@ -199,6 +206,11 @@ shinyapp <- R6Class(
       partial_link_text = NULL, xpath = NULL)
       app_find_element(self, private, css, link_text, partial_link_text,
                        xpath),
+
+    find_elements = function(css = NULL, link_text = NULL,
+      partial_link_text = NULL, xpath = NULL)
+      app_find_elements(self, private, css, link_text, partial_link_text,
+                        xpath),
 
     wait_for = function(expr, check_interval = 100, timeout = 3000)
       app_wait_for(self, private, expr, check_interval, timeout),
