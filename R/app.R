@@ -27,6 +27,10 @@
 #'
 #' app$wait_for(expr, check_interval = 100, timeout = 3000)
 #'
+#' app$list_input_widgets()
+#'
+#' app$list_output_widgets()
+#'
 #' app$find_widget(name, iotype = c("auto", "input", "output"))
 #'
 #' app$expect_update(output, ..., timeout = 3000,
@@ -133,6 +137,10 @@
 #' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 #' expression evaluated to \code{true}, possible after some waiting.
 #'
+#' \code{app$list_input_widgets()} lists the names of all input widgets.
+#'
+#' \code{app$list_output_widgets()} lists the names of all output widgets.
+#'
 #' \code{app$find_widget()} finds the corresponding HTML element of a Shiny
 #' widget. It returns a \code{\link{widget}} object.
 #'
@@ -215,6 +223,12 @@ shinyapp <- R6Class(
     wait_for = function(expr, check_interval = 100, timeout = 3000)
       app_wait_for(self, private, expr, check_interval, timeout),
 
+    list_input_widgets = function()
+      app_list_input_widgets(self, private),
+
+    list_output_widgets = function()
+      app_list_output_widgets(self, private),
+
     ## Main methods
 
     find_widget = function(name, iotype = c("auto", "input", "output"))
@@ -279,4 +293,14 @@ app_stop <- function(self, private) {
 
 app_wait_for <- function(self, private, expr, check_interval, timeout) {
   private$web$wait_for(expr, check_interval, timeout)
+}
+
+app_list_input_widgets <- function(self, private) {
+  elements <- self$find_elements(css = ".shiny-bound-input")
+  vapply(elements, function(e) e$get_attribute("id"), "")
+}
+
+app_list_output_widgets <- function(self, private) {
+  elements <- self$find_elements(css = ".shiny-bound-output")
+  vapply(elements, function(e) e$get_attribute("id"), "")
 }

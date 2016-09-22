@@ -33,6 +33,10 @@ app$find_elements(css = NULL, link_text = NULL,
 
 app$wait_for(expr, check_interval = 100, timeout = 3000)
 
+app$list_input_widgets()
+
+app$list_output_widgets()
+
 app$find_widget(name, iotype = c("auto", "input", "output"))
 
 app$expect_update(output, ..., timeout = 3000,
@@ -142,6 +146,10 @@ from the \code{webdriver} package.
 \code{app$wait_for()} waits until a JavaScript expression evaluates
 to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 expression evaluated to \code{true}, possible after some waiting.
+
+\code{app$list_input_widgets()} lists the names of all input widgets.
+
+\code{app$list_output_widgets()} lists the names of all output widgets.
 
 \code{app$find_widget()} finds the corresponding HTML element of a Shiny
 widget. It returns a \code{\link{widget}} object.
