@@ -45,7 +45,7 @@ app_start_phantomjs <- function(self, private) {
   check_external("phantomjs")
   private$phantom_port <- random_port()
 
-  cmd <- paste0("phantomjs --webdriver=127.0.0.1:", private$phantom_port)
+  cmd <- paste0("phantomjs --proxy-type=none --webdriver=127.0.0.1:", private$phantom_port)
   ph <- process$new(commandline = cmd)
 
   if (! ph$is_alive()) {
