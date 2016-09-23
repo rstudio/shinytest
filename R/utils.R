@@ -26,6 +26,8 @@ parse_class <- function(x) {
 
 `%||%` <- function(l, r) if (is.null(l)) r else l
 
+`%|NA|%` <- function(l, r) ifelse(! is.na(l), l, r)
+
 #' @importFrom utils packageName
 
 package_version <- function(pkg = packageName()) {

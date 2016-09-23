@@ -56,25 +56,30 @@ app_find_widget <- function(self, private, name, iotype) {
   ## We could use the JS names as well, but it is maybe better to use
   ## the names the users encounter with in the Shiny R docs
   widget_names <- c(
-    "shiny.actionButtonInput" = "actionButton",
-    "shiny.checkboxInput" = "checkboxInput",
+    "shiny.actionButtonInput"  = "actionButton",
+    "shiny.checkboxInput"      = "checkboxInput",
     "shiny.checkboxGroupInput" = "checkboxGroupInput",
-    "shiny.dateInput" = "dateInput",
-    "shiny.dateRangeInput" = "dateRangeInput",
-    "shiny.fileInputBinding" = "fileInput",
-    "shiny.numberInput" = "numericInput",
-    "shiny.radioInput" = "radioButtons",
-    "shiny.selectInput" = "selectInput",
-    "shiny.sliderInput" = "sliderInput",
-    "shiny.textInput" = "textInput",
+    "shiny.dateInput"          = "dateInput",
+    "shiny.dateRangeInput"     = "dateRangeInput",
+    "shiny.fileInputBinding"   = "fileInput",
+    "shiny.numberInput"        = "numericInput",
+    "shiny.radioInput"         = "radioButtons",
+    "shiny.selectInput"        = "selectInput",
+    "shiny.sliderInput"        = "sliderInput",
+    "shiny.textInput"          = "textInput",
+    "shiny.passwordInput"      = "passwordInput",
+
+    "shiny.textOutput"         = "textOutput",
     "shiny.verbatimTextOutput" = "verbatimTextOutput",
-    "shiny.passwordInput" = "passwordInput"
+    "shiny.htmlOutput"         = "htmlOutput",
+    "shiny.imageOutput"        = "plotOutput",
+    "datatables"               = "tableOutput"
   )
 
   widget$new(
     name = name,
     element = els[[1]],
-    type = unname(widget_names[type[[2]]]),
+    type = unname(widget_names[type[[2]]] %|NA|% type[[2]]),
     iotype = type[[1]]
   )
 }
