@@ -16,6 +16,10 @@ app_initialize <- function(self, private, path, load_timeout, check_names) {
   ## Navigate to shiny app
   private$web$go(private$get_shiny_url())
 
+  ## Set implicit timeout to zero. According to the standard it should
+  ## be zero, but phantomjs uses about 200 ms
+  private$web$set_timeout(implicit = 0)
+
   ## Wait until shiny starts
   load_ok <- private$web$wait_for(
     'window.shinytest && window.shinytest.connected === true',
