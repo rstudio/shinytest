@@ -8,7 +8,8 @@ Class to manage a shiny app and a phantom.js headless browser
 }
 \section{Usage}{
 
-\preformatted{app <- shinyapp$new(path = ".", load_timeout = 5000)
+\preformatted{app <- shinyapp$new(path = ".", load_timeout = 5000,
+              check_names = TRUE)
 app$stop()
 
 app$get_value(name, iotype = c("auto", "input", "output"))
@@ -37,6 +38,8 @@ app$list_input_widgets()
 
 app$list_output_widgets()
 
+app$check_unique_widget_names()
+
 app$find_widget(name, iotype = c("auto", "input", "output"))
 
 app$expect_update(output, ..., timeout = 3000,
@@ -53,6 +56,8 @@ app$expect_update(output, ..., timeout = 3000,
      pair.}
   \item{load_timeout}{How long to wait for the app to load, in ms.
      This includes the time to start R.}
+  \item{check_names}{Whether to check if widget names are unique in the
+     app.}
   \item{name}{Name of a shiny widget. For \code{$send_keys} it can
      be \code{NULL}, in which case the keys are sent to the active
      HTML element.}
@@ -150,6 +155,9 @@ expression evaluated to \code{true}, possible after some waiting.
 \code{app$list_input_widgets()} lists the names of all input widgets.
 
 \code{app$list_output_widgets()} lists the names of all output widgets.
+
+\code{app$check_unique_widget_names()} checks if Shiny widget names
+are unique.
 
 \code{app$find_widget()} finds the corresponding HTML element of a Shiny
 widget. It returns a \code{\link{widget}} object.

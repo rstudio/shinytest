@@ -2,7 +2,7 @@
 #' @importFrom processx process
 #' @importFrom webdriver session
 
-app_initialize <- function(self, private, path, load_timeout) {
+app_initialize <- function(self, private, path, load_timeout, check_names) {
 
   ## Start up phantomjs
   private$start_phantomjs()
@@ -24,6 +24,8 @@ app_initialize <- function(self, private, path, load_timeout) {
   if (!load_ok) stop("Shiny app did not load in ", load_timeout, "ms")
 
   private$state <- "running"
+
+  if (check_names) self$check_unique_widget_names()
 
   invisible(self)
 }

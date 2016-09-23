@@ -2,7 +2,8 @@
 #' Class to manage a shiny app and a phantom.js headless browser
 #'
 #' @section Usage:
-#' \preformatted{app <- shinyapp$new(path = ".", load_timeout = 5000)
+#' \preformatted{app <- shinyapp$new(path = ".", load_timeout = 5000,
+#'               check_names = TRUE)
 #' app$stop()
 #'
 #' app$get_value(name, iotype = c("auto", "input", "output"))
@@ -31,6 +32,8 @@
 #'
 #' app$list_output_widgets()
 #'
+#' app$check_unique_widget_names()
+#'
 #' app$find_widget(name, iotype = c("auto", "input", "output"))
 #'
 #' app$expect_update(output, ..., timeout = 3000,
@@ -45,6 +48,8 @@
 #'      pair.}
 #'   \item{load_timeout}{How long to wait for the app to load, in ms.
 #'      This includes the time to start R.}
+#'   \item{check_names}{Whether to check if widget names are unique in the
+#'      app.}
 #'   \item{name}{Name of a shiny widget. For \code{$send_keys} it can
 #'      be \code{NULL}, in which case the keys are sent to the active
 #'      HTML element.}
@@ -141,6 +146,9 @@
 #'
 #' \code{app$list_output_widgets()} lists the names of all output widgets.
 #'
+#' \code{app$check_unique_widget_names()} checks if Shiny widget names
+#' are unique.
+#'
 #' \code{app$find_widget()} finds the corresponding HTML element of a Shiny
 #' widget. It returns a \code{\link{widget}} object.
 #'
@@ -169,8 +177,9 @@ shinyapp <- R6Class(
 
   public = list(
 
-    initialize = function(path = ".", load_timeout = 5000)
-      app_initialize(self, private, path, load_timeout),
+    initialize = function(path = ".", load_timeout = 5000,
+      check_names = TRUE)
+      app_initialize(self, private, path, load_timeout, check_names),
 
     stop = function()
       app_stop(self, private),
@@ -228,6 +237,9 @@ shinyapp <- R6Class(
 
     list_output_widgets = function()
       app_list_output_widgets(self, private),
+
+    check_unique_widget_names = function()
+      app_check_unique_widget_names(self, private),
 
     ## Main methods
 
@@ -303,4 +315,34 @@ app_list_input_widgets <- function(self, private) {
 app_list_output_widgets <- function(self, private) {
   elements <- self$find_elements(css = ".shiny-bound-output")
   vapply(elements, function(e) e$get_attribute("id"), "")
+}
+
+app_check_unique_widget_names <- function(self, private) {
+  inputs <- self$list_input_widgets()
+  outputs <- self$list_output_widgets()
+
+  check <- function(what, ids) {
+    sel <- paste0("#", ids, collapse = ",")
+    widgets <- private$web$find_elements(css = sel)
+    ids <- vapply(widgets, function(e) e$get_attribute("id"), "")
+    if (any(duplicated(ids))) {
+      dup <- paste(unique(ids[duplicated(ids)]), collapse = ", ")
+      warning("Possible duplicate ", what, " widget ids: ", dup)
+    }
+  }
+
+  if (any(inputs %in% outputs)) {
+    dups <- unique(inputs[inputs %in% outputs])
+    warning(
+      "Widget ids both for input and output: ",
+      paste(dups, collapse = ", ")
+    )
+
+    ## Otherwise the following checks report it, too
+    inputs <- setdiff(inputs, dups)
+    outputs <- setdiff(outputs, dups)
+  }
+
+  if (length(inputs) > 0) check("input", inputs)
+  if (length(outputs) > 0) check("output", outputs)
 }
