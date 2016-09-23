@@ -8,7 +8,7 @@ function shinytest_create_store() {
 	    log_entries: [],
 	    log: function(message) {
 		window.shinytest.log_entries.push({
-		    timestamp: new Date() + "",
+		    timestamp: new Date().toISOString(),
 		    message: message
 		})
 	    }
