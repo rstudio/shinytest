@@ -4,7 +4,7 @@ widget_get_value <- function(self, private) {
   res <- if (private$iotype == "input") {
     private$element$execute_script(
       "var el = $(arguments[0]);
-     return el.data('shinyInputBinding').getValue(el[0]);"
+       return el.data('shinyInputBinding').getValue(el[0]);"
     )
 
   } else {
