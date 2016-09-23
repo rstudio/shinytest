@@ -34,7 +34,7 @@ test_that("widget$get_value for all input widgets", {
   ## numericInput
   expect_identical(
     app$find_widget("num")$get_value(),
-    1
+    1L
   )
 
   ## radioButtons

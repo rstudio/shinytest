@@ -12,7 +12,7 @@ test_that("get_value", {
 
   ## fileInput, TODO
 
-  expect_identical(app$get_value("num"), 1)
+  expect_identical(app$get_value("num"), 1L)
   expect_identical(app$get_value("radio"), "1")
   expect_identical(app$get_value("select"), "1")
   expect_identical(app$get_value("slider1"), 50)

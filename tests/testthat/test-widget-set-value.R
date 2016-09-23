@@ -8,7 +8,7 @@ test_that("widget$set_value for all input widgets", {
   ## numericInput
   expect_identical(
     app$find_widget("num")$set_value(42)$get_value(),
-    42
+    42L
   )
 
   ## selectInput
