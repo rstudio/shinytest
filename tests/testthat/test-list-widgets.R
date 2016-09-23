@@ -14,8 +14,9 @@ test_that("list input & output widgets", {
   outputs <- app$list_output_widgets()
   expect_equal(
     sort(outputs),
-    c("action", "checkbox", "checkGroup", "date", "dates", "file",
-      "num", "radio", "select", "slider1", "slider2", "text")
+    c("actionOut", "checkboxOut", "checkGroupOut", "dateOut", "datesOut",
+      "fileOut", "numOut", "radioOut", "selectOut", "slider1Out",
+      "slider2Out", "textOut")
   )
 })
 

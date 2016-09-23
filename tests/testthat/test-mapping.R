@@ -25,8 +25,9 @@ test_that("output widgets with the same name", {
   app <- shinyapp$new("apps/081-widgets-gallery")
 
   names <- c(
-    "action", "checkbox", "checkGroup", "date", "dates", "file", "num",
-    "radio", "select", "slider1", "slider2", "text"
+    "actionOut", "checkboxOut", "checkGroupOut", "dateOut", "datesOut",
+    "fileOut", "numOut", "radioOut", "selectOut", "slider1Out",
+    "slider2Out", "textOut"
   )
 
   for (n in names) {
