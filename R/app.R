@@ -280,6 +280,7 @@ app_get_value <- function(self, private, name, iotype) {
 
 app_set_value <- function(self, private, name, value, iotype) {
   self$find_widget(name, iotype)$set_value(value)
+  invisible(self)
 }
 
 app_send_keys <- function(self, private, name, keys) {
