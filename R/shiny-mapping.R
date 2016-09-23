@@ -12,14 +12,14 @@
 
 app_find_widget <- function(self, private, name, iotype) {
 
-  el <- self$find_element(css = paste0("#", name))
+  el <- self$find_elements(css = paste0("#", name))[[1]]
   el_input <- tryCatch(
-    self$find_element(css = paste0("#", name, ".shiny-bound-input")),
-    error = function(x) NULL
+    self$find_elements(css = paste0("#", name, ".shiny-bound-input"))[[1]],
+    error = function(e) NULL
   )
-  el_output <- tryCatch(
-    self$find_element(css = paste0("#", name, ".shiny-bound-output")),
-    error = function(x) NULL
+  el_output <-tryCatch(
+    self$find_elements(css = paste0("#", name, ".shiny-bound-output"))[[1]],
+    error = function(e) NULL
   )
 
   res <- if (iotype == "auto") {
