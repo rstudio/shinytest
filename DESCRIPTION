@@ -9,8 +9,10 @@ LazyData: true
 URL: https://github.com/gaborcsardi/shinytest
 BugReports: https://github.com/gaborcsardi/shinytest/issues
 RoxygenNote: 5.0.1.9000
-Imports: 
+Imports:
+    crayon,
     htmltools,
+    parsedate,
     processx,
     R6,
     rematch,

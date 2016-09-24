@@ -4,12 +4,14 @@
 \alias{app_start_phantomjs}
 \title{Start phantomjs}
 \usage{
-app_start_phantomjs(self, private)
+app_start_phantomjs(self, private, debug_level)
 }
 \arguments{
 \item{self}{me}
 
 \item{private}{dark side of me}
+
+\item{debug_level}{debug level}
 }
 \description{
 It is not possible to start phantomjs on a randomized port currently,

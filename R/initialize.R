@@ -2,10 +2,11 @@
 #' @importFrom processx process
 #' @importFrom webdriver session
 
-app_initialize <- function(self, private, path, load_timeout, check_names) {
+app_initialize <- function(self, private, path, load_timeout, check_names,
+                           debug, phantom_debug_level) {
 
   ## Start up phantomjs
-  private$start_phantomjs()
+  private$start_phantomjs(phantom_debug_level)
 
   ## Start up shiny
   private$start_shiny(path)
@@ -29,6 +30,8 @@ app_initialize <- function(self, private, path, load_timeout, check_names) {
 
   private$state <- "running"
 
+  private$setup_debugging(debug)
+
   if (check_names) self$check_unique_widget_names()
 
   invisible(self)
@@ -44,14 +47,18 @@ app_initialize <- function(self, private, path, load_timeout, check_names) {
 #'
 #' @param self me
 #' @param private dark side of me
+#' @param debug_level debug level
 #'
 #' @keywords internal
 
-app_start_phantomjs <- function(self, private) {
+app_start_phantomjs <- function(self, private, debug_level) {
   check_external("phantomjs")
   private$phantom_port <- random_port()
 
-  cmd <- paste0("phantomjs --proxy-type=none --webdriver=127.0.0.1:", private$phantom_port)
+  cmd <- paste0(
+    "phantomjs --webdriver-loglevel=", debug_level,
+    " --proxy-type=none --webdriver=127.0.0.1:", private$phantom_port
+  )
   ph <- process$new(commandline = cmd)
 
   if (! ph$is_alive()) {

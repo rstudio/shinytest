@@ -9,8 +9,11 @@ Class to manage a shiny app and a phantom.js headless browser
 \section{Usage}{
 
 \preformatted{app <- shinyapp$new(path = ".", load_timeout = 5000,
-              check_names = TRUE)
+              check_names = TRUE, debug = c("none", "all",
+              shinyapp$debug_log_types), phantom_debug_level = c(
+              "INFO", "ERROR", "WARN", "DEBUG"))
 app$stop()
+app$get_debug_log(type = c("all", shinyapp$debug_log_types))
 
 app$get_value(name, iotype = c("auto", "input", "output"))
 app$set_value(name, value, iotype = c("auto", "input", "output"))
@@ -58,6 +61,9 @@ app$expect_update(output, ..., timeout = 3000,
      This includes the time to start R.}
   \item{check_names}{Whether to check if widget names are unique in the
      app.}
+  \item{debug}{Whether to start the app in debugging mode. In debugging
+     mode debug messages are printed to the console.}
+  \item{phantom_debug_level}{Debug level of phantom.js.}
   \item{name}{Name of a shiny widget. For \code{$send_keys} it can
      be \code{NULL}, in which case the keys are sent to the active
      HTML element.}
@@ -104,6 +110,10 @@ and \code{ui.R} pair.
 
 \code{app$stop()} stops the app, i.e. the external R process that runs
 the app, and also the phantomjs instance.
+
+\code{app$get_debug_log()} queries one or more of the debug logs:
+\code{shiny_console}, \code{phantom_console}, \code{browser} or
+\code{shinytest}.
 
 \code{app$get_value()} finds a widget and queries its value. See
 the \code{get_value} method of the \code{\link{widget}} class.

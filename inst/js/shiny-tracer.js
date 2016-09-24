@@ -6,6 +6,7 @@ function shinytest_create_store() {
 	    busy: null,
 	    updating: [],
 	    log_entries: [],
+	    entries_shown: 0,
 	    log: function(message) {
 		window.shinytest.log_entries.push({
 		    timestamp: new Date().toISOString(),
