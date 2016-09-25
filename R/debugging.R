@@ -1,6 +1,6 @@
 
 app_setup_debugging <- function(self, private, debug) {
-
+  "!DEBUG app_setup_debugging"
   debug <- assert_debug(debug)
 
   if (length(debug)) {
@@ -9,28 +9,33 @@ app_setup_debugging <- function(self, private, debug) {
 }
 
 app_get_debug_log <- function(self, private, type) {
+  "!DEBUG app_get_debug_log"
 
   type <- assert_debug(type)
 
   output <- list()
 
   if ("shiny_console" %in% type) {
+    "!DEBUG app_get_debug_log shiny_console"
     out <- private$shiny_process$read_output_lines()
     err <- private$shiny_process$read_error_lines()
     output$shiny_console <- make_shiny_console_log(out = out, err = err)
   }
 
   if ("phantom_console" %in% type) {
+    "!DEBUG app_get_debug_log phantom_console"
     out <- private$phantom_process$read_output_lines()
     err <- private$phantom_process$read_error_lines()
     output$phantom_console <- make_phantom_log(out = out, err = err)
   }
 
   if ("browser" %in% type) {
+    "!DEBUG app_get_debug_log browser"
     output$browser <- make_browser_log(private$web$read_log())
   }
 
   if ("shinytest" %in% type) {
+    "!DEBUG app_get_debug_log shinytest log"
     output$shinytest <- make_shinytest_log(private$web$execute_script(
       "if (! window.shinytest) { return([]) }
        var res = window.shinytest.log_entries;

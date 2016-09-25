@@ -121,5 +121,6 @@ widget_initialize <- function(self, private, name, element, type, iotype) {
 }
 
 widget_send_keys <- function(self, private, keys) {
+  "!DEBUG widget_send_keys"
   private$element$send_keys(keys)
 }

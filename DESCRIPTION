@@ -11,6 +11,7 @@ BugReports: https://github.com/gaborcsardi/shinytest/issues
 RoxygenNote: 5.0.1.9000
 Imports:
     crayon,
+    debugme,
     htmltools,
     parsedate,
     processx,
@@ -20,7 +21,8 @@ Imports:
     testthat,
     utils,
     webdriver
-Remotes: 
+Remotes:
+    gaborcsardi/debugme
     gaborcsardi/processx,
     gaborcsardi/webdriver
 Encoding: UTF-8

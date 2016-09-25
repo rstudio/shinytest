@@ -1,6 +1,8 @@
 
 widget_get_value <- function(self, private) {
 
+  "!DEBUG widget_get_value"
+
   res <- if (private$iotype == "input") {
     private$element$execute_script(
       "var el = $(arguments[0]);

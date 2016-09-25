@@ -12,6 +12,8 @@
 
 app_find_widget <- function(self, private, name, iotype) {
 
+  "!DEBUG finding a widget"
+
   css <- if (iotype == "auto") {
     paste0("#", name)
 

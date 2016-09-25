@@ -34,6 +34,7 @@ expect_update <- function(app, output, ..., timeout = 3000,
 
 app_expect_update <- function(self, private, output, ..., timeout,
                               iotype) {
+  "!DEBUG app_expect_update"
 
   assert_character(output)
   assert_all_named(inputs <- list(...))
@@ -57,6 +58,7 @@ app_expect_update <- function(self, private, output, ..., timeout,
     self$find_widget(n, iotype = iotype)$set_value(inputs[[n]])
   }
 
+  "!DEBUG waiting for update"
   ## Wait for all the updates to happen, or a timeout
   res <- private$web$wait_for(
     "window.shinytest.updating.length == 0",
