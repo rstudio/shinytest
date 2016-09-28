@@ -305,18 +305,18 @@ shinyapp$debug_log_types <- c(
 )
 
 app_get_value <- function(self, private, name, iotype) {
-  "!DEBUG app_get_value"
+  "!DEBUG app_get_value `name` (`iotype`)"
   self$find_widget(name, iotype)$get_value()
 }
 
 app_set_value <- function(self, private, name, value, iotype) {
-  "!DEBUG app_set_value"
+  "!DEBUG app_set_value `name`"
   self$find_widget(name, iotype)$set_value(value)
   invisible(self)
 }
 
 app_send_keys <- function(self, private, name, keys) {
-  "!DEBUG app_send_keys"
+  "!DEBUG app_send_keys `name`"
   self$find_widget(name)$send_keys(keys)
   invisible(self)
 }
@@ -327,7 +327,7 @@ app_get_window_size <- function(self, private) {
 }
 
 app_set_window_size <- function(self, private, width, height) {
-  "!DEBUG app_set_window_size"
+  "!DEBUG app_set_window_size `width`x`height`"
   private$web$get_window()$set_size(width, height)
   invisible(self)
 }

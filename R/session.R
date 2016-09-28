@@ -33,12 +33,12 @@ app_take_screenshot <- function(self, private, file) {
 
 app_find_element <- function(self, private, css, link_text,
                              partial_link_text, xpath) {
-  "!DEBUG app_find_element"
+  "!DEBUG app_find_element '`css %||% link_text %||% partial_link_text %||% xpath`'"
   private$web$find_element(css, link_text, partial_link_text, xpath)
 }
 
 app_find_elements <- function(self, private, css, link_text,
                               partial_link_text, xpath) {
-  "!DEBUG app_find_elements"
+  "!DEBUG app_find_elements '`css %||% link_text %||% partial_link_text %||% xpath`'"
   private$web$find_elements(css, link_text, partial_link_text, xpath)
 }

@@ -1,7 +1,7 @@
 
 widget_get_value <- function(self, private) {
 
-  "!DEBUG widget_get_value"
+  "!DEBUG widget_get_value `private$name`"
 
   res <- if (private$iotype == "input") {
     private$element$execute_script(

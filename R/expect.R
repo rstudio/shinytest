@@ -34,7 +34,7 @@ expect_update <- function(app, output, ..., timeout = 3000,
 
 app_expect_update <- function(self, private, output, ..., timeout,
                               iotype) {
-  "!DEBUG app_expect_update"
+  "!DEBUG app_expect_update `paste(output, collapse = ', ')`"
 
   assert_character(output)
   assert_all_named(inputs <- list(...))
@@ -64,6 +64,7 @@ app_expect_update <- function(self, private, output, ..., timeout,
     "window.shinytest.updating.length == 0",
     timeout = timeout
   )
+  "!DEBUG update done (`if (res) 'done' else 'timeout'`)"
 
   expect_old <- function() {
 

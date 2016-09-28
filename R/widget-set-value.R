@@ -1,7 +1,7 @@
 
 widget_set_value <- function(self, private, value) {
 
-  "!DEBUG widget_set_value"
+  "!DEBUG widget_set_value `private$name`"
 
   if (private$iotype == "output") {
     stop("Cannot set values of output widgets")

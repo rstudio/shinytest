@@ -8,7 +8,7 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   "!DEBUG start up phantomjs"
   private$start_phantomjs(phantom_debug_level)
 
-  "!DEBUG start up shiny"
+  "!DEBUG start up shiny app from `path`"
   private$start_shiny(path)
 
   "!DEBUG create new phantomjs session"
@@ -113,7 +113,7 @@ app_start_shiny <- function(self, private, path) {
 
   m <- re_match(text = l, "https?://(?<host>[^:]+):(?<port>[0-9]+)")
 
-  "!DEBUG shiny up and running"
+  "!DEBUG shiny up and running, port `m[, 'port']`"
 
   private$shiny_host <- assert_host(m[, "host"])
   private$shiny_port <- assert_port(as.integer(m[, "port"]))
