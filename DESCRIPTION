@@ -2,12 +2,12 @@ Package: shinytest
 Title: Test Shiny Apps
 Version: 1.0.1
 Author: Gábor Csárdi
-Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
+Maintainer: Gábor Csárdi <gcsardi@mango-solutions.com>
 Description: Uses a headless browser, driven through 'WebDriver'.
 License: MIT + file LICENSE
 LazyData: true
-URL: https://github.com/gaborcsardi/shinytest
-BugReports: https://github.com/gaborcsardi/shinytest/issues
+URL: https://github.com/MangoTheCat/shinytest
+BugReports: https://github.com/MangoTheCat/shinytest/issues
 RoxygenNote: 5.0.1.9000
 Imports:
     crayon,
@@ -23,7 +23,7 @@ Imports:
     webdriver
 Remotes:
     gaborcsardi/debugme
-    gaborcsardi/processx,
-    gaborcsardi/webdriver
+    MangoTheCat/processx,
+    MangoTheCat/webdriver
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
