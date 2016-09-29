@@ -1,6 +1,6 @@
 
 #' @importFrom debugme debugme
 
-.onLoad <- function(libname, pathname) {
+.onLoad <- function(libname, pkgname) {
   debugme()
 }

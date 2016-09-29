@@ -84,9 +84,10 @@ app_start_shiny <- function(self, private, path) {
 
   rcmd <- paste0("shinytest:::with_shinytest_js(shiny::runApp('", path, "'))")
 
-  R <- file.path(R.home("bin"), "R")
+  Rexe <- if (is_windows()) "R.exe" else "R"
+  Rbin <- file.path(R.home("bin"), Rexe)
   cmd <- paste0(
-    shQuote(R), " -q -e ",
+    shQuote(Rbin), " -q -e ",
     shQuote(rcmd)
   )
 
