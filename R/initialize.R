@@ -54,11 +54,13 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 #' @keywords internal
 
 app_start_phantomjs <- function(self, private, debug_level) {
-  check_external("phantomjs")
+  phexe <- find_phantom()
+  if (is.null(phexe)) stop("No phantom.js, exiting")
+
   private$phantom_port <- random_port()
 
   cmd <- paste0(
-    "phantomjs --webdriver-loglevel=", debug_level,
+    shQuote(phexe), " --webdriver-loglevel=", debug_level,
     " --proxy-type=none --webdriver=127.0.0.1:", private$phantom_port
   )
   ph <- process$new(commandline = cmd)
@@ -122,4 +124,46 @@ app_start_shiny <- function(self, private, path) {
 
 app_get_shiny_url <- function(self, private) {
   paste0("http://", private$shiny_host, ":", private$shiny_port)
+}
+
+# Possible locations of the PhantomJS executable
+phantom_paths <- function() {
+  if (is_windows()) {
+    path <- Sys.getenv('APPDATA', '')
+    path <- if (dir_exists(path)) file.path(path, 'PhantomJS')
+  } else if (is_osx()) {
+    path <- '~/Library/Application Support'
+    path <- if (dir_exists(path)) file.path(path, 'PhantomJS')
+  } else {
+    path <- '~/bin'
+  }
+  path <- c(path, system.file('PhantomJS', package = 'webdriver'))
+  path
+}
+
+# Find PhantomJS from PATH, APPDATA, system.file('webdriver'), ~/bin, etc
+find_phantom <- function() {
+  path <- Sys.which( "phantomjs" )
+  if (path != "") return(path)
+
+  for (d in phantom_paths()) {
+    exec <- if (is_windows()) "phantomjs.exe" else "phantomjs"
+    path <- file.path(d, exec)
+    if (utils::file_test("-x", path)) break else path <- ""
+  }
+
+  if (path == "") {
+    # It would make the most sense to throw an error here. However, that would
+    # cause problems with CRAN. The CRAN checking systems may not have phantomjs
+    # and may not be capable of installing phantomjs (like on Solaris), and any
+    # packages which use webdriver in their R CMD check (in examples or vignettes)
+    # will get an ERROR. We'll issue a message and return NULL; other
+    message(
+      "PhantomJS not found. You can install it with webdriver::install_phantomjs(). ",
+      "If it is installed, please make sure the phantomjs executable ",
+      "can be found via the PATH variable."
+    )
+    return(NULL)
+  }
+  path.expand(path)
 }
