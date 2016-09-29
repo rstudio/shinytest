@@ -1,0 +1,34 @@
+# Evaluates an expression (like `runApp()`) with the shiny.http.response.filter
+# option set to a function which rewrites the <head> to include shiny-tracer.js.
+with_shinytest_js <- function(expr) {
+
+  filter <- function(request, response) {
+    if (response$status < 200 || response$status > 300) return(response)
+
+    # Don't break responses that use httpuv's file-based bodies.
+    if ('file' %in% names(response$content))
+      return(response)
+
+    if (!grepl("^text/html\\b", response$content_type, perl=T))
+      return(response)
+
+    # HTML files served from static handler are raw. Convert to char so we
+    # can inject our head content.
+    if (is.raw(response$content))
+      response$content <- rawToChar(response$content)
+
+    # Modify the <head> to load shinytest.js
+    response$content <- sub(
+      "</head>",
+      "<script src=\"shinytest/shiny-tracer.js\"></script>\n</head>",
+      response$content,
+      ignore.case = TRUE
+    )
+
+    return(response)
+  }
+
+  oldOptions <- options(shiny.http.response.filter = filter)
+  force(expr)
+  options(oldOptions)
+}

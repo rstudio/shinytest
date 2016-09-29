@@ -80,7 +80,7 @@ app_start_phantomjs <- function(self, private, debug_level) {
 
 app_start_shiny <- function(self, private, path) {
 
-  rcmd <- paste0("shinytest:::run_app('", path, "')")
+  rcmd <- paste0("shinytest:::with_shinytest_js(shiny::runApp('", path, "'))")
 
   R <- file.path(R.home("bin"), "R")
   cmd <- paste0(
