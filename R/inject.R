@@ -1,6 +1,10 @@
 # Evaluates an expression (like `runApp()`) with the shiny.http.response.filter
 # option set to a function which rewrites the <head> to include shiny-tracer.js.
 with_shinytest_js <- function(expr) {
+  shiny::addResourcePath(
+    "shinytest",
+    system.file("js", package = "shinytest")
+  )
 
   filter <- function(request, response) {
     if (response$status < 200 || response$status > 300) return(response)
