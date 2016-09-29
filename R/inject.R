@@ -41,12 +41,15 @@ with_shinytest_js <- function(expr) {
       filter(old_filter(request, response))
     }
 
-    old_options <- options(shiny.http.response.filter = wrapper_filter)
+    withr::with_options(
+      list(shiny.http.response.filter = wrapper_filter),
+      expr
+    )
 
   } else {
-    old_options <- options(shiny.http.response.filter = filter)
+    withr::with_options(
+      list(shiny.http.response.filter = filter),
+      expr
+    )
   }
-
-  force(expr)
-  options(old_options)
 }

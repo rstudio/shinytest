@@ -20,7 +20,8 @@ Imports:
     shiny,
     testthat,
     utils,
-    webdriver
+    webdriver,
+    withr
 Remotes:
     gaborcsardi/debugme
     MangoTheCat/processx,
