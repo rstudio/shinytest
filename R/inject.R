@@ -32,7 +32,21 @@ with_shinytest_js <- function(expr) {
     return(response)
   }
 
-  oldOptions <- options(shiny.http.response.filter = filter)
+  if (!is.null(getOption("shiny.http.response.filter"))) {
+    # If there's an existing filter, create a wrapper function that first runs
+    # the old filter and then the new one on the request.
+    old_filter <- getOption("shiny.http.response.filter")
+
+    wrapper_filter <- function(request, response) {
+      filter(old_filter(request, response))
+    }
+
+    old_options <- options(shiny.http.response.filter = wrapper_filter)
+
+  } else {
+    old_options <- options(shiny.http.response.filter = filter)
+  }
+
   force(expr)
-  options(oldOptions)
+  options(old_options)
 }
