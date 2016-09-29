@@ -12,7 +12,6 @@ RoxygenNote: 5.0.1.9000
 Imports:
     crayon,
     debugme,
-    htmltools,
     parsedate,
     processx,
     R6,
