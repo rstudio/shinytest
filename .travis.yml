@@ -4,8 +4,8 @@ cache: packages
 
 r:
  - release
-# - devel
-# - oldrel
+ - devel
+ - oldrel
 
 r_github_packages:
   - gaborcsardi/debugme
