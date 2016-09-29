@@ -11,7 +11,3 @@ r_github_packages:
   - gaborcsardi/debugme
   - MangoTheCat/processx
   - MangoTheCat/webdriver
-
-env:
-  global:
-    - DEBUGME=webdriver,processx,shinytest
