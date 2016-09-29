@@ -23,6 +23,9 @@ Uses a headless browser, driven through 'WebDriver'.
 ## Installation
 
 ```{r eval = FALSE}
+source("https://install-github.me/gaborcsardi/debugme")
+source("https://install-github.me/MangoTheCat/processx")
+source("https://install-github.me/MangoTheCat/webdriver")
 source("https://install-github.me/MangoTheCat/shinytest")
 ```
 

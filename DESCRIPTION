@@ -21,9 +21,5 @@ Imports:
     utils,
     webdriver,
     withr
-Remotes:
-    gaborcsardi/debugme
-    MangoTheCat/processx,
-    MangoTheCat/webdriver
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
