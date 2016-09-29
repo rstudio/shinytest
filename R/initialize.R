@@ -74,6 +74,13 @@ app_start_phantomjs <- function(self, private, debug_level) {
   }
   "!DEBUG phantom.js started"
 
+  ## Unfortunately we need to wait a bit for phantom to start
+  for (i in 1:50) {
+    l <- ph$read_output_lines(n = 1)
+    if (length(l) > 0) break
+    Sys.sleep(0.1)
+  }
+
   private$phantom_process <- ph
 }
 
