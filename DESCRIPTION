@@ -1,7 +1,7 @@
 Package: shinytest
 Title: Test Shiny Apps
 Version: 1.0.1
-Author: Gábor Csárdi
+Author: Gábor Csárdi, Winston Chang
 Maintainer: Gábor Csárdi <gcsardi@mango-solutions.com>
 Description: Uses a headless browser, driven through 'WebDriver'.
 License: MIT + file LICENSE
