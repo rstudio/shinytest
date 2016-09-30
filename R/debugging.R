@@ -8,7 +8,7 @@ app_setup_debugging <- function(self, private, debug) {
   }
 }
 
-app_get_debug_log <- function(self, private, type) {
+client_get_debug_log <- function(self, private, type) {
   "!DEBUG app_get_debug_log"
 
   type <- assert_debug(type)
@@ -31,12 +31,12 @@ app_get_debug_log <- function(self, private, type) {
 
   if ("browser" %in% type) {
     "!DEBUG app_get_debug_log browser"
-    output$browser <- make_browser_log(private$web$read_log())
+    output$browser <- make_browser_log(private$session$read_log())
   }
 
   if ("shinytest" %in% type) {
     "!DEBUG app_get_debug_log shinytest log"
-    output$shinytest <- make_shinytest_log(private$web$execute_script(
+    output$shinytest <- make_shinytest_log(private$session$execute_script(
       "if (! window.shinytest) { return([]) }
        var res = window.shinytest.log_entries;
        window.shinytest.log_entries = [];
