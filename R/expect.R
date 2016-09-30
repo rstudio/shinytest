@@ -11,7 +11,7 @@
 #'   input widgets.
 #'
 #' @export
-#' @importFrom testthat expectation expect_that
+#' @importFrom testthat expect
 #' @importFrom utils compareVersion
 #' @examples
 #' \dontrun{
@@ -66,55 +66,17 @@ app_expect_update <- function(self, private, output, ..., timeout,
   )
   "!DEBUG update done (`if (res) 'done' else 'timeout'`)"
 
-  expect_old <- function() {
-
-    condition <- function(result) {
-
-      failure_msg <- strwrap(sprintf(
-        paste0(
-          "Updating %s did not update %s, or it is taking longer ",
-          "than %i ms."),
-        paste(sQuote(names(inputs)), collapse = ", "),
-        paste(sQuote(output), collapse = ", "),
-        timeout
-      ))
-
-      success_msg <- strwrap(sprintf(
-        "Changing %s updated %s before the %i ms timeout",
-        paste(sQuote(names(inputs)), collapse = ", "),
-        paste(sQuote(output), collapse = ", "),
-        timeout
-      ))
-
-      expectation(
-        passed = result,
-        failure_msg = failure_msg,
-        success_msg = success_msg
-      )
-    }
-
-    expect_that(res, condition)
-  }
-
-  expect_new <- function() {
-    testthat::expect(
-      res,
-      sprintf(
-        strwrap(paste0(
-          "Updating %s did not update %s, or it is taking longer ",
-          "than %i ms.")),
-        paste(sQuote(names(inputs)), collapse = ", "),
-        paste(sQuote(output), collapse = ", "),
-        timeout
-      )
+  expect(
+    res,
+    sprintf(
+      strwrap(paste0(
+        "Updating %s did not update %s, or it is taking longer ",
+        "than %i ms.")),
+      paste(sQuote(names(inputs)), collapse = ", "),
+      paste(sQuote(output), collapse = ", "),
+      timeout
     )
-  }
-
-  if (compareVersion(package_version("testthat"), "1.0.0") >= 0) {
-    expect_new()
-  } else {
-    expect_old()
-  }
+  )
 
   ## "updating" is cleaned up automatically by on.exit()
 }

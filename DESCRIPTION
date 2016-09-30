@@ -17,7 +17,7 @@ Imports:
     R6,
     rematch,
     shiny,
-    testthat,
+    testthat (>= 1.0.0),
     utils,
     webdriver,
     withr
