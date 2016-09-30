@@ -187,31 +187,35 @@ shinyapp <- R6Class(
 
   public = list(
 
-    initialize = function(path = ".", load_timeout = 5000,
+    initialize = function(path = ".", load_timeout = 5000, clients = 1,
       check_names = TRUE,
       debug = c("none", "all", shinyapp$debug_log_types),
       phantom_debug_level = c("INFO", "ERROR", "WARN", "DEBUG"))
-      app_initialize(self, private, path, load_timeout, check_names,
+      app_initialize(self, private, path, load_timeout, clients, check_names,
                      match.arg(debug, several.ok = TRUE),
                      match.arg(phantom_debug_level)),
 
     stop = function()
       app_stop(self, private),
 
-    get_value = function(name, iotype = c("auto", "input", "output"))
-      app_get_value(self, private, name, match.arg(iotype)),
+    clients = list(),                   # shinyapp_client objects
 
-    set_value = function(name, value, iotype = c("auto", "input", "output"))
-      app_set_value(self, private, name, value, match.arg(iotype)),
+    get_value = function(name, iotype = c("auto", "input", "output"),
+      client = 1)
+      app_get_value(self, private, name, match.arg(iotype), client),
 
-    send_keys = function(name = NULL, keys)
-      app_send_keys(self, private, name, keys),
+    set_value = function(name, value, iotype = c("auto", "input", "output"),
+      client = 1)
+      app_set_value(self, private, name, value, match.arg(iotype), client),
 
-    set_window_size = function(width, height)
-      app_set_window_size(self, private, width, height),
+    send_keys = function(name = NULL, keys, client = 1)
+      app_send_keys(self, private, name, keys, client),
 
-    get_window_size = function()
-      app_get_window_size(self, private),
+    set_window_size = function(width, height, client = 1)
+      app_set_window_size(self, private, width, height, client),
+
+    get_window_size = function(client = 1)
+      app_get_window_size(self, private, client),
 
     ## Debugging
 
@@ -278,13 +282,7 @@ shinyapp <- R6Class(
     shiny_host = NULL,                  # usually 127.0.0.1
     shiny_port = NULL,
     shiny_process = NULL,               # process object
-    phantom_port = NULL,
-    phantom_process = NULL,             # process object
-    web = NULL,                         # webdriver session
     after_id = NULL,
-
-    start_phantomjs = function(debug_level)
-      app_start_phantomjs(self, private, debug_level),
 
     start_shiny = function(path)
       app_start_shiny(self, private, path),
@@ -303,87 +301,3 @@ shinyapp$debug_log_types <- c(
   "browser",
   "shinytest"
 )
-
-app_get_value <- function(self, private, name, iotype) {
-  "!DEBUG app_get_value `name` (`iotype`)"
-  self$find_widget(name, iotype)$get_value()
-}
-
-app_set_value <- function(self, private, name, value, iotype) {
-  "!DEBUG app_set_value `name`"
-  self$find_widget(name, iotype)$set_value(value)
-  invisible(self)
-}
-
-app_send_keys <- function(self, private, name, keys) {
-  "!DEBUG app_send_keys `name`"
-  self$find_widget(name)$send_keys(keys)
-  invisible(self)
-}
-
-app_get_window_size <- function(self, private) {
-  "!DEBUG app_get_window_size"
-  private$web$get_window()$get_size()
-}
-
-app_set_window_size <- function(self, private, width, height) {
-  "!DEBUG app_set_window_size `width`x`height`"
-  private$web$get_window()$set_size(width, height)
-  invisible(self)
-}
-
-app_stop <- function(self, private) {
-  "!DEBUG app_stop"
-  private$shiny_process$kill()
-  private$phantom_process$kill()
-  private$state <- "stopped"
-  invisible(self)
-}
-
-app_wait_for <- function(self, private, expr, check_interval, timeout) {
-  "!DEBUG app_wait_for"
-  private$web$wait_for(expr, check_interval, timeout)
-}
-
-app_list_input_widgets <- function(self, private) {
-  "!DEBUG app_list_input_widgets"
-  elements <- self$find_elements(css = ".shiny-bound-input")
-  vapply(elements, function(e) e$get_attribute("id"), "")
-}
-
-app_list_output_widgets <- function(self, private) {
-  "!DEBUG app_list_output_widgets"
-  elements <- self$find_elements(css = ".shiny-bound-output")
-  vapply(elements, function(e) e$get_attribute("id"), "")
-}
-
-app_check_unique_widget_names <- function(self, private) {
-  "!DEBUG app_check_unique_widget_names"
-  inputs <- self$list_input_widgets()
-  outputs <- self$list_output_widgets()
-
-  check <- function(what, ids) {
-    sel <- paste0("#", ids, collapse = ",")
-    widgets <- private$web$find_elements(css = sel)
-    ids <- vapply(widgets, function(e) e$get_attribute("id"), "")
-    if (any(duplicated(ids))) {
-      dup <- paste(unique(ids[duplicated(ids)]), collapse = ", ")
-      warning("Possible duplicate ", what, " widget ids: ", dup)
-    }
-  }
-
-  if (any(inputs %in% outputs)) {
-    dups <- unique(inputs[inputs %in% outputs])
-    warning(
-      "Widget ids both for input and output: ",
-      paste(dups, collapse = ", ")
-    )
-
-    ## Otherwise the following checks report it, too
-    inputs <- setdiff(inputs, dups)
-    outputs <- setdiff(outputs, dups)
-  }
-
-  if (length(inputs) > 0) check("input", inputs)
-  if (length(outputs) > 0) check("output", outputs)
-}

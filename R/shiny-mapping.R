@@ -10,7 +10,7 @@
 #'
 #' @keywords internal
 
-app_find_widget <- function(self, private, name, iotype) {
+client_find_widget <- function(self, private, name, iotype) {
 
   "!DEBUG finding a widget `name` (`iotype`)"
 
