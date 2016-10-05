@@ -4,9 +4,11 @@ shinyUI(pageWithSidebar(
   sidebarPanel(),
   mainPanel(
     tabsetPanel(
+      id = "tabset1",
       tabPanel(
         "tab1",
         tabsetPanel(
+          id = "tabset11",
           tabPanel("tab11"),
           tabPanel("tab12"),
           tabPanel("tab13")
@@ -15,7 +17,7 @@ shinyUI(pageWithSidebar(
       tabPanel(
         "tab2",
         tabsetPanel(
-          id = "tab22",
+          id = "tabset12",
           tabPanel("tab21", value = "xxx"),
           tabPanel("tab22"),
           tabPanel("tab23"),

@@ -70,6 +70,7 @@ app_find_widget <- function(self, private, name, iotype) {
     "shiny.sliderInput"        = "sliderInput",
     "shiny.textInput"          = "textInput",
     "shiny.passwordInput"      = "passwordInput",
+    "shiny.bootstrapTabInput"  = "tabsetPanel",
 
     "shiny.textOutput"         = "textOutput",
     "shiny.verbatimTextOutput" = "verbatimTextOutput",
