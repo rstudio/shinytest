@@ -5,8 +5,8 @@
 app_initialize <- function(self, private, path, load_timeout, check_names,
                            debug, phantom_debug_level) {
 
-  "!DEBUG start up phantomjs"
-  private$start_phantomjs(phantom_debug_level)
+  "!DEBUG get phantom port (starts phantom if not running)"
+  private$phantom_port <- get_phantom_port()
 
   "!DEBUG start up shiny app from `path`"
   private$start_shiny(path)
@@ -37,31 +37,6 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   if (check_names) self$check_unique_widget_names()
 
   invisible(self)
-}
-
-#' Start phantomjs
-#'
-#' It is not possible to start phantomjs on a randomized port currently,
-#' unfortunately.
-#'
-#' `processx::process` will automatically kill it, once `app` is
-#' garbage collected.
-#'
-#' @param self me
-#' @param private dark side of me
-#' @param debug_level debug level
-#'
-#' @importFrom webdriver run_phantomjs
-#' @keywords internal
-
-app_start_phantomjs <- function(self, private, debug_level) {
-
-  "!DEBUG starting phantom.js"
-  ph <- run_phantomjs(debug_level = debug_level)
-  "!DEBUG phantom.js is up and running"
-
-  private$phantom_process <- ph$process
-  private$phantom_port <- ph$port
 }
 
 #' @importFrom shiny runApp

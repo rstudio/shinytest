@@ -22,13 +22,6 @@ app_get_debug_log <- function(self, private, type) {
     output$shiny_console <- make_shiny_console_log(out = out, err = err)
   }
 
-  if ("phantom_console" %in% type) {
-    "!DEBUG app_get_debug_log phantom_console"
-    out <- private$phantom_process$read_output_lines()
-    err <- private$phantom_process$read_error_lines()
-    output$phantom_console <- make_phantom_log(out = out, err = err)
-  }
-
   if ("browser" %in% type) {
     "!DEBUG app_get_debug_log browser"
     output$browser <- make_browser_log(private$web$read_log())
@@ -65,36 +58,12 @@ make_shiny_console_log <- function(out, err) {
   rbind(out, err)
 }
 
-#' @importFrom parsedate parse_date
-
-make_phantom_log <- function(out, err) {
-  log <- c(out, err)
-
-  ## Remove empty lines
-  log <- grep("^\\s+$", log, perl = TRUE, invert = TRUE, value = TRUE)
-
-  ## Merge indented lines to previous ones
-  log <- gsub("\n\\s+", " ", paste(log, collapse = "\n"), perl = TRUE)
-  log <- strsplit(log, "\n")[[1]]
-
-  ## Parse level and time stamp
-  mat <- as.data.frame(
-    stringsAsFactors = FALSE,
-    re_match(
-      "^\\[(?<level>[^-\\s]+)[-\\s]+(?<timestamp>[^\\]]+)\\]\\s*(?<message>.*)$",
-      log
-    )
-  )
-
-  mat$timestamp <- parse_date(mat$timestamp)
-  mat$type <- if (nrow(mat)) "phantom_console" else character()
-  mat[, -1]
-}
-
 make_browser_log <- function(log) {
   log$type <- if (nrow(log)) "browser" else character()
   log[, c("level", "timestamp", "message", "type")]
 }
+
+#' @importFrom parsedate parse_date
 
 make_shinytest_log <- function(entries) {
   data.frame(
@@ -120,14 +89,12 @@ print.shinytest_logs <- function(x, ...) {
 
   colors <- list(
     shiny_console = magenta,
-    phantom_console = make_style("darkgrey"),
     browser = cyan,
     shinytest = blue
   )
 
   types <- c(
     shiny_console = "C",
-    phantom_console = "P",
     browser = "B",
     shinytest = "S"
   )

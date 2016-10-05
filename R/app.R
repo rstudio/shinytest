@@ -4,8 +4,7 @@
 #' @section Usage:
 #' \preformatted{app <- shinyapp$new(path = ".", load_timeout = 5000,
 #'               check_names = TRUE, debug = c("none", "all",
-#'               shinyapp$debug_log_types), phantom_debug_level = c(
-#'               "INFO", "ERROR", "WARN", "DEBUG"))
+#'               shinyapp$debug_log_types))
 #' app$stop()
 #' app$get_debug_log(type = c("all", shinyapp$debug_log_types))
 #'
@@ -55,7 +54,6 @@
 #'      app.}
 #'   \item{debug}{Whether to start the app in debugging mode. In debugging
 #'      mode debug messages are printed to the console.}
-#'   \item{phantom_debug_level}{Debug level of phantom.js.}
 #'   \item{name}{Name of a shiny widget. For \code{$send_keys} it can
 #'      be \code{NULL}, in which case the keys are sent to the active
 #'      HTML element.}
@@ -102,8 +100,7 @@
 #' the app, and also the phantomjs instance.
 #'
 #' \code{app$get_debug_log()} queries one or more of the debug logs:
-#' \code{shiny_console}, \code{phantom_console}, \code{browser} or
-#' \code{shinytest}.
+#' \code{shiny_console}, \code{browser} or \code{shinytest}.
 #'
 #' \code{app$get_value()} finds a widget and queries its value. See
 #' the \code{get_value} method of the \code{\link{widget}} class.
@@ -189,11 +186,9 @@ shinyapp <- R6Class(
 
     initialize = function(path = ".", load_timeout = 5000,
       check_names = TRUE,
-      debug = c("none", "all", shinyapp$debug_log_types),
-      phantom_debug_level = c("INFO", "ERROR", "WARN", "DEBUG"))
+      debug = c("none", "all", shinyapp$debug_log_types))
       app_initialize(self, private, path, load_timeout, check_names,
-                     match.arg(debug, several.ok = TRUE),
-                     match.arg(phantom_debug_level)),
+                     match.arg(debug, several.ok = TRUE)),
 
     stop = function()
       app_stop(self, private),
@@ -279,12 +274,8 @@ shinyapp <- R6Class(
     shiny_port = NULL,
     shiny_process = NULL,               # process object
     phantom_port = NULL,
-    phantom_process = NULL,             # process object
     web = NULL,                         # webdriver session
     after_id = NULL,
-
-    start_phantomjs = function(debug_level)
-      app_start_phantomjs(self, private, debug_level),
 
     start_shiny = function(path)
       app_start_shiny(self, private, path),
@@ -299,7 +290,6 @@ shinyapp <- R6Class(
 
 shinyapp$debug_log_types <- c(
   "shiny_console",
-  "phantom_console",
   "browser",
   "shinytest"
 )
@@ -335,7 +325,6 @@ app_set_window_size <- function(self, private, width, height) {
 app_stop <- function(self, private) {
   "!DEBUG app_stop"
   private$shiny_process$kill()
-  private$phantom_process$kill()
   private$state <- "stopped"
   invisible(self)
 }
