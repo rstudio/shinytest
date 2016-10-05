@@ -41,6 +41,7 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 
 #' @importFrom shiny runApp
 #' @importFrom rematch re_match
+#' @importFrom withr with_envvar
 
 app_start_shiny <- function(self, private, path) {
 
@@ -53,7 +54,10 @@ app_start_shiny <- function(self, private, path) {
     shQuote(rcmd)
   )
 
-  sh <- process$new(commandline = cmd)
+  sh <- with_envvar(
+    c("R_TESTS" = NA),
+    process$new(commandline = cmd)
+  )
 
   "!DEBUG waiting for shiny to start"
   if (! sh$is_alive()) {
