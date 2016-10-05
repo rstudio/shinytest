@@ -13,6 +13,7 @@ Imports:
     crayon,
     debugme,
     parsedate,
+    pingr,
     processx,
     R6,
     rematch,
