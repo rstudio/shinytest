@@ -18,7 +18,7 @@ It is not possible to start phantomjs on a randomized port currently,
 unfortunately.
 }
 \details{
-`processx::process` will automaticall kill it, once `app` is
+`processx::process` will automatically kill it, once `app` is
 garbage collected.
 }
 \keyword{internal}
