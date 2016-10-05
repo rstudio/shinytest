@@ -18,8 +18,8 @@ app_get_tabsets <- function(self, private) {
 #' tslist <- app$get_tabsets()
 #'
 #' ts$list_tabs()
-#' ts$get_active_tab()
-#' ts$set_active_tab(id)
+#' ts$get_value()
+#' ts$set_value(id)
 #' }
 #'
 #' @section Arguments:
@@ -28,7 +28,7 @@ app_get_tabsets <- function(self, private) {
 #'   \item{ts}{A \code{tabset} object.}
 #'   \item{tslist}{A list of \code{tabset} objects.}
 #'   \item{id}{For \code{app$get_tabset} a string, the id of the
-#'     \code{tabsetPanel} in Shiny. For \code{ts$set_active_tab} the value
+#'     \code{tabsetPanel} in Shiny. For \code{ts$set_value} the value
 #'     (or title if value is not given) of the \code{tabPanel} in Shiny.}
 #' }
 #'
@@ -45,10 +45,10 @@ app_get_tabsets <- function(self, private) {
 #' \code{ts$list_tabs()} lists all tab values (or titles if no values are
 #' given in the Shiny app) of a tabset.
 #'
-#' \code{ts$get_active_tab()} returns the value (or title if no value was
+#' \code{ts$get_value()} returns the value (or title if no value was
 #' given in the Shiny app) of a tabset.
 #'
-#' \code{ts$set_active_tab()} sets the active tab to the one specified
+#' \code{ts$set_value()} sets the active tab to the one specified
 #' by a value (or title if no value was given in the Shiny app).
 #'
 #' @name tabset
@@ -67,11 +67,11 @@ tabset <- R6Class(
     list_tabs = function()
       tabset_list_tabs(self, private),
 
-    get_active_tab = function()
-      tabset_get_active_tab(self, private),
+    get_value = function()
+      tabset_get_value(self, private),
 
-    set_active_tab = function(id)
-      tabset_set_active_tab(self, private, id)
+    set_value = function(id)
+      tabset_set_value(self, private, id)
   ),
 
   private = list(
@@ -93,7 +93,7 @@ tabset_list_tabs <- function(self, private) {
   vapply(tabs, function(t) t$get_data("value"), "")
 }
 
-tabset_get_active_tab <- function(self, private) {
+tabset_get_value <- function(self, private) {
   active <- private$element$find_elements("li.active a")
   if (length(active) == 0) {
     NA_character_
@@ -105,7 +105,7 @@ tabset_get_active_tab <- function(self, private) {
   }
 }
 
-tabset_set_active_tab <- function(self, private, id) {
+tabset_set_value <- function(self, private, id) {
   css <- paste0('li a[data-value="', id, '"]')
   el <- private$element$find_element(css)
   el$click()

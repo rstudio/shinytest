@@ -12,8 +12,8 @@ Class to manage tabsets of a Shiny app
 tslist <- app$get_tabsets()
 
 ts$list_tabs()
-ts$get_active_tab()
-ts$set_active_tab(id)
+ts$get_value()
+ts$set_value(id)
 }
 }
 
@@ -24,7 +24,7 @@ ts$set_active_tab(id)
   \item{ts}{A \code{tabset} object.}
   \item{tslist}{A list of \code{tabset} objects.}
   \item{id}{For \code{app$get_tabset} a string, the id of the
-    \code{tabsetPanel} in Shiny. For \code{ts$set_active_tab} the value
+    \code{tabsetPanel} in Shiny. For \code{ts$set_value} the value
     (or title if value is not given) of the \code{tabPanel} in Shiny.}
 }
 }
@@ -43,10 +43,10 @@ have ids or not.
 \code{ts$list_tabs()} lists all tab values (or titles if no values are
 given in the Shiny app) of a tabset.
 
-\code{ts$get_active_tab()} returns the value (or title if no value was
+\code{ts$get_value()} returns the value (or title if no value was
 given in the Shiny app) of a tabset.
 
-\code{ts$set_active_tab()} sets the active tab to the one specified
+\code{ts$set_value()} sets the active tab to the one specified
 by a value (or title if no value was given in the Shiny app).
 }
 
