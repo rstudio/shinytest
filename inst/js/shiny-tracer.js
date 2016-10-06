@@ -1,46 +1,44 @@
+window.shinytest = (function() {
+    var shinytest = {
+        connected: false,
+        busy: null,
+        updating: [],
+        log_entries: [],
+        entries_shown: 0
+    };
 
-function shinytest_create_store() {
-    if (!window.shinytest) {
-	window.shinytest = {
-	    connected: true,
-	    busy: null,
-	    updating: [],
-	    log_entries: [],
-	    entries_shown: 0,
-	    log: function(message) {
-		window.shinytest.log_entries.push({
-		    timestamp: new Date().toISOString(),
-		    message: message
-		})
-	    }
-	};
-    }
-}
+    shinytest.log = function(message) {
+        shinytest.log_entries.push({
+            timestamp: new Date().toISOString(),
+            message: message
+        });
+    };
 
-$(document).on("shiny:connected", function(e) {
-    shinytest_create_store();
-    window.shinytest.log("connected");
-});
 
-$(document).on("shiny:busy", function(e) {
-    shinytest_create_store();
-    window.shinytest.busy = true;
-    window.shinytest.log("busy");
-});
+    $(document).on("shiny:connected", function(e) {
+        shinytest.connected = true;
+        shinytest.log("connected");
+    });
 
-$(document).on("shiny:idle", function(e) {
-    shinytest_create_store();
-    window.shinytest.busy = false;
-    window.shinytest.log("idle");
-});
+    $(document).on("shiny:busy", function(e) {
+        shinytest.busy = true;
+        shinytest.log("busy");
+    });
 
-$(document).on("shiny:value", function(e) {
-    shinytest_create_store();
-    window.shinytest.log("value " + e.name);
+    $(document).on("shiny:idle", function(e) {
+        shinytest.busy = false;
+        shinytest.log("idle");
+    });
 
-    // Clear up updates
-    var idx = window.shinytest.updating.indexOf(e.name);
-    if (idx != -1) {
-	window.shinytest.updating.splice(idx, 1);
-    }
-});
+    $(document).on("shiny:value", function(e) {
+        shinytest.log("value " + e.name);
+
+        // Clear up updates
+        var idx = shinytest.updating.indexOf(e.name);
+        if (idx != -1) {
+            shinytest.updating.splice(idx, 1);
+        }
+    });
+
+    return shinytest;
+})();
