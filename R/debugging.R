@@ -77,7 +77,7 @@ make_shinytest_log <- function(entries) {
 
 merge_logs <- function(output) {
   log <- do.call(rbind, output)
-  log <- log[order(log$time), ]
+  log <- log[order(log$timestamp), ]
   class(log) <- c("shinytest_logs", class(log))
   log
 }
