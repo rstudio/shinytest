@@ -16,6 +16,8 @@
 #' w$set_value(value)
 #'
 #' w$send_keys(keys)
+#'
+#' w$list_tabs()
 #' }
 #'
 #' @section Arguments:
@@ -69,6 +71,9 @@
 #' \code{w$send_keys} sends the specified keys to the HTML element of the
 #' widget.
 #'
+#' \code{w$list_tabs} lists the tab names of a \code{tabsetPanel} widget.
+#' It fails for other types of widgets.
+#'
 #' @name widget
 #' @examples{
 #'
@@ -100,7 +105,10 @@ widget <- R6Class(
       widget_set_value(self, private, value),
 
     send_keys = function(keys)
-      widget_send_keys(self, private, keys)
+      widget_send_keys(self, private, keys),
+
+    list_tabs = function()
+      widget_list_tabs(self, private)
 
   ),
 
@@ -123,4 +131,12 @@ widget_initialize <- function(self, private, name, element, type, iotype) {
 widget_send_keys <- function(self, private, keys) {
   "!DEBUG widget_send_keys `private$name`"
   private$element$send_keys(keys)
+}
+
+widget_list_tabs <- function(self, private) {
+  if (private$type != "tabsetPanel") {
+    stop("'list_tabs' only works for 'tabsetPanel' widgets")
+  }
+  tabs <- private$element$find_elements("li a")
+  vapply(tabs, function(t) t$get_data("value"), "")
 }

@@ -46,6 +46,9 @@ app$find_widget(name, iotype = c("auto", "input", "output"))
 
 app$expect_update(output, ..., timeout = 3000,
     iotype = c("auto", "input", "output"))
+
+app$get_tabset(id)
+app$get_tabsets()
 }
 }
 
@@ -91,6 +94,7 @@ app$expect_update(output, ..., timeout = 3000,
   \item{...}{For \code{expect_update} these can be named arguments.
     The argument names correspond to Shiny input widgets: each input
     widget will be set to the specified value.}
+  \item{id}{Id of the tabset.}
 }
 }
 
@@ -174,6 +178,14 @@ It performs one or more update operations via the browser, and then
 waits for the specified output widgets to update. The test succeeds if
 all specified output widgets are updated before the timeout. For
 updates that involve a lot of computation, you increase the timeout.
+
+\code{app$get_tabset()} finds and returns a tabset by id. Not all
+tabsets have ids in Shiny, and you can only use this function to find
+the ones that do. It returns a \code{\link{tabset}} object.
+
+\code{app$get_tabsets()} finds and returns all tabsets in an app.
+Tabsets that are in tabs that are not visible currently, are also
+returned. It returns a list of \code{\link{tabset}} objects.
 }
 \examples{
 \dontrun{
