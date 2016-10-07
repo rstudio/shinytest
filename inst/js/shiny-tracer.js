@@ -15,6 +15,38 @@ window.shinytest = (function() {
     };
 
 
+    shinytest.inputqueue = (function() {
+        var inputqueue = {};
+
+        var queue = [];
+
+        // Add a set of inputs to the queue. Format of `inputs` must be
+        // `{ input1: value1, input2: value2 }`.
+        inputqueue.add = function(inputs) {
+            for (var name in inputs) {
+                shinytest.log("inputqueue: pushing " + name + ":" + inputs[name]);
+                queue.push({
+                    name: name,
+                    value: inputs[name]
+                });
+            }
+        };
+
+        inputqueue.flush = function() {
+            queue.map(function(item) {
+                shinytest.log("inputqueue: flushing " + item.name + ":" + item.value);
+                var $el = $("#" + item.name);
+                $el.data("shinyInputBinding").setValue($el[0], item.value);
+                $el.trigger("change");
+            });
+
+            queue = [];
+        };
+
+        return inputqueue;
+    })();
+
+
     $(document).on("shiny:connected", function(e) {
         shinytest.connected = true;
         shinytest.log("connected");
