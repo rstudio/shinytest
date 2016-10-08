@@ -14,12 +14,15 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   "!DEBUG create new phantomjs session"
   private$web <- session$new(port = private$phantom_port)
 
-  "!DEBUG navigate to Shiny app"
-  private$web$go(private$get_shiny_url())
-
   ## Set implicit timeout to zero. According to the standard it should
   ## be zero, but phantomjs uses about 200 ms
   private$web$set_timeout(implicit = 0)
+
+  ## Set window size, the phantom default is too small
+  private$web$get_window()$set_size(992, 744)
+
+  "!DEBUG navigate to Shiny app"
+  private$web$go(private$get_shiny_url())
 
   "!DEBUG wait until Shiny starts"
   load_ok <- private$web$wait_for(
