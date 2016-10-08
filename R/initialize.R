@@ -45,7 +45,21 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 
 app_start_shiny <- function(self, private, path) {
 
-  rcmd <- paste0("shinytest:::with_shinytest_js(shiny::runApp('", path, "'))")
+  assert_string(path)
+
+  libpath <- paste(deparse(.libPaths()), collapse = "")
+  rcmd <- sprintf(
+    paste(
+      sep = ";",
+      ".libPaths(c(%s, .libPaths()))",
+      "shinytest:::with_shinytest_js(shiny::runApp('%s'))"
+    ),
+    libpath,
+    path
+  )
+
+  ## On windows, if is better to use single quotes
+  rcmd <- gsub('"', "'", rcmd)
 
   Rexe <- if (is_windows()) "R.exe" else "R"
   Rbin <- file.path(R.home("bin"), Rexe)
