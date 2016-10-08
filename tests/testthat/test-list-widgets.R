@@ -3,7 +3,8 @@ context("list widgets")
 
 test_that("list input & output widgets", {
   app <- shinyapp$new("apps/081-widgets-gallery")
-  inputs <- app$list_input_widgets()
+  widgets <- app$list_widgets()
+  inputs <- widgets$input
 
   expect_equal(
     sort(inputs),
@@ -11,7 +12,7 @@ test_that("list input & output widgets", {
            "num", "radio", "select", "slider1", "slider2", "text"))
   )
 
-  outputs <- app$list_output_widgets()
+  outputs <- widgets$output
   expect_equal(
     sort(outputs),
     sort(c("actionOut", "checkboxOut", "checkGroupOut", "dateOut",

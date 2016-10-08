@@ -22,6 +22,8 @@ w$get_value()
 w$set_value(value)
 
 w$send_keys(keys)
+
+w$list_tabs()
 }
 }
 
@@ -78,6 +80,9 @@ arguments. TODO: list widgets and types.
 
 \code{w$send_keys} sends the specified keys to the HTML element of the
 widget.
+
+\code{w$list_tabs} lists the tab names of a \code{tabsetPanel} widget.
+It fails for other types of widgets.
 }
 \examples{
 {

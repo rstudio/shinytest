@@ -30,9 +30,7 @@
 #'
 #' app$wait_for(expr, check_interval = 100, timeout = 3000)
 #'
-#' app$list_input_widgets()
-#'
-#' app$list_output_widgets()
+#' app$list_widgets()
 #'
 #' app$check_unique_widget_names()
 #'
@@ -149,9 +147,9 @@
 #' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 #' expression evaluated to \code{true}, possible after some waiting.
 #'
-#' \code{app$list_input_widgets()} lists the names of all input widgets.
-#'
-#' \code{app$list_output_widgets()} lists the names of all output widgets.
+#' \code{app$list_widgets()} lists the names of all input and output
+#' widgets. It returns a list of two character vectors, named \code{input}
+#' and \code{output}.
 #'
 #' \code{app$check_unique_widget_names()} checks if Shiny widget names
 #' are unique.
@@ -246,11 +244,8 @@ shinyapp <- R6Class(
     wait_for = function(expr, check_interval = 100, timeout = 3000)
       app_wait_for(self, private, expr, check_interval, timeout),
 
-    list_input_widgets = function()
-      app_list_input_widgets(self, private),
-
-    list_output_widgets = function()
-      app_list_output_widgets(self, private),
+    list_widgets = function()
+      app_list_widgets(self, private),
 
     check_unique_widget_names = function()
       app_check_unique_widget_names(self, private),
@@ -343,27 +338,21 @@ app_wait_for <- function(self, private, expr, check_interval, timeout) {
   private$web$wait_for(expr, check_interval, timeout)
 }
 
-app_list_input_widgets <- function(self, private) {
-  "!DEBUG app_list_input_widgets"
-  elements <- self$find_elements(css = ".shiny-bound-input")
-  vapply(elements, function(e) e$get_attribute("id"), "")
-}
-
-app_list_output_widgets <- function(self, private) {
-  "!DEBUG app_list_output_widgets"
-  elements <- self$find_elements(css = ".shiny-bound-output")
-  vapply(elements, function(e) e$get_attribute("id"), "")
+app_list_widgets <- function(self, private) {
+  "!DEBUG app_list_widgets"
+  res <- private$web$execute_script("return shinytest.listWidgets();")
+  res$input <- unlist(res$input)
+  res$output <- unlist(res$output)
+  res
 }
 
 app_check_unique_widget_names <- function(self, private) {
   "!DEBUG app_check_unique_widget_names"
-  inputs <- self$list_input_widgets()
-  outputs <- self$list_output_widgets()
+  widgets <- self$list_widgets()
+  inputs <- widgets$input
+  outputs <- widgets$output
 
   check <- function(what, ids) {
-    sel <- paste0("#", ids, collapse = ",")
-    widgets <- private$web$find_elements(css = sel)
-    ids <- vapply(widgets, function(e) e$get_attribute("id"), "")
     if (any(duplicated(ids))) {
       dup <- paste(unique(ids[duplicated(ids)]), collapse = ", ")
       warning("Possible duplicate ", what, " widget ids: ", dup)

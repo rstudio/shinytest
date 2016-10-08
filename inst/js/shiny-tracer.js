@@ -47,6 +47,27 @@ window.shinytest = (function() {
     })();
 
 
+    shinytest.listWidgets = function() {
+
+	function getids(els) {
+	    return els.map(function(){ return $(this).attr("id"); }).get();
+	}
+
+	// This is a trick to find duplicate ids
+	function get(selector) {
+	    var els = $(selector);
+	    return getids(els)
+		.map(function(x) {
+		    var id = '#' + x + ',' + '#' + x;
+		    return getids($(id))
+		});
+	}
+
+	return { 'input':  get('.shiny-bound-input'),
+		 'output': get('.shiny-bound-output') };
+    };
+
+
     $(document).on("shiny:connected", function(e) {
         shinytest.connected = true;
         shinytest.log("connected");
