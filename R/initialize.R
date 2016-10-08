@@ -18,9 +18,6 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   ## be zero, but phantomjs uses about 200 ms
   private$web$set_timeout(implicit = 0)
 
-  ## Set window size, the phantom default is too small
-  private$web$get_window()$set_size(992, 744)
-
   "!DEBUG navigate to Shiny app"
   private$web$go(private$get_shiny_url())
 
