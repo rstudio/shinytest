@@ -45,7 +45,7 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 
 app_start_shiny <- function(self, private, path) {
 
-  assert_string(path)
+  assert_that(is_string(path))
 
   libpath <- paste(deparse(.libPaths()), collapse = "")
   rcmd <- sprintf(
@@ -98,8 +98,11 @@ app_start_shiny <- function(self, private, path) {
 
   "!DEBUG shiny up and running, port `m[, 'port']`"
 
-  private$shiny_host <- assert_host(m[, "host"])
-  private$shiny_port <- assert_port(as.integer(m[, "port"]))
+  assert_that(is_host(host <- m[, "host"]))
+  assert_that(is_port(port <- as.integer(m[, "port"])))
+
+  private$shiny_host <- host
+  private$shiny_port <- port
   private$shiny_process <- sh
 }
 

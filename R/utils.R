@@ -35,8 +35,8 @@ package_version <- function(pkg = packageName()) {
 }
 
 `%+%` <- function(l, r) {
-  assert_string(l)
-  assert_string(r)
+  assert_that(is_string(l))
+  assert_that(is_string(r))
   paste0(l, r)
 }
 

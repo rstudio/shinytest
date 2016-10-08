@@ -1,66 +1,84 @@
 
-assert_string <- function(x) {
-  stopifnot(
-    is.character(x),
-    length(x) == 1,
-    !is.na(x)
+#' @importFrom assertthat assert_that on_failure<-
+
+is_string <- function(x) {
+  is.character(x) && length(x) == 1 && !is.na(x)
+}
+
+on_failure(is_string) <- function(call, env) {
+  paste0(deparse(call$x), " is not a string (length 1 character)")
+}
+
+is_host <- function(x) {
+  assert_that(is_string(x))
+}
+
+on_failure(is_host) <- function(call, env) {
+  paste0(deparse(call$x), " does not look like a host name")
+}
+
+is_count <- function(x) {
+  is.numeric(x) && length(x) == 1 && as.integer(x) == x
+}
+
+on_failure(is_count) <- function(call, env) {
+  paste0(deparse(call$x), " is not a count (length 1 integer)")
+}
+
+is_port <- function(x) {
+  assert_that(is_count(x))
+}
+
+on_failure(is_port) <- function(call, env) {
+  paste0(deparse(call$x), " is not a port number")
+}
+
+is_all_named <- function(x) {
+  !is.null(names(x)) && all(names(x) != "")
+}
+
+on_failure(is_all_named) <- function(call, env) {
+  paste0(deparse(call$x), " has entries without names")
+}
+
+is_date <- function(x) {
+  inherits(x, "Date")
+}
+
+on_failure(is_date) <- function(call, env) {
+  paste0(deparse(call$x), " is not a date or vector of dates")
+}
+
+is_date_range <- function(x) {
+  assert_that(is_date(x))
+  length(x) == 2
+}
+
+on_failure(is_date_range) <- function(call, env) {
+  paste0(deparse(call$x), " is not a date range (length 2 date vector)")
+}
+
+is_scalar_number <- function(x) {
+  is.numeric(x) && length(x) == 1 && ! is.na(x)
+}
+
+on_failure(is_scalar_number) <- function(call, env) {
+  paste0(deparse(call$x), " is not a scalar number")
+}
+
+is_numeric <- function(x, .length = 1) {
+  is.numeric(x) && length(x) == .length &&  all(! is.na(x))
+}
+
+on_failure(is_numeric) <- function(call, env) {
+  paste0(
+    deparse(call$x),
+    " is not length ", env$.length, " numeric or has missing values"
   )
-  x
 }
 
-assert_host <- assert_string
-
-assert_integerish <- function(x) {
-  stopifnot(
-    is.numeric(x),
-    length(x) == 1,
-    as.integer(x) == x
-  )
-  x
-}
-
-assert_port <- assert_integerish
-
-assert_count <- assert_integerish
-
-assert_character <- function(x) {
-  stopifnot(is.character(x))
-}
-
-assert_all_named <- function(x) {
-  stopifnot(
-    !is.null(names(x)),
-    all(names(x) != "")
-  )
-}
-
-assert_date <- function(x) {
-  stopifnot(inherits(x, "Date"))
-}
-
-assert_date_range <- function(x) {
-  assert_date(x)
-  stopifnot(length(x) == 2)
-}
-
-assert_scalar_number <- function(x) {
-  stopifnot(
-    is.numeric(x),
-    length(x) == 1,
-    ! is.na(x)
-  )
-}
-
-assert_numeric <- function(x, .length = 1) {
-  stopifnot(
-    is.numeric(x),
-    length(x) == .length,
-    all(! is.na(x))
-  )
-}
-
-assert_debug <- function(x) {
-  assert_character(x)
+as_debug <- function(x) {
+  assert_that(is.character(x))
   x <- unique(x)
 
   miss <- ! x %in% c(shinyapp$debug_log_types, c("all", "none"))

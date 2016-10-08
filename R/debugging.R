@@ -1,7 +1,7 @@
 
 app_setup_debugging <- function(self, private, debug) {
   "!DEBUG app_setup_debugging"
-  debug <- assert_debug(debug)
+  debug <- as_debug(debug)
 
   if (length(debug)) {
     ## TODO: poll the logs
@@ -11,7 +11,7 @@ app_setup_debugging <- function(self, private, debug) {
 app_get_debug_log <- function(self, private, type) {
   "!DEBUG app_get_debug_log"
 
-  type <- assert_debug(type)
+  type <- as_debug(type)
 
   output <- list()
 

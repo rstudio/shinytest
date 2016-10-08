@@ -36,10 +36,10 @@ app_expect_update <- function(self, private, output, ..., timeout,
                               iotype) {
   "!DEBUG app_expect_update `paste(output, collapse = ', ')`"
 
-  assert_character(output)
-  assert_all_named(inputs <- list(...))
-  assert_count(timeout)
-  assert_string(iotype)
+  assert_that(is.character(output))
+  assert_that(is_all_named(inputs <- list(...)))
+  assert_that(is_count(timeout))
+  assert_that(is_string(iotype))
 
   ## Make note of the expected updates. They will be ticked off
   ## one by one by the JS event handler in shiny-tracer.js
