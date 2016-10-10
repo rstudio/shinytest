@@ -34,7 +34,7 @@ on_failure(is_port) <- function(call, env) {
 }
 
 is_all_named <- function(x) {
-  !is.null(names(x)) && all(names(x) != "")
+  length(names(x)) == length(x) && all(names(x) != "")
 }
 
 on_failure(is_all_named) <- function(call, env) {
