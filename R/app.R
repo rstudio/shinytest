@@ -261,13 +261,7 @@ shinyapp <- R6Class(
                         iotype = match.arg(iotype)),
 
     set_inputs = function(...)
-      app_set_inputs(self, private, ...),
-
-    queue_inputs = function(...)
-      app_queue_inputs(self, private, ...),
-
-    flush_inputs = function()
-      app_flush_inputs(self, private)
+      app_set_inputs(self, private, ...)
   ),
 
   private = list(
@@ -288,7 +282,13 @@ shinyapp <- R6Class(
       app_get_shiny_url(self, private),
 
     setup_debugging = function(debug)
-      app_setup_debugging(self, private, debug)
+      app_setup_debugging(self, private, debug),
+
+    queue_inputs = function(...)
+      app_queue_inputs(self, private, ...),
+
+    flush_inputs = function()
+      app_flush_inputs(self, private)
   )
 )
 
