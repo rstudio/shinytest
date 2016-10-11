@@ -24,7 +24,7 @@ window.shinytest = (function() {
         // `{ input1: value1, input2: value2 }`.
         inputqueue.add = function(inputs) {
             for (var name in inputs) {
-                shinytest.log("inputqueue: pushing " + name + ":" + inputs[name]);
+                shinytest.log("inputqueue: adding " + name);
                 queue.push({
                     name: name,
                     value: inputs[name]
@@ -34,7 +34,7 @@ window.shinytest = (function() {
 
         inputqueue.flush = function() {
             queue.map(function(item) {
-                shinytest.log("inputqueue: flushing " + item.name + ":" + item.value);
+                shinytest.log("inputqueue: flushing " + item.name);
                 var $el = $("#" + item.name);
                 $el.data("shinyInputBinding").setValue($el[0], item.value);
                 $el.trigger("change");
