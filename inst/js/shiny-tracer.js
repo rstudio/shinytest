@@ -67,6 +67,14 @@ window.shinytest = (function() {
 		 'output': get('.shiny-bound-output') };
     };
 
+    // Returns values from input or output bindings
+    shinytest.getAllValues = function(ids) {
+        return {
+            inputs: Shiny.shinyapp.$inputValues,
+            outputs: Shiny.shinyapp.$values,
+            errors: Shiny.shinyapp.$errors
+        };
+    };
 
     $(document).on("shiny:connected", function(e) {
         shinytest.connected = true;

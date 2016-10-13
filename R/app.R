@@ -197,6 +197,9 @@ shinyapp <- R6Class(
     set_value = function(name, value, iotype = c("auto", "input", "output"))
       app_set_value(self, private, name, value, match.arg(iotype)),
 
+    get_all_values = function()
+      app_get_all_values(self, private),
+
     send_keys = function(name = NULL, keys)
       app_send_keys(self, private, name, keys),
 
@@ -261,7 +264,10 @@ shinyapp <- R6Class(
                         iotype = match.arg(iotype)),
 
     set_inputs = function(...)
-      app_set_inputs(self, private, ...)
+      app_set_inputs(self, private, ...),
+
+    expect_outputs = function(...)
+      app_expect_outputs(self, private, ...)
   ),
 
   private = list(
@@ -288,7 +294,10 @@ shinyapp <- R6Class(
       app_queue_inputs(self, private, ...),
 
     flush_inputs = function()
-      app_flush_inputs(self, private)
+      app_flush_inputs(self, private),
+
+    get_outputs = function(outputs)
+      app_get_outputs(self, private, outputs)
   )
 )
 
@@ -307,6 +316,13 @@ app_set_value <- function(self, private, name, value, iotype) {
   "!DEBUG app_set_value `name`"
   self$find_widget(name, iotype)$set_value(value)
   invisible(self)
+}
+
+app_get_all_values <- function(self, private) {
+  "!DEBUG app_get_all_values"
+  private$web$execute_script(
+    "return shinytest.getAllValues();"
+  )
 }
 
 app_send_keys <- function(self, private, name, keys) {
