@@ -322,13 +322,6 @@ app_set_value <- function(self, private, name, value, iotype) {
   invisible(self)
 }
 
-app_get_all_values <- function(self, private) {
-  "!DEBUG app_get_all_values"
-  private$web$execute_script(
-    "return shinytest.getAllValues();"
-  )
-}
-
 app_send_keys <- function(self, private, name, keys) {
   "!DEBUG app_send_keys `name`"
   self$find_widget(name)$send_keys(keys)

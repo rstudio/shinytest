@@ -18,7 +18,7 @@ Imports:
     processx,
     R6,
     rematch,
-    shiny,
+    shiny (>= 0.14.1.9001),
     testthat (>= 1.0.0),
     utils,
     webdriver,
