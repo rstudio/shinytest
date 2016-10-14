@@ -41,10 +41,79 @@ window.shinytest = (function() {
             });
 
             queue = [];
+        }
+
+        // Async wrapper for flush(). If wait==true, then wait for a message
+        // coming back from server before invoking callback. If
+        // returnValues==true, pass all input, output, and error values to the
+        // callback.
+        inputqueue.flushAndWaitAsync = function(wait, returnValues, timeout,
+                                                callback)
+        {
+            if (wait) {
+                var callbackWrapper = function() {
+                    if (returnValues)
+                        callback(shinytest.getAllValues());
+                    else
+                        callback();
+                };
+
+                waitForOutputValues(timeout, callbackWrapper);
+            }
+
+            inputqueue.flush();
+
+            if (!wait) {
+                if (returnValues)
+                    throw "Can't return values without waiting."
+                else
+                    callback();
+            }
         };
 
         return inputqueue;
     })();
+
+
+    // This waits for a shiny:message event to occur, where the messsage
+    // contains a field named `values`. That is a message from the server with
+    // output values. When that occurs, invoke the callback. Or, if timeout
+    // elapses without seeing such a message, invoke the callback.
+    var waitForOutputValues = function(timeout, callback) {
+        if (timeout === undefined) timeout = 1000;
+
+        // This is a bit of a hack: we want the callback to be invoked _after_
+        // the outputs are assigned. Because the shiny:message event is
+        // triggered just before the output values are assigned, we need to
+        // wait for the next tick of the eventloop.
+        var callbackWrapper = function() {
+            setTimeout(callback, 0);
+        };
+
+        // Check that a message contains `values` field.
+        function checkMessage(e) {
+            if (e.message && e.message.values) {
+                shinytest.log("Found message with values field.");
+
+                $(document).off("shiny:message", checkMessage);
+                clearTimeout(timeoutCallback);
+
+                callbackWrapper();
+            }
+        }
+
+        $(document).on("shiny:message", checkMessage);
+
+        // If timeout elapses without finding message, remove listener and
+        // invoke callback.
+        var timeoutCallback = setTimeout(function() {
+            shinytest.log("Timed out without finding message with values field.");
+
+            $(document).off("shiny:message", checkMessage);
+
+            callbackWrapper();
+        }, timeout);
+    }
 
 
     shinytest.listWidgets = function() {
