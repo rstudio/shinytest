@@ -4,7 +4,8 @@ window.shinytest = (function() {
         busy: null,
         updating: [],
         log_entries: [],
-        entries_shown: 0
+        entries_shown: 0,
+        log_messages: false
     };
 
     shinytest.log = function(message) {
@@ -158,6 +159,11 @@ window.shinytest = (function() {
     $(document).on("shiny:idle", function(e) {
         shinytest.busy = false;
         shinytest.log("idle");
+    });
+
+    $(document).on("shiny:message", function(e) {
+        if (shinytest.log_messages)
+            shinytest.log("message: " + JSON.stringify(e.message));
     });
 
     $(document).on("shiny:value", function(e) {

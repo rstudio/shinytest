@@ -214,6 +214,9 @@ shinyapp <- R6Class(
     get_debug_log = function(type = c("all", shinyapp$debug_log_types))
       app_get_debug_log(self, private, match.arg(type, several.ok = TRUE)),
 
+    enable_debug_log_messages = function(enable = TRUE)
+      app_enable_debug_log_messages(self, private, enable),
+
     ## These are just forwarded to the webdriver session
 
     get_url = function()
