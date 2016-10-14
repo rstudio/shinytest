@@ -268,7 +268,7 @@ shinyapp <- R6Class(
 
     set_inputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 1000)
       app_set_inputs(self, private, ..., wait_ = wait_, values_ = values_,
-                     timeout_ = 1000)
+                     timeout_ = timeout_)
   ),
 
   private = list(
