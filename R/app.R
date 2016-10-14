@@ -103,6 +103,12 @@
 #' \code{app$get_value()} finds a widget and queries its value. See
 #' the \code{get_value} method of the \code{\link{widget}} class.
 #'
+#' \code{app$set_inputs()} sets the value of inputs. The arguments must all
+#' be named; an input with each name will be assigned the given value.
+#'
+#' \code{app$get_all_values()} returns a named list of all inputs, outputs,
+#' and error values.
+#'
 #' \code{app$set_value()} finds a widget and sets its value. See the
 #' \code{set_value} method of the \code{\link{widget}} class.
 #'
