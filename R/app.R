@@ -268,10 +268,7 @@ shinyapp <- R6Class(
 
     set_inputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 1000)
       app_set_inputs(self, private, ..., wait_ = wait_, values_ = values_,
-                     timeout_ = 1000),
-
-    expect_outputs = function(...)
-      app_expect_outputs(self, private, ...)
+                     timeout_ = 1000)
   ),
 
   private = list(
@@ -298,10 +295,7 @@ shinyapp <- R6Class(
       app_queue_inputs(self, private, ...),
 
     flush_inputs = function(wait = TRUE, returnValues = TRUE, timeout = 1000)
-      app_flush_inputs(self, private, wait, returnValues, timeout),
-
-    get_outputs = function(outputs)
-      app_get_outputs(self, private, outputs)
+      app_flush_inputs(self, private, wait, returnValues, timeout)
   )
 )
 
