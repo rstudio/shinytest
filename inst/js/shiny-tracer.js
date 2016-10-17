@@ -34,15 +34,33 @@ window.shinytest = (function() {
         };
 
         inputqueue.flush = function() {
-            queue.map(function(item) {
+
+            function flushItem(item) {
                 shinytest.log("inputQueue: flushing " + item.name);
                 var $el = $("#" + item.name);
+                var msg;
+
+                if ($el.length === 0) {
+                    msg = "Unable to find element with id " + item.name;
+                    shinytest.log("  " + msg);
+                    throw msg;
+                }
+                if ($el.data("shinyInputBinding") === undefined) {
+                    msg = "Unable to find input binding for element with id " + item.name;
+                    shinytest.log("  " + msg);
+                    throw msg;
+                }
+
                 $el.data("shinyInputBinding").setValue($el[0], item.value);
                 $el.trigger("change");
-            });
+            }
 
-            queue = [];
-        }
+            try {
+                queue.map(flushItem);
+            } finally {
+                queue = [];
+            }
+        };
 
         // Async wrapper for flush(). If wait==true, then wait for a message
         // coming back from server before invoking callback. If
