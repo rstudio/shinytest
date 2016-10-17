@@ -84,7 +84,7 @@ window.shinytest = (function() {
 
             if (!wait) {
                 if (returnValues)
-                    throw "Can't return values without waiting."
+                    throw "Can't return values without waiting.";
                 else
                     callback();
             }
@@ -132,7 +132,7 @@ window.shinytest = (function() {
 
             callbackWrapper();
         }, timeout);
-    }
+    };
 
 
     shinytest.listWidgets = function() {
@@ -147,7 +147,7 @@ window.shinytest = (function() {
 	    return getids(els)
 		.map(function(x) {
 		    var id = '#' + x + ',' + '#' + x;
-		    return getids($(id))
+		    return getids($(id));
 		});
 	}
 
