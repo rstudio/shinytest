@@ -21,7 +21,7 @@ app_queue_inputs <- function(self, private, ...) {
 }
 
 app_flush_inputs <- function(self, private, wait, returnValues, timeout) {
-  private$web$execute_script_async(
+  res <- private$web$execute_script_async(
     "var wait = arguments[0];
     var returnValues = arguments[1];
     var timeout = arguments[2];
@@ -31,4 +31,13 @@ app_flush_inputs <- function(self, private, wait, returnValues, timeout) {
     returnValues,
     timeout
   )
+
+  # Treatmeent of res$inputs here is the same as in app_get_all_values. We don't
+  # call that function to get the values because it involves a separate
+  # execute_script_async call, which may introduce timing problems.
+  if (!is.null(res$inputs)) {
+    res$inputs <- shiny::applyInputHandlers(res$inputs)
+  }
+
+  res
 }
