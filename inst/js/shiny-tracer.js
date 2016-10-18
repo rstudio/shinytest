@@ -28,7 +28,7 @@ window.shinytest = (function() {
                 shinytest.log("inputQueue: adding " + name);
                 queue.push({
                     name: name,
-                    value: preprocess(name, inputs[name])
+                    value: inputs[name]
                 });
             }
         };
@@ -38,9 +38,10 @@ window.shinytest = (function() {
             function flushItem(item) {
                 shinytest.log("inputQueue: flushing " + item.name);
                 var $el = $("#" + item.name);
-                var binding = findInputBinding(item.name);
+                var binding = findInputBinding($el[0]);
+                var value = preprocess($el[0], item.value);
 
-                binding.setValue($el[0], item.value);
+                binding.setValue($el[0], value);
                 $el.trigger("change");
             }
 
@@ -86,22 +87,31 @@ window.shinytest = (function() {
         // element vector or list, while the `setValue()` requires an object
         // with `start` and `end`.
         inputqueue.preprocessors = {
-            "shiny.dateRangeInput": function(value) {
+            "shiny.dateRangeInput": function(el, value) {
                 if (!(value instanceof Array)) {
-                    throw "Value for shiny.dateRangeInput must be an array.";
+                    throw "Value for dateRangeInput must be an array.";
                 }
 
                 return {
                     start: value[0],
                     end:   value[1]
                 };
+            },
+
+            "shiny.actionButtonInput": function(el, value) {
+                if (!(value === "click")) {
+                    throw 'The only valid value for an actionButton is "click".';
+                }
+
+                // Instead of setting a value, we'll just trigger a click.
+                $(el).trigger("click");
             }
         };
 
         // Given a DOM ID, return the input binding for that element; if not
         // found, throw an error.
-        function findInputBinding(id) {
-            var $el = $("#" + id);
+        function findInputBinding(el) {
+            var $el = $(el);
             if ($el.length === 0 || !$el.data("shinyInputBinding")) {
                 var msg = "Unable to find input binding for ID " + id;
                 shinytest.log("  " + msg);
@@ -114,11 +124,11 @@ window.shinytest = (function() {
         // Given a DOM ID and value, find the input binding for that DOM
         // element and run appropriate preprocessor, if present. If no
         // preprocessor, simply return the value.
-        function preprocess(id, value) {
-            var binding = findInputBinding(id);
+        function preprocess(el, value) {
+            var binding = findInputBinding(el);
 
             if (inputqueue.preprocessors[binding.name])
-                return inputqueue.preprocessors[binding.name](value);
+                return inputqueue.preprocessors[binding.name](el, value);
             else
                 return value;
         }

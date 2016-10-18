@@ -6,6 +6,10 @@ test_that("app$set_inputs for all input widgets", {
 
   # Check initial values
   x <- app$get_all_values()
+  expect_identical(
+    x$inputs$action,
+    structure(0L, class = c("integer", "shinyActionButtonValue"))
+  )
   expect_identical(x$inputs$checkbox, TRUE)
   expect_identical(x$inputs$checkGroup, "1")
   expect_identical(x$inputs$date, as.Date("2014-01-01"))
@@ -19,6 +23,7 @@ test_that("app$set_inputs for all input widgets", {
 
   # Set inputs
   x <- app$set_inputs(
+    action = "click",
     checkbox = FALSE,
     checkGroup = c("2", "3"),
     date = as.Date("2016-01-01"),
@@ -31,6 +36,14 @@ test_that("app$set_inputs for all input widgets", {
     text = "Hello"
   )
 
+  expect_identical(
+    x$inputs$action,
+    structure(1L, class = c("integer", "shinyActionButtonValue"))
+  )
+  expect_identical(
+    '[1] 1\nattr(,"class")\n[1] "integer"                "shinyActionButtonValue"',
+    x$outputs$actionOut
+  )
   expect_identical(x$inputs$checkbox, FALSE)
   expect_identical(x$outputs$checkboxOut, "[1] FALSE")
   expect_identical(x$inputs$checkGroup, c("2", "3"))
