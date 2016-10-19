@@ -1,9 +1,8 @@
 context("app$set_inputs")
 
+app <- shinyapp$new(test_path("apps/081-widgets-gallery"))
 
 test_that("app$set_inputs for all input widgets", {
-  app <- shinyapp$new(test_path("apps/081-widgets-gallery"))
-
   # Check initial values
   x <- app$get_all_values()
   expect_identical(
@@ -64,4 +63,10 @@ test_that("app$set_inputs for all input widgets", {
   expect_identical(x$outputs$slider2Out, "[1] 10 90")
   expect_identical(x$inputs$text, "Hello")
   expect_identical(x$outputs$textOut, '[1] "Hello"')
+})
+
+
+test_that("app$upload_file for file inputs", {
+  x <- app$upload_file(file = test_path("apps/081-widgets-gallery/DESCRIPTION"))
+  expect_true(grepl("DESCRIPTION", x$outputs$fileOut))
 })
