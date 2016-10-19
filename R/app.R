@@ -106,6 +106,10 @@
 #' \code{app$set_inputs()} sets the value of inputs. The arguments must all
 #' be named; an input with each name will be assigned the given value.
 #'
+#' \code{app$upload_file()} uploads a file to a file input. The argument must
+#' be named and the value must be the path to a local file; that file will be
+#' uploaded to a file input with that name.
+#'
 #' \code{app$get_all_values()} returns a named list of all inputs, outputs,
 #' and error values.
 #'
@@ -274,7 +278,11 @@ shinyapp <- R6Class(
 
     set_inputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
       app_set_inputs(self, private, ..., wait_ = wait_, values_ = values_,
-                     timeout_ = timeout_)
+                     timeout_ = timeout_),
+
+    upload_file = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
+      app_upload_file(self, private, ..., wait_ = wait_, values_ = values_,
+                      timeout_ = timeout_)
   ),
 
   private = list(

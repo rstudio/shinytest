@@ -52,16 +52,6 @@ window.shinytest = (function() {
             }
         };
 
-        // Async wrapper for flush(). If wait==true, then wait for a message
-        // from server containing output values before invoking callback. If
-        // returnValues==true, pass all input, output, and error values to the
-        // callback.
-        inputqueue.flushAndReturnValuesAsync = function(wait, returnValues, timeout,
-                                                        callback) {
-            doAndReturnValuesAsync(inputqueue.flush, wait, returnValues, timeout,
-                                   callback);
-        };
-
         // Some input need their values preprocessed, because the value passed
         // to the R function `app$set_inputs()`, differs in structure from the
         // value used in the JavaScript function `InputBinding.setValue()`.
@@ -123,15 +113,46 @@ window.shinytest = (function() {
     })();
 
 
-    // Async wrapper for a function fn. After invoking fn(), the callback
-    // function will be called. If wait==true, then wait for a message from
-    // server containing output values before invoking callback. If
-    // returnValues==true, pass all input, output, and error values to the
-    // callback. If `timeout` ms elapses without a message arriving, invoke
-    // the callback.
-    function doAndReturnValuesAsync(fn, wait, returnValues, timeout, callback)
-    {
-        if (wait) {
+    // Async wrapper object. Should be invoked like this:
+    //
+    // shinytest.outputWaiter.start(timeout);
+    // someFunction();
+    // shinytest.outputWaiter.finish(wait, returnValues, callback);",
+    //
+    // Where `someFunction` is a function that does the desired work. The
+    // reason that the callback function must be passed to the `finish()`
+    // instead of `start()` is because calling `execute_script_async()` from
+    // the remote machine converts it into a synchronous call.
+    //
+    // If wait==true, then wait for a message from server containing output
+    // values before invoking callback. If returnValues==true, pass all input,
+    // output, and error values to the callback. If `timeout` ms elapses
+    // without a message arriving, invoke the callback.
+    shinytest.outputWaiter = (function() {
+        var found = false;
+        var finishCallback = null;
+
+        function start(timeout) {
+            if (finishCallback !== null) {
+                throw "Can't start while already waiting";
+            }
+
+            found = false;
+
+            waitForOutputValues(timeout, function() {
+                found = true;
+                if (finishCallback) {
+                    var tmp = finishCallback;
+                    finishCallback = null;
+                    tmp();
+                }
+            });
+        }
+
+        function finish(wait, returnValues, callback) {
+            if (!callback)
+                throw "finish(): callback function is required.";
+
             var callbackWrapper = function() {
                 if (returnValues)
                     callback(shinytest.getAllValues());
@@ -139,18 +160,18 @@ window.shinytest = (function() {
                     callback();
             };
 
-            waitForOutputValues(timeout, callbackWrapper);
+            if (found || !wait) {
+                callbackWrapper();
+            } else {
+                finishCallback = callbackWrapper;
+            }
         }
 
-        fn();
-
-        if (!wait) {
-            if (returnValues)
-                throw "Can't return values without waiting.";
-            else
-                callback();
-        }
-    }
+        return {
+            start: start,
+            finish: finish
+        };
+    })();
 
 
     // This waits for a shiny:message event to occur, where the messsage
