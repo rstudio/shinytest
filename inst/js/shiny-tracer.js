@@ -53,31 +53,13 @@ window.shinytest = (function() {
         };
 
         // Async wrapper for flush(). If wait==true, then wait for a message
-        // coming back from server before invoking callback. If
+        // from server containing output values before invoking callback. If
         // returnValues==true, pass all input, output, and error values to the
         // callback.
-        inputqueue.flushAndWaitAsync = function(wait, returnValues, timeout,
-                                                callback)
-        {
-            if (wait) {
-                var callbackWrapper = function() {
-                    if (returnValues)
-                        callback(shinytest.getAllValues());
-                    else
-                        callback();
-                };
-
-                waitForOutputValues(timeout, callbackWrapper);
-            }
-
-            inputqueue.flush();
-
-            if (!wait) {
-                if (returnValues)
-                    throw "Can't return values without waiting.";
-                else
-                    callback();
-            }
+        inputqueue.flushAndReturnValuesAsync = function(wait, returnValues, timeout,
+                                                        callback) {
+            doAndReturnValuesAsync(inputqueue.flush, wait, returnValues, timeout,
+                                   callback);
         };
 
         // Some input need their values preprocessed, because the value passed
@@ -139,6 +121,36 @@ window.shinytest = (function() {
 
         return inputqueue;
     })();
+
+
+    // Async wrapper for a function fn. After invoking fn(), the callback
+    // function will be called. If wait==true, then wait for a message from
+    // server containing output values before invoking callback. If
+    // returnValues==true, pass all input, output, and error values to the
+    // callback. If `timeout` ms elapses without a message arriving, invoke
+    // the callback.
+    function doAndReturnValuesAsync(fn, wait, returnValues, timeout, callback)
+    {
+        if (wait) {
+            var callbackWrapper = function() {
+                if (returnValues)
+                    callback(shinytest.getAllValues());
+                else
+                    callback();
+            };
+
+            waitForOutputValues(timeout, callbackWrapper);
+        }
+
+        fn();
+
+        if (!wait) {
+            if (returnValues)
+                throw "Can't return values without waiting.";
+            else
+                callback();
+        }
+    }
 
 
     // This waits for a shiny:message event to occur, where the messsage

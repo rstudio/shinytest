@@ -26,7 +26,7 @@ app_flush_inputs <- function(self, private, wait, returnValues, timeout) {
     var returnValues = arguments[1];
     var timeout = arguments[2];
     var callback = arguments[3];
-    shinytest.inputQueue.flushAndWaitAsync(wait, returnValues, timeout, callback);",
+    shinytest.inputQueue.flushAndReturnValuesAsync(wait, returnValues, timeout, callback);",
     wait,
     returnValues,
     timeout
