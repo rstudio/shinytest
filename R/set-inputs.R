@@ -1,5 +1,5 @@
 app_set_inputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                           timeout_ = 1000) {
+                           timeout_ = 3000) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")

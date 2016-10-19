@@ -272,7 +272,7 @@ shinyapp <- R6Class(
       app_expect_update(self, private, output, ..., timeout = timeout,
                         iotype = match.arg(iotype)),
 
-    set_inputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 1000)
+    set_inputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
       app_set_inputs(self, private, ..., wait_ = wait_, values_ = values_,
                      timeout_ = timeout_)
   ),

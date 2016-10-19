@@ -142,7 +142,7 @@ window.shinytest = (function() {
     // output values. When that occurs, invoke the callback. Or, if timeout
     // elapses without seeing such a message, invoke the callback.
     var waitForOutputValues = function(timeout, callback) {
-        if (timeout === undefined) timeout = 1000;
+        if (timeout === undefined) timeout = 3000;
 
         // This is a bit of a hack: we want the callback to be invoked _after_
         // the outputs are assigned. Because the shiny:message event is
