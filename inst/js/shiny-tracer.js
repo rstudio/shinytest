@@ -99,7 +99,7 @@ window.shinytest = (function() {
         function findInputBinding(el) {
             var $el = $(el);
             if ($el.length === 0 || !$el.data("shinyInputBinding")) {
-                var msg = "Unable to find input binding for ID " + id;
+                var msg = "Unable to find input binding for element";
                 shinytest.log("  " + msg);
                 throw msg;
             }
