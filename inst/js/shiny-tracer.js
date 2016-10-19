@@ -105,6 +105,10 @@ window.shinytest = (function() {
 
                 // Instead of setting a value, we'll just trigger a click.
                 $(el).trigger("click");
+            },
+
+            "shiny.fileInputBinding": function(el, value) {
+                throw "Setting value of fileInput is not supported.";
             }
         };
 
