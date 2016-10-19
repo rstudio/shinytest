@@ -99,7 +99,7 @@ window.shinytest = (function() {
             },
 
             "shiny.actionButtonInput": function(el, value) {
-                if (!(value === "click")) {
+                if (value !== "click") {
                     throw 'The only valid value for an actionButton is "click".';
                 }
 
