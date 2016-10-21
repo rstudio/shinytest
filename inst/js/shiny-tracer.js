@@ -115,20 +115,21 @@ window.shinytest = (function() {
 
     // Async wrapper object. Should be invoked like this:
     //
-    // shinytest.outputWaiter.start(timeout);
+    // shinytest.outputValuesWaiter.start(timeout);
     // someFunction();
-    // shinytest.outputWaiter.finish(wait, returnValues, callback);",
+    // shinytest.outputValuesWaiter.finish(wait, returnValues, callback);
     //
     // Where `someFunction` is a function that does the desired work. The
     // reason that the callback function must be passed to the `finish()`
     // instead of `start()` is because calling `execute_script_async()` from
-    // the remote machine converts it into a synchronous call.
+    // the R side is synchronous; it returns only when `callback()` is
+    // invoked.
     //
     // If wait==true, then wait for a message from server containing output
     // values before invoking callback. If returnValues==true, pass all input,
     // output, and error values to the callback. If `timeout` ms elapses
     // without a message arriving, invoke the callback.
-    shinytest.outputWaiter = (function() {
+    shinytest.outputValuesWaiter = (function() {
         var found = false;
         var finishCallback = null;
 

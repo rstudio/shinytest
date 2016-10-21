@@ -26,15 +26,15 @@ app_flush_inputs <- function(self, private, wait, returnValues, timeout) {
     var returnValues = arguments[1];
     var timeout = arguments[2];
     var callback = arguments[3];
-    shinytest.outputWaiter.start(timeout);
+    shinytest.outputValuesWaiter.start(timeout);
     shinytest.inputQueue.flush();
-    shinytest.outputWaiter.finish(wait, returnValues, callback);",
+    shinytest.outputValuesWaiter.finish(wait, returnValues, callback);",
     wait,
     returnValues,
     timeout
   )
 
-  # Treatmeent of res$inputs here is the same as in app_get_all_values. We don't
+  # Treatment of res$inputs here is the same as in app_get_all_values. We don't
   # call that function to get the values because it involves a separate
   # execute_script_async call, which may introduce timing problems.
   if (!is.null(res$inputs)) {
@@ -58,7 +58,7 @@ app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
 
   private$web$execute_script(
     "var timeout = arguments[0];
-    shinytest.outputWaiter.start(timeout);",
+    shinytest.outputValuesWaiter.start(timeout);",
     timeout_
   )
 
@@ -68,12 +68,12 @@ app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     "var wait = arguments[0];
     var returnValues = arguments[1];
     var callback = arguments[2];
-    shinytest.outputWaiter.finish(wait, returnValues, callback);",
+    shinytest.outputValuesWaiter.finish(wait, returnValues, callback);",
     wait_,
     values_
   )
 
-  # Treatmeent of res$inputs here is the same as in app_get_all_values. We don't
+  # Treatment of res$inputs here is the same as in app_get_all_values. We don't
   # call that function to get the values because it involves a separate
   # execute_script_async call, which may introduce timing problems.
   if (!is.null(res$inputs)) {
