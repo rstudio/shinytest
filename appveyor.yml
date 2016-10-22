@@ -17,6 +17,7 @@ build_script:
   - travis-tool.sh install_github gaborcsardi/debugme
   - travis-tool.sh install_github MangoTheCat/processx
   - travis-tool.sh install_github MangoTheCat/webdriver
+  - travis-tool.sh install_github rstudio/shiny
 
 test_script:
   - travis-tool.sh run_tests
