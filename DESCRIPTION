@@ -23,5 +23,6 @@ Imports:
     utils,
     webdriver,
     withr
+Remotes: rstudio/shiny
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
