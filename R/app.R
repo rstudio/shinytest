@@ -103,6 +103,16 @@
 #' \code{app$get_value()} finds a widget and queries its value. See
 #' the \code{get_value} method of the \code{\link{widget}} class.
 #'
+#' \code{app$set_inputs()} sets the value of inputs. The arguments must all
+#' be named; an input with each name will be assigned the given value.
+#'
+#' \code{app$upload_file()} uploads a file to a file input. The argument must
+#' be named and the value must be the path to a local file; that file will be
+#' uploaded to a file input with that name.
+#'
+#' \code{app$get_all_values()} returns a named list of all inputs, outputs,
+#' and error values.
+#'
 #' \code{app$set_value()} finds a widget and sets its value. See the
 #' \code{set_value} method of the \code{\link{widget}} class.
 #'
@@ -197,6 +207,9 @@ shinyapp <- R6Class(
     set_value = function(name, value, iotype = c("auto", "input", "output"))
       app_set_value(self, private, name, value, match.arg(iotype)),
 
+    get_all_values = function()
+      app_get_all_values(self, private),
+
     send_keys = function(name = NULL, keys)
       app_send_keys(self, private, name, keys),
 
@@ -210,6 +223,9 @@ shinyapp <- R6Class(
 
     get_debug_log = function(type = c("all", shinyapp$debug_log_types))
       app_get_debug_log(self, private, match.arg(type, several.ok = TRUE)),
+
+    enable_debug_log_messages = function(enable = TRUE)
+      app_enable_debug_log_messages(self, private, enable),
 
     ## These are just forwarded to the webdriver session
 
@@ -260,8 +276,13 @@ shinyapp <- R6Class(
       app_expect_update(self, private, output, ..., timeout = timeout,
                         iotype = match.arg(iotype)),
 
-    set_inputs = function(...)
-      app_set_inputs(self, private, ...)
+    set_inputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
+      app_set_inputs(self, private, ..., wait_ = wait_, values_ = values_,
+                     timeout_ = timeout_),
+
+    upload_file = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
+      app_upload_file(self, private, ..., wait_ = wait_, values_ = values_,
+                      timeout_ = timeout_)
   ),
 
   private = list(
@@ -287,8 +308,8 @@ shinyapp <- R6Class(
     queue_inputs = function(...)
       app_queue_inputs(self, private, ...),
 
-    flush_inputs = function()
-      app_flush_inputs(self, private)
+    flush_inputs = function(wait = TRUE, returnValues = TRUE, timeout = 1000)
+      app_flush_inputs(self, private, wait, returnValues, timeout)
   )
 )
 
