@@ -21,3 +21,14 @@ app_get_all_values <- function(self, private) {
 
   res
 }
+
+app_get_snapshot <- function(self, private) {
+  url <- private$web$execute_script("return Shiny.shinyapp.getTestSnapshotUrl();")
+
+  tmpfile <- tempfile("shinyTestSnapshot", fileext = ".rds")
+  req <- httr::POST(url, body = list(format = "rds"), encode = "json")
+  writeBin(req$content, tmpfile)
+  on.exit(unlink(tmpfile))
+
+  readRDS(tmpfile)
+}

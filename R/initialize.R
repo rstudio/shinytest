@@ -39,7 +39,6 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   invisible(self)
 }
 
-#' @importFrom shiny runApp
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
@@ -52,6 +51,7 @@ app_start_shiny <- function(self, private, path) {
     paste(
       sep = ";",
       ".libPaths(c(%s, .libPaths()))",
+      "options(shiny.testing=TRUE)",
       "shinytest:::with_shinytest_js(shiny::runApp('%s'))"
     ),
     libpath,
