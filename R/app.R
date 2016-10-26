@@ -282,14 +282,7 @@ shinyapp <- R6Class(
 
     upload_file = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
       app_upload_file(self, private, ..., wait_ = wait_, values_ = values_,
-                      timeout_ = timeout_),
-
-    get_snapshot = function()
-      app_get_snapshot(self, private),
-
-    get_inputs = function()
-      app_get_inputs(self, private)
-
+                      timeout_ = timeout_)
   ),
 
   private = list(
