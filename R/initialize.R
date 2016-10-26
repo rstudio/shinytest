@@ -33,11 +33,14 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 
   private$setup_debugging(debug)
 
-  private$shiny_test_url <- private$web$execute_script(
-    'if (Shiny.shinyapp.getTestEndpointUrl)
-      return Shiny.shinyapp.getTestEndpointUrl();
-    else
-      return null;'
+  private$shiny_test_url <- paste0(
+    private$get_shiny_url(), "/",
+    private$web$execute_script(
+      'if (Shiny.shinyapp.getTestEndpointUrl)
+        return Shiny.shinyapp.getTestEndpointUrl();
+      else
+        return null;'
+    )
   )
 
   "!DEBUG checking widget names"
@@ -58,7 +61,7 @@ app_start_shiny <- function(self, private, path) {
     paste(
       sep = ";",
       ".libPaths(c(%s, .libPaths()))",
-      "options(shiny.testing=TRUE)",
+      "options(shiny.testmode=TRUE)",
       "shinytest:::with_shinytest_js(shiny::runApp('%s'))"
     ),
     libpath,
