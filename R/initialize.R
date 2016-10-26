@@ -33,6 +33,13 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 
   private$setup_debugging(debug)
 
+  private$shiny_test_url <- private$web$execute_script(
+    'if (Shiny.shinyapp.getTestEndpointUrl)
+      return Shiny.shinyapp.getTestEndpointUrl();
+    else
+      return null;'
+  )
+
   "!DEBUG checking widget names"
   if (check_names) self$check_unique_widget_names()
 

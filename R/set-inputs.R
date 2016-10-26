@@ -6,8 +6,12 @@ app_set_inputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   }
 
   private$queue_inputs(...)
-  vals <- private$flush_inputs(wait_, values_, timeout_)
-  return(vals)
+  private$flush_inputs(wait_, timeout_)
+
+  if (values_)
+    self$get_all_values()
+  else
+    invisible()
 }
 
 app_queue_inputs <- function(self, private, ...) {
@@ -20,28 +24,17 @@ app_queue_inputs <- function(self, private, ...) {
   )
 }
 
-app_flush_inputs <- function(self, private, wait, returnValues, timeout) {
-  res <- private$web$execute_script_async(
+app_flush_inputs <- function(self, private, wait, timeout) {
+  private$web$execute_script_async(
     "var wait = arguments[0];
-    var returnValues = arguments[1];
-    var timeout = arguments[2];
-    var callback = arguments[3];
+    var timeout = arguments[1];
+    var callback = arguments[2];
     shinytest.outputValuesWaiter.start(timeout);
     shinytest.inputQueue.flush();
-    shinytest.outputValuesWaiter.finish(wait, returnValues, callback);",
+    shinytest.outputValuesWaiter.finish(wait, callback);",
     wait,
-    returnValues,
     timeout
   )
-
-  # Treatment of res$inputs here is the same as in app_get_all_values. We don't
-  # call that function to get the values because it involves a separate
-  # execute_script_async call, which may introduce timing problems.
-  if (!is.null(res$inputs)) {
-    res$inputs <- shiny::applyInputHandlers(res$inputs)
-  }
-
-  res
 }
 
 app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
@@ -66,20 +59,13 @@ app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
 
   res <- private$web$execute_script_async(
     "var wait = arguments[0];
-    var returnValues = arguments[1];
-    var callback = arguments[2];
-    shinytest.outputValuesWaiter.finish(wait, returnValues, callback);",
-    wait_,
-    values_
+    var callback = arguments[1];
+    shinytest.outputValuesWaiter.finish(wait, callback);",
+    wait_
   )
 
-  # Treatment of res$inputs here is the same as in app_get_all_values. We don't
-  # call that function to get the values because it involves a separate
-  # execute_script_async call, which may introduce timing problems.
-  if (!is.null(res$inputs)) {
-    res$inputs <- shiny::applyInputHandlers(res$inputs)
-  }
-
-  res
-
+  if (values_)
+    self$get_all_values()
+  else
+    invisible()
 }

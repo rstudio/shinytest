@@ -284,9 +284,12 @@ shinyapp <- R6Class(
       app_upload_file(self, private, ..., wait_ = wait_, values_ = values_,
                       timeout_ = timeout_),
 
-    get_snapshot = function() {
-      app_get_snapshot(self, private)
-    }
+    get_snapshot = function()
+      app_get_snapshot(self, private),
+
+    get_inputs = function()
+      app_get_inputs(self, private)
+
   ),
 
   private = list(
@@ -299,6 +302,7 @@ shinyapp <- R6Class(
     phantom_port = NULL,
     web = NULL,                         # webdriver session
     after_id = NULL,
+    shiny_test_url = NULL,              # URL for shiny's test API
 
     start_shiny = function(path)
       app_start_shiny(self, private, path),
@@ -312,8 +316,8 @@ shinyapp <- R6Class(
     queue_inputs = function(...)
       app_queue_inputs(self, private, ...),
 
-    flush_inputs = function(wait = TRUE, returnValues = TRUE, timeout = 1000)
-      app_flush_inputs(self, private, wait, returnValues, timeout)
+    flush_inputs = function(wait = TRUE, timeout = 1000)
+      app_flush_inputs(self, private, wait, timeout)
   )
 )
 
