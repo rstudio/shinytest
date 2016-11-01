@@ -21,6 +21,11 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   "!DEBUG navigate to Shiny app"
   private$web$go(private$get_shiny_url())
 
+  "!DEBUG inject shiny-tracer.js"
+  js_file <- system.file("js", "shiny-tracer.js", package = "shinytest")
+  js <- readChar(js_file, file.info(js_file)$size, useBytes = TRUE)
+  private$web$execute_script(js)
+
   "!DEBUG wait until Shiny starts"
   load_ok <- private$web$wait_for(
     'window.shinytest && window.shinytest.connected === true',
@@ -62,7 +67,7 @@ app_start_shiny <- function(self, private, path) {
       sep = ";",
       ".libPaths(c(%s, .libPaths()))",
       "options(shiny.testmode=TRUE)",
-      "shinytest:::with_shinytest_js(shiny::runApp('%s'))"
+      "shiny::runApp('%s')"
     ),
     libpath,
     path

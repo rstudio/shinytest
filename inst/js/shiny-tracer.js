@@ -242,6 +242,12 @@ window.shinytest = (function() {
         };
     };
 
+    // Check if we're already connected by the time this code executes.
+    if (Shiny.shinyapp.isConnected()) {
+        shinytest.connected = true;
+        shinytest.log("already connected");
+    }
+
     $(document).on("shiny:connected", function(e) {
         shinytest.connected = true;
         shinytest.log("connected");
