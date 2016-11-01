@@ -113,22 +113,22 @@ window.shinytest = (function() {
     })();
 
 
-    // Async wrapper object. Should be invoked like this:
+    // Wrapper for async waiting of a message with output values. Should be
+    // invoked like this:
     //
     // shinytest.outputValuesWaiter.start(timeout);
-    // someFunction();
-    // shinytest.outputValuesWaiter.finish(wait, returnValues, callback);
+    // doSomething();
+    // shinytest.outputValuesWaiter.finish(wait, callback);
     //
-    // Where `someFunction` is a function that does the desired work. The
-    // reason that the callback function must be passed to the `finish()`
-    // instead of `start()` is because calling `execute_script_async()` from
-    // the R side is synchronous; it returns only when `callback()` is
-    // invoked.
+    // Where `doSomething` is a function that does the desired work. It could
+    // even be work that's done in a separate process. The reason that the
+    // callback function must be passed to the `finish()` instead of `start()`
+    // is because calling `execute_script_async()` from the R side is
+    // synchronous; it returns only when `callback()` is invoked.
     //
     // If wait==true, then wait for a message from server containing output
-    // values before invoking callback. If returnValues==true, pass all input,
-    // output, and error values to the callback. If `timeout` ms elapses
-    // without a message arriving, invoke the callback.
+    // values before invoking callback. If `timeout` ms elapses without a
+    // message arriving, invoke the callback.
     shinytest.outputValuesWaiter = (function() {
         var found = false;
         var finishCallback = null;
@@ -140,7 +140,7 @@ window.shinytest = (function() {
 
             found = false;
 
-            waitForOutputValues(timeout, function() {
+            waitForOutputValueMessage(timeout, function() {
                 found = true;
                 if (finishCallback) {
                     var tmp = finishCallback;
@@ -150,21 +150,18 @@ window.shinytest = (function() {
             });
         }
 
-        function finish(wait, returnValues, callback) {
+        function finish(wait, callback) {
             if (!callback)
                 throw "finish(): callback function is required.";
 
-            var callbackWrapper = function() {
-                if (returnValues)
-                    callback(shinytest.getAllValues());
-                else
-                    callback();
-            };
-
+            // When finish is called, return (invoke callback) immediately if
+            // we have already found the output message, or if we're told not
+            // to wait for it. Otherwise store the callback; it will be
+            // invoked when the output message arrives.
             if (found || !wait) {
-                callbackWrapper();
+                callback();
             } else {
-                finishCallback = callbackWrapper;
+                finishCallback = callback;
             }
         }
 
@@ -173,7 +170,7 @@ window.shinytest = (function() {
         // contains a field named `values`. That is a message from the server with
         // output values. When that occurs, invoke the callback. Or, if timeout
         // elapses without seeing such a message, invoke the callback.
-        function waitForOutputValues(timeout, callback) {
+        function waitForOutputValueMessage(timeout, callback) {
             if (timeout === undefined) timeout = 3000;
 
             // This is a bit of a hack: we want the callback to be invoked _after_

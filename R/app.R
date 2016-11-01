@@ -207,8 +207,8 @@ shinyapp <- R6Class(
     set_value = function(name, value, iotype = c("auto", "input", "output"))
       app_set_value(self, private, name, value, match.arg(iotype)),
 
-    get_all_values = function()
-      app_get_all_values(self, private),
+    get_all_values = function(inputs = TRUE, outputs = TRUE, exports = TRUE)
+      app_get_all_values(self, private, inputs, outputs, exports),
 
     send_keys = function(name = NULL, keys)
       app_send_keys(self, private, name, keys),
@@ -295,6 +295,7 @@ shinyapp <- R6Class(
     phantom_port = NULL,
     web = NULL,                         # webdriver session
     after_id = NULL,
+    shiny_test_endpoint_url = NULL,     # URL for shiny's test API
 
     start_shiny = function(path)
       app_start_shiny(self, private, path),
@@ -308,8 +309,14 @@ shinyapp <- R6Class(
     queue_inputs = function(...)
       app_queue_inputs(self, private, ...),
 
-    flush_inputs = function(wait = TRUE, returnValues = TRUE, timeout = 1000)
-      app_flush_inputs(self, private, wait, returnValues, timeout)
+    flush_inputs = function(wait = TRUE, timeout = 1000)
+      app_flush_inputs(self, private, wait, timeout),
+
+    get_test_endpoint_url = function(inputs = TRUE, outputs = TRUE,
+      exports = TRUE, format = "rds")
+      app_get_test_endpoint_url(self, private, inputs, outputs, exports,
+                                format)
+
   )
 )
 
@@ -394,4 +401,25 @@ app_check_unique_widget_names <- function(self, private) {
 
   if (length(inputs) > 0) check("input", inputs)
   if (length(outputs) > 0) check("output", outputs)
+}
+
+
+app_get_test_endpoint_url = function(self, private, inputs, outputs, exports,
+                                     format) {
+  reqString <- function(group, value) {
+    if (isTRUE(value))
+      paste0(group, "=1")
+    else if (is.character(value))
+      paste0(group, "=", paste(value, collapse = ","))
+    else
+      ""
+  }
+  paste(
+    private$shiny_test_endpoint_url,
+    reqString("inputs", inputs),
+    reqString("outputs", outputs),
+    reqString("exports", exports),
+    paste0("format=", format),
+    sep = "&"
+  )
 }
