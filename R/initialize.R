@@ -33,7 +33,7 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 
   private$setup_debugging(debug)
 
-  private$shiny_test_url <- paste0(
+  private$shiny_test_endpoint_url <- paste0(
     private$get_shiny_url(), "/",
     private$web$execute_script(
       'if (Shiny.shinyapp.getTestEndpointUrl)
