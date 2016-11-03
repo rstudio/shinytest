@@ -12,20 +12,24 @@ window.shinyRecorder = (function() {
         var valueJSON = JSON.stringify(event.value);
         if (valueJSON === previousValues[event.name])
             return;
-        previousValues[event.name] = valueJSON
+        previousValues[event.name] = valueJSON;
 
         shinyrecorder.inputEvents.push({
             name: event.name,
             value: event.value
         });
 
-        appendToCode(event.name, event.value);
+        appendToCode("input", event.name, event.value);
     });
 
 
-    function appendToCode(name, value) {
+    function appendToCode(type, name, value) {
         $("#shiny-recorder .shiny-recorder-code pre")
-            .append(escapeHTML(String(name)) + ":" + escapeHTML(String(value)) + "\n");
+            .append(
+                type + ": " +
+                escapeHTML(String(name)) + ": " +
+                escapeHTML(String(value)) + "\n"
+            );
     }
 
     function initialize() {
@@ -43,7 +47,7 @@ window.shinyRecorder = (function() {
         $("#shiny-recorder").css({
             top: "20px",
             right: "20px",
-            width: "300px",
+            width: "400px",
             height: "200px",
             position: "fixed",
             cursor: "move",
@@ -75,6 +79,21 @@ window.shinyRecorder = (function() {
     }
     $(document).on("shiny:connected", initialize);
 
+
+    // Ctrl-click to record an output value
+    $(document).on("click", ".shiny-bound-output", function(e) {
+        if (!e.ctrlKey)
+            return;
+
+        var id = e.target.id;
+        var value = Shiny.shinyapp.$values[id];
+
+        appendToCode("output", id, value);
+    });
+
+    // ------------------------------------------------------------------------
+    // Utility functions
+    // ------------------------------------------------------------------------
     function escapeHTML(str) {
       return str.replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
