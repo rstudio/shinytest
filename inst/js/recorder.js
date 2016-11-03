@@ -3,16 +3,16 @@ window.shinyRecorder = (function() {
         inputEvents: []
     };
 
+    // Store previous values for each input. Use JSON so that we can compare
+    // non-primitive objects like arrays.
+    var previousValues = {};
+
     $(document).on("shiny:inputchanged", function(event) {
-        // Make sure this isn't a duplicate of the last one.
-        // See https://github.com/rstudio/shiny/issues/1455
-        // TODO: Use more sophisticated dedupe that looks at last entry for
-        // this input, not just last element in array.
-        if (shinyrecorder.inputEvents.length > 0) {
-            var lastEvent = shinyrecorder.inputEvents[shinyrecorder.inputEvents.length - 1];
-            if (event.name === lastEvent.name && event.value === lastEvent.value)
-                return;
-        }
+        // Check if value has changed from last time.
+        var valueJSON = JSON.stringify(event.value);
+        if (valueJSON === previousValues[event.name])
+            return;
+        previousValues[event.name] = valueJSON
 
         shinyrecorder.inputEvents.push({
             name: event.name,
@@ -29,6 +29,11 @@ window.shinyRecorder = (function() {
     }
 
     function initialize() {
+        // Save initial values so we can check for changes.
+        for (var name in Shiny.shinyapp.$inputValues) {
+            previousValues[name] = JSON.stringify(Shiny.shinyapp.$inputValues[name]);
+        }
+
         var panelHtml =
             '<div id="shiny-recorder">' +
                 '<div class="shiny-recorder-title">Recorder</div>' +
