@@ -40,12 +40,12 @@ window.shinyRecorder = (function() {
 
         var panelHtml =
             '<div id="shiny-recorder">' +
-                '<div class="shiny-recorder-title">Recorder</div>' +
+                '<div class="shiny-recorder-title">Test event recorder</div>' +
                 '<div class="shiny-recorder-code"><pre></pre></div>' +
             '</div>';
         $("body").append(panelHtml);
         $("#shiny-recorder").css({
-            top: "20px",
+            bottom: "20px",
             right: "20px",
             width: "400px",
             height: "200px",
@@ -62,7 +62,8 @@ window.shinyRecorder = (function() {
         $("#shiny-recorder .shiny-recorder-title").css({
             "font-weight": "bold",
             color: "#fff",
-            background: "#444"
+            background: "#8a110f",
+            padding: "5px"
         });
         $("#shiny-recorder .shiny-recorder-code").css({
             "flex-grow": "1",
