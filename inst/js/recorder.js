@@ -31,6 +31,19 @@ window.shinyRecorder = (function() {
     });
 
 
+    // Ctrl-click to record an output value
+    $(document).on("click", ".shiny-bound-output", function(e) {
+        if (!e.ctrlKey)
+            return;
+
+        var id = e.target.id;
+        var value = Shiny.shinyapp.$values[id];
+
+        appendToCode("output: " + id + ": " +
+            escapeHTML('"' + escapeString(String(value))) + '"\n');
+    });
+
+
     function appendToCode(html) {
         $("#shiny-recorder .shiny-recorder-code pre").append(html);
 
@@ -144,19 +157,6 @@ window.shinyRecorder = (function() {
         });
     }
     $(document).on("shiny:connected", initialize);
-
-
-    // Ctrl-click to record an output value
-    $(document).on("click", ".shiny-bound-output", function(e) {
-        if (!e.ctrlKey)
-            return;
-
-        var id = e.target.id;
-        var value = Shiny.shinyapp.$values[id];
-
-        appendToCode("output: " + id + ": " +
-            escapeHTML('"' + escapeString(String(value))) + '"\n');
-    });
 
     // ------------------------------------------------------------------------
     // Utility functions
