@@ -5,14 +5,14 @@ window.shinyRecorder = (function() {
 
     // Store previous values for each input. Use JSON so that we can compare
     // non-primitive objects like arrays.
-    var previousValues = {};
+    var previousInputValues = {};
 
     $(document).on("shiny:inputchanged", function(event) {
         // Check if value has changed from last time.
         var valueJSON = JSON.stringify(event.value);
-        if (valueJSON === previousValues[event.name])
+        if (valueJSON === previousInputValues[event.name])
             return;
-        previousValues[event.name] = valueJSON;
+        previousInputValues[event.name] = valueJSON;
 
         shinyrecorder.inputEvents.push({
             type: event.inputType,
@@ -108,7 +108,7 @@ window.shinyRecorder = (function() {
     function initialize() {
         // Save initial values so we can check for changes.
         for (var name in Shiny.shinyapp.$inputValues) {
-            previousValues[name] = JSON.stringify(Shiny.shinyapp.$inputValues[name]);
+            previousInputValues[name] = JSON.stringify(Shiny.shinyapp.$inputValues[name]);
         }
 
         var panelHtml =
