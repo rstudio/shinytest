@@ -13,7 +13,7 @@ shinyApp(
 
   server = function(input, output) {
     output$recorder_js <- renderText({
-      file <- system.file("js", "recorder.js", package = "shinytest")
+      file <- "recorder.js"
       readChar(file, file.info(file)$size, useBytes = TRUE)
     })
     outputOptions(output, "recorder_js", suspendWhenHidden = FALSE)
