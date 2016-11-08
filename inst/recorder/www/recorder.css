@@ -1,0 +1,19 @@
+html,body {
+  width: 100%;
+  height:100%; 
+}
+
+#app-iframe-container {
+  border: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 300px;
+}
+
+#app-iframe {
+  border: 1px solid black;
+  width: 100%;
+  height: 100%;
+}

@@ -43,13 +43,13 @@ with_shinyrecorder <- function(expr) {
     }
 
     withr::with_options(
-      list(shiny.http.response.filter = wrapper_filter),
+      list(shiny.http.response.filter = wrapper_filter, shiny.testmode = TRUE),
       expr
     )
 
   } else {
     withr::with_options(
-      list(shiny.http.response.filter = filter),
+      list(shiny.http.response.filter = filter, shiny.testmode = TRUE),
       expr
     )
   }
