@@ -8,6 +8,10 @@ shinyApp(
     
     div(id = "app-iframe-container",
       tags$iframe(id = "app-iframe", src = app$get_url())
+    ),
+    div(id = "shiny-recorder",
+      div(class="shiny-recorder-title", "Test event recorder"),
+      div(class="shiny-recorder-code", pre())
     )
   ),
 

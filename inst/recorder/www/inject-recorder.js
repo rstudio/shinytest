@@ -24,8 +24,9 @@ window.recorder = (function() {
             // Find out when iframe app is ready - this tells it to send back
             // a message indicating that it's ready.
             evalCodeInFrame(
-                "var message = { token: '" + token + "', " +
-                "code: 'this.frameReady = true;'" +
+                "var message = {" +
+                    "token: '" + token + "', " +
+                    "frameReady: true" +
                 "};\n" +
                 "parent.postMessage(message, '*');"
             );
@@ -56,6 +57,7 @@ window.recorder = (function() {
             {
                 console.log("Injecting JS code.");
                 evalCodeInFrame(Shiny.shinyapp.$values.recorder_js);
+                evalCodeInFrame("window.shinyRecorder.token = '" + token + "';");
                 status.codeHasBeenInjected = true;
             }
         }
@@ -71,11 +73,19 @@ window.recorder = (function() {
         // Set up message receiver. Code is evaluated with `status` as the
         // context, so that the value can be modified in the right place.
         window.addEventListener("message", function(e) {
-            var data = e.data;
-            if (data.token !== token)
+            var message = e.data;
+            if (message.token !== token)
                 return;
 
-            (function() { eval(data.code); }).call(status);
+            if (message.frameReady) {
+                console.log("Frame is ready.");
+                status.frameReady = true;
+            }
+            if (message.html) {
+                $("#shiny-recorder .shiny-recorder-code pre").append(message.html);
+            }
+
+            (function() { eval(message.code); }).call(status);
         });
 
     });

@@ -17,3 +17,25 @@ html,body {
   width: 100%;
   height: 100%;
 }
+
+#shiny-recorder {
+  border: none;
+  position: fixed;
+  width: 300px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+#shiny-recorder .shiny-recorder-title {
+  font-weight: bold;
+  color: #fff;
+  background: #8a110f;
+  padding: 5px;
+}
+
+#shiny-recorder .shiny-recorder-code pre {
+  /*border: none;*/
+  /*background-color: inherit;*/
+  overflow: visible;
+}

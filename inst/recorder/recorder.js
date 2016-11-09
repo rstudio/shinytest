@@ -1,6 +1,7 @@
 window.shinyRecorder = (function() {
     var shinyrecorder = {
-        inputEvents: []
+        inputEvents: [],
+        token: null        // Gets set by parent frame
     };
 
     // Store previous values for each input. Use JSON so that we can compare
@@ -22,7 +23,8 @@ window.shinyRecorder = (function() {
 
         // Generate R code to display in window
         var value = shinyrecorder.inputProcessor.apply(event.inputType, event.value);
-        appendToCode(
+
+        sendCodeToParent(
             "app$set_input(" +
             escapeHTML(event.name) + " = " +
             escapeHTML(value) +
@@ -39,16 +41,16 @@ window.shinyRecorder = (function() {
         var id = e.target.id;
         var value = Shiny.shinyapp.$values[id];
 
-        appendToCode("output: " + id + ": " +
+        sendCodeToParent("output: " + id + ": " +
             escapeHTML('"' + escapeString(String(value))) + '"\n');
     });
 
 
-    function appendToCode(html) {
-        $("#shiny-recorder .shiny-recorder-code pre").append(html);
-
-        var $el = $("#shiny-recorder .shiny-recorder-code");
-        $el.scrollTop($el.prop("scrollHeight") - $el.height());
+    function sendCodeToParent(html) {
+        parent.postMessage({
+            token: shinyrecorder.token,
+            html: html
+        }, "*");
     }
 
     // ------------------------------------------------------------------------
@@ -99,7 +101,7 @@ window.shinyRecorder = (function() {
     });
 
     shinyrecorder.inputProcessor.add("shiny.action", function(value) {
-        return escapeString('"click"');
+        return '"click"';
     });
 
     // ------------------------------------------------------------------------
@@ -110,51 +112,6 @@ window.shinyRecorder = (function() {
         for (var name in Shiny.shinyapp.$inputValues) {
             previousInputValues[name] = JSON.stringify(Shiny.shinyapp.$inputValues[name]);
         }
-
-        var panelHtml =
-            '<div id="shiny-recorder">' +
-                '<div class="shiny-recorder-title">Test event recorder</div>' +
-                '<div class="shiny-recorder-code"><pre></pre></div>' +
-            '</div>';
-        $("body").append(panelHtml);
-        $("#shiny-recorder").css({
-            bottom: "20px",
-            right: "20px",
-            width: "400px",
-            height: "200px",
-            position: "fixed",
-            cursor: "move",
-            background: "#eee",
-            border: "1px solid #666",
-            "border-radius": "4px",
-            opacity: "0.85",
-            display: "flex",
-            "flex-direction": "column",
-            "z-index": 2000
-        });
-        $("#shiny-recorder .shiny-recorder-title").css({
-            "font-weight": "bold",
-            color: "#fff",
-            background: "#8a110f",
-            padding: "5px"
-        });
-        $("#shiny-recorder .shiny-recorder-code").css({
-            "flex-grow": "1",
-            "flex-shrink": "1",
-            cursor: "text",
-            overflow: "auto"
-        });
-        $("#shiny-recorder .shiny-recorder-code pre").css({
-            "border": "none",
-            "background-color": "inherit",
-            "overflow": "visible"
-        });
-
-
-        // Make title bar only draggable
-        $("#shiny-recorder").draggable({
-            handle: $("#shiny-recorder .shiny-recorder-title")
-        });
     }
     $(document).on("shiny:connected", initialize);
 
