@@ -82,6 +82,8 @@ window.recorder = (function() {
             if (message.token !== recorder.token)
                 return;
 
+            var html;
+
             if (message.frameReady) {
                 console.log("Frame is ready.");
                 status.frameReady = true;
@@ -97,7 +99,7 @@ window.recorder = (function() {
 
                 // Generate R code to display in window
                 var value = recorder.inputProcessor.apply(evt.inputType, evt.value);
-                var html = "app$set_input(" +
+                html = "app$set_input(" +
                     escapeHTML(message.inputEvent.name) + " = " +
                     escapeHTML(value) +
                     ")\n";
@@ -105,7 +107,7 @@ window.recorder = (function() {
             }
 
             if (message.outputValue) {
-                var html = "output: " + message.outputValue.name + ": " + '"' +
+                html = "output: " + message.outputValue.name + ": " + '"' +
                     escapeHTML(escapeString(String(message.outputValue.value))) +
                     '"\n';
                  $("#shiny-recorder .shiny-recorder-code pre").append(html);
