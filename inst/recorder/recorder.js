@@ -24,12 +24,7 @@ window.shinyRecorder = (function() {
         // Generate R code to display in window
         var value = shinyrecorder.inputProcessor.apply(event.inputType, event.value);
 
-        sendCodeToParent(
-            "app$set_input(" +
-            escapeHTML(event.name) + " = " +
-            escapeHTML(value) +
-            ")\n"
-        );
+        sendInputEventToParent(event.name, value);
     });
 
 
@@ -45,6 +40,13 @@ window.shinyRecorder = (function() {
             escapeHTML('"' + escapeString(String(value))) + '"\n');
     });
 
+
+    function sendInputEventToParent(name, value) {
+        parent.postMessage({
+            token: shinyrecorder.token,
+            inputEvent: { name: name, value: value }
+        }, "*");
+    }
 
     function sendCodeToParent(html) {
         parent.postMessage({

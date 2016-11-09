@@ -81,6 +81,13 @@ window.recorder = (function() {
                 console.log("Frame is ready.");
                 status.frameReady = true;
             }
+            if (message.inputEvent) {
+                var html = "app$set_input(" +
+                    escapeHTML(message.inputEvent.name) + " = " +
+                    escapeHTML(message.inputEvent.value) +
+                    ")\n";
+                 $("#shiny-recorder .shiny-recorder-code pre").append(html);
+            }
             if (message.html) {
                 $("#shiny-recorder .shiny-recorder-code pre").append(message.html);
             }
@@ -90,6 +97,22 @@ window.recorder = (function() {
 
     });
 
+
+    // ------------------------------------------------------------------------
+    // Utility functions
+    // ------------------------------------------------------------------------
+    function escapeHTML(str) {
+      return str.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;")
+                .replace(/\//g,"&#x2F;");
+    }
+
+    function escapeString(str) {
+        return str.replace(/"/g, '\\"');
+    }
 
 
     function randomId() {
