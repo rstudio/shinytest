@@ -35,7 +35,5 @@ html,body {
 }
 
 #shiny-recorder .shiny-recorder-code pre {
-  /*border: none;*/
-  /*background-color: inherit;*/
   overflow: visible;
 }

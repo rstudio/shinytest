@@ -1,7 +1,8 @@
 window.recorder = (function() {
     var recorder = {
         token: randomId(),
-        inputEvents: []
+        inputEvents: [],
+        testEndpointUrl: null
     };
 
 
@@ -29,11 +30,16 @@ window.recorder = (function() {
             // Find out when iframe app is ready - this tells it to send back
             // a message indicating that it's ready.
             evalCodeInFrame(
-                "var message = {" +
-                    "token: '" + recorder.token + "', " +
-                    "frameReady: true" +
-                "};\n" +
-                "parent.postMessage(message, '*');"
+                "if (Shiny && Shiny.shinyapp && Shiny.shinyapp.config) {" +
+                    "var message = {" +
+                        "token: '" + recorder.token + "', " +
+                        "frameReady: true, " +
+                        "testEndpointUrl: Shiny.shinyapp.getTestEndpointUrl({" +
+                            "fullUrl:true, inputs:false, outputs:true, exports:true, format:'rds'" +
+                        "})" +
+                    "};\n" +
+                    "parent.postMessage(message, '*');" +
+                "}"
             );
         }, 100);
 
@@ -87,6 +93,11 @@ window.recorder = (function() {
             if (message.frameReady) {
                 console.log("Frame is ready.");
                 status.frameReady = true;
+            }
+            if (message.testEndpointUrl) {
+                console.log("Test endpoint url: " + message.testEndpointUrl);
+                recorder.testEndpointUrl = message.testEndpointUrl;
+                Shiny.onInputChange("testEndpointUrl", recorder.testEndpointUrl);
             }
             if (message.inputEvent) {
                 var evt = message.inputEvent;
