@@ -1,6 +1,11 @@
 window.recorder = (function() {
-    var token = randomId();
+    var recorder = {
+        token: randomId(),
+        inputEvents: []
+    };
 
+
+    // Code injection
     $(document).ready(function() {
         function evalCodeInFrame(code) {
             var message = {
@@ -25,7 +30,7 @@ window.recorder = (function() {
             // a message indicating that it's ready.
             evalCodeInFrame(
                 "var message = {" +
-                    "token: '" + token + "', " +
+                    "token: '" + recorder.token + "', " +
                     "frameReady: true" +
                 "};\n" +
                 "parent.postMessage(message, '*');"
@@ -57,7 +62,7 @@ window.recorder = (function() {
             {
                 console.log("Injecting JS code.");
                 evalCodeInFrame(Shiny.shinyapp.$values.recorder_js);
-                evalCodeInFrame("window.shinyRecorder.token = '" + token + "';");
+                evalCodeInFrame("window.shinyRecorder.token = '" + recorder.token + "';");
                 status.codeHasBeenInjected = true;
             }
         }
@@ -74,7 +79,7 @@ window.recorder = (function() {
         // context, so that the value can be modified in the right place.
         window.addEventListener("message", function(e) {
             var message = e.data;
-            if (message.token !== token)
+            if (message.token !== recorder.token)
                 return;
 
             if (message.frameReady) {
@@ -82,19 +87,85 @@ window.recorder = (function() {
                 status.frameReady = true;
             }
             if (message.inputEvent) {
+                var evt = message.inputEvent;
+
+                recorder.inputEvents.push({
+                    type: event.inputType,
+                    name: event.name,
+                    value: event.value
+                });
+
+                // Generate R code to display in window
+                var value = recorder.inputProcessor.apply(evt.inputType, evt.value);
                 var html = "app$set_input(" +
                     escapeHTML(message.inputEvent.name) + " = " +
-                    escapeHTML(message.inputEvent.value) +
+                    escapeHTML(value) +
                     ")\n";
                  $("#shiny-recorder .shiny-recorder-code pre").append(html);
             }
-            if (message.html) {
-                $("#shiny-recorder .shiny-recorder-code pre").append(message.html);
+
+            if (message.outputValue) {
+                var html = "output: " + message.outputValue.name + ": " + '"' +
+                    escapeHTML(escapeString(String(message.outputValue.value))) +
+                    '"\n';
+                 $("#shiny-recorder .shiny-recorder-code pre").append(html);
             }
 
             (function() { eval(message.code); }).call(status);
         });
 
+    });
+
+
+    // ------------------------------------------------------------------------
+    // Input processors
+    // ------------------------------------------------------------------------
+    //
+    // Some inputs need massaging from their raw values to something that can
+    // be used when calling `app$set_input()`.
+    recorder.inputProcessor = (function() {
+        var inputprocessor = {
+            processors: {}
+        };
+
+        inputprocessor.add = function(type, fun) {
+            inputprocessor.processors[type] = fun;
+        };
+
+        inputprocessor.apply = function(type, value) {
+            if (inputprocessor.processors[type]) {
+                return inputprocessor.processors[type](value);
+            } else {
+                return inputprocessor.processors["default"](value);
+            }
+        };
+
+        return inputprocessor;
+    })();
+
+    recorder.inputProcessor.add("default", function(value) {
+        function fixup(x) {
+            if (typeof(x) === "boolean") {
+                if (x) return "TRUE";
+                else   return "FALSE";
+
+            } else if (typeof(x) === "string") {
+                return '"' + escapeString(x) + '"';
+
+            } else if (x instanceof Array) {
+                var res = x.map(fixup);
+                return 'c(' + res.join(', ') + ')';
+
+            } else {
+                return String(x);
+            }
+        }
+
+        return fixup(value);
+    });
+
+    recorder.inputProcessor.add("shiny.action", function(value) {
+        return '"click"';
     });
 
 
@@ -119,4 +190,5 @@ window.recorder = (function() {
         return Math.floor(0x100000000 + (Math.random() * 0xF00000000)).toString(16);
     }
 
+    return recorder;
 })();

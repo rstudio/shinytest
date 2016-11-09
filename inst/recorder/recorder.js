@@ -1,6 +1,5 @@
 window.shinyRecorder = (function() {
     var shinyrecorder = {
-        inputEvents: [],
         token: null        // Gets set by parent frame
     };
 
@@ -15,16 +14,7 @@ window.shinyRecorder = (function() {
             return;
         previousInputValues[event.name] = valueJSON;
 
-        shinyrecorder.inputEvents.push({
-            type: event.inputType,
-            name: event.name,
-            value: event.value
-        });
-
-        // Generate R code to display in window
-        var value = shinyrecorder.inputProcessor.apply(event.inputType, event.value);
-
-        sendInputEventToParent(event.name, value);
+        sendInputEventToParent(event.inputType, event.name, event.value);
     });
 
 
@@ -36,75 +26,24 @@ window.shinyRecorder = (function() {
         var id = e.target.id;
         var value = Shiny.shinyapp.$values[id];
 
-        sendCodeToParent("output: " + id + ": " +
-            escapeHTML('"' + escapeString(String(value))) + '"\n');
+        sendOutputValueToParent(id, value);
     });
 
 
-    function sendInputEventToParent(name, value) {
+    function sendInputEventToParent(inputType, name, value) {
         parent.postMessage({
             token: shinyrecorder.token,
-            inputEvent: { name: name, value: value }
+            inputEvent: { inputType: inputType, name: name, value: value }
         }, "*");
     }
 
-    function sendCodeToParent(html) {
+    function sendOutputValueToParent(name, value) {
         parent.postMessage({
             token: shinyrecorder.token,
-            html: html
+            outputValue: { name: name, value: value }
         }, "*");
     }
 
-    // ------------------------------------------------------------------------
-    // Input processors
-    // ------------------------------------------------------------------------
-    //
-    // Some inputs need massaging from their raw values to something that can
-    // be used when calling `app$set_input()`.
-    shinyrecorder.inputProcessor = (function() {
-        var inputprocessor = {
-            processors: {}
-        };
-
-        inputprocessor.add = function(type, fun) {
-            inputprocessor.processors[type] = fun;
-        };
-
-        inputprocessor.apply = function(type, value) {
-            if (inputprocessor.processors[type]) {
-                return inputprocessor.processors[type](value);
-            } else {
-                return inputprocessor.processors["default"](value);
-            }
-        };
-
-        return inputprocessor;
-    })();
-
-    shinyrecorder.inputProcessor.add("default", function(value) {
-        function fixup(x) {
-            if (typeof(x) === "boolean") {
-                if (x) return "TRUE";
-                else   return "FALSE";
-
-            } else if (typeof(x) === "string") {
-                return '"' + escapeString(x) + '"';
-
-            } else if (x instanceof Array) {
-                var res = x.map(fixup);
-                return 'c(' + res.join(', ') + ')';
-
-            } else {
-                return String(x);
-            }
-        }
-
-        return fixup(value);
-    });
-
-    shinyrecorder.inputProcessor.add("shiny.action", function(value) {
-        return '"click"';
-    });
 
     // ------------------------------------------------------------------------
     // Initialization
@@ -117,21 +56,6 @@ window.shinyRecorder = (function() {
     }
     $(document).on("shiny:connected", initialize);
 
-    // ------------------------------------------------------------------------
-    // Utility functions
-    // ------------------------------------------------------------------------
-    function escapeHTML(str) {
-      return str.replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;")
-                .replace(/\//g,"&#x2F;");
-    }
-
-    function escapeString(str) {
-        return str.replace(/"/g, '\\"');
-    }
 
     return shinyrecorder;
 })();
