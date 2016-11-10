@@ -153,29 +153,28 @@ window.recorder = (function() {
             }
         };
 
-        return inputprocessor;
-    })();
-
-    recorder.inputProcessor.add("default", function(value) {
-        function fixup(x) {
-            if (typeof(x) === "boolean") {
-                if (x) return "TRUE";
+        function processDefault(value) {
+            if (typeof(value) === "boolean") {
+                if (value) return "TRUE";
                 else   return "FALSE";
 
-            } else if (typeof(x) === "string") {
-                return '"' + escapeString(x) + '"';
+            } else if (typeof(value) === "string") {
+                return '"' + escapeString(value) + '"';
 
-            } else if (x instanceof Array) {
-                var res = x.map(fixup);
+            } else if (value instanceof Array) {
+                var res = value.map(processDefault);
                 return 'c(' + res.join(', ') + ')';
 
             } else {
-                return String(x);
+                return String(value);
             }
         }
 
-        return fixup(value);
-    });
+        inputprocessor.add("default", processDefault);
+
+        return inputprocessor;
+    })();
+
 
     recorder.inputProcessor.add("shiny.action", function(value) {
         return '"click"';
