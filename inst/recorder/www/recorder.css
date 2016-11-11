@@ -36,4 +36,6 @@ html,body {
 
 #shiny-recorder .shiny-recorder-code pre {
   overflow: visible;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }

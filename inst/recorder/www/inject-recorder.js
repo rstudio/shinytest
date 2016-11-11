@@ -1,7 +1,7 @@
 window.recorder = (function() {
     var recorder = {
         token: randomId(),
-        inputEvents: [],
+        testEvents: [],
         testEndpointUrl: null
     };
 
@@ -102,82 +102,30 @@ window.recorder = (function() {
             if (message.inputEvent) {
                 var evt = message.inputEvent;
 
-                recorder.inputEvents.push({
-                    type: event.inputType,
-                    name: event.name,
-                    value: event.value
+                recorder.testEvents.push({
+                    type: "input",
+                    inputType: evt.inputType,
+                    name: evt.name,
+                    value: evt.value
                 });
 
-                // Generate R code to display in window
-                var value = recorder.inputProcessor.apply(evt.inputType, evt.value);
-                html = "app$set_input(" +
-                    escapeHTML(message.inputEvent.name) + " = " +
-                    escapeHTML(value) +
-                    ")\n";
-                 $("#shiny-recorder .shiny-recorder-code pre").append(html);
+                // Send updated values to server
+                Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
 
             if (message.outputValue) {
-                html = "output: " + message.outputValue.name + ": " + '"' +
+                // var value = recorder.outputProcessor.apply(evt.inputType, evt.value);
+                html = "expect_identical(app$get_all_values()$outputs$" +
+                    message.outputValue.name +
+                    ', "' +
                     escapeHTML(escapeString(String(message.outputValue.value))) +
-                    '"\n';
+                    '")\n';
                  $("#shiny-recorder .shiny-recorder-code pre").append(html);
             }
 
             (function() { eval(message.code); }).call(status);
         });
 
-    });
-
-
-    // ------------------------------------------------------------------------
-    // Input processors
-    // ------------------------------------------------------------------------
-    //
-    // Some inputs need massaging from their raw values to something that can
-    // be used when calling `app$set_input()`.
-    recorder.inputProcessor = (function() {
-        var inputprocessor = {
-            processors: {}
-        };
-
-        inputprocessor.add = function(type, fun) {
-            inputprocessor.processors[type] = fun;
-        };
-
-        inputprocessor.apply = function(type, value) {
-            if (inputprocessor.processors[type]) {
-                return inputprocessor.processors[type](value);
-            } else {
-                return inputprocessor.processors["default"](value);
-            }
-        };
-
-        function processDefault(value) {
-            if (typeof(value) === "boolean") {
-                if (value) return "TRUE";
-                else   return "FALSE";
-
-            } else if (typeof(value) === "string") {
-                return '"' + escapeString(value) + '"';
-
-            } else if (value instanceof Array) {
-                var res = value.map(processDefault);
-                return 'c(' + res.join(', ') + ')';
-
-            } else {
-                return String(value);
-            }
-        }
-
-        inputprocessor.add("default", processDefault);
-
-        return inputprocessor;
-    })();
-
-
-    recorder.inputProcessor.add("shiny.action", function(value) {
-        return '"click"';
     });
 
 
