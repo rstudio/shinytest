@@ -5,6 +5,9 @@ registerInputHandler("shinytest.testevents", function(val, shinysession, name) {
   val
 })
 
+escapeString <- function(s) {
+  gsub('"', '\\"', s, fixed = TRUE)
+}
 
 inputProcessors <- list(
   default = function(value) {
@@ -28,7 +31,7 @@ inputProcessors <- list(
     }
 
     if (is.character(value)) {
-      return(paste0('"', value, '"'))
+      return(paste0('"', escapeString(value), '"'))
     } else {
       return(as.character(value))
     }
@@ -53,7 +56,7 @@ processInputValue <- function(value, inputType) {
 codeGenerators <- list(
   input = function(event) {
     paste0(
-      "app$set_input(",
+      "app$set_inputs(",
       event$name, " = ",
       processInputValue(event$value, event$inputType),
       ")"
@@ -62,9 +65,9 @@ codeGenerators <- list(
 
   outputValue = function(event) {
     paste0("expect_identical(\n",
-      "  app$get_all_values()$output[['",
+      "  app$get_all_values()$outputs[['",
         event$name, "']],\n",
-      '  "', event$value, '"\n)'
+      '  "', escapeString(event$value), '"\n)'
     )
   }
 )
