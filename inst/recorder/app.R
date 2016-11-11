@@ -48,13 +48,34 @@ processInputValue <- function(value, inputType) {
   inputProcessors[[inputType]](value)
 }
 
-inputCodeGenerator <- function(event) {
-  paste0(
-    "app$set_input(",
-    event$name, " = ",
-    processInputValue(event$value, event$inputType),
-    ")"
-  )
+
+
+codeGenerators <- list(
+  input = function(event) {
+    paste0(
+      "app$set_input(",
+      event$name, " = ",
+      processInputValue(event$value, event$inputType),
+      ")"
+    )
+  },
+
+  outputValue = function(event) {
+    paste0("expect_identical(\n",
+      "  app$get_all_values()$output[['",
+        event$name, "']],\n",
+      '  "', event$value, '"\n)'
+    )
+  }
+)
+
+generateTestCode <- function(events) {
+  # Generate code for each input and output event
+  code <- vapply(events, function(event) {
+    codeGenerators[[event$type]](event)
+  }, "")
+
+  paste(code, collapse = "\n")
 }
 
 shinyApp(
@@ -95,9 +116,7 @@ shinyApp(
     });
 
     output$testCode <- renderText({
-      code <- vapply(input$testevents, inputCodeGenerator, "")
-      paste(code, collapse = "\n")
-
+      generateTestCode(input$testevents)
     })
   }
 )

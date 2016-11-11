@@ -88,7 +88,7 @@ window.recorder = (function() {
             if (message.token !== recorder.token)
                 return;
 
-            var html;
+            var html, evt;
 
             if (message.frameReady) {
                 console.log("Frame is ready.");
@@ -100,7 +100,7 @@ window.recorder = (function() {
                 Shiny.onInputChange("testEndpointUrl", recorder.testEndpointUrl);
             }
             if (message.inputEvent) {
-                var evt = message.inputEvent;
+                evt = message.inputEvent;
 
                 recorder.testEvents.push({
                     type: "input",
@@ -114,13 +114,16 @@ window.recorder = (function() {
             }
 
             if (message.outputValue) {
-                // var value = recorder.outputProcessor.apply(evt.inputType, evt.value);
-                html = "expect_identical(app$get_all_values()$outputs$" +
-                    message.outputValue.name +
-                    ', "' +
-                    escapeHTML(escapeString(String(message.outputValue.value))) +
-                    '")\n';
-                 $("#shiny-recorder .shiny-recorder-code pre").append(html);
+                evt = message.outputValue;
+
+                recorder.testEvents.push({
+                    type: "outputValue",
+                    name: evt.name,
+                    value: evt.value
+                });
+
+                // Send updated values to server
+                Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
 
             (function() { eval(message.code); }).call(status);
