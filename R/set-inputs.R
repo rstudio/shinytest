@@ -9,7 +9,7 @@ app_set_inputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   private$flush_inputs(wait_, timeout_)
 
   if (values_)
-    self$get_all_values()
+    invisible(self$get_all_values())
   else
     invisible()
 }
