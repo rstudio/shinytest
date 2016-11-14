@@ -129,6 +129,19 @@ window.recorder = (function() {
             (function() { eval(message.code); }).call(status);
         });
 
+        $(document).on("shiny:inputchanged", function(event) {
+            if (event.name === "snapshot") {
+                recorder.testEvents.push({
+                    type: "snapshot",
+                    value: event.value
+                });
+
+                // Send updated values to server
+                Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+            }
+        });
+
+
     });
 
 
