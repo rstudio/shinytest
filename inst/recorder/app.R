@@ -1,3 +1,12 @@
+target_url <- getOption("shinytest.recorder.url")
+save_dir <- getOption("shinytest.recorder.savedir")
+
+if (is.null(target_url) || is.null(save_dir)) {
+  stop("Test recorder requires the 'shinytest.recorder.url' and ",
+    "'shinytest.recorder.savedir' options to be set.")
+}
+
+# Can't register more than once, so remove existing one just in case.
 removeInputHandler("shinytest.testevents")
 
 # Need to avoid Shiny's default recursive unlisting
@@ -89,15 +98,13 @@ shinyApp(
     ),
 
     div(id = "app-iframe-container",
-      # TODO: Need to pass in URL a different way
-      tags$iframe(id = "app-iframe", src = app$get_url())
+      tags$iframe(id = "app-iframe", src = target_url)
     ),
     div(id = "shiny-recorder",
       div(class="shiny-recorder-title", "Test event recorder"),
       div(
         actionButton("snapshot", "Take snapshot")
       ),
-      # div(class="shiny-recorder-code", pre())
       verbatimTextOutput("testCode")
     )
   ),
@@ -114,8 +121,12 @@ shinyApp(
     observeEvent(input$snapshot, {
       req <- httr::GET(input$testEndpointUrl)
       n_snapshots <<- n_snapshots + 1
-      # TODO: Save snapshot in a different directory
-      writeBin(req$content, paste0("snapshot-", n_snapshots, ".rds"))
+
+      # Save snapshot
+      writeBin(
+        req$content,
+        file.path(save_dir, paste0("snapshot-", n_snapshots, ".rds"))
+      )
     });
 
     output$testCode <- renderText({
