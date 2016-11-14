@@ -25,6 +25,8 @@ html,body {
   top: 0;
   bottom: 0;
   right: 0;
+  display: flex;
+  flex-flow: column;
 }
 
 #shiny-recorder .shiny-recorder-title {
@@ -38,4 +40,5 @@ html,body {
   overflow: visible;
   word-wrap: break-word;
   white-space: pre-wrap;
+  flex-grow: 1;
 }
