@@ -114,7 +114,8 @@ shinyApp(
     div(id = "shiny-recorder",
       div(class = "shiny-recorder-title", "Test event recorder"),
       div(class = "shiny-recorder-controls",
-        actionButton("snapshot", "Take snapshot")
+        actionButton("snapshot", "Take snapshot"),
+        actionButton("exit", "Exit", class = "btn-danger")
       ),
       verbatimTextOutput("testCode")
     )
@@ -140,8 +141,20 @@ shinyApp(
       )
     });
 
-    output$testCode <- renderText({
+    testCode <- reactive({
       generateTestCode(input$testevents)
+    })
+
+    output$testCode <- renderText(testCode())
+
+    observeEvent(input$exit, {
+      stopApp({
+        cat(sep = "\n",
+          "========== Code for testing application ==========",
+          testCode()
+        )
+        invisible(testCode())
+      })
     })
   }
 )
