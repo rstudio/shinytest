@@ -112,8 +112,8 @@ shinyApp(
       tags$iframe(id = "app-iframe", src = target_url)
     ),
     div(id = "shiny-recorder",
-      div(class="shiny-recorder-title", "Test event recorder"),
-      div(
+      div(class = "shiny-recorder-title", "Test event recorder"),
+      div(class = "shiny-recorder-controls",
         actionButton("snapshot", "Take snapshot")
       ),
       verbatimTextOutput("testCode")
