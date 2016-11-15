@@ -18,6 +18,16 @@ escapeString <- function(s) {
   gsub('"', '\\"', s, fixed = TRUE)
 }
 
+# Given a string, indent every line by some number of spaces.
+# The exception is to not add spaces after a trailing \n.
+indent <- function(str, indent = 2) {
+  gsub("(^|\\n)(?!$)",
+    paste0("\\1", paste(rep(" ", indent), collapse = "")),
+    str,
+    perl = TRUE
+  )
+}
+
 inputProcessors <- list(
   default = function(value) {
     # This function is designed to operate on atomic vectors (not lists), so if
@@ -94,11 +104,24 @@ codeGenerators <- list(
 
 generateTestCode <- function(events) {
   # Generate code for each input and output event
-  code <- vapply(events, function(event) {
+  eventCode <- vapply(events, function(event) {
     codeGenerators[[event$type]](event)
   }, "")
 
-  paste(code, collapse = "\n")
+  if (length(eventCode) != 0)
+    eventCode <- indent(paste(eventCode, collapse = "\n"))
+
+  # Use paste(c()) so that if eventCode is character(0), it gets dropped;
+  # otherwise when empty it will result in an extra `\n`.
+  paste(
+    c(
+      'test_that("ADD TEST DESCRIPTION HERE", {',
+      '  app <- shinyapp$new("PATH/TO/APP")',
+      eventCode,
+      '})'
+    ),
+    collapse = "\n"
+  )
 }
 
 shinyApp(
