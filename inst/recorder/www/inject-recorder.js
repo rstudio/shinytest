@@ -102,6 +102,10 @@ window.recorder = (function() {
             if (message.inputEvent) {
                 evt = message.inputEvent;
 
+                // Filter out clientdata items
+                if (evt.name.indexOf(".clientdata") === 0)
+                    return;
+
                 recorder.testEvents.push({
                     type: "input",
                     inputType: evt.inputType,
