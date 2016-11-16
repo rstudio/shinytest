@@ -82,6 +82,17 @@ codeGenerators <- list(
     )
   },
 
+  fileUpload = function(event) {
+    paste0(
+      "app$upload_file(",
+      event$name, " = ",
+      # `event$files` is a char vector, which works with the "default" input
+      # processor.
+      processInputValue(event$files, "default"),
+      ")"
+    )
+  },
+
   outputValue = function(event) {
     paste0("expect_identical(\n",
       "  app$get_all_values()$outputs[['",

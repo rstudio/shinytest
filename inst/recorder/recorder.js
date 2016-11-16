@@ -17,6 +17,9 @@ window.shinyRecorder = (function() {
         sendInputEventToParent(event.inputType, event.name, event.value);
     });
 
+    $(document).on("shiny:fileuploaded", function(event) {
+        sendFileUploadEventToParent(event.name, event.files);
+    });
 
     // Ctrl-click to record an output value
     $(document).on("click", ".shiny-bound-output", function(e) {
@@ -34,6 +37,13 @@ window.shinyRecorder = (function() {
         parent.postMessage({
             token: shinyrecorder.token,
             inputEvent: { inputType: inputType, name: name, value: value }
+        }, "*");
+    }
+
+    function sendFileUploadEventToParent(name, files) {
+        parent.postMessage({
+            token: shinyrecorder.token,
+            fileUpload: { name: name, files: files }
         }, "*");
     }
 

@@ -117,6 +117,19 @@ window.recorder = (function() {
                 Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
 
+            if (message.fileUpload) {
+                evt = message.fileUpload;
+
+                recorder.testEvents.push({
+                    type: "fileUpload",
+                    name: evt.name,
+                    files: evt.files.map(function(file) { return file.name; })
+                });
+
+                // Send updated values to server
+                Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+            }
+
             if (message.outputValue) {
                 evt = message.outputValue;
 
@@ -143,6 +156,19 @@ window.recorder = (function() {
                 // Send updated values to server
                 Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
+        });
+
+
+        $(document).on("shiny:fileuploaded", function(event) {
+            console.log('event triggered');
+            recorder.testEvents.push({
+                type: "fileupload",
+                name: evt.name,
+                filename: evt.files[0]
+            });
+
+            // Send updated values to server
+            Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
         });
 
 
