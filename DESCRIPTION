@@ -19,7 +19,7 @@ Imports:
     R6,
     rematch,
     httr,
-    shiny (>= 0.14.1.9002),
+    shiny (>= 0.14.2.9001),
     testthat (>= 1.0.0),
     utils,
     webdriver,

@@ -95,7 +95,7 @@ codeGenerators <- list(
 
   outputValue = function(event) {
     paste0("expect_identical(\n",
-      "  app$get_all_values()$outputs[['",
+      "  app$get_all_values()$output[['",
         event$name, "']],\n",
       '  "', escapeString(event$value), '"\n)'
     )
@@ -104,7 +104,7 @@ codeGenerators <- list(
   snapshot = function(event) {
     paste0(
       "expect_identical(\n",
-        '  app$get_all_values(inputs=FALSE, exports=TRUE, outputs=TRUE),\n',
+        '  app$get_all_values(input=FALSE, export=TRUE, output=TRUE),\n',
         '  readRDS("',
           file.path(save_dir, paste0("snapshot-", as.character(event$value), ".rds")),
         '")\n',
