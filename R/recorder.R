@@ -14,7 +14,7 @@ record_test <- function(app, save_dir = NULL) {
       stop("Recording tests for remote apps is not yet supported.")
     } else {
       # It's a path to an app; start the app
-      app_obj <- runApp(app)
+      app_obj <- shinyapp$new(app)
       on.exit({
         rm(app_obj)
         gc()
@@ -42,7 +42,7 @@ record_test <- function(app, save_dir = NULL) {
       shinytest.recorder.url = url,
       shinytest.recorder.savedir = save_dir
     ),
-    runApp(system.file("recorder", package = "shinytest"))
+    shiny::runApp(system.file("recorder", package = "shinytest"))
   )
 }
 
