@@ -1,5 +1,6 @@
 window.shinyRecorder = (function() {
     var shinyrecorder = {
+        initialized: false,
         token: null        // Gets set by parent frame
     };
 
@@ -59,12 +60,22 @@ window.shinyRecorder = (function() {
     // Initialization
     // ------------------------------------------------------------------------
     function initialize() {
+        if (shinyrecorder.initialized)
+            return;
+
         // Save initial values so we can check for changes.
         for (var name in Shiny.shinyapp.$inputValues) {
             previousInputValues[name] = JSON.stringify(Shiny.shinyapp.$inputValues[name]);
         }
+
+        shinyrecorder.initialized = true;
+        console.log(previousInputValues);
     }
-    $(document).on("shiny:connected", initialize);
+    if (Shiny && Shiny.shinyapp && Shiny.shinyapp.isConnected()) {
+        initialize();
+    } else {
+        $(document).on("shiny:connected", initialize);
+    }
 
 
     return shinyrecorder;
