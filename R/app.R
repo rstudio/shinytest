@@ -207,8 +207,8 @@ shinyapp <- R6Class(
     set_value = function(name, value, iotype = c("auto", "input", "output"))
       app_set_value(self, private, name, value, match.arg(iotype)),
 
-    get_all_values = function(inputs = TRUE, outputs = TRUE, exports = TRUE)
-      app_get_all_values(self, private, inputs, outputs, exports),
+    get_all_values = function(input = TRUE, output = TRUE, export = TRUE)
+      app_get_all_values(self, private, input, output, export),
 
     send_keys = function(name = NULL, keys)
       app_send_keys(self, private, name, keys),
@@ -312,9 +312,9 @@ shinyapp <- R6Class(
     flush_inputs = function(wait = TRUE, timeout = 1000)
       app_flush_inputs(self, private, wait, timeout),
 
-    get_test_endpoint_url = function(inputs = TRUE, outputs = TRUE,
-      exports = TRUE, format = "rds")
-      app_get_test_endpoint_url(self, private, inputs, outputs, exports,
+    get_test_endpoint_url = function(input = TRUE, output = TRUE,
+      export = TRUE, format = "rds")
+      app_get_test_endpoint_url(self, private, input, output, export,
                                 format)
 
   )
@@ -404,7 +404,7 @@ app_check_unique_widget_names <- function(self, private) {
 }
 
 
-app_get_test_endpoint_url = function(self, private, inputs, outputs, exports,
+app_get_test_endpoint_url = function(self, private, input, output, export,
                                      format) {
   reqString <- function(group, value) {
     if (isTRUE(value))
@@ -416,9 +416,9 @@ app_get_test_endpoint_url = function(self, private, inputs, outputs, exports,
   }
   paste(
     private$shiny_test_endpoint_url,
-    reqString("inputs", inputs),
-    reqString("outputs", outputs),
-    reqString("exports", exports),
+    reqString("input", input),
+    reqString("output", output),
+    reqString("export", export),
     paste0("format=", format),
     sep = "&"
   )

@@ -2,6 +2,7 @@
 
 S3method(print,shinytest_logs)
 export(expect_update)
+export(record_test)
 export(shinyapp)
 importFrom(R6,R6Class)
 importFrom(assertthat,"on_failure<-")

@@ -1,0 +1,51 @@
+html,body {
+  width: 100%;
+  height:100%; 
+}
+
+#app-iframe-container {
+  border: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 300px;
+}
+
+#app-iframe {
+  border: 1px solid black;
+  width: 100%;
+  height: 100%;
+}
+
+#shiny-recorder {
+  border: none;
+  position: fixed;
+  width: 300px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-flow: column;
+}
+
+#shiny-recorder .shiny-recorder-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  background: #ea4343;
+  padding: 8px;
+}
+
+#shiny-recorder .shiny-recorder-controls {
+  padding: 10px;
+  text-align: right;
+}
+
+
+#shiny-recorder .shiny-recorder-code pre {
+  overflow: visible;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  flex-grow: 1;
+}
