@@ -128,7 +128,9 @@ window.shinytest = (function() {
     //
     // If wait==true, then wait for a message from server containing output
     // values before invoking callback. If `timeout` ms elapses without a
-    // message arriving, invoke the callback.
+    // message arriving, invoke the callback. The callback function is passed
+    // an object with one item, `timedOut`, which is a boolean that reports
+    // whether the timeout elapsed when waiting for values.
     shinytest.outputValuesWaiter = (function() {
         var found = false;
         var finishCallback = null;
@@ -140,12 +142,12 @@ window.shinytest = (function() {
 
             found = false;
 
-            waitForOutputValueMessage(timeout, function() {
+            waitForOutputValueMessage(timeout, function(timedOut) {
                 found = true;
                 if (finishCallback) {
                     var tmp = finishCallback;
                     finishCallback = null;
-                    tmp();
+                    tmp({ timedOut: timedOut });
                 }
             });
         }
@@ -159,7 +161,7 @@ window.shinytest = (function() {
             // to wait for it. Otherwise store the callback; it will be
             // invoked when the output message arrives.
             if (found || !wait) {
-                callback();
+                callback({ timedOut: false });
             } else {
                 finishCallback = callback;
             }
@@ -167,9 +169,10 @@ window.shinytest = (function() {
 
 
         // This waits for a shiny:message event to occur, where the messsage
-        // contains a field named `values`. That is a message from the server with
-        // output values. When that occurs, invoke the callback. Or, if timeout
-        // elapses without seeing such a message, invoke the callback.
+        // contains a field named `values`. That is a message from the server
+        // with output values. When that occurs, invoke `callback(false)`. Or,
+        // if timeout elapses without seeing such a message, invoke
+        // `callback(true)`.
         function waitForOutputValueMessage(timeout, callback) {
             if (timeout === undefined) timeout = 3000;
 
@@ -177,8 +180,8 @@ window.shinytest = (function() {
             // the outputs are assigned. Because the shiny:message event is
             // triggered just before the output values are assigned, we need to
             // wait for the next tick of the eventloop.
-            var callbackWrapper = function() {
-                setTimeout(callback, 0);
+            var callbackWrapper = function(timedOut) {
+                setTimeout(function() { callback(timedOut); }, 0);
             };
 
             // Check that a message contains `values` field.
@@ -189,20 +192,20 @@ window.shinytest = (function() {
                     $(document).off("shiny:message", checkMessage);
                     clearTimeout(timeoutCallback);
 
-                    callbackWrapper();
+                    callbackWrapper(false);
                 }
             }
 
             $(document).on("shiny:message", checkMessage);
 
             // If timeout elapses without finding message, remove listener and
-            // invoke callback.
+            // invoke `callback(true)`.
             var timeoutCallback = setTimeout(function() {
                 shinytest.log("Timed out without finding message with values field.");
 
                 $(document).off("shiny:message", checkMessage);
 
-                callbackWrapper();
+                callbackWrapper(true);
             }, timeout);
         }
 

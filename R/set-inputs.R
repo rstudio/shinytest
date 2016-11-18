@@ -6,7 +6,13 @@ app_set_inputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   }
 
   private$queue_inputs(...)
-  private$flush_inputs(wait_, timeout_)
+  res <- private$flush_inputs(wait_, timeout_)
+
+  if (isTRUE(res$timedOut)) {
+    message("set_inputs: Server did not update any output values within ",
+      format(timeout_/1000, digits = 2),
+      " seconds. If this is expected, use wait_=FALSE or increase the value of timeout_.")
+  }
 
   if (values_)
     invisible(self$get_all_values())
