@@ -85,9 +85,9 @@ codeGenerators <- list(
 
   outputValue = function(event) {
     paste0("expect_identical(\n",
-      "  app$get_all_values()$output[['",
+      "    app$get_all_values()$output[['",
         event$name, "']],\n",
-      '  "', escapeString(event$value), '"\n)'
+      '    "', escapeString(event$value), '"\n  )'
     )
   },
 
