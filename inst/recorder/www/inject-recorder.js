@@ -2,7 +2,7 @@ window.recorder = (function() {
     var recorder = {
         token: randomId(),
         testEvents: [],
-        testEndpointUrl: null
+        testSnapshotUrl: null
     };
 
 
@@ -34,7 +34,7 @@ window.recorder = (function() {
                     "var message = {" +
                         "token: '" + recorder.token + "', " +
                         "frameReady: true, " +
-                        "testEndpointUrl: Shiny.shinyapp.getTestEndpointUrl({" +
+                        "testSnapshotUrl: Shiny.shinyapp.getTestSnapshotUrl({" +
                             "fullUrl:true, input:true, output:true, export:true, format:'json'" +
                         "})" +
                     "};\n" +
@@ -94,10 +94,10 @@ window.recorder = (function() {
                 console.log("Frame is ready.");
                 status.frameReady = true;
             }
-            if (message.testEndpointUrl) {
-                console.log("Test endpoint url: " + message.testEndpointUrl);
-                recorder.testEndpointUrl = message.testEndpointUrl;
-                Shiny.onInputChange("testEndpointUrl", recorder.testEndpointUrl);
+            if (message.testSnapshotUrl) {
+                console.log("Test snapshot url: " + message.testSnapshotUrl);
+                recorder.testSnapshotUrl = message.testSnapshotUrl;
+                Shiny.onInputChange("testSnapshotUrl", recorder.testSnapshotUrl);
             }
             if (message.inputEvent) {
                 evt = message.inputEvent;

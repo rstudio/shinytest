@@ -38,11 +38,9 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 
   private$setup_debugging(debug)
 
-  private$shiny_test_endpoint_url <- private$web$execute_script(
-    'if (Shiny.shinyapp.getTestEndpointUrl)
-      return Shiny.shinyapp.getTestEndpointUrl({
-        fullUrl:true, inputs:false, outputs:true, exports:true, format:"rds"
-      });
+  private$shiny_test_snapshot_base_url <- private$web$execute_script(
+    'if (Shiny.shinyapp.getTestSnapshotBaseUrl)
+      return Shiny.shinyapp.getTestSnapshotBaseUrl({ fullUrl:true });
     else
       return null;'
   )

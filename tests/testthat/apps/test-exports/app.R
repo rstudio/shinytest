@@ -21,7 +21,7 @@ shinyApp(
     )
 
     output$url <- renderUI({
-      url <- session$getTestEndpointUrl(format="json")
+      url <- session$getTestSnapshotUrl(format="json")
       a(href = url, url)
     })
 

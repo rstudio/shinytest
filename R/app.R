@@ -295,7 +295,7 @@ shinyapp <- R6Class(
     phantom_port = NULL,
     web = NULL,                         # webdriver session
     after_id = NULL,
-    shiny_test_endpoint_url = NULL,     # URL for shiny's test API
+    shiny_test_snapshot_base_url = NULL, # URL for shiny's test API
 
     start_shiny = function(path)
       app_start_shiny(self, private, path),
@@ -312,9 +312,9 @@ shinyapp <- R6Class(
     flush_inputs = function(wait = TRUE, timeout = 1000)
       app_flush_inputs(self, private, wait, timeout),
 
-    get_test_endpoint_url = function(input = TRUE, output = TRUE,
-      export = TRUE, format = "rds")
-      app_get_test_endpoint_url(self, private, input, output, export,
+    get_test_snapshot_url = function(input = TRUE, output = TRUE,
+      export = TRUE, format = "json")
+      app_get_test_snapshot_url(self, private, input, output, export,
                                 format)
 
   )
@@ -404,7 +404,7 @@ app_check_unique_widget_names <- function(self, private) {
 }
 
 
-app_get_test_endpoint_url = function(self, private, input, output, export,
+app_get_test_snapshot_url = function(self, private, input, output, export,
                                      format) {
   reqString <- function(group, value) {
     if (isTRUE(value))
@@ -415,7 +415,7 @@ app_get_test_endpoint_url = function(self, private, input, output, export,
       ""
   }
   paste(
-    private$shiny_test_endpoint_url,
+    private$shiny_test_snapshot_base_url,
     reqString("input", input),
     reqString("output", output),
     reqString("export", export),
