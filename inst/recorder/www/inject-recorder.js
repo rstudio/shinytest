@@ -35,7 +35,7 @@ window.recorder = (function() {
                         "token: '" + recorder.token + "', " +
                         "frameReady: true, " +
                         "testEndpointUrl: Shiny.shinyapp.getTestEndpointUrl({" +
-                            "fullUrl:true, inputs:true, outputs:true, exports:true, format:'rds'" +
+                            "fullUrl:true, input:true, output:true, export:true, format:'json'" +
                         "})" +
                     "};\n" +
                     "parent.postMessage(message, '*');" +
