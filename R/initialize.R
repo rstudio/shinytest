@@ -65,8 +65,7 @@ app_start_shiny <- function(self, private, path) {
     paste(
       sep = ";",
       ".libPaths(c(%s, .libPaths()))",
-      "options(shiny.testmode=TRUE)",
-      "shiny::runApp('%s')"
+      "shiny::runApp('%s', test.mode=TRUE)"
     ),
     libpath,
     path
