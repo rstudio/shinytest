@@ -282,7 +282,13 @@ shinyapp <- R6Class(
 
     upload_file = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
       app_upload_file(self, private, ..., wait_ = wait_, values_ = values_,
-                      timeout_ = timeout_)
+                      timeout_ = timeout_),
+
+    snapshot = function(filename = private$next_snapshot_name(),
+                        dir = file.path(getwd(), "snapshot"),
+                        items = list(input = TRUE, output = TRUE, export = TRUE))
+      app_snapshot(self, private, filename, dir, items)
+
   ),
 
   private = list(
@@ -296,6 +302,7 @@ shinyapp <- R6Class(
     web = NULL,                         # webdriver session
     after_id = NULL,
     shiny_test_snapshot_base_url = NULL, # URL for shiny's test API
+    snapshot_count = 0,
 
     start_shiny = function(path)
       app_start_shiny(self, private, path),
@@ -315,7 +322,10 @@ shinyapp <- R6Class(
     get_test_snapshot_url = function(input = TRUE, output = TRUE,
       export = TRUE, format = "json")
       app_get_test_snapshot_url(self, private, input, output, export,
-                                format)
+                                format),
+
+    next_snapshot_name = function()
+      app_next_snapshot_name(self, private)
 
   )
 )

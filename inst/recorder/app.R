@@ -84,22 +84,11 @@ codeGenerators <- list(
   },
 
   outputValue = function(event) {
-    paste0("expect_identical(\n",
-      "    app$get_all_values()$output[['",
-        event$name, "']],\n",
-      '    "', escapeString(event$value), '"\n  )'
-    )
+    paste0('app$record_output("', event$name, '")')
   },
 
   snapshot = function(event) {
-    paste0(
-      "expect_identical(\n",
-        '  app$get_all_values(),\n',
-        '  readRDS("',
-          file.path(save_dir, paste0("snapshot-", as.character(event$value), ".rds")),
-        '")\n',
-      ")"
-    )
+    "app$snapshot()"
   }
 )
 
@@ -153,18 +142,6 @@ shinyApp(
       readChar(file, file.info(file)$size, useBytes = TRUE)
     })
     outputOptions(output, "recorder_js", suspendWhenHidden = FALSE)
-
-    n_snapshots <- 0
-    observeEvent(input$snapshot, {
-      req <- httr::GET(input$testEndpointUrl)
-      n_snapshots <<- n_snapshots + 1
-
-      # Save snapshot
-      writeBin(
-        req$content,
-        file.path(save_dir, paste0("snapshot-", n_snapshots, ".rds"))
-      )
-    });
 
     testCode <- reactive({
       generateTestCode(input$testevents)
