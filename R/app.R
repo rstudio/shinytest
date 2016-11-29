@@ -286,8 +286,9 @@ shinyapp <- R6Class(
 
     snapshot = function(filename = private$next_snapshot_name(),
                         dir = file.path(getwd(), "snapshot"),
-                        items = list(input = TRUE, output = TRUE, export = TRUE))
-      app_snapshot(self, private, filename, dir, items)
+                        items = list(input = TRUE, output = TRUE, export = TRUE),
+                        screenshot = TRUE)
+      app_snapshot(self, private, filename, dir, items, screenshot)
 
   ),
 

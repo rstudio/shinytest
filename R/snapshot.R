@@ -1,4 +1,4 @@
-app_snapshot <- function(self, private, filename, dir, items)
+app_snapshot <- function(self, private, filename, dir, items, screenshot)
 {
   if (!is.list(items))
     stop("'items' must be a list.")
@@ -14,16 +14,21 @@ app_snapshot <- function(self, private, filename, dir, items)
   if (is.null(items$output)) items$output <- FALSE
   if (is.null(items$export)) items$export <- FALSE
 
-  # Create directory
   if (!dir_exists(dir))
-    dir.create(dir)
+    dir.create(dir, recursive = TRUE)
 
   url <- private$get_test_snapshot_url(items$input, items$output, items$export)
   req <- httr::GET(url)
 
   writeBin(req$content, file.path(dir, filename))
 
-  # Return JSON content as a string
+  if (screenshot) {
+    # Replace extension with .png
+    scr_filename <- paste0(sub("\\.[^.]*$", "", filename), ".png")
+    app$take_screenshot(file.path(dir, scr_filename))
+  }
+
+  # Invisibly return JSON content as a string
   data <- rawToChar(req$content)
   Encoding(data) <- "UTF-8"
   invisible(data)
