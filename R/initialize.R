@@ -58,6 +58,8 @@ app_start_shiny <- function(self, private, path) {
 
   assert_that(is_string(path))
 
+  private$path <- normalizePath(path)
+
   libpath <- paste(deparse(.libPaths()), collapse = "")
   rcmd <- sprintf(
     paste(
