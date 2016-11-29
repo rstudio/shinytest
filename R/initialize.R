@@ -11,6 +11,8 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   "!DEBUG start up shiny app from `path`"
   private$start_shiny(path)
 
+  self$set_tests_dir(file.path(path, "tests"))
+
   "!DEBUG create new phantomjs session"
   private$web <- session$new(port = private$phantom_port)
 

@@ -98,20 +98,15 @@ generateTestCode <- function(events) {
     codeGenerators[[event$type]](event)
   }, "")
 
-  if (length(eventCode) != 0)
-    eventCode <- sub("^", "  ", eventCode) # Indent with 2 spaces
+  if (length(eventCode) != 0) {
     eventCode <- paste(eventCode, collapse = "\n")
+  }
 
-  # Use paste(c()) so that if eventCode is character(0), it gets dropped;
-  # otherwise when empty it will result in an extra `\n`.
   paste(
-    c('library(testthat)\n',
-      'test_that("ADD TEST DESCRIPTION HERE", {',
-      '  app <- shinyapp$new("PATH/TO/APP")',
-      eventCode,
-      '})'
-    ),
-    collapse = "\n"
+    'app <- shinyapp$new("PATH/TO/APP")',
+    eventCode,
+    '',          # Add trailing \n
+    sep = "\n"
   )
 }
 
@@ -129,7 +124,16 @@ shinyApp(
       div(class = "shiny-recorder-title", "Test event recorder"),
       div(class = "shiny-recorder-controls",
         actionButton("snapshot", "Take snapshot"),
-        actionButton("exit", "Exit", class = "btn-danger")
+        actionButton("exit", "Exit", class = "btn-danger"),
+        checkboxInput("save", "Save script to file on exit", value = TRUE),
+        conditionalPanel("input.save === true",
+          textAreaInput("saveFile", label = NULL,
+            value = file.path(save_dir, "tests.R"),
+            rows = 3,
+            resize = "vertical"
+          ),
+          checkboxInput("editSaveFile", "Open script in editor", value = TRUE)
+        )
       ),
       verbatimTextOutput("testCode")
     )
@@ -151,6 +155,13 @@ shinyApp(
 
     observeEvent(input$exit, {
       stopApp({
+        if (input$save) {
+          cat(testCode(), file = input$saveFile)
+          message("Saved test code to ", input$saveFile)
+          if (input$editSaveFile)
+            file.edit(input$saveFile)
+        }
+
         cat(sep = "\n",
           "========== Code for testing application ==========",
           testCode()

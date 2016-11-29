@@ -285,11 +285,16 @@ shinyapp <- R6Class(
                       timeout_ = timeout_),
 
     snapshot = function(filename = private$next_snapshot_name(),
-                        dir = file.path(private$path, "tests"),
+                        dir = self$get_tests_dir(),
                         items = list(input = TRUE, output = TRUE, export = TRUE),
                         screenshot = TRUE)
-      app_snapshot(self, private, filename, dir, items, screenshot)
+      app_snapshot(self, private, filename, dir, items, screenshot),
 
+    get_tests_dir = function()
+      app_get_tests_dir(self, private),
+
+    set_tests_dir = function(path)
+      app_set_tests_dir(self, private, path)
   ),
 
   private = list(
@@ -303,6 +308,7 @@ shinyapp <- R6Class(
     web = NULL,                         # webdriver session
     after_id = NULL,
     shiny_test_snapshot_base_url = NULL, # URL for shiny's test API
+    tests_dir = NULL,                   # Directory for storing test artifacts
     snapshot_count = 0,
 
     start_shiny = function(path)
@@ -433,4 +439,12 @@ app_get_test_snapshot_url = function(self, private, input, output, export,
     paste0("format=", format),
     sep = "&"
   )
+}
+
+app_get_tests_dir <- function(self, private) {
+  private$tests_dir
+}
+
+app_set_tests_dir <- function(self, private, path) {
+  private$tests_dir <- path
 }
