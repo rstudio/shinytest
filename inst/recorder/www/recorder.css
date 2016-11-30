@@ -39,13 +39,18 @@ html,body {
 
 #shiny-recorder .shiny-recorder-controls {
   padding: 10px;
-  text-align: right;
+  /*text-align: right;*/
 }
 
+#shiny-recorder .recorded-events-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  background: #ea4343;
+  padding: 8px;
+}
 
-#shiny-recorder .shiny-recorder-code pre {
-  overflow: visible;
-  word-wrap: break-word;
-  white-space: pre-wrap;
+#recorded-events {
   flex-grow: 1;
+  overflow-y: scroll;
 }

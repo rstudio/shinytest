@@ -1,7 +1,18 @@
-app_snapshot <- function(self, private, filename, dir, items, screenshot)
+app_snapshot <- function(self, private, items, filename, dir, screenshot)
 {
-  if (!is.list(items))
-    stop("'items' must be a list.")
+  if (!is.list(items) && !is.null(items))
+    stop("'items' must be NULL or a list.")
+
+  # The default is to take a screenshot when the default is used for items (all
+  # items), but not when the user specifies items.
+  if (is.null(screenshot)) {
+    screenshot <- is.null(items)
+  }
+
+  # By default, record all items.
+  if (is.null(items)) {
+    items <- list(input = TRUE, output = TRUE, export = TRUE)
+  }
 
   extra_names <- setdiff(names(items), c("input", "output", "export"))
   if (length(extra_names) > 0) {

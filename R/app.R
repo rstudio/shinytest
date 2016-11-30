@@ -284,11 +284,11 @@ shinyapp <- R6Class(
       app_upload_file(self, private, ..., wait_ = wait_, values_ = values_,
                       timeout_ = timeout_),
 
-    snapshot = function(filename = private$next_snapshot_name(),
+    snapshot = function(items = NULL,
+                        filename = private$next_snapshot_name(),
                         dir = self$get_tests_dir(),
-                        items = list(input = TRUE, output = TRUE, export = TRUE),
-                        screenshot = TRUE)
-      app_snapshot(self, private, filename, dir, items, screenshot),
+                        screenshot = NULL)
+      app_snapshot(self, private, items, filename, dir, screenshot),
 
     get_tests_dir = function()
       app_get_tests_dir(self, private),

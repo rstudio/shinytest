@@ -84,7 +84,7 @@ codeGenerators <- list(
   },
 
   outputValue = function(event) {
-    paste0('app$record_output("', event$name, '")')
+    paste0('app$snapshot(list(output = "', event$name, '"))')
   },
 
   snapshot = function(event) {
@@ -135,7 +135,10 @@ shinyApp(
           checkboxInput("editSaveFile", "Open script in editor", value = TRUE)
         )
       ),
-      verbatimTextOutput("testCode")
+      div(class = "recorded-events-header", "Recorded events"),
+      div(id = "recorded-events",
+        tableOutput("recordedEvents")
+      )
     )
   ),
 
@@ -151,7 +154,34 @@ shinyApp(
       generateTestCode(input$testevents)
     })
 
-    output$testCode <- renderText(testCode())
+    output$recordedEvents <- renderTable(
+      {
+        # Genereate list of lists from all events. Inner lists have 'type' and
+        # 'name' fields.
+        events <- lapply(input$testevents, function(event) {
+          type <- event$type
+
+          if (type == "outputValue") {
+            list(type = "snapshot-output", name = event$name)
+          } else if (type == "snapshot") {
+            list(type = "snapshot", name = "<all>")
+          } else if (type == "input") {
+            list(type = "input", name = event$name)
+          }
+        })
+
+        # Transpose list of lists into data frame
+        data.frame(
+          `Event type` = vapply(events, `[[`, character(1), "type"),
+          Name = vapply(events, `[[`, character(1), "name"),
+          stringsAsFactors = FALSE,
+          check.names = FALSE
+        )
+      },
+      width = "100%",
+      rownames = TRUE,
+      striped = TRUE
+    )
 
     observeEvent(input$exit, {
       stopApp({

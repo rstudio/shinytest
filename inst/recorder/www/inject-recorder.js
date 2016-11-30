@@ -189,3 +189,14 @@ window.recorder = (function() {
 
     return recorder;
 })();
+
+
+// Scroll to bottom of recorded event table whenever new content is received.
+$(document).on("shiny:value", function(event) {
+    if (event.target.id === "recordedEvents") {
+        var $el = $("#recorded-events");
+        $el.animate({
+            scrollTop: $el[0].scrollHeight
+        }, 200);
+    }
+});
