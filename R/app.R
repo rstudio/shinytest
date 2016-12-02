@@ -286,7 +286,7 @@ shinyapp <- R6Class(
 
     snapshot = function(items = NULL,
                         filename = private$next_snapshot_name(),
-                        dir = self$get_tests_dir(),
+                        dir = self$get_snapshot_dir(),
                         screenshot = NULL)
       app_snapshot(self, private, items, filename, dir, screenshot),
 
@@ -294,7 +294,13 @@ shinyapp <- R6Class(
       app_get_tests_dir(self, private),
 
     set_tests_dir = function(path)
-      app_set_tests_dir(self, private, path)
+      app_set_tests_dir(self, private, path),
+
+    get_snapshot_dir = function()
+      app_get_snapshot_dir(self, private),
+
+    set_snapshot_dir = function(path)
+      app_set_snapshot_dir(self, private, path)
   ),
 
   private = list(
@@ -308,7 +314,8 @@ shinyapp <- R6Class(
     web = NULL,                         # webdriver session
     after_id = NULL,
     shiny_test_snapshot_base_url = NULL, # URL for shiny's test API
-    tests_dir = NULL,                   # Directory for storing test artifacts
+    tests_dir = "tests",                # Directory for test scripts
+    snapshot_dir = "snapshots",         # Directory for storing test artifacts
     snapshot_count = 0,
 
     start_shiny = function(path)
@@ -442,9 +449,23 @@ app_get_test_snapshot_url = function(self, private, input, output, export,
 }
 
 app_get_tests_dir <- function(self, private) {
-  private$tests_dir
+  file.path(private$path, "tests")
 }
 
 app_set_tests_dir <- function(self, private, path) {
+  if (grepl("^/", path)) {
+    stop("Tests dir must be a relative path.")
+  }
   private$tests_dir <- path
+}
+
+app_get_snapshot_dir <- function(self, private) {
+  file.path(private$tests_dir, private$snapshot_dir)
+}
+
+app_set_snapshot_dir <- function(self, private, path) {
+  if (grepl("^/", path)) {
+    stop("Snapshot dir must be a relative path.")
+  }
+  private$snapshot_dir <- path
 }
