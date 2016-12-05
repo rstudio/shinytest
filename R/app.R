@@ -285,7 +285,7 @@ shinyapp <- R6Class(
                       timeout_ = timeout_),
 
     snapshot = function(items = NULL,
-                        filename = private$next_snapshot_name(),
+                        filename = NULL,
                         dir = self$get_snapshot_dir(),
                         screenshot = NULL)
       app_snapshot(self, private, items, filename, dir, screenshot),
@@ -315,7 +315,7 @@ shinyapp <- R6Class(
     after_id = NULL,
     shiny_test_snapshot_base_url = NULL, # URL for shiny's test API
     tests_dir = "tests",                # Directory for test scripts
-    snapshot_dir = "snapshots",         # Directory for storing test artifacts
+    snapshot_dir = "snapshot",          # Directory for storing test artifacts
     snapshot_count = 0,
 
     start_shiny = function(path)
@@ -336,10 +336,7 @@ shinyapp <- R6Class(
     get_test_snapshot_url = function(input = TRUE, output = TRUE,
       export = TRUE, format = "json")
       app_get_test_snapshot_url(self, private, input, output, export,
-                                format),
-
-    next_snapshot_name = function()
-      app_next_snapshot_name(self, private)
+                                format)
 
   )
 )
@@ -460,7 +457,7 @@ app_set_tests_dir <- function(self, private, path) {
 }
 
 app_get_snapshot_dir <- function(self, private) {
-  file.path(private$tests_dir, private$snapshot_dir)
+  file.path(self$get_tests_dir(), private$snapshot_dir)
 }
 
 app_set_snapshot_dir <- function(self, private, path) {
