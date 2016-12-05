@@ -84,25 +84,3 @@ compare_to_expected <- function(filename, expected_dir, current_dir) {
 
   TRUE
 }
-
-files_identical <- function(a, b) {
-  if (!file.exists(a)) {
-    message("File ", a, " not found.")
-    return(FALSE)
-  }
-  if (!file.exists(b)) {
-    message("File ", b, " not found.")
-    return(FALSE)
-  }
-
-  # Fast path: if not the same size, return FALSE
-  a_size <- file.info(a)$size
-  b_size <- file.info(b)$size
-  if (!identical(a_size, b_size)) {
-    return(FALSE)
-  }
-
-  a_content <- readBin(a, "raw", n = a_size)
-  b_content <- readBin(b, "raw", n = b_size)
-  identical(a_content, b_content)
-}

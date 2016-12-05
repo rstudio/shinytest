@@ -286,9 +286,8 @@ shinyapp <- R6Class(
 
     snapshot = function(items = NULL,
                         filename = NULL,
-                        dir = self$get_snapshot_dir(),
                         screenshot = NULL)
-      app_snapshot(self, private, items, filename, dir, screenshot),
+      app_snapshot(self, private, items, filename, screenshot),
 
     get_tests_dir = function()
       app_get_tests_dir(self, private),
@@ -299,8 +298,14 @@ shinyapp <- R6Class(
     get_snapshot_dir = function()
       app_get_snapshot_dir(self, private),
 
-    set_snapshot_dir = function(path)
-      app_set_snapshot_dir(self, private, path)
+    snapshot_init = function(path)
+      app_snapshot_init(self, private, path),
+
+    snapshot_compare = function()
+      app_snapshot_compare(self, private),
+
+    snapshot_update = function()
+      app_snapshot_update(self, private)
   ),
 
   private = list(
@@ -460,9 +465,14 @@ app_get_snapshot_dir <- function(self, private) {
   file.path(self$get_tests_dir(), private$snapshot_dir)
 }
 
-app_set_snapshot_dir <- function(self, private, path) {
+app_snapshot_init <- function(self, private, path) {
   if (grepl("^/", path)) {
     stop("Snapshot dir must be a relative path.")
   }
+
+  # Strip off trailing slash if present
+  path <- sub("/$", "", path)
+
+  private$snapshot_count <- 0
   private$snapshot_dir <- path
 }

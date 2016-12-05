@@ -1,14 +1,11 @@
-app_snapshot <- function(self, private, items, filename, dir, screenshot)
+app_snapshot <- function(self, private, items, filename, screenshot)
 {
   if (!is.list(items) && !is.null(items))
     stop("'items' must be NULL or a list.")
 
   private$snapshot_count <- private$snapshot_count + 1
 
-  # Strip off trailing slash if present
-  dir <- sub("/$", "", dir)
-  cur_dir <- paste0(dir, "-current")
-  expected_dir <- paste0(dir, "-expected")
+  current_dir  <- paste0(self$get_snapshot_dir(), "-current")
 
   if (is.null(filename)) {
     filename <- sprintf("%02d.json", private$snapshot_count)
@@ -43,32 +40,56 @@ app_snapshot <- function(self, private, items, filename, dir, screenshot)
 
   # For first snapshot, create -current snapshot dir.
   if (private$snapshot_count == 1) {
-    if (dir_exists(cur_dir)) {
-      unlink(cur_dir, recursive = TRUE)
+    if (dir_exists(current_dir)) {
+      unlink(current_dir, recursive = TRUE)
     }
-    dir.create(cur_dir, recursive = TRUE)
+    dir.create(current_dir, recursive = TRUE)
   }
 
-  writeBin(req$content, file.path(cur_dir, filename))
+  writeBin(req$content, file.path(current_dir, filename))
 
   if (screenshot) {
     # Replace extension with .png
     scr_filename <- paste0(sub("\\.[^.]*$", "", filename), ".png")
-    app$take_screenshot(file.path(cur_dir, scr_filename))
-  }
-
-  # Compare to expected result ------------------------------------------------
-  if (dir_exists(expected_dir)) {
-    compare_to_expected(filename, expected_dir, current_dir)
-  } else {
-    if (private$snapshot_count == 1) {
-      message("First run with snapshots. No expected directory to compare to.",
-        " When finished, run update_expected().")
-    }
+    app$take_screenshot(file.path(current_dir, scr_filename))
   }
 
   # Invisibly return JSON content as a string
   data <- rawToChar(req$content)
   Encoding(data) <- "UTF-8"
   invisible(data)
+}
+
+
+app_snapshot_compare <- function(self, private) {
+  current_dir  <- paste0(self$get_snapshot_dir(), "-current")
+  expected_dir <- paste0(self$get_snapshot_dir(), "-expected")
+
+  if (dir_exists(expected_dir)) {
+    res <- dirs_identical(expected_dir, current_dir)
+
+    # If identical contents, remove dir with current results
+    if (res) unlink(current_dir)
+
+    invisible(res)
+
+  } else {
+    message("No existing snapshots at ", expected_dir, ". This must be a first run of tests. Run app$snapshot_update() to save current results as expected results.")
+    invisible(FALSE)
+  }
+}
+
+
+app_snapshot_update <- function(self, private) {
+  current_dir  <- paste0(self$get_snapshot_dir(), "-current")
+  expected_dir <- paste0(self$get_snapshot_dir(), "-expected")
+
+  if (dir_exists(expected_dir)) {
+    message("Removing old expected directory ", expected_dir)
+    unlink(expected_dir, recursive = TRUE)
+  }
+
+  message("Renaming ", current_dir, " to ", expected_dir, ".")
+  file.rename(current_dir, expected_dir)
+  invisible()
 }
