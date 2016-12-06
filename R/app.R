@@ -301,8 +301,8 @@ shinyapp <- R6Class(
     snapshot_init = function(path)
       app_snapshot_init(self, private, path),
 
-    snapshot_compare = function()
-      app_snapshot_compare(self, private),
+    snapshot_compare = function(autoremove = TRUE)
+      app_snapshot_compare(self, private, autoremove),
 
     snapshot_update = function()
       app_snapshot_update(self, private)

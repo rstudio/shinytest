@@ -61,15 +61,17 @@ app_snapshot <- function(self, private, items, filename, screenshot)
 }
 
 
-app_snapshot_compare <- function(self, private) {
+app_snapshot_compare <- function(self, private, autoremove) {
   current_dir  <- paste0(self$get_snapshot_dir(), "-current")
   expected_dir <- paste0(self$get_snapshot_dir(), "-expected")
 
   if (dir_exists(expected_dir)) {
     res <- dirs_identical(expected_dir, current_dir)
 
-    # If identical contents, remove dir with current results
-    if (res) unlink(current_dir)
+    if (res && autoremove) {
+      # If identical contents, remove dir with current results
+      unlink(current_dir)
+    }
 
     invisible(res)
 
