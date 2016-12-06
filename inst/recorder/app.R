@@ -92,7 +92,7 @@ codeGenerators <- list(
   }
 )
 
-generateTestCode <- function(events) {
+generateTestCode <- function(events, name) {
   # Generate code for each input and output event
   eventCode <- vapply(events, function(event) {
     codeGenerators[[event$type]](event)
@@ -104,8 +104,10 @@ generateTestCode <- function(events) {
 
   paste(
     'app <- shinyapp$new("PATH/TO/APP")',
+    paste0('app$snapshot_init("', name, '")'),
+    '',
     eventCode,
-    '',          # Add trailing \n
+    '\napp$snapshot_compare()\n',
     sep = "\n"
   )
 }
@@ -127,12 +129,10 @@ shinyApp(
         actionButton("exit", "Exit", class = "btn-danger"),
         checkboxInput("save", "Save script to file on exit", value = TRUE),
         conditionalPanel("input.save === true",
-          textAreaInput("saveFile", label = NULL,
-            value = file.path(save_dir, "tests.R"),
-            rows = 3,
-            resize = "vertical"
-          ),
-          checkboxInput("editSaveFile", "Open script in editor", value = TRUE)
+          wellPanel(
+            textInput("testname", label = "Name of tests", value = "mytests"),
+            checkboxInput("editSaveFile", "Open script in editor", value = TRUE)
+          )
         )
       ),
       div(class = "recorded-events-header", "Recorded events"),
@@ -151,7 +151,11 @@ shinyApp(
     outputOptions(output, "recorder_js", suspendWhenHidden = FALSE)
 
     testCode <- reactive({
-      generateTestCode(input$testevents)
+      generateTestCode(input$testevents, input$testname)
+    })
+
+    saveFile <- reactive({
+      file.path(save_dir, paste0(input$testname, ".R"))
     })
 
     output$recordedEvents <- renderTable(
@@ -186,16 +190,17 @@ shinyApp(
     observeEvent(input$exit, {
       stopApp({
         if (input$save) {
-          cat(testCode(), file = input$saveFile)
-          message("Saved test code to ", input$saveFile)
+          cat(testCode(), file = saveFile())
+          message("Saved test code to ", saveFile())
           if (input$editSaveFile)
-            file.edit(input$saveFile)
-        }
+            file.edit(saveFile())
 
-        cat(sep = "\n",
-          "========== Code for testing application ==========",
-          testCode()
-        )
+        } else {
+          cat(sep = "\n",
+            "========== Code for testing application ==========",
+            testCode()
+          )
+        }
         invisible(testCode())
       })
     })
