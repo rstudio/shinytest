@@ -49,3 +49,28 @@ is_osx     <- function() Sys.info()[['sysname']] == 'Darwin'
 is_linux   <- function() Sys.info()[['sysname']] == 'Linux'
 
 dir_exists <- function(path) utils::file_test('-d', path)
+
+rel_path <- function(path, base = getwd()) {
+  # Attempt to normalize path; if it fails, leave unchanged
+  try(
+    path <- normalizePath(path, mustWork = TRUE),
+    silent = TRUE
+  )
+
+  base_len <- nchar(base)
+
+  if (substring(path, 1, base_len) == base) {
+    new_path <- substring(path, base_len + 1)
+    # Strip off leading / if present
+    if (substring(new_path, 1, 1) == "/") {
+      new_path <- substring(new_path, 2)
+    }
+    if (new_path == "")
+      return(".")
+    else
+      return(new_path)
+
+  } else {
+    path
+  }
+}
