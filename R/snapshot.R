@@ -74,7 +74,9 @@ app_snapshot_compare <- function(self, private) {
     invisible(res)
 
   } else {
-    message("No existing snapshots at ", expected_dir, ". This must be a first run of tests. Run app$snapshot_update() to save current results as expected results.")
+    message("No existing snapshots at ", rel_path(expected_dir), ".\n",
+      "This must be a first run of tests.\n",
+      "Run app$snapshot_update() to save current results as expected results.")
     invisible(FALSE)
   }
 }
@@ -85,11 +87,11 @@ app_snapshot_update <- function(self, private) {
   expected_dir <- paste0(self$get_snapshot_dir(), "-expected")
 
   if (dir_exists(expected_dir)) {
-    message("Removing old expected directory ", expected_dir)
+    message("Removing old expected directory ", rel_path(expected_dir), ".")
     unlink(expected_dir, recursive = TRUE)
   }
 
-  message("Renaming ", current_dir, " to ", expected_dir, ".")
+  message("Renaming ", rel_path(current_dir), " => ", rel_path(expected_dir), ".")
   file.rename(current_dir, expected_dir)
   invisible()
 }
