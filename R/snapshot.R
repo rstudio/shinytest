@@ -51,7 +51,7 @@ app_snapshot <- function(self, private, items, filename, screenshot)
   if (screenshot) {
     # Replace extension with .png
     scr_filename <- paste0(sub("\\.[^.]*$", "", filename), ".png")
-    app$take_screenshot(file.path(current_dir, scr_filename))
+    self$take_screenshot(file.path(current_dir, scr_filename))
   }
 
   # Invisibly return JSON content as a string
