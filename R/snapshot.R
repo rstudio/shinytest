@@ -66,14 +66,34 @@ app_snapshot_compare <- function(self, private, autoremove) {
   expected_dir <- paste0(self$get_snapshot_dir(), "-expected")
 
   if (dir_exists(expected_dir)) {
-    res <- dirs_identical(expected_dir, current_dir)
+    res <- dirs_diff(expected_dir, current_dir)
 
-    if (res && autoremove) {
+    # If any files are missing from current or expected, or if they are not
+    # identical, then there are differences between the dirs.
+    any_different <- any(!res$current | !res$expected | !res$identical)
+
+    if (any_different) {
+      message("Differences detected between ", basename(current_dir),
+              "/ and ", basename(expected_dir), "/:\n")
+
+      # A copy of res that shows the differences, just for printed output.
+      res2 <- res[!res$current | !res$expected | !res$identical,
+                  c("name", "current", "expected", "identical")]
+      res2$current   <- ifelse(res2$current,   "", "Missing")
+      res2$expected  <- ifelse(res2$expected,  "", "Missing")
+      res2$identical <- ifelse(res2$identical | is.na(res2$identical), "", "Yes")
+      names(res2) <- c("Name", "  Current", "  Expected", "  Files differ?")
+      message(paste(capture.output(print(res2, row.names = FALSE)), collapse = "\n"))
+
+      message("\nRun app$snapshot_update() to save current results as expected results.")
+    }
+
+    if (!any_different && autoremove) {
       # If identical contents, remove dir with current results
       unlink(current_dir)
     }
 
-    invisible(res)
+    invisible(!any_different)
 
   } else {
     message("No existing snapshots at ", rel_path(expected_dir), ".\n",

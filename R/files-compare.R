@@ -21,7 +21,7 @@ files_identical <- function(a, b) {
 }
 
 
-dirs_identical <- function(expected, current) {
+dirs_diff <- function(expected, current) {
   diff_found <- FALSE
 
   if (!dir_exists(expected)) stop("Directory ", expected, " not found.")
@@ -32,55 +32,29 @@ dirs_identical <- function(expected, current) {
 
   # Compare individual files
   all_files <- sort(union(expected_files, current_files))
-  for (file in all_files) {
+  res <- lapply(all_files, function(file) {
     expected_file <- file.path(expected, file)
     current_file  <- file.path(current, file)
 
-    if (!file.exists(expected_file)) {
-      message("Current dir contains files not found in expected dir: ", file)
-      diff_found <- TRUE
-
-    } else if (!file.exists(current_file)) {
-      message("Expected dir contains files not found in current dir: ", file)
-      diff_found <- TRUE
-
-    } else {
-      res <- files_identical(expected_file, current_file)
-      if (!res) {
-        message("Expected file ", expected_file,
-          " and current file ", current_file, " have different contents."
-        )
-        diff_found <- TRUE
-      }
-    }
-  }
-
-  !diff_found
-}
-
-
-compare_to_expected <- function(filename, expected_dir, current_dir) {
-  if (!dir_exists(expected_dir)) stop("Directory ", expected_dir, " not found.")
-  if (!dir_exists(current_dir))  stop("Directory ", current_dir, " not found.")
-
-  expected_file <- file.path(expected_dir, filename)
-  current_file  <- file.path(current_dir,  filename)
-
-  if (!file.exists(expected_file)) {
-    message("File not found in expected dir: ", filename)
-    return(FALSE)
-
-  } else if (!file.exists(current_file)) {
-    message("Expected dir contains files not found in current dir: ", filename)
-    return(FALSE)
-
-  } else if (!files_identical(expected_file, current_file)) {
-    message(
-      "File named ", filename, " in ", expected_dir,
-      " has different contents from ", current_dir, "."
+    res <- list(
+      name = file,
+      expected = file.exists(expected_file),
+      current  = file.exists(current_file)
     )
-    return(FALSE)
-  }
 
-  TRUE
+    if (res$expected && res$current) {
+      res$identical <- files_identical(expected_file, current_file)
+    } else {
+      res$identical <- NA
+    }
+    res
+  })
+
+  # Convert to data frame
+  data.frame(
+    name      = vapply(res, `[[`, "name",      FUN.VALUE = ""),
+    expected  = vapply(res, `[[`, "expected",  FUN.VALUE = TRUE),
+    current   = vapply(res, `[[`, "current",   FUN.VALUE = TRUE),
+    identical = vapply(res, `[[`, "identical", FUN.VALUE = TRUE)
+  )
 }
