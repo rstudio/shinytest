@@ -73,19 +73,37 @@ app_snapshot_compare <- function(self, private, autoremove) {
     any_different <- any(!res$current | !res$expected | !res$identical)
 
     if (any_different) {
-      message("Differences detected between ", basename(current_dir),
+      message("  Differences detected between ", basename(current_dir),
               "/ and ", basename(expected_dir), "/:\n")
 
-      # A copy of res that shows the differences, just for printed output.
-      res2 <- res[!res$current | !res$expected | !res$identical,
-                  c("name", "current", "expected", "identical")]
-      res2$current   <- ifelse(res2$current,   "", "Missing")
-      res2$expected  <- ifelse(res2$expected,  "", "Missing")
-      res2$identical <- ifelse(res2$identical | is.na(res2$identical), "", "Yes")
-      names(res2) <- c("Name", "  Current", "  Expected", "  Files differ?")
-      message(paste(capture.output(print(res2, row.names = FALSE)), collapse = "\n"))
+      # A data frame that shows the differences, just for printed output.
+      status <- data.frame(
+        Name = res$name,
+        " " = "",
+        Status = "No change",
+        stringsAsFactors = FALSE, check.names = FALSE
+      )
 
-      message("\nRun app$snapshot_update() to save current results as expected results.")
+      status[[" "]]     [!res$current]  <- "-"
+      status[["Status"]][!res$current]  <- "Missing in -current/"
+
+      status[[" "]]     [!res$expected] <- "+"
+      status[["Status"]][!res$expected] <- "Missing in -expected/"
+
+      # Use which() to ignore NA's
+      status[[" "]][which(!res$identical)]      <- "\U2260"   # not-equal symbol
+      status[["Status"]][which(!res$identical)] <- "Files differ"
+
+      # Add spaces for nicer printed output
+      names(status)[names(status) == "Name"] <- "Name     "
+
+      status_table <- capture.output(print(status, row.names = FALSE, right = FALSE))
+      status_table <- sub("^", "   ", status_table)
+      message(paste(status_table, collapse = "\n"))
+
+      message('\n  To save current results as expected results, run:\n',
+        '    update_snapshot("', basename(self$get_snapshot_dir()), '", "',
+        rel_path(self$get_tests_dir()), '")\n')
     }
 
     if (!any_different && autoremove) {
@@ -93,14 +111,21 @@ app_snapshot_compare <- function(self, private, autoremove) {
       unlink(current_dir)
     }
 
-    invisible(!any_different)
+
+    snapshot_status <- if (any_different) "different" else "same"
 
   } else {
-    message("No existing snapshots at ", rel_path(expected_dir), ".\n",
-      "This must be a first run of tests.\n",
-      "Run app$snapshot_update() to save current results as expected results.")
-    invisible(FALSE)
+    message("  No existing snapshots at ", rel_path(expected_dir), ".\n",
+      "  This must be a first run of tests.\n",
+      '  Run update_snapshot("', '", "', self$get_tests_dir(),
+      '") to save current results as expected results.\n')
+    snapshot_status <- "new"
   }
+
+  invisible(list(
+    name = basename(self$get_snapshot_dir()),
+    status = snapshot_status
+  ))
 }
 
 
