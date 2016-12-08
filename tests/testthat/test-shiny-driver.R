@@ -1,9 +1,9 @@
 
-context("shinyapp")
+context("ShinyDriver")
 
 test_that("get_value", {
 
-  app <- shinyapp$new("apps/081-widgets-gallery")
+  app <- ShinyDriver$new("apps/081-widgets-gallery")
 
   expect_true(app$get_value("checkbox"))
   expect_identical(app$get_value("checkGroup"), "1")
@@ -24,7 +24,7 @@ test_that("get_value", {
 
 test_that("window size", {
 
-  app <- shinyapp$new("apps/081-widgets-gallery")
+  app <- ShinyDriver$new("apps/081-widgets-gallery")
 
   app$set_window_size(1200, 800);
   expect_identical(

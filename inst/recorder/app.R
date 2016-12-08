@@ -103,7 +103,7 @@ generateTestCode <- function(events, name) {
   }
 
   paste(
-    'app <- shinyapp$new("..")',
+    'app <- ShinyDriver$new("..")',
     paste0('app$snapshot_init("', name, '")'),
     '',
     eventCode,

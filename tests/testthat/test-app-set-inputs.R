@@ -1,6 +1,6 @@
 context("app$set_inputs")
 
-app <- shinyapp$new(test_path("apps/081-widgets-gallery"))
+app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
 test_that("app$set_inputs for all input widgets", {
   # Check initial values

@@ -3,7 +3,7 @@ context("updates")
 
 test_that("updates for all widget in the gallery", {
 
-  app <- shinyapp$new("apps/081-widgets-gallery")
+  app <- ShinyDriver$new("apps/081-widgets-gallery")
 
   expect_update(app, checkbox = FALSE, output = "checkboxOut")
   expect_equal(app$get_value("checkboxOut"), "[1] FALSE")
@@ -60,7 +60,7 @@ test_that("updates for all widget in the gallery", {
 
 test_that("simple updates", {
 
-  app <- shinyapp$new("apps/050-kmeans-example")
+  app <- ShinyDriver$new("apps/050-kmeans-example")
 
   expect_update(app, xcol = "Sepal.Width", output = "plot1")
   expect_update(app, ycol = "Petal.Width", output = "plot1")

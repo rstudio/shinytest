@@ -3,7 +3,7 @@ context("widget$get_value")
 
 test_that("widget$get_value for all input widgets", {
 
-  app <- shinyapp$new("apps/081-widgets-gallery")
+  app <- ShinyDriver$new("apps/081-widgets-gallery")
 
   ## checkboxInput
   expect_identical(
@@ -73,7 +73,7 @@ test_that("widget$get_value for all input widgets", {
 
 test_that("widget$get_value for all output widgets", {
 
-  app <- shinyapp$new("apps/outputs")
+  app <- ShinyDriver$new("apps/outputs")
 
   ## htmlOutput
   expect_identical(

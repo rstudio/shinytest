@@ -7,6 +7,6 @@
 \title{Test Shiny Apps}
 \description{
 Uses a headless browser, driven through 'WebDriver'.
-See \code{\link{shinyapp}} to get started.
+See \code{\link{ShinyDriver}} to get started.
 }
 

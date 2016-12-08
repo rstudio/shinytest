@@ -1,6 +1,6 @@
 context("Exported values")
 
-app <- shinyapp$new(test_path("apps/test-exports/"))
+app <- ShinyDriver$new(test_path("apps/test-exports/"))
 
 test_that("Exported values", {
   x <- app$get_all_values()

@@ -8,7 +8,7 @@ expect_update(app, output, ..., timeout = 3000, iotype = c("auto", "input",
   "output"))
 }
 \arguments{
-\item{app}{A \code{\link{shinyapp}} object.}
+\item{app}{A \code{\link{ShinyDriver}} object.}
 
 \item{output}{Character vector, the name(s) of the output widgets
 that are required to update for the test to succeed.}
@@ -27,7 +27,7 @@ input widgets.}
 \examples{
 \dontrun{
 ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
-app <- shinyapp$new("050-kmeans-example")
+app <- ShinyDriver$new("050-kmeans-example")
 expect_update(app, xcol = "Sepal.Width", output = "plot1")
 expect_update(app, ycol = "Petal.Width", output = "plot1")
 expect_update(app, clusters = 4, output = "plot1")

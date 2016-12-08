@@ -1,20 +1,20 @@
 #' Launch test event recorder for a Shiny app
 #'
-#' @param app A \code{\link{shinyapp}} object, or path to
+#' @param app A \code{\link{ShinyDriver}} object, or path to
 #' @param save_dir A directory to save stuff.
 #' @export
 record_test <- function(app, save_dir = NULL) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
-  if (inherits(app, "shinyapp")) {
+  if (inherits(app, "ShinyDriver")) {
     url <- app$get_url()
   } else if (is.character(app)) {
     if (grepl("^http(s?)://", app)) {
       stop("Recording tests for remote apps is not yet supported.")
     } else {
       # It's a path to an app; start the app
-      app_obj <- shinyapp$new(app)
+      app_obj <- ShinyDriver$new(app)
       on.exit({
         rm(app_obj)
         gc()

@@ -22,7 +22,7 @@
 #'
 #' @section Arguments:
 #' \describe{
-#'   \item{app}{A \code{\link{shinyapp}} object.}
+#'   \item{app}{A \code{\link{ShinyDriver}} object.}
 #'   \item{w}{A \code{widget} object.}
 #'   \item{name}{Name of a Shiny widget.}
 #'   \item{iotype}{Character scalar, whether the widget is \sQuote{input}
@@ -40,7 +40,7 @@
 #'
 #' A \code{widget} object represents a Shiny input or output widget.
 #' \code{app$find_widget} creates a widget object from a
-#' \code{\link{shinyapp}} object.
+#' \code{\link{ShinyDriver}} object.
 #'
 #' \code{w$get_name()} returns the name of the widget.
 #'

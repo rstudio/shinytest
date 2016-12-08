@@ -2,11 +2,11 @@
 #' Class to manage a shiny app and a phantom.js headless browser
 #'
 #' @section Usage:
-#' \preformatted{app <- shinyapp$new(path = ".", load_timeout = 5000,
+#' \preformatted{app <- ShinyDriver$new(path = ".", load_timeout = 5000,
 #'               check_names = TRUE, debug = c("none", "all",
-#'               shinyapp$debug_log_types))
+#'               ShinyDriver$debug_log_types))
 #' app$stop()
-#' app$get_debug_log(type = c("all", shinyapp$debug_log_types))
+#' app$get_debug_log(type = c("all", ShinyDriver$debug_log_types))
 #'
 #' app$get_value(name, iotype = c("auto", "input", "output"))
 #' app$set_value(name, value, iotype = c("auto", "input", "output"))
@@ -42,7 +42,7 @@
 #'
 #' @section Arguments:
 #' \describe{
-#'   \item{app}{A \code{shinyapp} instance.}
+#'   \item{app}{A \code{ShinyDriver} instance.}
 #'   \item{path}{Path to a directory containing a Shiny app, i.e. a
 #'      single \code{app.R} file or a \code{server.R} and \code{ui.R}
 #'      pair.}
@@ -85,7 +85,7 @@
 #'
 #' @section Details:
 #'
-#' \code{shinyapp$new()} function creates a \code{shinyapp} object. It starts
+#' \code{ShinyDriver$new()} function creates a \code{ShinyDriver} object. It starts
 #' the Shiny app in a new R session, and it also starts a \code{phantomjs}
 #' headless browser that connects to the app. It waits until the app is
 #' ready to use. It waits at most \code{load_timeout} milliseconds, and if
@@ -173,11 +173,11 @@
 #' all specified output widgets are updated before the timeout. For
 #' updates that involve a lot of computation, you increase the timeout.
 #'
-#' @name shinyapp
+#' @name ShinyDriver
 #' @examples
 #' \dontrun{
 #' ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
-#' app <- shinyapp$new("050-kmeans-example")
+#' app <- ShinyDriver$new("050-kmeans-example")
 #' expect_update(app, xcol = "Sepal.Width", output = "plot1")
 #' expect_update(app, ycol = "Petal.Width", output = "plot1")
 #' expect_update(app, clusters = 4, output = "plot1")
@@ -187,14 +187,14 @@ NULL
 #' @importFrom R6 R6Class
 #' @export
 
-shinyapp <- R6Class(
-  "shinyapp",
+ShinyDriver <- R6Class(
+  "ShinyDriver",
 
   public = list(
 
     initialize = function(path = ".", load_timeout = 5000,
       check_names = TRUE,
-      debug = c("none", "all", shinyapp$debug_log_types))
+      debug = c("none", "all", ShinyDriver$debug_log_types))
       app_initialize(self, private, path, load_timeout, check_names,
                      match.arg(debug, several.ok = TRUE)),
 
@@ -221,7 +221,7 @@ shinyapp <- R6Class(
 
     ## Debugging
 
-    get_debug_log = function(type = c("all", shinyapp$debug_log_types))
+    get_debug_log = function(type = c("all", ShinyDriver$debug_log_types))
       app_get_debug_log(self, private, match.arg(type, several.ok = TRUE)),
 
     enable_debug_log_messages = function(enable = TRUE)
@@ -343,7 +343,7 @@ shinyapp <- R6Class(
   )
 )
 
-shinyapp$debug_log_types <- c(
+ShinyDriver$debug_log_types <- c(
   "shiny_console",
   "browser",
   "shinytest"

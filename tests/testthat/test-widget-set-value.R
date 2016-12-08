@@ -3,7 +3,7 @@ context("widget$set_value")
 
 test_that("widget$set_value for all input widgets", {
 
-  app <- shinyapp$new("apps/081-widgets-gallery")
+  app <- ShinyDriver$new("apps/081-widgets-gallery")
 
   ## numericInput
   expect_identical(

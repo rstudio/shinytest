@@ -7,7 +7,7 @@
 record_test(app, save_dir = NULL)
 }
 \arguments{
-\item{app}{A \code{\link{shinyapp}} object, or path to}
+\item{app}{A \code{\link{ShinyDriver}} object, or path to}
 
 \item{save_dir}{A directory to save stuff.}
 }
