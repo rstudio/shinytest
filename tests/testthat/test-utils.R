@@ -19,6 +19,6 @@ test_that("rel_path works", {
   # normalization worked in these cases, but it doesn't.
   expect_identical(
     rel_path(file.path(getwd(), "..", basename(getwd()), "a"), getwd()),
-    file.path(getwd(), "..", basename(getwd()), "a")
+    file.path("..", basename(getwd()), "a")
   )
 })
