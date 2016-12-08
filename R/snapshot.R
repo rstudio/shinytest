@@ -62,8 +62,32 @@ app_snapshot <- function(self, private, items, filename, screenshot)
 
 
 app_snapshot_compare <- function(self, private, autoremove) {
-  current_dir  <- paste0(self$get_snapshot_dir(), "-current")
-  expected_dir <- paste0(self$get_snapshot_dir(), "-expected")
+  snapshot_compare(private$snapshot_dir, self$get_tests_dir(), autoremove)
+}
+
+#' Compare current and expected snapshots
+#'
+#' This compares a current and expected snapshot for a test set, and prints
+#' any differences to the console.
+#'
+#' @param name Name of a snapshot.
+#' @param testsDir Directory that holds the tests for an application. This is
+#'   the parent directory for the expected and current snapshot directories.
+#' @param autoremove If the current results match the expected results, should
+#'   the current results be removed automatically? Defaults to TRUE.
+#'
+#' @export
+snapshot_compare <- function(name, testsDir, autoremove = TRUE) {
+  current_dir  <- file.path(testsDir, paste0(name, "-current"))
+  expected_dir <- file.path(testsDir, paste0(name, "-expected"))
+
+  # When this function is called from test_app(), this is the way that we get
+  # the relative path from the current working dir when test_app() is called.
+  # (By the time this function is called, the current working dir is usually set
+  # to the test directory.) If the option isn't set, this function was probably
+  # called directly (not from test_app()), and we'll just use the value passed
+  # in.
+  relativeTestsDir <- getOption("shinytest.tests.dir", default = testsDir)
 
   if (dir_exists(expected_dir)) {
     res <- dirs_diff(expected_dir, current_dir)
@@ -97,48 +121,64 @@ app_snapshot_compare <- function(self, private, autoremove) {
       # Add spaces for nicer printed output
       names(status)[names(status) == "Name"] <- "Name     "
 
-      status_table <- capture.output(print(status, row.names = FALSE, right = FALSE))
+      status_table <- utils::capture.output(print(status, row.names = FALSE, right = FALSE))
       status_table <- sub("^", "   ", status_table)
       message(paste(status_table, collapse = "\n"))
 
       message('\n  To save current results as expected results, run:\n',
-        '    update_snapshot("', basename(self$get_snapshot_dir()), '", "',
-        rel_path(self$get_tests_dir()), '")\n')
+              '    snapshot_update("', name, '", "',
+              relativeTestsDir, '")\n')
     }
 
     if (!any_different && autoremove) {
       # If identical contents, remove dir with current results
-      unlink(current_dir)
+      unlink(current_dir, recursive = TRUE)
     }
 
 
     snapshot_status <- if (any_different) "different" else "same"
 
   } else {
-    message("  No existing snapshots at ", rel_path(expected_dir), ".\n",
-      "  This must be a first run of tests.\n",
-      '  Run update_snapshot("', '", "', self$get_tests_dir(),
-      '") to save current results as expected results.\n')
+    message("  No existing snapshots at ", basename(expected_dir), "/.",
+            " This is a first run of tests.\n",
+            '  To save current results as expected results, run:\n',
+            '    snapshot_update("', name, '", "',
+            relativeTestsDir, '")\n')
+
     snapshot_status <- "new"
   }
 
   invisible(list(
-    name = basename(self$get_snapshot_dir()),
+    name = name,
     status = snapshot_status
   ))
 }
 
 
-app_snapshot_update <- function(self, private) {
-  current_dir  <- paste0(self$get_snapshot_dir(), "-current")
-  expected_dir <- paste0(self$get_snapshot_dir(), "-expected")
+#' Update expected snapshot with current snapshot
+#'
+#' @rdname snapshot_compare
+#' @inheritParams snapshot_compare
+#' @export
+snapshot_update <- function(name, testsDir = ".") {
+  # Strip off trailing slash if present
+  name <- sub("/$", "", name)
+
+  base_path <- file.path(testsDir, name)
+  current_dir  <- paste0(base_path, "-current")
+  expected_dir <- paste0(base_path, "-expected")
+
+  if (!dir_exists(current_dir)) {
+    stop("Current result directory not found: ", current_dir)
+  }
 
   if (dir_exists(expected_dir)) {
-    message("Removing old expected directory ", rel_path(expected_dir), ".")
+    message("Removing ", rel_path(expected_dir), ".")
     unlink(expected_dir, recursive = TRUE)
   }
 
-  message("Renaming ", rel_path(current_dir), " => ", rel_path(expected_dir), ".")
+  message("Renaming ", rel_path(current_dir),
+          "\n      => ", rel_path(expected_dir), ".")
   file.rename(current_dir, expected_dir)
   invisible()
 }
