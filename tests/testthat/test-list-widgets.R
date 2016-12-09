@@ -3,7 +3,7 @@ context("list widgets")
 
 test_that("list input & output widgets", {
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
-  widgets <- app$list_widgets()
+  widgets <- app$listWidgets()
   inputs <- widgets$input
 
   expect_equal(

@@ -30,7 +30,7 @@
 #'
 #' app$wait_for(expr, check_interval = 100, timeout = 3000)
 #'
-#' app$list_widgets()
+#' app$listWidgets()
 #'
 #' app$check_unique_widget_names()
 #'
@@ -157,7 +157,7 @@
 #' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 #' expression evaluated to \code{true}, possible after some waiting.
 #'
-#' \code{app$list_widgets()} lists the names of all input and output
+#' \code{app$listWidgets()} lists the names of all input and output
 #' widgets. It returns a list of two character vectors, named \code{input}
 #' and \code{output}.
 #'
@@ -260,8 +260,9 @@ ShinyDriver <- R6Class(
     wait_for = function(expr, check_interval = 100, timeout = 3000)
       app_wait_for(self, private, expr, check_interval, timeout),
 
-    list_widgets = function()
-      app_list_widgets(self, private),
+
+    listWidgets = function()
+      app_listWidgets(self, private),
 
     check_unique_widget_names = function()
       app_check_unique_widget_names(self, private),
@@ -389,8 +390,8 @@ app_wait_for <- function(self, private, expr, check_interval, timeout) {
   private$web$wait_for(expr, check_interval, timeout)
 }
 
-app_list_widgets <- function(self, private) {
-  "!DEBUG app_list_widgets"
+app_listWidgets <- function(self, private) {
+  "!DEBUG app_listWidgets"
   res <- private$web$execute_script("return shinytest.listWidgets();")
   res$input <- unlist(res$input)
   res$output <- unlist(res$output)
@@ -399,7 +400,7 @@ app_list_widgets <- function(self, private) {
 
 app_check_unique_widget_names <- function(self, private) {
   "!DEBUG app_check_unique_widget_names"
-  widgets <- self$list_widgets()
+  widgets <- self$listWidgets()
   inputs <- widgets$input
   outputs <- widgets$output
 
