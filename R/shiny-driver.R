@@ -292,8 +292,8 @@ ShinyDriver <- R6Class(
     getTestsDir = function()
       app_getTestsDir(self, private),
 
-    set_tests_dir = function(path)
-      app_set_tests_dir(self, private, path),
+    setTestsDir = function(path)
+      app_setTestsDir(self, private, path),
 
     get_snapshot_dir = function()
       app_get_snapshot_dir(self, private),
@@ -451,7 +451,7 @@ app_getTestsDir <- function(self, private) {
   file.path(private$path, "tests")
 }
 
-app_set_tests_dir <- function(self, private, path) {
+app_setTestsDir <- function(self, private, path) {
   if (grepl("^/", path)) {
     stop("Tests dir must be a relative path.")
   }
