@@ -32,7 +32,7 @@
 #'
 #' app$listWidgets()
 #'
-#' app$check_unique_widget_names()
+#' app$checkUniqueWidgetNames()
 #'
 #' app$findWidget(name, iotype = c("auto", "input", "output"))
 #'
@@ -161,7 +161,7 @@
 #' widgets. It returns a list of two character vectors, named \code{input}
 #' and \code{output}.
 #'
-#' \code{app$check_unique_widget_names()} checks if Shiny widget names
+#' \code{app$checkUniqueWidgetNames()} checks if Shiny widget names
 #' are unique.
 #'
 #' \code{app$findWidget()} finds the corresponding HTML element of a Shiny
@@ -264,8 +264,8 @@ ShinyDriver <- R6Class(
     listWidgets = function()
       app_listWidgets(self, private),
 
-    check_unique_widget_names = function()
-      app_check_unique_widget_names(self, private),
+    checkUniqueWidgetNames = function()
+      app_checkUniqueWidgetNames(self, private),
 
     ## Main methods
 
@@ -398,8 +398,8 @@ app_listWidgets <- function(self, private) {
   res
 }
 
-app_check_unique_widget_names <- function(self, private) {
-  "!DEBUG app_check_unique_widget_names"
+app_checkUniqueWidgetNames <- function(self, private) {
+  "!DEBUG app_checkUniqueWidgetNames"
   widgets <- self$listWidgets()
   inputs <- widgets$input
   outputs <- widgets$output

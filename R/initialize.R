@@ -46,7 +46,7 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   )
 
   "!DEBUG checking widget names"
-  if (check_names) self$check_unique_widget_names()
+  if (check_names) self$checkUniqueWidgetNames()
 
   invisible(self)
 }
