@@ -53,7 +53,7 @@ dir_exists <- function(path) utils::file_test('-d', path)
 rel_path <- function(path, base = getwd()) {
   # Attempt to normalize path; if it fails, leave unchanged
   try(
-    path <- normalizePath(path, mustWork = TRUE),
+    path <- normalizePath(path, winslash = "/", mustWork = TRUE),
     silent = TRUE
   )
 
