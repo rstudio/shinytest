@@ -5,7 +5,7 @@ app_snapshot <- function(self, private, items, filename, screenshot)
 
   private$snapshot_count <- private$snapshot_count + 1
 
-  current_dir  <- paste0(self$get_snapshot_dir(), "-current")
+  current_dir  <- paste0(self$getSnapshotDir(), "-current")
 
   if (is.null(filename)) {
     filename <- sprintf("%02d.json", private$snapshot_count)

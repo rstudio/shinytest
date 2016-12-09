@@ -295,8 +295,8 @@ ShinyDriver <- R6Class(
     setTestsDir = function(path)
       app_setTestsDir(self, private, path),
 
-    get_snapshot_dir = function()
-      app_get_snapshot_dir(self, private),
+    getSnapshotDir = function()
+      app_getSnapshotDir(self, private),
 
     snapshot_init = function(path)
       app_snapshot_init(self, private, path),
@@ -458,7 +458,7 @@ app_setTestsDir <- function(self, private, path) {
   private$tests_dir <- path
 }
 
-app_get_snapshot_dir <- function(self, private) {
+app_getSnapshotDir <- function(self, private) {
   file.path(self$getTestsDir(), private$snapshot_dir)
 }
 
