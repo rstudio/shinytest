@@ -40,7 +40,7 @@ app_getDebugLog <- function(self, private, type) {
   merge_logs(output)
 }
 
-app_enable_debug_log_messages <- function(self, private, enable = TRUE) {
+app_enableDebugLogMessages <- function(self, private, enable = TRUE) {
   private$web$execute_script(
     "window.shinytest.log_messages = arguments[0]",
     enable

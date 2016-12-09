@@ -224,8 +224,8 @@ ShinyDriver <- R6Class(
     getDebugLog = function(type = c("all", ShinyDriver$debugLogTypes))
       app_getDebugLog(self, private, match.arg(type, several.ok = TRUE)),
 
-    enable_debug_log_messages = function(enable = TRUE)
-      app_enable_debug_log_messages(self, private, enable),
+    enableDebugLogMessages = function(enable = TRUE)
+      app_enableDebugLogMessages(self, private, enable),
 
     ## These are just forwarded to the webdriver session
 
