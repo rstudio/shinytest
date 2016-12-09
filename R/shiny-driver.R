@@ -13,7 +13,7 @@
 #' app$sendKeys(name = NULL, keys)
 #'
 #' app$get_windows_size()
-#' app$set_window_size(width, height)
+#' app$setWindowSize(width, height)
 #'
 #' app$get_url()
 #' app$go_back()
@@ -123,7 +123,7 @@
 #' window, in a list of two integer scalars named \sQuote{width} and
 #' \sQuote{height}.
 #'
-#' \code{app$set_window_size()} sets the size of the browser window to the
+#' \code{app$setWindowSize()} sets the size of the browser window to the
 #' specified width and height.
 #'
 #' \code{app$get_url()} returns the current URL.
@@ -213,8 +213,8 @@ ShinyDriver <- R6Class(
     sendKeys = function(name = NULL, keys)
       app_sendKeys(self, private, name, keys),
 
-    set_window_size = function(width, height)
-      app_set_window_size(self, private, width, height),
+    setWindowSize = function(width, height)
+      app_setWindowSize(self, private, width, height),
 
     get_window_size = function()
       app_get_window_size(self, private),
@@ -371,8 +371,8 @@ app_get_window_size <- function(self, private) {
   private$web$get_window()$get_size()
 }
 
-app_set_window_size <- function(self, private, width, height) {
-  "!DEBUG app_set_window_size `width`x`height`"
+app_setWindowSize <- function(self, private, width, height) {
+  "!DEBUG app_setWindowSize `width`x`height`"
   private$web$get_window()$set_size(width, height)
   invisible(self)
 }

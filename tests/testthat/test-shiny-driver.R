@@ -26,7 +26,7 @@ test_that("window size", {
 
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
-  app$set_window_size(1200, 800);
+  app$setWindowSize(1200, 800);
   expect_identical(
     app$get_window_size(),
     list(width = 1200L, height = 800L)
