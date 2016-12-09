@@ -13,7 +13,7 @@ widget_setValue <- function(self, private, value) {
   }
 
 
-  private$element$execute_script(setValueScript, value)
+  private$element$executeScript(setValueScript, value)
 
   invisible(self)
 }

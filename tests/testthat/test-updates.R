@@ -35,7 +35,7 @@ test_that("updates for all widget in the gallery", {
   ## watcher finishes before its final value is set
   expectUpdate(app, num = 42, output = "numOut")
   expect_true(
-    app$wait_for("$('#numOut.shiny-bound-output').text() == '[1] 42'")
+    app$waitFor("$('#numOut.shiny-bound-output').text() == '[1] 42'")
   )
   expect_equal(app$getValue("numOut"), "[1] 42")
 
@@ -53,7 +53,7 @@ test_that("updates for all widget in the gallery", {
 
   expectUpdate(app, text = "foobar", output = "textOut")
   expect_true(
-    app$wait_for("$('#textOut.shiny-bound-output').text() == '[1] \"foobar\"'")
+    app$waitFor("$('#textOut.shiny-bound-output').text() == '[1] \"foobar\"'")
   )
   expect_equal(app$getValue("textOut"), "[1] \"foobar\"")
 })

@@ -1,12 +1,12 @@
 
-app_get_url <- function(self, private) {
-  "!DEBUG app_get_url"
-  private$web$get_url()
+app_getUrl <- function(self, private) {
+  "!DEBUG app_getUrl"
+  private$web$getUrl()
 }
 
-app_go_back <- function(self, private) {
-  "!DEBUG app_go_back"
-  private$web$go_back()
+app_goBack <- function(self, private) {
+  "!DEBUG app_goBack"
+  private$web$goBack()
   invisible(self)
 }
 
@@ -16,29 +16,29 @@ app_refresh <- function(self, private) {
   invisible(self)
 }
 
-app_get_title <- function(self, private) {
-  "!DEBUG app_get_title"
-  private$web$get_title()
+app_getTitle <- function(self, private) {
+  "!DEBUG app_getTitle"
+  private$web$getTitle()
 }
 
-app_get_source <- function(self, private) {
-  "!DEBUG app_get_source"
-  private$web$get_source()
+app_getSource <- function(self, private) {
+  "!DEBUG app_getSource"
+  private$web$getSource()
 }
 
-app_take_screenshot <- function(self, private, file) {
-  "!DEBUG app_take_screenshot"
-  private$web$take_screenshot(file)
+app_takeScreenshot <- function(self, private, file) {
+  "!DEBUG app_takeScreenshot"
+  private$web$takeScreenshot(file)
 }
 
-app_find_element <- function(self, private, css, link_text,
+app_findElement <- function(self, private, css, link_text,
                              partial_link_text, xpath) {
-  "!DEBUG app_find_element '`css %||% link_text %||% partial_link_text %||% xpath`'"
-  private$web$find_element(css, link_text, partial_link_text, xpath)
+  "!DEBUG app_findElement '`css %||% link_text %||% partial_link_text %||% xpath`'"
+  private$web$findElement(css, link_text, partial_link_text, xpath)
 }
 
-app_find_elements <- function(self, private, css, link_text,
+app_findElements <- function(self, private, css, link_text,
                               partial_link_text, xpath) {
-  "!DEBUG app_find_elements '`css %||% link_text %||% partial_link_text %||% xpath`'"
-  private$web$find_elements(css, link_text, partial_link_text, xpath)
+  "!DEBUG app_findElements '`css %||% link_text %||% partial_link_text %||% xpath`'"
+  private$web$findElements(css, link_text, partial_link_text, xpath)
 }

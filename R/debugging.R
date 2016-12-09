@@ -24,12 +24,12 @@ app_getDebugLog <- function(self, private, type) {
 
   if ("browser" %in% type) {
     "!DEBUG app_getDebugLog browser"
-    output$browser <- make_browser_log(private$web$read_log())
+    output$browser <- make_browser_log(private$web$readLog())
   }
 
   if ("shinytest" %in% type) {
     "!DEBUG app_getDebugLog shinytest log"
-    output$shinytest <- make_shinytest_log(private$web$execute_script(
+    output$shinytest <- make_shinytest_log(private$web$executeScript(
       "if (! window.shinytest) { return([]) }
        var res = window.shinytest.log_entries;
        window.shinytest.log_entries = [];
@@ -41,7 +41,7 @@ app_getDebugLog <- function(self, private, type) {
 }
 
 app_enableDebugLogMessages <- function(self, private, enable = TRUE) {
-  private$web$execute_script(
+  private$web$executeScript(
     "window.shinytest.log_messages = arguments[0]",
     enable
   )

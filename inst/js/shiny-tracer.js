@@ -123,7 +123,7 @@ window.shinytest = (function() {
     // Where `doSomething` is a function that does the desired work. It could
     // even be work that's done in a separate process. The reason that the
     // callback function must be passed to the `finish()` instead of `start()`
-    // is because calling `execute_script_async()` from the R side is
+    // is because calling `executeScriptAsync()` from the R side is
     // synchronous; it returns only when `callback()` is invoked.
     //
     // If wait==true, then wait for a message from server containing output

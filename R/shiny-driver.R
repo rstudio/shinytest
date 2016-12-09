@@ -15,20 +15,20 @@
 #' app$get_windows_size()
 #' app$setWindowSize(width, height)
 #'
-#' app$get_url()
-#' app$go_back()
+#' app$getUrl()
+#' app$goBack()
 #' app$refresh()
-#' app$get_title()
-#' app$get_source()
-#' app$take_screenshot(file = NULL)
+#' app$getTitle()
+#' app$getSource()
+#' app$takeScreenshot(file = NULL)
 #'
-#' app$find_element(css = NULL, link_text = NULL,
+#' app$findElement(css = NULL, link_text = NULL,
 #'      partial_link_text = NULL, xpath = NULL)
 #'
-#' app$find_elements(css = NULL, link_text = NULL,
+#' app$findElements(css = NULL, link_text = NULL,
 #'      partial_link_text = NULL, xpath = NULL)
 #'
-#' app$wait_for(expr, check_interval = 100, timeout = 3000)
+#' app$waitFor(expr, check_interval = 100, timeout = 3000)
 #'
 #' app$listWidgets()
 #'
@@ -126,34 +126,34 @@
 #' \code{app$setWindowSize()} sets the size of the browser window to the
 #' specified width and height.
 #'
-#' \code{app$get_url()} returns the current URL.
+#' \code{app$getUrl()} returns the current URL.
 #'
-#' \code{app$go_back()} \dQuote{presses} the browser's \sQuote{back}
+#' \code{app$goBack()} \dQuote{presses} the browser's \sQuote{back}
 #' button.
 #'
 #' \code{app$refresh()} \dQuote{presses} the browser's \sQuote{refresh}
 #' button.
 #'
-#' \code{app$get_title()} returns the title of the page. (More precisely
+#' \code{app$getTitle()} returns the title of the page. (More precisely
 #' the document title.)
 #'
-#' \code{app$get_source()} returns the complete HTML source of the current
+#' \code{app$getSource()} returns the complete HTML source of the current
 #' page, in a character scalar.
 #'
-#' \code{app$take_screenshot()} takes a screenshot of the current page
+#' \code{app$takeScreenshot()} takes a screenshot of the current page
 #' and writes it to a file, or (if \code{file} is \code{NULL}) shows it
 #' on the R graphics device. The output file has PNG format.
 #'
-#' \code{app$find_element()} find an HTML element on the page, using a
+#' \code{app$findElement()} find an HTML element on the page, using a
 #' CSS selector or an XPath expression. The return value is an
 #' \code{\link[webdriver]{element}} object from the \code{webdriver}
 #' package.
 #'
-#' \code{app$find_elements()} finds potentially multiple HTML elements,
+#' \code{app$findElements()} finds potentially multiple HTML elements,
 #' and returns them in a list of \code{\link[webdriver]{element}} objects
 #' from the \code{webdriver} package.
 #'
-#' \code{app$wait_for()} waits until a JavaScript expression evaluates
+#' \code{app$waitFor()} waits until a JavaScript expression evaluates
 #' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 #' expression evaluated to \code{true}, possible after some waiting.
 #'
@@ -229,36 +229,36 @@ ShinyDriver <- R6Class(
 
     ## These are just forwarded to the webdriver session
 
-    get_url = function()
-      app_get_url(self, private),
+    getUrl = function()
+      app_getUrl(self, private),
 
-    go_back = function()
-      app_go_back(self, private),
+    goBack = function()
+      app_goBack(self, private),
 
     refresh = function()
       app_refresh(self, private),
 
-    get_title = function()
-      app_get_title(self, private),
+    getTitle = function()
+      app_getTitle(self, private),
 
-    get_source = function()
-      app_get_source(self, private),
+    getSource = function()
+      app_getSource(self, private),
 
-    take_screenshot = function(file = NULL)
-      app_take_screenshot(self, private, file),
+    takeScreenshot = function(file = NULL)
+      app_takeScreenshot(self, private, file),
 
-    find_element = function(css = NULL, link_text = NULL,
+    findElement = function(css = NULL, link_text = NULL,
       partial_link_text = NULL, xpath = NULL)
-      app_find_element(self, private, css, link_text, partial_link_text,
+      app_findElement(self, private, css, link_text, partial_link_text,
                        xpath),
 
-    find_elements = function(css = NULL, link_text = NULL,
+    findElements = function(css = NULL, link_text = NULL,
       partial_link_text = NULL, xpath = NULL)
-      app_find_elements(self, private, css, link_text, partial_link_text,
+      app_findElements(self, private, css, link_text, partial_link_text,
                         xpath),
 
-    wait_for = function(expr, check_interval = 100, timeout = 3000)
-      app_wait_for(self, private, expr, check_interval, timeout),
+    waitFor = function(expr, check_interval = 100, timeout = 3000)
+      app_waitFor(self, private, expr, check_interval, timeout),
 
 
     listWidgets = function()
@@ -369,12 +369,12 @@ app_sendKeys <- function(self, private, name, keys) {
 
 app_getWindowSize <- function(self, private) {
   "!DEBUG app_getWindowSize"
-  private$web$get_window()$get_size()
+  private$web$getWindow()$getSize()
 }
 
 app_setWindowSize <- function(self, private, width, height) {
   "!DEBUG app_setWindowSize `width`x`height`"
-  private$web$get_window()$set_size(width, height)
+  private$web$getWindow()$setSize(width, height)
   invisible(self)
 }
 
@@ -385,14 +385,14 @@ app_stop <- function(self, private) {
   invisible(self)
 }
 
-app_wait_for <- function(self, private, expr, check_interval, timeout) {
-  "!DEBUG app_wait_for"
-  private$web$wait_for(expr, check_interval, timeout)
+app_waitFor <- function(self, private, expr, check_interval, timeout) {
+  "!DEBUG app_waitFor"
+  private$web$waitFor(expr, check_interval, timeout)
 }
 
 app_listWidgets <- function(self, private) {
   "!DEBUG app_listWidgets"
-  res <- private$web$execute_script("return shinytest.listWidgets();")
+  res <- private$web$executeScript("return shinytest.listWidgets();")
   res$input <- unlist(res$input)
   res$output <- unlist(res$output)
   res

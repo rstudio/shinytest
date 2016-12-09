@@ -1,6 +1,6 @@
 
 #' @importFrom processx process
-#' @importFrom webdriver session
+#' @importFrom webdriver Session
 
 app_initialize <- function(self, private, path, load_timeout, check_names,
                            debug, phantom_debug_level) {
@@ -12,11 +12,11 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   private$startShiny(path)
 
   "!DEBUG create new phantomjs session"
-  private$web <- session$new(port = private$phantomPort)
+  private$web <- Session$new(port = private$phantomPort)
 
   ## Set implicit timeout to zero. According to the standard it should
   ## be zero, but phantomjs uses about 200 ms
-  private$web$set_timeout(implicit = 0)
+  private$web$setTimeout(implicit = 0)
 
   "!DEBUG navigate to Shiny app"
   private$web$go(private$getShinyUrl())
@@ -24,10 +24,10 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   "!DEBUG inject shiny-tracer.js"
   js_file <- system.file("js", "shiny-tracer.js", package = "shinytest")
   js <- readChar(js_file, file.info(js_file)$size, useBytes = TRUE)
-  private$web$execute_script(js)
+  private$web$executeScript(js)
 
   "!DEBUG wait until Shiny starts"
-  load_ok <- private$web$wait_for(
+  load_ok <- private$web$waitFor(
     'window.shinytest && window.shinytest.connected === true',
     timeout = load_timeout
   )
@@ -38,7 +38,7 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 
   private$setupDebugging(debug)
 
-  private$shinyTestSnapshotBaseUrl <- private$web$execute_script(
+  private$shinyTestSnapshotBaseUrl <- private$web$executeScript(
     'if (Shiny.shinyapp.getTestSnapshotBaseUrl)
       return Shiny.shinyapp.getTestSnapshotBaseUrl({ fullUrl:true });
     else

@@ -140,12 +140,12 @@ widget_listTabs <- function(self, private) {
   if (private$type != "tabsetPanel") {
     stop("'listTabs' only works for 'tabsetPanel' Widgets")
   }
-  tabs <- private$element$find_elements("li a")
-  vapply(tabs, function(t) t$get_data("value"), "")
+  tabs <- private$element$findElements("li a")
+  vapply(tabs, function(t) t$getData("value"), "")
 }
 
 widget_uploadFile <- function(self, private, filename) {
-  private$element$upload_file(
+  private$element$uploadFile(
     filename = filename
   )
 }

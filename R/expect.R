@@ -47,9 +47,9 @@ app_expectUpdate <- function(self, private, output, ..., timeout,
     "window.shinytest.updating.push('", output, "');",
     collapse = "\n"
   )
-  private$web$execute_script(js)
+  private$web$executeScript(js)
   on.exit(
-    private$web$execute_script("window.shinytest.updating = [];"),
+    private$web$executeScript("window.shinytest.updating = [];"),
     add = TRUE
   )
 
@@ -60,7 +60,7 @@ app_expectUpdate <- function(self, private, output, ..., timeout,
 
   "!DEBUG waiting for update"
   ## Wait for all the updates to happen, or a timeout
-  res <- private$web$wait_for(
+  res <- private$web$waitFor(
     "window.shinytest.updating.length == 0",
     timeout = timeout
   )

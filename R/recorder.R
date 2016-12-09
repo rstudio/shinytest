@@ -8,7 +8,7 @@ recordTest <- function(app, save_dir = NULL) {
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
   if (inherits(app, "ShinyDriver")) {
-    url <- app$get_url()
+    url <- app$getUrl()
   } else if (is.character(app)) {
     if (grepl("^http(s?)://", app)) {
       stop("Recording tests for remote apps is not yet supported.")
@@ -19,7 +19,7 @@ recordTest <- function(app, save_dir = NULL) {
         rm(app)
         gc()
       })
-      url <- app$get_url()
+      url <- app$getUrl()
     }
   } else if (inherits(app, "shiny.appobj")) {
     stop("Recording tests for shiny.appobj objects is not supported.")

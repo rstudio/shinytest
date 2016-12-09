@@ -24,14 +24,14 @@ app_queueInputs <- function(self, private, ...) {
   inputs <- list(...)
   assert_that(is_all_named(inputs))
 
-  private$web$execute_script(
+  private$web$executeScript(
     "shinytest.inputQueue.add(arguments[0]);",
     inputs
   )
 }
 
 app_flushInputs <- function(self, private, wait, timeout) {
-  private$web$execute_script_async(
+  private$web$executeScriptAsync(
     "var wait = arguments[0];
     var timeout = arguments[1];
     var callback = arguments[2];
@@ -55,7 +55,7 @@ app_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     stop("Can only upload file to exactly one input, and input must be named")
   }
 
-  private$web$execute_script(
+  private$web$executeScript(
     "var timeout = arguments[0];
     shinytest.outputValuesWaiter.start(timeout);",
     timeout_
@@ -63,7 +63,7 @@ app_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
 
   self$findWidget(names(inputs)[1])$uploadFile(inputs[[1]])
 
-  res <- private$web$execute_script_async(
+  res <- private$web$executeScriptAsync(
     "var wait = arguments[0];
     var callback = arguments[1];
     shinytest.outputValuesWaiter.finish(wait, callback);",

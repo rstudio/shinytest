@@ -4,7 +4,7 @@ widget_getValue <- function(self, private) {
   "!DEBUG widget_getValue `private$name`"
 
   res <- if (private$iotype == "input") {
-    private$element$execute_script(
+    private$element$executeScript(
       "var el = $(arguments[0]);
        return el.data('shinyInputBinding').getValue(el[0]);"
     )
@@ -26,15 +26,15 @@ widget_getValue <- function(self, private) {
 widget_getValueFuncs <- list(
 
   htmlOutput = function(self, private) {
-    private$element$execute_script("return $(arguments[0]).html();")
+    private$element$executeScript("return $(arguments[0]).html();")
   },
 
   verbatimTextOutput = function(self, private) {
-    private$element$get_text()
+    private$element$getText()
   },
 
   textOutput = function(self, private) {
-    private$element$get_text()
+    private$element$getText()
   }
 )
 
