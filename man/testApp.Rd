@@ -12,4 +12,3 @@ testApp(appDir)
 \description{
 Run tests for a Shiny application
 }
-

@@ -8,8 +8,8 @@ Class to manage a shiny app and a phantom.js headless browser
 }
 \section{Usage}{
 
-\preformatted{app <- ShinyDriver$new(path = ".", load_timeout = 5000,
-              check_names = TRUE, debug = c("none", "all",
+\preformatted{app <- ShinyDriver$new(path = ".", loadTimeout = 5000,
+              checkNames = TRUE, debug = c("none", "all",
               ShinyDriver$debugLogTypes))
 app$stop()
 app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
@@ -21,20 +21,20 @@ app$sendKeys(name = NULL, keys)
 app$get_windows_size()
 app$setWindowSize(width, height)
 
-app$get_url()
-app$go_back()
+app$getUrl()
+app$goBack()
 app$refresh()
-app$get_title()
-app$get_source()
-app$take_screenshot(file = NULL)
+app$getTitle()
+app$getSource()
+app$takeScreenshot(file = NULL)
 
-app$find_element(css = NULL, link_text = NULL,
-     partial_link_text = NULL, xpath = NULL)
+app$findElement(css = NULL, linkText = NULL,
+     partialLinkText = NULL, xpath = NULL)
 
-app$find_elements(css = NULL, link_text = NULL,
-     partial_link_text = NULL, xpath = NULL)
+app$findElements(css = NULL, linkText = NULL,
+     partialLinkText = NULL, xpath = NULL)
 
-app$wait_for(expr, check_interval = 100, timeout = 3000)
+app$waitFor(expr, checkInterval = 100, timeout = 3000)
 
 app$listWidgets()
 
@@ -54,9 +54,9 @@ app$expectUpdate(output, ..., timeout = 3000,
   \item{path}{Path to a directory containing a Shiny app, i.e. a
      single \code{app.R} file or a \code{server.R} and \code{ui.R}
      pair.}
-  \item{load_timeout}{How long to wait for the app to load, in ms.
+  \item{loadTimeout}{How long to wait for the app to load, in ms.
      This includes the time to start R.}
-  \item{check_names}{Whether to check if widget names are unique in the
+  \item{checkNames}{Whether to check if widget names are unique in the
      app.}
   \item{debug}{Whether to start the app in debugging mode. In debugging
      mode debug messages are printed to the console.}
@@ -74,14 +74,14 @@ app$expectUpdate(output, ..., timeout = 3000,
   \item{file}{File name to save the screenshot to. If \code{NULL}, then
     it will be shown on the R graphics device.}
   \item{css}{CSS selector to find an HTML element.}
-  \item{link_text}{Find \code{<a>} HTML elements based on their
+  \item{linkText}{Find \code{<a>} HTML elements based on their
     \code{innerText}.}
-  \item{partial_link_text}{Find \code{<a>} HTML elements based on their
+  \item{partialLinkText}{Find \code{<a>} HTML elements based on their
     \code{innerText}. It uses partial matching.}
   \item{xpath}{Find HTML elements using XPath expressions.}
   \item{expr}{A string scalar containing JavaScript code that
     evaluates to the condition to wait for.}
-  \item{check_interval}{How often to check for the condition, in
+  \item{checkInterval}{How often to check for the condition, in
     milliseconds.}
   \item{timeout}{Timeout for the condition, in milliseconds.}
   \item{output}{Character vector, the name(s) of the Shiny output
@@ -98,9 +98,9 @@ app$expectUpdate(output, ..., timeout = 3000,
 \code{ShinyDriver$new()} function creates a \code{ShinyDriver} object. It starts
 the Shiny app in a new R session, and it also starts a \code{phantomjs}
 headless browser that connects to the app. It waits until the app is
-ready to use. It waits at most \code{load_timeout} milliseconds, and if
+ready to use. It waits at most \code{loadTimeout} milliseconds, and if
 the app is not ready, then it throws an error. You can increase
-\code{load_timeout} for slow loading apps. Currently it supports apps
+\code{loadTimeout} for slow loading apps. Currently it supports apps
 that are defined in a single \code{app.R} file, or in a \code{server.R}
 and \code{ui.R} pair.
 
@@ -136,34 +136,34 @@ window, in a list of two integer scalars named \sQuote{width} and
 \code{app$setWindowSize()} sets the size of the browser window to the
 specified width and height.
 
-\code{app$get_url()} returns the current URL.
+\code{app$getUrl()} returns the current URL.
 
-\code{app$go_back()} \dQuote{presses} the browser's \sQuote{back}
+\code{app$goBack()} \dQuote{presses} the browser's \sQuote{back}
 button.
 
 \code{app$refresh()} \dQuote{presses} the browser's \sQuote{refresh}
 button.
 
-\code{app$get_title()} returns the title of the page. (More precisely
+\code{app$getTitle()} returns the title of the page. (More precisely
 the document title.)
 
-\code{app$get_source()} returns the complete HTML source of the current
+\code{app$getSource()} returns the complete HTML source of the current
 page, in a character scalar.
 
-\code{app$take_screenshot()} takes a screenshot of the current page
+\code{app$takeScreenshot()} takes a screenshot of the current page
 and writes it to a file, or (if \code{file} is \code{NULL}) shows it
 on the R graphics device. The output file has PNG format.
 
-\code{app$find_element()} find an HTML element on the page, using a
+\code{app$findElement()} find an HTML element on the page, using a
 CSS selector or an XPath expression. The return value is an
 \code{\link[webdriver]{element}} object from the \code{webdriver}
 package.
 
-\code{app$find_elements()} finds potentially multiple HTML elements,
+\code{app$findElements()} finds potentially multiple HTML elements,
 and returns them in a list of \code{\link[webdriver]{element}} objects
 from the \code{webdriver} package.
 
-\code{app$wait_for()} waits until a JavaScript expression evaluates
+\code{app$waitFor()} waits until a JavaScript expression evaluates
 to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 expression evaluated to \code{true}, possible after some waiting.
 
@@ -183,6 +183,7 @@ waits for the specified output widgets to update. The test succeeds if
 all specified output widgets are updated before the timeout. For
 updates that involve a lot of computation, you increase the timeout.
 }
+
 \examples{
 \dontrun{
 ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
@@ -192,4 +193,3 @@ expectUpdate(app, ycol = "Petal.Width", output = "plot1")
 expectUpdate(app, clusters = 4, output = "plot1")
 }
 }
-
