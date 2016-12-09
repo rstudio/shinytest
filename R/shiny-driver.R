@@ -23,10 +23,10 @@
 #' app$takeScreenshot(file = NULL)
 #'
 #' app$findElement(css = NULL, link_text = NULL,
-#'      partial_link_text = NULL, xpath = NULL)
+#'      partialLinkText = NULL, xpath = NULL)
 #'
 #' app$findElements(css = NULL, link_text = NULL,
-#'      partial_link_text = NULL, xpath = NULL)
+#'      partialLinkText = NULL, xpath = NULL)
 #'
 #' app$waitFor(expr, check_interval = 100, timeout = 3000)
 #'
@@ -68,7 +68,7 @@
 #'   \item{css}{CSS selector to find an HTML element.}
 #'   \item{link_text}{Find \code{<a>} HTML elements based on their
 #'     \code{innerText}.}
-#'   \item{partial_link_text}{Find \code{<a>} HTML elements based on their
+#'   \item{partialLinkText}{Find \code{<a>} HTML elements based on their
 #'     \code{innerText}. It uses partial matching.}
 #'   \item{xpath}{Find HTML elements using XPath expressions.}
 #'   \item{expr}{A string scalar containing JavaScript code that
@@ -248,13 +248,13 @@ ShinyDriver <- R6Class(
       app_takeScreenshot(self, private, file),
 
     findElement = function(css = NULL, link_text = NULL,
-      partial_link_text = NULL, xpath = NULL)
-      app_findElement(self, private, css, link_text, partial_link_text,
+      partialLinkText = NULL, xpath = NULL)
+      app_findElement(self, private, css, link_text, partialLinkText,
                        xpath),
 
     findElements = function(css = NULL, link_text = NULL,
-      partial_link_text = NULL, xpath = NULL)
-      app_findElements(self, private, css, link_text, partial_link_text,
+      partialLinkText = NULL, xpath = NULL)
+      app_findElements(self, private, css, link_text, partialLinkText,
                         xpath),
 
     waitFor = function(expr, check_interval = 100, timeout = 3000)
