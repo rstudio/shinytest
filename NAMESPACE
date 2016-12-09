@@ -3,7 +3,7 @@
 S3method(print,shinytest_logs)
 export(ShinyDriver)
 export(expectUpdate)
-export(record_test)
+export(recordTest)
 export(snapshotCompare)
 export(snapshotUpdate)
 export(test_app)
