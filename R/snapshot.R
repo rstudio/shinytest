@@ -126,7 +126,7 @@ snapshotCompare <- function(name, testsDir, autoremove = TRUE) {
       message(paste(status_table, collapse = "\n"))
 
       message('\n  To save current results as expected results, run:\n',
-              '    snapshot_update("', name, '", "',
+              '    snapshotUpdate("', name, '", "',
               relativeTestsDir, '")\n')
     }
 
@@ -142,7 +142,7 @@ snapshotCompare <- function(name, testsDir, autoremove = TRUE) {
     message("  No existing snapshots at ", basename(expected_dir), "/.",
             " This is a first run of tests.\n",
             '  To save current results as expected results, run:\n',
-            '    snapshot_update("', name, '", "',
+            '    snapshotUpdate("', name, '", "',
             relativeTestsDir, '")\n')
 
     snapshot_status <- "new"
@@ -160,7 +160,7 @@ snapshotCompare <- function(name, testsDir, autoremove = TRUE) {
 #' @rdname snapshotCompare
 #' @inheritParams snapshotCompare
 #' @export
-snapshot_update <- function(name, testsDir = ".") {
+snapshotUpdate <- function(name, testsDir = ".") {
   # Strip off trailing slash if present
   name <- sub("/$", "", name)
 
