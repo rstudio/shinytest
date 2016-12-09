@@ -14,12 +14,12 @@ recordTest <- function(app, save_dir = NULL) {
       stop("Recording tests for remote apps is not yet supported.")
     } else {
       # It's a path to an app; start the app
-      app_obj <- ShinyDriver$new(app)
+      app <- ShinyDriver$new(app)
       on.exit({
-        rm(app_obj)
+        rm(app)
         gc()
       })
-      url <- app_obj$get_url()
+      url <- app$get_url()
     }
   } else if (inherits(app, "shiny.appobj")) {
     stop("Recording tests for shiny.appobj objects is not supported.")
