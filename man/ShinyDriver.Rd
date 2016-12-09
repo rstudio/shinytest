@@ -10,16 +10,16 @@ Class to manage a shiny app and a phantom.js headless browser
 
 \preformatted{app <- ShinyDriver$new(path = ".", load_timeout = 5000,
               check_names = TRUE, debug = c("none", "all",
-              ShinyDriver$debug_log_types))
+              ShinyDriver$debugLogTypes))
 app$stop()
-app$get_debug_log(type = c("all", ShinyDriver$debug_log_types))
+app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
 
-app$get_value(name, iotype = c("auto", "input", "output"))
-app$set_value(name, value, iotype = c("auto", "input", "output"))
-app$send_keys(name = NULL, keys)
+app$getValue(name, iotype = c("auto", "input", "output"))
+app$setValue(name, value, iotype = c("auto", "input", "output"))
+app$sendKeys(name = NULL, keys)
 
 app$get_windows_size()
-app$set_window_size(width, height)
+app$setWindowSize(width, height)
 
 app$get_url()
 app$go_back()
@@ -36,13 +36,13 @@ app$find_elements(css = NULL, link_text = NULL,
 
 app$wait_for(expr, check_interval = 100, timeout = 3000)
 
-app$list_widgets()
+app$listWidgets()
 
-app$check_unique_widget_names()
+app$checkUniqueWidgetNames()
 
-app$find_widget(name, iotype = c("auto", "input", "output"))
+app$findWidget(name, iotype = c("auto", "input", "output"))
 
-app$expect_update(output, ..., timeout = 3000,
+app$expectUpdate(output, ..., timeout = 3000,
     iotype = c("auto", "input", "output"))
 }
 }
@@ -60,14 +60,14 @@ app$expect_update(output, ..., timeout = 3000,
      app.}
   \item{debug}{Whether to start the app in debugging mode. In debugging
      mode debug messages are printed to the console.}
-  \item{name}{Name of a shiny widget. For \code{$send_keys} it can
+  \item{name}{Name of a shiny widget. For \code{$sendKeys} it can
      be \code{NULL}, in which case the keys are sent to the active
      HTML element.}
   \item{iotype}{Type of the Shiny widget. Usually \code{shinytest}
      finds the widgets by their name, so this need not be specified,
      but Shiny allows input and output widgets with identical names.}
   \item{keys}{Keys to send to the widget or the app. See the
-     \code{send_keys} method of the \code{webdriver} package.}
+     \code{sendKeys} method of the \code{webdriver} package.}
   \item{width}{Scalar integer, the desired width of the browser window.}
   \item{height}{Scalar integer, the desired height of the browser
      window.}
@@ -86,7 +86,7 @@ app$expect_update(output, ..., timeout = 3000,
   \item{timeout}{Timeout for the condition, in milliseconds.}
   \item{output}{Character vector, the name(s) of the Shiny output
     widgets that should be updated.}
-  \item{...}{For \code{expect_update} these can be named arguments.
+  \item{...}{For \code{expectUpdate} these can be named arguments.
     The argument names correspond to Shiny input widgets: each input
     widget will be set to the specified value.}
 }
@@ -107,33 +107,33 @@ and \code{ui.R} pair.
 \code{app$stop()} stops the app, i.e. the external R process that runs
 the app, and also the phantomjs instance.
 
-\code{app$get_debug_log()} queries one or more of the debug logs:
+\code{app$getDebugLog()} queries one or more of the debug logs:
 \code{shiny_console}, \code{browser} or \code{shinytest}.
 
-\code{app$get_value()} finds a widget and queries its value. See
-the \code{get_value} method of the \code{\link{widget}} class.
+\code{app$getValue()} finds a widget and queries its value. See
+the \code{getValue} method of the \code{\link{Widget}} class.
 
-\code{app$set_inputs()} sets the value of inputs. The arguments must all
+\code{app$setInputs()} sets the value of inputs. The arguments must all
 be named; an input with each name will be assigned the given value.
 
-\code{app$upload_file()} uploads a file to a file input. The argument must
+\code{app$uploadFile()} uploads a file to a file input. The argument must
 be named and the value must be the path to a local file; that file will be
 uploaded to a file input with that name.
 
-\code{app$get_all_values()} returns a named list of all inputs, outputs,
+\code{app$getAllValues()} returns a named list of all inputs, outputs,
 and error values.
 
-\code{app$set_value()} finds a widget and sets its value. See the
-\code{set_value} method of the \code{\link{widget}} class.
+\code{app$setValue()} finds a widget and sets its value. See the
+\code{setValue} method of the \code{\link{Widget}} class.
 
-\code{app$send_keys} sends the specified keys to the HTML element of the
+\code{app$sendKeys} sends the specified keys to the HTML element of the
 widget.
 
-\code{app$get_window_size()} returns the current size of the browser
+\code{app$getWindowSize()} returns the current size of the browser
 window, in a list of two integer scalars named \sQuote{width} and
 \sQuote{height}.
 
-\code{app$set_window_size()} sets the size of the browser window to the
+\code{app$setWindowSize()} sets the size of the browser window to the
 specified width and height.
 
 \code{app$get_url()} returns the current URL.
@@ -167,17 +167,17 @@ from the \code{webdriver} package.
 to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 expression evaluated to \code{true}, possible after some waiting.
 
-\code{app$list_widgets()} lists the names of all input and output
+\code{app$listWidgets()} lists the names of all input and output
 widgets. It returns a list of two character vectors, named \code{input}
 and \code{output}.
 
-\code{app$check_unique_widget_names()} checks if Shiny widget names
+\code{app$checkUniqueWidgetNames()} checks if Shiny widget names
 are unique.
 
-\code{app$find_widget()} finds the corresponding HTML element of a Shiny
-widget. It returns a \code{\link{widget}} object.
+\code{app$findWidget()} finds the corresponding HTML element of a Shiny
+widget. It returns a \code{\link{Widget}} object.
 
-\code{expect_update()} is one of the main functions to test Shiny apps.
+\code{expectUpdate()} is one of the main functions to test Shiny apps.
 It performs one or more update operations via the browser, and then
 waits for the specified output widgets to update. The test succeeds if
 all specified output widgets are updated before the timeout. For
@@ -187,9 +187,9 @@ updates that involve a lot of computation, you increase the timeout.
 \dontrun{
 ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
 app <- ShinyDriver$new("050-kmeans-example")
-expect_update(app, xcol = "Sepal.Width", output = "plot1")
-expect_update(app, ycol = "Petal.Width", output = "plot1")
-expect_update(app, clusters = 4, output = "plot1")
+expectUpdate(app, xcol = "Sepal.Width", output = "plot1")
+expectUpdate(app, ycol = "Petal.Width", output = "plot1")
+expectUpdate(app, clusters = 4, output = "plot1")
 }
 }
 
