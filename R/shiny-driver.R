@@ -4,9 +4,9 @@
 #' @section Usage:
 #' \preformatted{app <- ShinyDriver$new(path = ".", load_timeout = 5000,
 #'               check_names = TRUE, debug = c("none", "all",
-#'               ShinyDriver$debug_log_types))
+#'               ShinyDriver$debugLogTypes))
 #' app$stop()
-#' app$get_debug_log(type = c("all", ShinyDriver$debug_log_types))
+#' app$get_debug_log(type = c("all", ShinyDriver$debugLogTypes))
 #'
 #' app$get_value(name, iotype = c("auto", "input", "output"))
 #' app$set_value(name, value, iotype = c("auto", "input", "output"))
@@ -194,7 +194,7 @@ ShinyDriver <- R6Class(
 
     initialize = function(path = ".", load_timeout = 5000,
       check_names = TRUE,
-      debug = c("none", "all", ShinyDriver$debug_log_types))
+      debug = c("none", "all", ShinyDriver$debugLogTypes))
       app_initialize(self, private, path, load_timeout, check_names,
                      match.arg(debug, several.ok = TRUE)),
 
@@ -221,7 +221,7 @@ ShinyDriver <- R6Class(
 
     ## Debugging
 
-    get_debug_log = function(type = c("all", ShinyDriver$debug_log_types))
+    get_debug_log = function(type = c("all", ShinyDriver$debugLogTypes))
       app_get_debug_log(self, private, match.arg(type, several.ok = TRUE)),
 
     enable_debug_log_messages = function(enable = TRUE)
@@ -343,7 +343,7 @@ ShinyDriver <- R6Class(
   )
 )
 
-ShinyDriver$debug_log_types <- c(
+ShinyDriver$debugLogTypes <- c(
   "shiny_console",
   "browser",
   "shinytest"
