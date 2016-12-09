@@ -119,7 +119,7 @@
 #' \code{app$sendKeys} sends the specified keys to the HTML element of the
 #' widget.
 #'
-#' \code{app$get_window_size()} returns the current size of the browser
+#' \code{app$getWindowSize()} returns the current size of the browser
 #' window, in a list of two integer scalars named \sQuote{width} and
 #' \sQuote{height}.
 #'
@@ -216,8 +216,8 @@ ShinyDriver <- R6Class(
     setWindowSize = function(width, height)
       app_setWindowSize(self, private, width, height),
 
-    get_window_size = function()
-      app_get_window_size(self, private),
+    getWindowSize = function()
+      app_getWindowSize(self, private),
 
     ## Debugging
 
@@ -366,8 +366,8 @@ app_sendKeys <- function(self, private, name, keys) {
   invisible(self)
 }
 
-app_get_window_size <- function(self, private) {
-  "!DEBUG app_get_window_size"
+app_getWindowSize <- function(self, private) {
+  "!DEBUG app_getWindowSize"
   private$web$get_window()$get_size()
 }
 

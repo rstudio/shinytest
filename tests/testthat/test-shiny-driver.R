@@ -28,7 +28,7 @@ test_that("window size", {
 
   app$setWindowSize(1200, 800);
   expect_identical(
-    app$get_window_size(),
+    app$getWindowSize(),
     list(width = 1200L, height = 800L)
   )
 })
