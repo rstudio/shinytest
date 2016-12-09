@@ -1,10 +1,10 @@
-context("app$set_inputs")
+context("app$setInputs")
 
-app <- shinyapp$new(test_path("apps/081-widgets-gallery"))
+app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
-test_that("app$set_inputs for all input widgets", {
+test_that("app$setInputs for all input widgets", {
   # Check initial values
-  x <- app$get_all_values()
+  x <- app$getAllValues()
   expect_identical(
     x$input$action,
     structure(0L, class = c("integer", "shinyActionButtonValue"))
@@ -21,7 +21,7 @@ test_that("app$set_inputs for all input widgets", {
   expect_identical(x$input$text, "Enter text...")
 
   # Set inputs
-  x <- app$set_inputs(
+  x <- app$setInputs(
     action = "click",
     checkbox = FALSE,
     checkGroup = c("2", "3"),
@@ -66,7 +66,7 @@ test_that("app$set_inputs for all input widgets", {
 })
 
 
-test_that("app$upload_file for file inputs", {
-  x <- app$upload_file(file = test_path("apps/081-widgets-gallery/DESCRIPTION"))
+test_that("app$uploadFile for file inputs", {
+  x <- app$uploadFile(file = test_path("apps/081-widgets-gallery/DESCRIPTION"))
   expect_true(grepl("DESCRIPTION", x$output$fileOut))
 })

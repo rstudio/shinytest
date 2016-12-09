@@ -22,7 +22,7 @@ Imports:
     shiny (>= 0.14.2),
     testthat (>= 1.0.0),
     utils,
-    webdriver,
+    webdriver (>= 1.0.2),
     withr
 Remotes: rstudio/shiny
 Encoding: UTF-8

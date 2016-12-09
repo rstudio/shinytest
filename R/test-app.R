@@ -3,7 +3,7 @@
 #' @param appDir Path to the Shiny application to be tested.
 #'
 #' @export
-test_app <- function(appDir) {
+testApp <- function(appDir) {
   testsDir <- file.path(appDir, "tests")
   r_files <- list.files(testsDir, pattern = "\\.[r|R]$")
 

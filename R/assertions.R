@@ -81,13 +81,13 @@ as_debug <- function(x) {
   assert_that(is.character(x))
   x <- unique(x)
 
-  miss <- ! x %in% c(shinyapp$debug_log_types, c("all", "none"))
+  miss <- ! x %in% c(ShinyDriver$debugLogTypes, c("all", "none"))
 
   if (any(miss)) {
     stop("Unknown debug types: ", paste(x[miss], collapse = ", "))
   }
 
-  if ("all" %in% x) x <- shinyapp$debug_log_types
+  if ("all" %in% x) x <- ShinyDriver$debugLogTypes
   if ("none" %in% x) x <- character()
 
   x

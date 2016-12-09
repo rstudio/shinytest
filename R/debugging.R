@@ -1,6 +1,6 @@
 
-app_setup_debugging <- function(self, private, debug) {
-  "!DEBUG app_setup_debugging"
+sd_setupDebugging <- function(self, private, debug) {
+  "!DEBUG sd_setupDebugging"
   debug <- as_debug(debug)
 
   if (length(debug)) {
@@ -8,28 +8,28 @@ app_setup_debugging <- function(self, private, debug) {
   }
 }
 
-app_get_debug_log <- function(self, private, type) {
-  "!DEBUG app_get_debug_log"
+sd_getDebugLog <- function(self, private, type) {
+  "!DEBUG sd_getDebugLog"
 
   type <- as_debug(type)
 
   output <- list()
 
   if ("shiny_console" %in% type) {
-    "!DEBUG app_get_debug_log shiny_console"
-    out <- private$shiny_process$read_output_lines()
-    err <- private$shiny_process$read_error_lines()
+    "!DEBUG sd_getDebugLog shiny_console"
+    out <- private$shinyProcess$read_output_lines()
+    err <- private$shinyProcess$read_error_lines()
     output$shiny_console <- make_shiny_console_log(out = out, err = err)
   }
 
   if ("browser" %in% type) {
-    "!DEBUG app_get_debug_log browser"
-    output$browser <- make_browser_log(private$web$read_log())
+    "!DEBUG sd_getDebugLog browser"
+    output$browser <- make_browser_log(private$web$readLog())
   }
 
   if ("shinytest" %in% type) {
-    "!DEBUG app_get_debug_log shinytest log"
-    output$shinytest <- make_shinytest_log(private$web$execute_script(
+    "!DEBUG sd_getDebugLog shinytest log"
+    output$shinytest <- make_shinytest_log(private$web$executeScript(
       "if (! window.shinytest) { return([]) }
        var res = window.shinytest.log_entries;
        window.shinytest.log_entries = [];
@@ -40,8 +40,8 @@ app_get_debug_log <- function(self, private, type) {
   merge_logs(output)
 }
 
-app_enable_debug_log_messages <- function(self, private, enable = TRUE) {
-  private$web$execute_script(
+sd_enableDebugLogMessages <- function(self, private, enable = TRUE) {
+  private$web$executeScript(
     "window.shinytest.log_messages = arguments[0]",
     enable
   )

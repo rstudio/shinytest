@@ -1,44 +1,44 @@
 
-widget_get_value <- function(self, private) {
+widget_getValue <- function(self, private) {
 
-  "!DEBUG widget_get_value `private$name`"
+  "!DEBUG widget_getValue `private$name`"
 
   res <- if (private$iotype == "input") {
-    private$element$execute_script(
+    private$element$executeScript(
       "var el = $(arguments[0]);
        return el.data('shinyInputBinding').getValue(el[0]);"
     )
 
   } else {
-    if (is.null(widget_get_value_funcs[[private$type]])) {
-      stop("get_value is not implemented for ", private$type)
+    if (is.null(widget_getValueFuncs[[private$type]])) {
+      stop("getValue is not implemented for ", private$type)
     } else {
-      widget_get_value_funcs[[private$type]](self, private)
+      widget_getValueFuncs[[private$type]](self, private)
     }
   }
 
-  if (! is.null(widget_get_value_postprocess[[private$type]])) {
-    res <- widget_get_value_postprocess[[private$type]](res)
+  if (! is.null(widget_getValuePostprocess[[private$type]])) {
+    res <- widget_getValuePostprocess[[private$type]](res)
   }
   res
 }
 
-widget_get_value_funcs <- list(
+widget_getValueFuncs <- list(
 
   htmlOutput = function(self, private) {
-    private$element$execute_script("return $(arguments[0]).html();")
+    private$element$executeScript("return $(arguments[0]).html();")
   },
 
   verbatimTextOutput = function(self, private) {
-    private$element$get_text()
+    private$element$getText()
   },
 
   textOutput = function(self, private) {
-    private$element$get_text()
+    private$element$getText()
   }
 )
 
-widget_get_value_postprocess <- list(
+widget_getValuePostprocess <- list(
   checkboxGroupInput = function(x) as.character(unlist(x)),
   dateInput = function(x) as.Date(x),
   dateRangeInput = function(x) as.Date(unlist(x)),

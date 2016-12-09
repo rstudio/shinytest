@@ -1,14 +1,14 @@
-app_snapshot <- function(self, private, items, filename, screenshot)
+sd_snapshot <- function(self, private, items, filename, screenshot)
 {
   if (!is.list(items) && !is.null(items))
     stop("'items' must be NULL or a list.")
 
-  private$snapshot_count <- private$snapshot_count + 1
+  private$snapshotCount <- private$snapshotCount + 1
 
-  current_dir  <- paste0(self$get_snapshot_dir(), "-current")
+  current_dir  <- paste0(self$getSnapshotDir(), "-current")
 
   if (is.null(filename)) {
-    filename <- sprintf("%02d.json", private$snapshot_count)
+    filename <- sprintf("%02d.json", private$snapshotCount)
   }
 
   # The default is to take a screenshot when the default is used for items (all
@@ -35,11 +35,11 @@ app_snapshot <- function(self, private, items, filename, screenshot)
   if (is.null(items$export)) items$export <- FALSE
 
   # Take snapshot -------------------------------------------------------------
-  url <- private$get_test_snapshot_url(items$input, items$output, items$export)
+  url <- private$getTestSnapshotUrl(items$input, items$output, items$export)
   req <- httr::GET(url)
 
   # For first snapshot, create -current snapshot dir.
-  if (private$snapshot_count == 1) {
+  if (private$snapshotCount == 1) {
     if (dir_exists(current_dir)) {
       unlink(current_dir, recursive = TRUE)
     }
@@ -51,7 +51,7 @@ app_snapshot <- function(self, private, items, filename, screenshot)
   if (screenshot) {
     # Replace extension with .png
     scr_filename <- paste0(sub("\\.[^.]*$", "", filename), ".png")
-    self$take_screenshot(file.path(current_dir, scr_filename))
+    self$takeScreenshot(file.path(current_dir, scr_filename))
   }
 
   # Invisibly return JSON content as a string
@@ -61,8 +61,8 @@ app_snapshot <- function(self, private, items, filename, screenshot)
 }
 
 
-app_snapshot_compare <- function(self, private, autoremove) {
-  snapshot_compare(private$snapshot_dir, self$get_tests_dir(), autoremove)
+sd_snapshotCompare <- function(self, private, autoremove) {
+  snapshotCompare(private$snapshotDir, self$getTestsDir(), autoremove)
 }
 
 #' Compare current and expected snapshots
@@ -77,15 +77,15 @@ app_snapshot_compare <- function(self, private, autoremove) {
 #'   the current results be removed automatically? Defaults to TRUE.
 #'
 #' @export
-snapshot_compare <- function(name, testsDir, autoremove = TRUE) {
+snapshotCompare <- function(name, testsDir, autoremove = TRUE) {
   current_dir  <- file.path(testsDir, paste0(name, "-current"))
   expected_dir <- file.path(testsDir, paste0(name, "-expected"))
 
-  # When this function is called from test_app(), this is the way that we get
-  # the relative path from the current working dir when test_app() is called.
+  # When this function is called from testApp(), this is the way that we get
+  # the relative path from the current working dir when testApp() is called.
   # (By the time this function is called, the current working dir is usually set
   # to the test directory.) If the option isn't set, this function was probably
-  # called directly (not from test_app()), and we'll just use the value passed
+  # called directly (not from testApp()), and we'll just use the value passed
   # in.
   relativeTestsDir <- getOption("shinytest.tests.dir", default = testsDir)
 
@@ -126,7 +126,7 @@ snapshot_compare <- function(name, testsDir, autoremove = TRUE) {
       message(paste(status_table, collapse = "\n"))
 
       message('\n  To save current results as expected results, run:\n',
-              '    snapshot_update("', name, '", "',
+              '    snapshotUpdate("', name, '", "',
               relativeTestsDir, '")\n')
     }
 
@@ -142,7 +142,7 @@ snapshot_compare <- function(name, testsDir, autoremove = TRUE) {
     message("  No existing snapshots at ", basename(expected_dir), "/.",
             " This is a first run of tests.\n",
             '  To save current results as expected results, run:\n',
-            '    snapshot_update("', name, '", "',
+            '    snapshotUpdate("', name, '", "',
             relativeTestsDir, '")\n')
 
     snapshot_status <- "new"
@@ -157,10 +157,10 @@ snapshot_compare <- function(name, testsDir, autoremove = TRUE) {
 
 #' Update expected snapshot with current snapshot
 #'
-#' @rdname snapshot_compare
-#' @inheritParams snapshot_compare
+#' @rdname snapshotCompare
+#' @inheritParams snapshotCompare
 #' @export
-snapshot_update <- function(name, testsDir = ".") {
+snapshotUpdate <- function(name, testsDir = ".") {
   # Strip off trailing slash if present
   name <- sub("/$", "", name)
 

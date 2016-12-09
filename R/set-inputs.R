@@ -1,37 +1,37 @@
-app_set_inputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                           timeout_ = 3000) {
+sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
+                         timeout_ = 3000) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")
   }
 
-  private$queue_inputs(...)
-  res <- private$flush_inputs(wait_, timeout_)
+  private$queueInputs(...)
+  res <- private$flushInputs(wait_, timeout_)
 
   if (isTRUE(res$timedOut)) {
-    message("set_inputs: Server did not update any output values within ",
+    message("setInputs: Server did not update any output values within ",
       format(timeout_/1000, digits = 2),
       " seconds. If this is expected, use `wait_=FALSE, values_=FALSE`, or increase the value of timeout_.")
   }
 
   if (values_)
-    invisible(self$get_all_values())
+    invisible(self$getAllValues())
   else
     invisible()
 }
 
-app_queue_inputs <- function(self, private, ...) {
+sd_queueInputs <- function(self, private, ...) {
   inputs <- list(...)
   assert_that(is_all_named(inputs))
 
-  private$web$execute_script(
+  private$web$executeScript(
     "shinytest.inputQueue.add(arguments[0]);",
     inputs
   )
 }
 
-app_flush_inputs <- function(self, private, wait, timeout) {
-  private$web$execute_script_async(
+sd_flushInputs <- function(self, private, wait, timeout) {
+  private$web$executeScriptAsync(
     "var wait = arguments[0];
     var timeout = arguments[1];
     var callback = arguments[2];
@@ -43,8 +43,8 @@ app_flush_inputs <- function(self, private, wait, timeout) {
   )
 }
 
-app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                            timeout_ = 3000) {
+sd_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
+                          timeout_ = 3000) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")
@@ -55,15 +55,15 @@ app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     stop("Can only upload file to exactly one input, and input must be named")
   }
 
-  private$web$execute_script(
+  private$web$executeScript(
     "var timeout = arguments[0];
     shinytest.outputValuesWaiter.start(timeout);",
     timeout_
   )
 
-  self$find_widget(names(inputs)[1])$upload_file(inputs[[1]])
+  self$findWidget(names(inputs)[1])$uploadFile(inputs[[1]])
 
-  res <- private$web$execute_script_async(
+  res <- private$web$executeScriptAsync(
     "var wait = arguments[0];
     var callback = arguments[1];
     shinytest.outputValuesWaiter.finish(wait, callback);",
@@ -71,7 +71,7 @@ app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   )
 
   if (values_)
-    self$get_all_values()
+    self$getAllValues()
   else
     invisible()
 }

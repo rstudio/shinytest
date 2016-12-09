@@ -53,9 +53,9 @@ window.shinytest = (function() {
         };
 
         // Some input need their values preprocessed, because the value passed
-        // to the R function `app$set_inputs()`, differs in structure from the
+        // to the R function `app$setInputs()`, differs in structure from the
         // value used in the JavaScript function `InputBinding.setValue()`.
-        // For example, for dateRangeInputs, `set_inputs()` is passed a two-
+        // For example, for dateRangeInputs, `setInputs()` is passed a two-
         // element vector or list, while the `setValue()` requires an object
         // with `start` and `end`.
         inputqueue.preprocessors = {
@@ -80,7 +80,7 @@ window.shinytest = (function() {
             },
 
             "shiny.fileInputBinding": function(el, value) {
-                throw "Setting value of fileInput is not supported. Use app$upload_file() instead";
+                throw "Setting value of fileInput is not supported. Use app$uploadFile() instead";
             }
         };
 
@@ -123,7 +123,7 @@ window.shinytest = (function() {
     // Where `doSomething` is a function that does the desired work. It could
     // even be work that's done in a separate process. The reason that the
     // callback function must be passed to the `finish()` instead of `start()`
-    // is because calling `execute_script_async()` from the R side is
+    // is because calling `executeScriptAsync()` from the R side is
     // synchronous; it returns only when `callback()` is invoked.
     //
     // If wait==true, then wait for a message from server containing output

@@ -1,44 +1,44 @@
 
-app_get_url <- function(self, private) {
-  "!DEBUG app_get_url"
-  private$web$get_url()
+sd_getUrl <- function(self, private) {
+  "!DEBUG sd_getUrl"
+  private$web$getUrl()
 }
 
-app_go_back <- function(self, private) {
-  "!DEBUG app_go_back"
-  private$web$go_back()
+sd_goBack <- function(self, private) {
+  "!DEBUG sd_goBack"
+  private$web$goBack()
   invisible(self)
 }
 
-app_refresh <- function(self, private) {
+sd_refresh <- function(self, private) {
   "!DEBUG refresh"
   private$web$refresh()
   invisible(self)
 }
 
-app_get_title <- function(self, private) {
-  "!DEBUG app_get_title"
-  private$web$get_title()
+sd_getTitle <- function(self, private) {
+  "!DEBUG sd_getTitle"
+  private$web$getTitle()
 }
 
-app_get_source <- function(self, private) {
-  "!DEBUG app_get_source"
-  private$web$get_source()
+sd_getSource <- function(self, private) {
+  "!DEBUG sd_getSource"
+  private$web$getSource()
 }
 
-app_take_screenshot <- function(self, private, file) {
-  "!DEBUG app_take_screenshot"
-  private$web$take_screenshot(file)
+sd_takeScreenshot <- function(self, private, file) {
+  "!DEBUG sd_takeScreenshot"
+  private$web$takeScreenshot(file)
 }
 
-app_find_element <- function(self, private, css, link_text,
-                             partial_link_text, xpath) {
-  "!DEBUG app_find_element '`css %||% link_text %||% partial_link_text %||% xpath`'"
-  private$web$find_element(css, link_text, partial_link_text, xpath)
+sd_findElement <- function(self, private, css, linkText,
+                           partialLinkText, xpath) {
+  "!DEBUG sd_findElement '`css %||% linkText %||% partialLinkText %||% xpath`'"
+  private$web$findElement(css, linkText, partialLinkText, xpath)
 }
 
-app_find_elements <- function(self, private, css, link_text,
-                              partial_link_text, xpath) {
-  "!DEBUG app_find_elements '`css %||% link_text %||% partial_link_text %||% xpath`'"
-  private$web$find_elements(css, link_text, partial_link_text, xpath)
+sd_findElements <- function(self, private, css, linkText,
+                            partialLinkText, xpath) {
+  "!DEBUG sd_findElements '`css %||% linkText %||% partialLinkText %||% xpath`'"
+  private$web$findElements(css, linkText, partialLinkText, xpath)
 }

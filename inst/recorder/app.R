@@ -65,7 +65,7 @@ processInputValue <- function(value, inputType) {
 codeGenerators <- list(
   input = function(event) {
     paste0(
-      "app$set_inputs(",
+      "app$setInputs(",
       event$name, " = ",
       processInputValue(event$value, event$inputType),
       ")"
@@ -74,7 +74,7 @@ codeGenerators <- list(
 
   fileUpload = function(event) {
     paste0(
-      "app$upload_file(",
+      "app$uploadFile(",
       event$name, " = ",
       # `event$files` is a char vector, which works with the "default" input
       # processor.
@@ -103,11 +103,11 @@ generateTestCode <- function(events, name) {
   }
 
   paste(
-    'app <- shinyapp$new("..")',
-    paste0('app$snapshot_init("', name, '")'),
+    'app <- ShinyDriver$new("..")',
+    paste0('app$snapshotInit("', name, '")'),
     '',
     eventCode,
-    '\napp$snapshot_compare()\n',
+    '\napp$snapshotCompare()\n',
     sep = "\n"
   )
 }

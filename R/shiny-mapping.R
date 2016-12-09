@@ -10,7 +10,7 @@
 #'
 #' @keywords internal
 
-app_find_widget <- function(self, private, name, iotype) {
+sd_findWidget <- function(self, private, name, iotype) {
 
   "!DEBUG finding a widget `name` (`iotype`)"
 
@@ -24,7 +24,7 @@ app_find_widget <- function(self, private, name, iotype) {
     paste0("#", name, ".shiny-bound-output")
   }
 
-  els <- self$find_elements(css = css)
+  els <- self$findElements(css = css)
 
   if (length(els) == 0) {
     stop(
@@ -41,7 +41,7 @@ app_find_widget <- function(self, private, name, iotype) {
     )
   }
 
-  type <- els[[1]]$execute_script(
+  type <- els[[1]]$executeScript(
     "var el = $(arguments[0]);
      if (el.data('shinyInputBinding') !== undefined) {
        return ['input', el.data('shinyInputBinding').name];
@@ -79,7 +79,7 @@ app_find_widget <- function(self, private, name, iotype) {
     "datatables"               = "tableOutput"
   )
 
-  widget$new(
+  Widget$new(
     name = name,
     element = els[[1]],
     type = unname(widget_names[type[[2]]] %|NA|% type[[2]]),

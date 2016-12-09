@@ -1,7 +1,7 @@
 
 #' \code{testthat} expectation for a Shiny update
 #'
-#' @param app A \code{\link{shinyapp}} object.
+#' @param app A \code{\link{ShinyDriver}} object.
 #' @param output Character vector, the name(s) of the output widgets
 #'   that are required to update for the test to succeed.
 #' @param ... Named arguments specifying updates for Shiny input
@@ -16,15 +16,15 @@
 #' @examples
 #' \dontrun{
 #' ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
-#' app <- shinyapp$new("050-kmeans-example")
-#' expect_update(app, xcol = "Sepal.Width", output = "plot1")
-#' expect_update(app, ycol = "Petal.Width", output = "plot1")
-#' expect_update(app, clusters = 4, output = "plot1")
+#' app <- ShinyDriver$new("050-kmeans-example")
+#' expectUpdate(app, xcol = "Sepal.Width", output = "plot1")
+#' expectUpdate(app, ycol = "Petal.Width", output = "plot1")
+#' expectUpdate(app, clusters = 4, output = "plot1")
 #' }
 
-expect_update <- function(app, output, ..., timeout = 3000,
-                          iotype = c("auto", "input", "output")) {
-  app$expect_update(
+expectUpdate <- function(app, output, ..., timeout = 3000,
+                         iotype = c("auto", "input", "output")) {
+  app$expectUpdate(
     output,
     ...,
     timeout = timeout,
@@ -32,9 +32,9 @@ expect_update <- function(app, output, ..., timeout = 3000,
   )
 }
 
-app_expect_update <- function(self, private, output, ..., timeout,
-                              iotype) {
-  "!DEBUG app_expect_update `paste(output, collapse = ', ')`"
+sd_expectUpdate <- function(self, private, output, ..., timeout,
+                            iotype) {
+  "!DEBUG sd_expectUpdate `paste(output, collapse = ', ')`"
 
   assert_that(is.character(output))
   assert_that(is_all_named(inputs <- list(...)))
@@ -47,20 +47,20 @@ app_expect_update <- function(self, private, output, ..., timeout,
     "window.shinytest.updating.push('", output, "');",
     collapse = "\n"
   )
-  private$web$execute_script(js)
+  private$web$executeScript(js)
   on.exit(
-    private$web$execute_script("window.shinytest.updating = [];"),
+    private$web$executeScript("window.shinytest.updating = [];"),
     add = TRUE
   )
 
   ## Do the changes to the inputs
   for (n in names(inputs)) {
-    self$find_widget(n, iotype = iotype)$set_value(inputs[[n]])
+    self$findWidget(n, iotype = iotype)$setValue(inputs[[n]])
   }
 
   "!DEBUG waiting for update"
   ## Wait for all the updates to happen, or a timeout
-  res <- private$web$wait_for(
+  res <- private$web$waitFor(
     "window.shinytest.updating.length == 0",
     timeout = timeout
   )
