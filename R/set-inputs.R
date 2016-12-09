@@ -1,4 +1,4 @@
-app_set_inputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
+app_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
                            timeout_ = 3000) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
@@ -9,7 +9,7 @@ app_set_inputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   res <- private$flush_inputs(wait_, timeout_)
 
   if (isTRUE(res$timedOut)) {
-    message("set_inputs: Server did not update any output values within ",
+    message("setInputs: Server did not update any output values within ",
       format(timeout_/1000, digits = 2),
       " seconds. If this is expected, use `wait_=FALSE, values_=FALSE`, or increase the value of timeout_.")
   }

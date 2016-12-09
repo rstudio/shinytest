@@ -53,9 +53,9 @@ window.shinytest = (function() {
         };
 
         // Some input need their values preprocessed, because the value passed
-        // to the R function `app$set_inputs()`, differs in structure from the
+        // to the R function `app$setInputs()`, differs in structure from the
         // value used in the JavaScript function `InputBinding.setValue()`.
-        // For example, for dateRangeInputs, `set_inputs()` is passed a two-
+        // For example, for dateRangeInputs, `setInputs()` is passed a two-
         // element vector or list, while the `setValue()` requires an object
         // with `start` and `end`.
         inputqueue.preprocessors = {

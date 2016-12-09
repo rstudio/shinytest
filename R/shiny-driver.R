@@ -103,7 +103,7 @@
 #' \code{app$getValue()} finds a widget and queries its value. See
 #' the \code{getValue} method of the \code{\link{widget}} class.
 #'
-#' \code{app$set_inputs()} sets the value of inputs. The arguments must all
+#' \code{app$setInputs()} sets the value of inputs. The arguments must all
 #' be named; an input with each name will be assigned the given value.
 #'
 #' \code{app$upload_file()} uploads a file to a file input. The argument must
@@ -276,9 +276,9 @@ ShinyDriver <- R6Class(
       app_expectUpdate(self, private, output, ..., timeout = timeout,
                        iotype = match.arg(iotype)),
 
-    set_inputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
-      app_set_inputs(self, private, ..., wait_ = wait_, values_ = values_,
-                     timeout_ = timeout_),
+    setInputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
+      app_setInputs(self, private, ..., wait_ = wait_, values_ = values_,
+                    timeout_ = timeout_),
 
     upload_file = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
       app_upload_file(self, private, ..., wait_ = wait_, values_ = values_,

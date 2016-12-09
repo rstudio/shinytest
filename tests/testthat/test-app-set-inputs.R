@@ -1,8 +1,8 @@
-context("app$set_inputs")
+context("app$setInputs")
 
 app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
-test_that("app$set_inputs for all input widgets", {
+test_that("app$setInputs for all input widgets", {
   # Check initial values
   x <- app$getAllValues()
   expect_identical(
@@ -21,7 +21,7 @@ test_that("app$set_inputs for all input widgets", {
   expect_identical(x$input$text, "Enter text...")
 
   # Set inputs
-  x <- app$set_inputs(
+  x <- app$setInputs(
     action = "click",
     checkbox = FALSE,
     checkGroup = c("2", "3"),

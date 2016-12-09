@@ -65,7 +65,7 @@ processInputValue <- function(value, inputType) {
 codeGenerators <- list(
   input = function(event) {
     paste0(
-      "app$set_inputs(",
+      "app$setInputs(",
       event$name, " = ",
       processInputValue(event$value, event$inputType),
       ")"
