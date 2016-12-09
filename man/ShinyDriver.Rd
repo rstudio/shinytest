@@ -156,11 +156,11 @@ on the R graphics device. The output file has PNG format.
 
 \code{app$findElement()} find an HTML element on the page, using a
 CSS selector or an XPath expression. The return value is an
-\code{\link[webdriver]{element}} object from the \code{webdriver}
+\code{\link[webdriver]{Element}} object from the \code{webdriver}
 package.
 
 \code{app$findElements()} finds potentially multiple HTML elements,
-and returns them in a list of \code{\link[webdriver]{element}} objects
+and returns them in a list of \code{\link[webdriver]{Element}} objects
 from the \code{webdriver} package.
 
 \code{app$waitFor()} waits until a JavaScript expression evaluates

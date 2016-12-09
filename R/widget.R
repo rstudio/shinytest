@@ -32,7 +32,7 @@
 #'   \item{value}{Value to set for the widget. Its interpretation depends
 #'     on the type of the widget, see details below.}
 #'   \item{keys}{Keys to send to the widget. See the \code{sendKeys}
-#'     method of the \code{\link[webdriver]{element}} class in the
+#'     method of the \code{\link[webdriver]{Element}} class in the
 #'     \code{webdriver} package.}
 #' }
 #'
@@ -45,7 +45,7 @@
 #' \code{w$getName()} returns the name of the widget.
 #'
 #' \code{w$getElement()} returns an HTML element. This is an
-#' \code{\link[webdriver]{element}} object from the \code{webdriver}
+#' \code{\link[webdriver]{Element}} object from the \code{webdriver}
 #' package.
 #'
 #' \code{w$getType()} returns the type of the widget, possible values
