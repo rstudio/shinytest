@@ -28,7 +28,7 @@
 #' app$findElements(css = NULL, linkText = NULL,
 #'      partialLinkText = NULL, xpath = NULL)
 #'
-#' app$waitFor(expr, check_interval = 100, timeout = 3000)
+#' app$waitFor(expr, checkInterval = 100, timeout = 3000)
 #'
 #' app$listWidgets()
 #'
@@ -73,7 +73,7 @@
 #'   \item{xpath}{Find HTML elements using XPath expressions.}
 #'   \item{expr}{A string scalar containing JavaScript code that
 #'     evaluates to the condition to wait for.}
-#'   \item{check_interval}{How often to check for the condition, in
+#'   \item{checkInterval}{How often to check for the condition, in
 #'     milliseconds.}
 #'   \item{timeout}{Timeout for the condition, in milliseconds.}
 #'   \item{output}{Character vector, the name(s) of the Shiny output
@@ -257,8 +257,8 @@ ShinyDriver <- R6Class(
       app_findElements(self, private, css, linkText, partialLinkText,
                         xpath),
 
-    waitFor = function(expr, check_interval = 100, timeout = 3000)
-      app_waitFor(self, private, expr, check_interval, timeout),
+    waitFor = function(expr, checkInterval = 100, timeout = 3000)
+      app_waitFor(self, private, expr, checkInterval, timeout),
 
 
     listWidgets = function()
@@ -385,9 +385,9 @@ app_stop <- function(self, private) {
   invisible(self)
 }
 
-app_waitFor <- function(self, private, expr, check_interval, timeout) {
+app_waitFor <- function(self, private, expr, checkInterval, timeout) {
   "!DEBUG app_waitFor"
-  private$web$waitFor(expr, check_interval, timeout)
+  private$web$waitFor(expr, checkInterval, timeout)
 }
 
 app_listWidgets <- function(self, private) {
