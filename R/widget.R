@@ -5,19 +5,19 @@
 #' \preformatted{w <- app$findWidget(name,
 #'     iotype = c("auto", "input", "output"))
 #'
-#' w$get_name()
-#' w$get_element()
-#' w$get_type()
-#' w$get_iotype()
-#' w$in_input()
-#' w$is_output()
+#' w$getName()
+#' w$getElement()
+#' w$getType()
+#' w$getIoType()
+#' w$isinput()
+#' w$isOutput()
 #'
 #' w$getValue()
 #' w$setValue(value)
 #'
 #' w$sendKeys(keys)
 #'
-#' w$list_tabs()
+#' w$listTabs()
 #' }
 #'
 #' @section Arguments:
@@ -42,22 +42,22 @@
 #' \code{app$findWidget} creates a widget object from a
 #' \code{\link{ShinyDriver}} object.
 #'
-#' \code{w$get_name()} returns the name of the widget.
+#' \code{w$getName()} returns the name of the widget.
 #'
-#' \code{w$get_element()} returns an HTML element. This is an
+#' \code{w$getElement()} returns an HTML element. This is an
 #' \code{\link[webdriver]{element}} object from the \code{webdriver}
 #' package.
 #'
-#' \code{w$get_type()} returns the type of the widget, possible values
+#' \code{w$getType()} returns the type of the widget, possible values
 #' are \code{textInput}, \code{selectInput}, etc.
 #'
-#' \code{w$get_iotype()} returns \sQuote{input} or \sQuote{output},
+#' \code{w$getIoType()} returns \sQuote{input} or \sQuote{output},
 #' whether the widget is an input or output widget.
 #'
-#' \code{w$is_input()} returns \code{TRUE} for input widgets, \code{FALSE}
+#' \code{w$isInput()} returns \code{TRUE} for input widgets, \code{FALSE}
 #' otherwise.
 #'
-#' \code{w$is_output()} returns \code{TRUE} for output widgets, \code{FALSE}
+#' \code{w$isOutput()} returns \code{TRUE} for output widgets, \code{FALSE}
 #' otherwise.
 #'
 #' \code{w$getValue()} returns the value of the widget. The exact type
@@ -71,7 +71,7 @@
 #' \code{w$sendKeys} sends the specified keys to the HTML element of the
 #' widget.
 #'
-#' \code{w$list_tabs} lists the tab names of a \code{tabsetPanel} widget.
+#' \code{w$listTabs} lists the tab names of a \code{tabsetPanel} widget.
 #' It fails for other types of widgets.
 #'
 #' @name widget
@@ -91,12 +91,12 @@ widget <- R6Class(
       widget_initialize(self, private, name, element, type,
                         match.arg(iotype)),
 
-    get_name = function() private$name,
-    get_element = function() private$element,
-    get_type = function() private$type,
-    get_iotype = function() private$iotype,
-    is_input = function() private$iotype == "input",
-    is_output = function() private$iotype == "output",
+    getName = function() private$name,
+    getElement = function() private$element,
+    getType = function() private$type,
+    getIoType = function() private$iotype,
+    isInput = function() private$iotype == "input",
+    isOutput = function() private$iotype == "output",
 
     getValue = function()
       widget_getValue(self, private),
@@ -107,8 +107,8 @@ widget <- R6Class(
     sendKeys = function(keys)
       widget_sendKeys(self, private, keys),
 
-    list_tabs = function()
-      widget_list_tabs(self, private),
+    listTabs = function()
+      widget_listTabs(self, private),
 
     uploadFile = function(filename)
       widget_uploadFile(self, private, filename)
@@ -136,9 +136,9 @@ widget_sendKeys <- function(self, private, keys) {
   private$element$sendKeys(keys)
 }
 
-widget_list_tabs <- function(self, private) {
+widget_listTabs <- function(self, private) {
   if (private$type != "tabsetPanel") {
-    stop("'list_tabs' only works for 'tabsetPanel' widgets")
+    stop("'listTabs' only works for 'tabsetPanel' widgets")
   }
   tabs <- private$element$find_elements("li a")
   vapply(tabs, function(t) t$get_data("value"), "")

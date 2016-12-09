@@ -4,13 +4,13 @@ context("tabs")
 test_that("tabs are found, names are good", {
   app <- ShinyDriver$new(test_path("apps/embedded-tabs"))
 
-  expect_equal(app$findWidget("tabset1")$list_tabs(), c("tab1", "tab2"))
+  expect_equal(app$findWidget("tabset1")$listTabs(), c("tab1", "tab2"))
   expect_equal(
-    app$findWidget("tabset11")$list_tabs(),
+    app$findWidget("tabset11")$listTabs(),
     c("tab11", "tab12", "tab13")
   )
   expect_equal(
-    app$findWidget("tabset12")$list_tabs(),
+    app$findWidget("tabset12")$listTabs(),
     c("xxx", "tab22", "tab23", "tab24")
   )
 })
