@@ -43,8 +43,8 @@ app_flush_inputs <- function(self, private, wait, timeout) {
   )
 }
 
-app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                            timeout_ = 3000) {
+app_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
+                           timeout_ = 3000) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")
@@ -61,7 +61,7 @@ app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     timeout_
   )
 
-  self$findWidget(names(inputs)[1])$upload_file(inputs[[1]])
+  self$findWidget(names(inputs)[1])$uploadFile(inputs[[1]])
 
   res <- private$web$execute_script_async(
     "var wait = arguments[0];

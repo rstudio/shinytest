@@ -110,8 +110,8 @@ widget <- R6Class(
     list_tabs = function()
       widget_list_tabs(self, private),
 
-    upload_file = function(filename)
-      widget_upload_file(self, private, filename)
+    uploadFile = function(filename)
+      widget_uploadFile(self, private, filename)
 
   ),
 
@@ -144,7 +144,7 @@ widget_list_tabs <- function(self, private) {
   vapply(tabs, function(t) t$get_data("value"), "")
 }
 
-widget_upload_file <- function(self, private, filename) {
+widget_uploadFile <- function(self, private, filename) {
   private$element$upload_file(
     filename = filename
   )

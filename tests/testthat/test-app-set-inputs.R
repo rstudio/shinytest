@@ -66,7 +66,7 @@ test_that("app$setInputs for all input widgets", {
 })
 
 
-test_that("app$upload_file for file inputs", {
-  x <- app$upload_file(file = test_path("apps/081-widgets-gallery/DESCRIPTION"))
+test_that("app$uploadFile for file inputs", {
+  x <- app$uploadFile(file = test_path("apps/081-widgets-gallery/DESCRIPTION"))
   expect_true(grepl("DESCRIPTION", x$output$fileOut))
 })

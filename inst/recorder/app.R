@@ -74,7 +74,7 @@ codeGenerators <- list(
 
   fileUpload = function(event) {
     paste0(
-      "app$upload_file(",
+      "app$uploadFile(",
       event$name, " = ",
       # `event$files` is a char vector, which works with the "default" input
       # processor.

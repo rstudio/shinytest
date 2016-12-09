@@ -106,7 +106,7 @@
 #' \code{app$setInputs()} sets the value of inputs. The arguments must all
 #' be named; an input with each name will be assigned the given value.
 #'
-#' \code{app$upload_file()} uploads a file to a file input. The argument must
+#' \code{app$uploadFile()} uploads a file to a file input. The argument must
 #' be named and the value must be the path to a local file; that file will be
 #' uploaded to a file input with that name.
 #'
@@ -280,9 +280,9 @@ ShinyDriver <- R6Class(
       app_setInputs(self, private, ..., wait_ = wait_, values_ = values_,
                     timeout_ = timeout_),
 
-    upload_file = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
-      app_upload_file(self, private, ..., wait_ = wait_, values_ = values_,
-                      timeout_ = timeout_),
+    uploadFile = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
+      app_uploadFile(self, private, ..., wait_ = wait_, values_ = values_,
+                     timeout_ = timeout_),
 
     snapshot = function(items = NULL,
                         filename = NULL,
