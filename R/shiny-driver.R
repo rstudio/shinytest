@@ -301,8 +301,8 @@ ShinyDriver <- R6Class(
     snapshotInit = function(path)
       app_snapshotInit(self, private, path),
 
-    snapshot_compare = function(autoremove = TRUE)
-      app_snapshot_compare(self, private, autoremove)
+    snapshotCompare = function(autoremove = TRUE)
+      app_snapshotCompare(self, private, autoremove)
   ),
 
   private = list(

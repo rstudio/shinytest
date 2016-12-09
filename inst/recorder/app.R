@@ -107,7 +107,7 @@ generateTestCode <- function(events, name) {
     paste0('app$snapshotInit("', name, '")'),
     '',
     eventCode,
-    '\napp$snapshot_compare()\n',
+    '\napp$snapshotCompare()\n',
     sep = "\n"
   )
 }

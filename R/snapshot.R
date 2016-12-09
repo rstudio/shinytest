@@ -61,8 +61,8 @@ app_snapshot <- function(self, private, items, filename, screenshot)
 }
 
 
-app_snapshot_compare <- function(self, private, autoremove) {
-  snapshot_compare(private$snapshot_dir, self$getTestsDir(), autoremove)
+app_snapshotCompare <- function(self, private, autoremove) {
+  snapshotCompare(private$snapshot_dir, self$getTestsDir(), autoremove)
 }
 
 #' Compare current and expected snapshots
@@ -77,7 +77,7 @@ app_snapshot_compare <- function(self, private, autoremove) {
 #'   the current results be removed automatically? Defaults to TRUE.
 #'
 #' @export
-snapshot_compare <- function(name, testsDir, autoremove = TRUE) {
+snapshotCompare <- function(name, testsDir, autoremove = TRUE) {
   current_dir  <- file.path(testsDir, paste0(name, "-current"))
   expected_dir <- file.path(testsDir, paste0(name, "-expected"))
 
@@ -157,8 +157,8 @@ snapshot_compare <- function(name, testsDir, autoremove = TRUE) {
 
 #' Update expected snapshot with current snapshot
 #'
-#' @rdname snapshot_compare
-#' @inheritParams snapshot_compare
+#' @rdname snapshotCompare
+#' @inheritParams snapshotCompare
 #' @export
 snapshot_update <- function(name, testsDir = ".") {
   # Strip off trailing slash if present
