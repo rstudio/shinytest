@@ -6,7 +6,7 @@
 #'               check_names = TRUE, debug = c("none", "all",
 #'               ShinyDriver$debugLogTypes))
 #' app$stop()
-#' app$get_debug_log(type = c("all", ShinyDriver$debugLogTypes))
+#' app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
 #'
 #' app$getValue(name, iotype = c("auto", "input", "output"))
 #' app$setValue(name, value, iotype = c("auto", "input", "output"))
@@ -97,7 +97,7 @@
 #' \code{app$stop()} stops the app, i.e. the external R process that runs
 #' the app, and also the phantomjs instance.
 #'
-#' \code{app$get_debug_log()} queries one or more of the debug logs:
+#' \code{app$getDebugLog()} queries one or more of the debug logs:
 #' \code{shiny_console}, \code{browser} or \code{shinytest}.
 #'
 #' \code{app$getValue()} finds a widget and queries its value. See
@@ -221,8 +221,8 @@ ShinyDriver <- R6Class(
 
     ## Debugging
 
-    get_debug_log = function(type = c("all", ShinyDriver$debugLogTypes))
-      app_get_debug_log(self, private, match.arg(type, several.ok = TRUE)),
+    getDebugLog = function(type = c("all", ShinyDriver$debugLogTypes))
+      app_getDebugLog(self, private, match.arg(type, several.ok = TRUE)),
 
     enable_debug_log_messages = function(enable = TRUE)
       app_enable_debug_log_messages(self, private, enable),
