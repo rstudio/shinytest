@@ -23,7 +23,7 @@
 #' @section Arguments:
 #' \describe{
 #'   \item{app}{A \code{\link{ShinyDriver}} object.}
-#'   \item{w}{A \code{widget} object.}
+#'   \item{w}{A \code{Widget} object.}
 #'   \item{name}{Name of a Shiny widget.}
 #'   \item{iotype}{Character scalar, whether the widget is \sQuote{input}
 #'     or \sQuote{output}. The default \sQuote{auto} value works well,
@@ -38,7 +38,7 @@
 #'
 #' @section Details:
 #'
-#' A \code{widget} object represents a Shiny input or output widget.
+#' A \code{Widget} object represents a Shiny input or output widget.
 #' \code{app$findWidget} creates a widget object from a
 #' \code{\link{ShinyDriver}} object.
 #'
@@ -74,7 +74,7 @@
 #' \code{w$listTabs} lists the tab names of a \code{tabsetPanel} widget.
 #' It fails for other types of widgets.
 #'
-#' @name widget
+#' @name Widget
 #' @examples{
 #'
 #' }
@@ -82,8 +82,8 @@ NULL
 
 #' @importFrom R6 R6Class
 
-widget <- R6Class(
-  "widget",
+Widget <- R6Class(
+  "Widget",
 
   public = list(
     initialize = function(name, element, type,
@@ -138,7 +138,7 @@ widget_sendKeys <- function(self, private, keys) {
 
 widget_listTabs <- function(self, private) {
   if (private$type != "tabsetPanel") {
-    stop("'listTabs' only works for 'tabsetPanel' widgets")
+    stop("'listTabs' only works for 'tabsetPanel' Widgets")
   }
   tabs <- private$element$find_elements("li a")
   vapply(tabs, function(t) t$get_data("value"), "")

@@ -1,7 +1,7 @@
 
-context("widget$setValue")
+context("Widget$setValue")
 
-test_that("widget$setValue for all input widgets", {
+test_that("Widget$setValue for all input widgets", {
 
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 

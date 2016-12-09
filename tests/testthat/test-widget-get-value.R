@@ -1,7 +1,7 @@
 
-context("widget$getValue")
+context("Widget$getValue")
 
-test_that("widget$getValue for all input widgets", {
+test_that("Widget$getValue for all input widgets", {
 
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
@@ -71,7 +71,7 @@ test_that("widget$getValue for all input widgets", {
 
 })
 
-test_that("widget$getValue for all output widgets", {
+test_that("Widget$getValue for all output widgets", {
 
   app <- ShinyDriver$new(test_path("apps/outputs"))
 

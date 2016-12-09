@@ -79,7 +79,7 @@ app_findWidget <- function(self, private, name, iotype) {
     "datatables"               = "tableOutput"
   )
 
-  widget$new(
+  Widget$new(
     name = name,
     element = els[[1]],
     type = unname(widget_names[type[[2]]] %|NA|% type[[2]]),

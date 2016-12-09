@@ -101,7 +101,7 @@
 #' \code{shiny_console}, \code{browser} or \code{shinytest}.
 #'
 #' \code{app$getValue()} finds a widget and queries its value. See
-#' the \code{getValue} method of the \code{\link{widget}} class.
+#' the \code{getValue} method of the \code{\link{Widget}} class.
 #'
 #' \code{app$setInputs()} sets the value of inputs. The arguments must all
 #' be named; an input with each name will be assigned the given value.
@@ -114,7 +114,7 @@
 #' and error values.
 #'
 #' \code{app$setValue()} finds a widget and sets its value. See the
-#' \code{setValue} method of the \code{\link{widget}} class.
+#' \code{setValue} method of the \code{\link{Widget}} class.
 #'
 #' \code{app$sendKeys} sends the specified keys to the HTML element of the
 #' widget.
@@ -165,7 +165,7 @@
 #' are unique.
 #'
 #' \code{app$findWidget()} finds the corresponding HTML element of a Shiny
-#' widget. It returns a \code{\link{widget}} object.
+#' widget. It returns a \code{\link{Widget}} object.
 #'
 #' \code{expectUpdate()} is one of the main functions to test Shiny apps.
 #' It performs one or more update operations via the browser, and then
