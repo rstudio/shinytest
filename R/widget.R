@@ -12,7 +12,7 @@
 #' w$in_input()
 #' w$is_output()
 #'
-#' w$get_value()
+#' w$getValue()
 #' w$set_value(value)
 #'
 #' w$send_keys(keys)
@@ -60,7 +60,7 @@
 #' \code{w$is_output()} returns \code{TRUE} for output widgets, \code{FALSE}
 #' otherwise.
 #'
-#' \code{w$get_value()} returns the value of the widget. The exact type
+#' \code{w$getValue()} returns the value of the widget. The exact type
 #' returned depends on the type of the widget. TODO: list widgets and their
 #' return types.
 #'
@@ -98,8 +98,8 @@ widget <- R6Class(
     is_input = function() private$iotype == "input",
     is_output = function() private$iotype == "output",
 
-    get_value = function()
-      widget_get_value(self, private),
+    getValue = function()
+      widget_getValue(self, private),
 
     set_value = function(value)
       widget_set_value(self, private, value),
