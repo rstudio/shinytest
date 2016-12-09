@@ -104,7 +104,7 @@ generateTestCode <- function(events, name) {
 
   paste(
     'app <- ShinyDriver$new("..")',
-    paste0('app$snapshot_init("', name, '")'),
+    paste0('app$snapshotInit("', name, '")'),
     '',
     eventCode,
     '\napp$snapshot_compare()\n',

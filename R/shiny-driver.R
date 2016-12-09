@@ -298,8 +298,8 @@ ShinyDriver <- R6Class(
     getSnapshotDir = function()
       app_getSnapshotDir(self, private),
 
-    snapshot_init = function(path)
-      app_snapshot_init(self, private, path),
+    snapshotInit = function(path)
+      app_snapshotInit(self, private, path),
 
     snapshot_compare = function(autoremove = TRUE)
       app_snapshot_compare(self, private, autoremove)
@@ -462,7 +462,7 @@ app_getSnapshotDir <- function(self, private) {
   file.path(self$getTestsDir(), private$snapshot_dir)
 }
 
-app_snapshot_init <- function(self, private, path) {
+app_snapshotInit <- function(self, private, path) {
   if (grepl("^/", path)) {
     stop("Snapshot dir must be a relative path.")
   }
