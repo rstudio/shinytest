@@ -2,8 +2,8 @@
 #' @importFrom processx process
 #' @importFrom webdriver Session
 
-app_initialize <- function(self, private, path, loadTimeout, checkNames,
-                           debug, phantom_debug_level) {
+sd_initialize <- function(self, private, path, loadTimeout, checkNames,
+                          debug, phantom_debug_level) {
 
   "!DEBUG get phantom port (starts phantom if not running)"
   private$phantomPort <- get_phantomPort()
@@ -54,7 +54,7 @@ app_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-app_startShiny <- function(self, private, path) {
+sd_startShiny <- function(self, private, path) {
 
   assert_that(is_string(path))
 
@@ -119,7 +119,7 @@ app_startShiny <- function(self, private, path) {
   private$shinyProcess <- sh
 }
 
-app_getShinyUrl <- function(self, private) {
+sd_getShinyUrl <- function(self, private) {
   paste0("http://", private$shinyHost, ":", private$shinyPort)
 }
 

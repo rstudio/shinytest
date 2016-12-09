@@ -23,7 +23,7 @@
 #' }
 
 expectUpdate <- function(app, output, ..., timeout = 3000,
-                          iotype = c("auto", "input", "output")) {
+                         iotype = c("auto", "input", "output")) {
   app$expectUpdate(
     output,
     ...,
@@ -32,9 +32,9 @@ expectUpdate <- function(app, output, ..., timeout = 3000,
   )
 }
 
-app_expectUpdate <- function(self, private, output, ..., timeout,
-                              iotype) {
-  "!DEBUG app_expectUpdate `paste(output, collapse = ', ')`"
+sd_expectUpdate <- function(self, private, output, ..., timeout,
+                            iotype) {
+  "!DEBUG sd_expectUpdate `paste(output, collapse = ', ')`"
 
   assert_that(is.character(output))
   assert_that(is_all_named(inputs <- list(...)))

@@ -1,5 +1,5 @@
-app_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                           timeout_ = 3000) {
+sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
+                         timeout_ = 3000) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")
@@ -20,7 +20,7 @@ app_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     invisible()
 }
 
-app_queueInputs <- function(self, private, ...) {
+sd_queueInputs <- function(self, private, ...) {
   inputs <- list(...)
   assert_that(is_all_named(inputs))
 
@@ -30,7 +30,7 @@ app_queueInputs <- function(self, private, ...) {
   )
 }
 
-app_flushInputs <- function(self, private, wait, timeout) {
+sd_flushInputs <- function(self, private, wait, timeout) {
   private$web$executeScriptAsync(
     "var wait = arguments[0];
     var timeout = arguments[1];
@@ -43,8 +43,8 @@ app_flushInputs <- function(self, private, wait, timeout) {
   )
 }
 
-app_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                           timeout_ = 3000) {
+sd_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
+                          timeout_ = 3000) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")

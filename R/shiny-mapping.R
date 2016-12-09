@@ -10,7 +10,7 @@
 #'
 #' @keywords internal
 
-app_findWidget <- function(self, private, name, iotype) {
+sd_findWidget <- function(self, private, name, iotype) {
 
   "!DEBUG finding a widget `name` (`iotype`)"
 

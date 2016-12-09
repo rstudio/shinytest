@@ -1,5 +1,5 @@
-app_getAllValues <- function(self, private, input, output, export) {
-  "!DEBUG app_getAllValues"
+sd_getAllValues <- function(self, private, input, output, export) {
+  "!DEBUG sd_getAllValues"
   url <- private$getTestSnapshotUrl(input, output, export, format = "rds")
 
   tmpfile <- tempfile("shinytest_values", fileext = ".rds")

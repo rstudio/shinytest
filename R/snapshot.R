@@ -1,4 +1,4 @@
-app_snapshot <- function(self, private, items, filename, screenshot)
+sd_snapshot <- function(self, private, items, filename, screenshot)
 {
   if (!is.list(items) && !is.null(items))
     stop("'items' must be NULL or a list.")
@@ -61,7 +61,7 @@ app_snapshot <- function(self, private, items, filename, screenshot)
 }
 
 
-app_snapshotCompare <- function(self, private, autoremove) {
+sd_snapshotCompare <- function(self, private, autoremove) {
   snapshotCompare(private$snapshotDir, self$getTestsDir(), autoremove)
 }
 

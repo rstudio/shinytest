@@ -1,44 +1,44 @@
 
-app_getUrl <- function(self, private) {
-  "!DEBUG app_getUrl"
+sd_getUrl <- function(self, private) {
+  "!DEBUG sd_getUrl"
   private$web$getUrl()
 }
 
-app_goBack <- function(self, private) {
-  "!DEBUG app_goBack"
+sd_goBack <- function(self, private) {
+  "!DEBUG sd_goBack"
   private$web$goBack()
   invisible(self)
 }
 
-app_refresh <- function(self, private) {
+sd_refresh <- function(self, private) {
   "!DEBUG refresh"
   private$web$refresh()
   invisible(self)
 }
 
-app_getTitle <- function(self, private) {
-  "!DEBUG app_getTitle"
+sd_getTitle <- function(self, private) {
+  "!DEBUG sd_getTitle"
   private$web$getTitle()
 }
 
-app_getSource <- function(self, private) {
-  "!DEBUG app_getSource"
+sd_getSource <- function(self, private) {
+  "!DEBUG sd_getSource"
   private$web$getSource()
 }
 
-app_takeScreenshot <- function(self, private, file) {
-  "!DEBUG app_takeScreenshot"
+sd_takeScreenshot <- function(self, private, file) {
+  "!DEBUG sd_takeScreenshot"
   private$web$takeScreenshot(file)
 }
 
-app_findElement <- function(self, private, css, linkText,
-                             partialLinkText, xpath) {
-  "!DEBUG app_findElement '`css %||% linkText %||% partialLinkText %||% xpath`'"
+sd_findElement <- function(self, private, css, linkText,
+                           partialLinkText, xpath) {
+  "!DEBUG sd_findElement '`css %||% linkText %||% partialLinkText %||% xpath`'"
   private$web$findElement(css, linkText, partialLinkText, xpath)
 }
 
-app_findElements <- function(self, private, css, linkText,
-                              partialLinkText, xpath) {
-  "!DEBUG app_findElements '`css %||% linkText %||% partialLinkText %||% xpath`'"
+sd_findElements <- function(self, private, css, linkText,
+                            partialLinkText, xpath) {
+  "!DEBUG sd_findElements '`css %||% linkText %||% partialLinkText %||% xpath`'"
   private$web$findElements(css, linkText, partialLinkText, xpath)
 }

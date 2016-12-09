@@ -195,115 +195,115 @@ ShinyDriver <- R6Class(
     initialize = function(path = ".", loadTimeout = 5000,
       checkNames = TRUE,
       debug = c("none", "all", ShinyDriver$debugLogTypes))
-      app_initialize(self, private, path, loadTimeout, checkNames,
-                     match.arg(debug, several.ok = TRUE)),
+      sd_initialize(self, private, path, loadTimeout, checkNames,
+                    match.arg(debug, several.ok = TRUE)),
 
     stop = function()
-      app_stop(self, private),
+      sd_stop(self, private),
 
     getValue = function(name, iotype = c("auto", "input", "output"))
-      app_getValue(self, private, name, match.arg(iotype)),
+      sd_getValue(self, private, name, match.arg(iotype)),
 
     setValue = function(name, value, iotype = c("auto", "input", "output"))
-      app_setValue(self, private, name, value, match.arg(iotype)),
+      sd_setValue(self, private, name, value, match.arg(iotype)),
 
     getAllValues = function(input = TRUE, output = TRUE, export = TRUE)
-      app_getAllValues(self, private, input, output, export),
+      sd_getAllValues(self, private, input, output, export),
 
     sendKeys = function(name = NULL, keys)
-      app_sendKeys(self, private, name, keys),
+      sd_sendKeys(self, private, name, keys),
 
     setWindowSize = function(width, height)
-      app_setWindowSize(self, private, width, height),
+      sd_setWindowSize(self, private, width, height),
 
     getWindowSize = function()
-      app_getWindowSize(self, private),
+      sd_getWindowSize(self, private),
 
     ## Debugging
 
     getDebugLog = function(type = c("all", ShinyDriver$debugLogTypes))
-      app_getDebugLog(self, private, match.arg(type, several.ok = TRUE)),
+      sd_getDebugLog(self, private, match.arg(type, several.ok = TRUE)),
 
     enableDebugLogMessages = function(enable = TRUE)
-      app_enableDebugLogMessages(self, private, enable),
+      sd_enableDebugLogMessages(self, private, enable),
 
     ## These are just forwarded to the webdriver session
 
     getUrl = function()
-      app_getUrl(self, private),
+      sd_getUrl(self, private),
 
     goBack = function()
-      app_goBack(self, private),
+      sd_goBack(self, private),
 
     refresh = function()
-      app_refresh(self, private),
+      sd_refresh(self, private),
 
     getTitle = function()
-      app_getTitle(self, private),
+      sd_getTitle(self, private),
 
     getSource = function()
-      app_getSource(self, private),
+      sd_getSource(self, private),
 
     takeScreenshot = function(file = NULL)
-      app_takeScreenshot(self, private, file),
+      sd_takeScreenshot(self, private, file),
 
     findElement = function(css = NULL, linkText = NULL,
       partialLinkText = NULL, xpath = NULL)
-      app_findElement(self, private, css, linkText, partialLinkText,
-                       xpath),
+      sd_findElement(self, private, css, linkText, partialLinkText,
+                     xpath),
 
     findElements = function(css = NULL, linkText = NULL,
       partialLinkText = NULL, xpath = NULL)
-      app_findElements(self, private, css, linkText, partialLinkText,
-                        xpath),
+      sd_findElements(self, private, css, linkText, partialLinkText,
+                      xpath),
 
     waitFor = function(expr, checkInterval = 100, timeout = 3000)
-      app_waitFor(self, private, expr, checkInterval, timeout),
+      sd_waitFor(self, private, expr, checkInterval, timeout),
 
 
     listWidgets = function()
-      app_listWidgets(self, private),
+      sd_listWidgets(self, private),
 
     checkUniqueWidgetNames = function()
-      app_checkUniqueWidgetNames(self, private),
+      sd_checkUniqueWidgetNames(self, private),
 
     ## Main methods
 
     findWidget = function(name, iotype = c("auto", "input", "output"))
-      app_findWidget(self, private, name, match.arg(iotype)),
+      sd_findWidget(self, private, name, match.arg(iotype)),
 
     expectUpdate = function(output, ..., timeout = 3000,
       iotype = c("auto", "input", "output"))
-      app_expectUpdate(self, private, output, ..., timeout = timeout,
+      sd_expectUpdate(self, private, output, ..., timeout = timeout,
                        iotype = match.arg(iotype)),
 
     setInputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
-      app_setInputs(self, private, ..., wait_ = wait_, values_ = values_,
+      sd_setInputs(self, private, ..., wait_ = wait_, values_ = values_,
                     timeout_ = timeout_),
 
     uploadFile = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
-      app_uploadFile(self, private, ..., wait_ = wait_, values_ = values_,
+      sd_uploadFile(self, private, ..., wait_ = wait_, values_ = values_,
                      timeout_ = timeout_),
 
     snapshot = function(items = NULL,
                         filename = NULL,
                         screenshot = NULL)
-      app_snapshot(self, private, items, filename, screenshot),
+      sd_snapshot(self, private, items, filename, screenshot),
 
     getTestsDir = function()
-      app_getTestsDir(self, private),
+      sd_getTestsDir(self, private),
 
     setTestsDir = function(path)
-      app_setTestsDir(self, private, path),
+      sd_setTestsDir(self, private, path),
 
     getSnapshotDir = function()
-      app_getSnapshotDir(self, private),
+      sd_getSnapshotDir(self, private),
 
     snapshotInit = function(path)
-      app_snapshotInit(self, private, path),
+      sd_snapshotInit(self, private, path),
 
     snapshotCompare = function(autoremove = TRUE)
-      app_snapshotCompare(self, private, autoremove)
+      sd_snapshotCompare(self, private, autoremove)
   ),
 
   private = list(
@@ -322,23 +322,23 @@ ShinyDriver <- R6Class(
     snapshotCount = 0,
 
     startShiny = function(path)
-      app_startShiny(self, private, path),
+      sd_startShiny(self, private, path),
 
     getShinyUrl = function()
-      app_getShinyUrl(self, private),
+      sd_getShinyUrl(self, private),
 
     setupDebugging = function(debug)
-      app_setupDebugging(self, private, debug),
+      sd_setupDebugging(self, private, debug),
 
     queueInputs = function(...)
-      app_queueInputs(self, private, ...),
+      sd_queueInputs(self, private, ...),
 
     flushInputs = function(wait = TRUE, timeout = 1000)
-      app_flushInputs(self, private, wait, timeout),
+      sd_flushInputs(self, private, wait, timeout),
 
     getTestSnapshotUrl = function(input = TRUE, output = TRUE,
       export = TRUE, format = "json")
-      app_getTestSnapshotUrl(self, private, input, output, export,
+      sd_getTestSnapshotUrl(self, private, input, output, export,
                                 format)
 
   )
@@ -350,56 +350,56 @@ ShinyDriver$debugLogTypes <- c(
   "shinytest"
 )
 
-app_getValue <- function(self, private, name, iotype) {
-  "!DEBUG app_getValue `name` (`iotype`)"
+sd_getValue <- function(self, private, name, iotype) {
+  "!DEBUG sd_getValue `name` (`iotype`)"
   self$findWidget(name, iotype)$getValue()
 }
 
-app_setValue <- function(self, private, name, value, iotype) {
-  "!DEBUG app_setValue `name`"
+sd_setValue <- function(self, private, name, value, iotype) {
+  "!DEBUG sd_setValue `name`"
   self$findWidget(name, iotype)$setValue(value)
   invisible(self)
 }
 
-app_sendKeys <- function(self, private, name, keys) {
-  "!DEBUG app_sendKeys `name`"
+sd_sendKeys <- function(self, private, name, keys) {
+  "!DEBUG sd_sendKeys `name`"
   self$findWidget(name)$sendKeys(keys)
   invisible(self)
 }
 
-app_getWindowSize <- function(self, private) {
-  "!DEBUG app_getWindowSize"
+sd_getWindowSize <- function(self, private) {
+  "!DEBUG sd_getWindowSize"
   private$web$getWindow()$getSize()
 }
 
-app_setWindowSize <- function(self, private, width, height) {
-  "!DEBUG app_setWindowSize `width`x`height`"
+sd_setWindowSize <- function(self, private, width, height) {
+  "!DEBUG sd_setWindowSize `width`x`height`"
   private$web$getWindow()$setSize(width, height)
   invisible(self)
 }
 
-app_stop <- function(self, private) {
-  "!DEBUG app_stop"
+sd_stop <- function(self, private) {
+  "!DEBUG sd_stop"
   private$shinyProcess$kill()
   private$state <- "stopped"
   invisible(self)
 }
 
-app_waitFor <- function(self, private, expr, checkInterval, timeout) {
-  "!DEBUG app_waitFor"
+sd_waitFor <- function(self, private, expr, checkInterval, timeout) {
+  "!DEBUG sd_waitFor"
   private$web$waitFor(expr, checkInterval, timeout)
 }
 
-app_listWidgets <- function(self, private) {
-  "!DEBUG app_listWidgets"
+sd_listWidgets <- function(self, private) {
+  "!DEBUG sd_listWidgets"
   res <- private$web$executeScript("return shinytest.listWidgets();")
   res$input <- unlist(res$input)
   res$output <- unlist(res$output)
   res
 }
 
-app_checkUniqueWidgetNames <- function(self, private) {
-  "!DEBUG app_checkUniqueWidgetNames"
+sd_checkUniqueWidgetNames <- function(self, private) {
+  "!DEBUG sd_checkUniqueWidgetNames"
   widgets <- self$listWidgets()
   inputs <- widgets$input
   outputs <- widgets$output
@@ -428,8 +428,8 @@ app_checkUniqueWidgetNames <- function(self, private) {
 }
 
 
-app_getTestSnapshotUrl = function(self, private, input, output, export,
-                                     format) {
+sd_getTestSnapshotUrl = function(self, private, input, output, export,
+                                 format) {
   reqString <- function(group, value) {
     if (isTRUE(value))
       paste0(group, "=1")
@@ -448,22 +448,22 @@ app_getTestSnapshotUrl = function(self, private, input, output, export,
   )
 }
 
-app_getTestsDir <- function(self, private) {
+sd_getTestsDir <- function(self, private) {
   file.path(private$path, "tests")
 }
 
-app_setTestsDir <- function(self, private, path) {
+sd_setTestsDir <- function(self, private, path) {
   if (grepl("^/", path)) {
     stop("Tests dir must be a relative path.")
   }
   private$testsDir <- path
 }
 
-app_getSnapshotDir <- function(self, private) {
+sd_getSnapshotDir <- function(self, private) {
   file.path(self$getTestsDir(), private$snapshotDir)
 }
 
-app_snapshotInit <- function(self, private, path) {
+sd_snapshotInit <- function(self, private, path) {
   if (grepl("^/", path)) {
     stop("Snapshot dir must be a relative path.")
   }
