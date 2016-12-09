@@ -31,14 +31,14 @@ app_takeScreenshot <- function(self, private, file) {
   private$web$takeScreenshot(file)
 }
 
-app_findElement <- function(self, private, css, link_text,
+app_findElement <- function(self, private, css, linkText,
                              partialLinkText, xpath) {
-  "!DEBUG app_findElement '`css %||% link_text %||% partialLinkText %||% xpath`'"
-  private$web$findElement(css, link_text, partialLinkText, xpath)
+  "!DEBUG app_findElement '`css %||% linkText %||% partialLinkText %||% xpath`'"
+  private$web$findElement(css, linkText, partialLinkText, xpath)
 }
 
-app_findElements <- function(self, private, css, link_text,
+app_findElements <- function(self, private, css, linkText,
                               partialLinkText, xpath) {
-  "!DEBUG app_findElements '`css %||% link_text %||% partialLinkText %||% xpath`'"
-  private$web$findElements(css, link_text, partialLinkText, xpath)
+  "!DEBUG app_findElements '`css %||% linkText %||% partialLinkText %||% xpath`'"
+  private$web$findElements(css, linkText, partialLinkText, xpath)
 }

@@ -22,10 +22,10 @@
 #' app$getSource()
 #' app$takeScreenshot(file = NULL)
 #'
-#' app$findElement(css = NULL, link_text = NULL,
+#' app$findElement(css = NULL, linkText = NULL,
 #'      partialLinkText = NULL, xpath = NULL)
 #'
-#' app$findElements(css = NULL, link_text = NULL,
+#' app$findElements(css = NULL, linkText = NULL,
 #'      partialLinkText = NULL, xpath = NULL)
 #'
 #' app$waitFor(expr, check_interval = 100, timeout = 3000)
@@ -66,7 +66,7 @@
 #'   \item{file}{File name to save the screenshot to. If \code{NULL}, then
 #'     it will be shown on the R graphics device.}
 #'   \item{css}{CSS selector to find an HTML element.}
-#'   \item{link_text}{Find \code{<a>} HTML elements based on their
+#'   \item{linkText}{Find \code{<a>} HTML elements based on their
 #'     \code{innerText}.}
 #'   \item{partialLinkText}{Find \code{<a>} HTML elements based on their
 #'     \code{innerText}. It uses partial matching.}
@@ -247,14 +247,14 @@ ShinyDriver <- R6Class(
     takeScreenshot = function(file = NULL)
       app_takeScreenshot(self, private, file),
 
-    findElement = function(css = NULL, link_text = NULL,
+    findElement = function(css = NULL, linkText = NULL,
       partialLinkText = NULL, xpath = NULL)
-      app_findElement(self, private, css, link_text, partialLinkText,
+      app_findElement(self, private, css, linkText, partialLinkText,
                        xpath),
 
-    findElements = function(css = NULL, link_text = NULL,
+    findElements = function(css = NULL, linkText = NULL,
       partialLinkText = NULL, xpath = NULL)
-      app_findElements(self, private, css, link_text, partialLinkText,
+      app_findElements(self, private, css, linkText, partialLinkText,
                         xpath),
 
     waitFor = function(expr, check_interval = 100, timeout = 3000)
