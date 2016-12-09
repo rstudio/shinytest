@@ -62,7 +62,7 @@ app_snapshot <- function(self, private, items, filename, screenshot)
 
 
 app_snapshot_compare <- function(self, private, autoremove) {
-  snapshot_compare(private$snapshot_dir, self$get_tests_dir(), autoremove)
+  snapshot_compare(private$snapshot_dir, self$getTestsDir(), autoremove)
 }
 
 #' Compare current and expected snapshots

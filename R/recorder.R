@@ -29,7 +29,7 @@ record_test <- function(app, save_dir = NULL) {
 
   # Create directory if needed
   if (is.null(save_dir)) {
-    save_dir <- app$get_tests_dir()
+    save_dir <- app$getTestsDir()
     if (!dir_exists(save_dir)) {
       dir.create(save_dir)
     }
