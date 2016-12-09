@@ -3,12 +3,12 @@ app_snapshot <- function(self, private, items, filename, screenshot)
   if (!is.list(items) && !is.null(items))
     stop("'items' must be NULL or a list.")
 
-  private$snapshot_count <- private$snapshot_count + 1
+  private$snapshotCount <- private$snapshotCount + 1
 
   current_dir  <- paste0(self$getSnapshotDir(), "-current")
 
   if (is.null(filename)) {
-    filename <- sprintf("%02d.json", private$snapshot_count)
+    filename <- sprintf("%02d.json", private$snapshotCount)
   }
 
   # The default is to take a screenshot when the default is used for items (all
@@ -35,11 +35,11 @@ app_snapshot <- function(self, private, items, filename, screenshot)
   if (is.null(items$export)) items$export <- FALSE
 
   # Take snapshot -------------------------------------------------------------
-  url <- private$get_test_snapshot_url(items$input, items$output, items$export)
+  url <- private$getTestSnapshotUrl(items$input, items$output, items$export)
   req <- httr::GET(url)
 
   # For first snapshot, create -current snapshot dir.
-  if (private$snapshot_count == 1) {
+  if (private$snapshotCount == 1) {
     if (dir_exists(current_dir)) {
       unlink(current_dir, recursive = TRUE)
     }
@@ -62,7 +62,7 @@ app_snapshot <- function(self, private, items, filename, screenshot)
 
 
 app_snapshotCompare <- function(self, private, autoremove) {
-  snapshotCompare(private$snapshot_dir, self$getTestsDir(), autoremove)
+  snapshotCompare(private$snapshotDir, self$getTestsDir(), autoremove)
 }
 
 #' Compare current and expected snapshots

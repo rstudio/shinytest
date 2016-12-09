@@ -309,35 +309,35 @@ ShinyDriver <- R6Class(
 
     state = "stopped",                  # stopped or running
     path = NULL,                        # Shiny app path
-    shiny_host = NULL,                  # usually 127.0.0.1
-    shiny_port = NULL,
-    shiny_process = NULL,               # process object
-    phantom_port = NULL,
+    shinyHost = NULL,                   # usually 127.0.0.1
+    shinyPort = NULL,
+    shinyProcess = NULL,                # process object
+    phantomPort = NULL,
     web = NULL,                         # webdriver session
-    after_id = NULL,
-    shiny_test_snapshot_base_url = NULL, # URL for shiny's test API
-    tests_dir = "tests",                # Directory for test scripts
-    snapshot_dir = "snapshot",          # Directory for storing test artifacts
-    snapshot_count = 0,
+    afterId = NULL,
+    shinyTestSnapshotBaseUrl = NULL, # URL for shiny's test API
+    testsDir = "tests",                # Directory for test scripts
+    snapshotDir = "snapshot",          # Directory for storing test artifacts
+    snapshotCount = 0,
 
-    start_shiny = function(path)
-      app_start_shiny(self, private, path),
+    startShiny = function(path)
+      app_startShiny(self, private, path),
 
-    get_shiny_url = function()
-      app_get_shiny_url(self, private),
+    getShinyUrl = function()
+      app_getShinyUrl(self, private),
 
-    setup_debugging = function(debug)
-      app_setup_debugging(self, private, debug),
+    setupDebugging = function(debug)
+      app_setupDebugging(self, private, debug),
 
-    queue_inputs = function(...)
-      app_queue_inputs(self, private, ...),
+    queueInputs = function(...)
+      app_queueInputs(self, private, ...),
 
-    flush_inputs = function(wait = TRUE, timeout = 1000)
-      app_flush_inputs(self, private, wait, timeout),
+    flushInputs = function(wait = TRUE, timeout = 1000)
+      app_flushInputs(self, private, wait, timeout),
 
-    get_test_snapshot_url = function(input = TRUE, output = TRUE,
+    getTestSnapshotUrl = function(input = TRUE, output = TRUE,
       export = TRUE, format = "json")
-      app_get_test_snapshot_url(self, private, input, output, export,
+      app_getTestSnapshotUrl(self, private, input, output, export,
                                 format)
 
   )
@@ -379,7 +379,7 @@ app_setWindowSize <- function(self, private, width, height) {
 
 app_stop <- function(self, private) {
   "!DEBUG app_stop"
-  private$shiny_process$kill()
+  private$shinyProcess$kill()
   private$state <- "stopped"
   invisible(self)
 }
@@ -427,7 +427,7 @@ app_check_unique_widget_names <- function(self, private) {
 }
 
 
-app_get_test_snapshot_url = function(self, private, input, output, export,
+app_getTestSnapshotUrl = function(self, private, input, output, export,
                                      format) {
   reqString <- function(group, value) {
     if (isTRUE(value))
@@ -438,7 +438,7 @@ app_get_test_snapshot_url = function(self, private, input, output, export,
       ""
   }
   paste(
-    private$shiny_test_snapshot_base_url,
+    private$shinyTestSnapshotBaseUrl,
     reqString("input", input),
     reqString("output", output),
     reqString("export", export),
@@ -455,11 +455,11 @@ app_setTestsDir <- function(self, private, path) {
   if (grepl("^/", path)) {
     stop("Tests dir must be a relative path.")
   }
-  private$tests_dir <- path
+  private$testsDir <- path
 }
 
 app_getSnapshotDir <- function(self, private) {
-  file.path(self$getTestsDir(), private$snapshot_dir)
+  file.path(self$getTestsDir(), private$snapshotDir)
 }
 
 app_snapshotInit <- function(self, private, path) {
@@ -470,6 +470,6 @@ app_snapshotInit <- function(self, private, path) {
   # Strip off trailing slash if present
   path <- sub("/$", "", path)
 
-  private$snapshot_count <- 0
-  private$snapshot_dir <- path
+  private$snapshotCount <- 0
+  private$snapshotDir <- path
 }

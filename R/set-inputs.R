@@ -5,8 +5,8 @@ app_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
       "Can't return all values without waiting for update.")
   }
 
-  private$queue_inputs(...)
-  res <- private$flush_inputs(wait_, timeout_)
+  private$queueInputs(...)
+  res <- private$flushInputs(wait_, timeout_)
 
   if (isTRUE(res$timedOut)) {
     message("setInputs: Server did not update any output values within ",
@@ -20,7 +20,7 @@ app_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     invisible()
 }
 
-app_queue_inputs <- function(self, private, ...) {
+app_queueInputs <- function(self, private, ...) {
   inputs <- list(...)
   assert_that(is_all_named(inputs))
 
@@ -30,7 +30,7 @@ app_queue_inputs <- function(self, private, ...) {
   )
 }
 
-app_flush_inputs <- function(self, private, wait, timeout) {
+app_flushInputs <- function(self, private, wait, timeout) {
   private$web$execute_script_async(
     "var wait = arguments[0];
     var timeout = arguments[1];

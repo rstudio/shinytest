@@ -6,20 +6,20 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
                            debug, phantom_debug_level) {
 
   "!DEBUG get phantom port (starts phantom if not running)"
-  private$phantom_port <- get_phantom_port()
+  private$phantomPort <- get_phantomPort()
 
   "!DEBUG start up shiny app from `path`"
-  private$start_shiny(path)
+  private$startShiny(path)
 
   "!DEBUG create new phantomjs session"
-  private$web <- session$new(port = private$phantom_port)
+  private$web <- session$new(port = private$phantomPort)
 
   ## Set implicit timeout to zero. According to the standard it should
   ## be zero, but phantomjs uses about 200 ms
   private$web$set_timeout(implicit = 0)
 
   "!DEBUG navigate to Shiny app"
-  private$web$go(private$get_shiny_url())
+  private$web$go(private$getShinyUrl())
 
   "!DEBUG inject shiny-tracer.js"
   js_file <- system.file("js", "shiny-tracer.js", package = "shinytest")
@@ -36,9 +36,9 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   "!DEBUG shiny started"
   private$state <- "running"
 
-  private$setup_debugging(debug)
+  private$setupDebugging(debug)
 
-  private$shiny_test_snapshot_base_url <- private$web$execute_script(
+  private$shinyTestSnapshotBaseUrl <- private$web$execute_script(
     'if (Shiny.shinyapp.getTestSnapshotBaseUrl)
       return Shiny.shinyapp.getTestSnapshotBaseUrl({ fullUrl:true });
     else
@@ -54,7 +54,7 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-app_start_shiny <- function(self, private, path) {
+app_startShiny <- function(self, private, path) {
 
   assert_that(is_string(path))
 
@@ -114,13 +114,13 @@ app_start_shiny <- function(self, private, path) {
   assert_that(is_host(host <- m[, "host"]))
   assert_that(is_port(port <- as.integer(m[, "port"])))
 
-  private$shiny_host <- host
-  private$shiny_port <- port
-  private$shiny_process <- sh
+  private$shinyHost <- host
+  private$shinyPort <- port
+  private$shinyProcess <- sh
 }
 
-app_get_shiny_url <- function(self, private) {
-  paste0("http://", private$shiny_host, ":", private$shiny_port)
+app_getShinyUrl <- function(self, private) {
+  paste0("http://", private$shinyHost, ":", private$shinyPort)
 }
 
 # Possible locations of the PhantomJS executable

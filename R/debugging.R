@@ -1,6 +1,6 @@
 
-app_setup_debugging <- function(self, private, debug) {
-  "!DEBUG app_setup_debugging"
+app_setupDebugging <- function(self, private, debug) {
+  "!DEBUG app_setupDebugging"
   debug <- as_debug(debug)
 
   if (length(debug)) {
@@ -17,8 +17,8 @@ app_getDebugLog <- function(self, private, type) {
 
   if ("shiny_console" %in% type) {
     "!DEBUG app_getDebugLog shiny_console"
-    out <- private$shiny_process$read_output_lines()
-    err <- private$shiny_process$read_error_lines()
+    out <- private$shinyProcess$read_output_lines()
+    err <- private$shinyProcess$read_error_lines()
     output$shiny_console <- make_shiny_console_log(out = out, err = err)
   }
 
