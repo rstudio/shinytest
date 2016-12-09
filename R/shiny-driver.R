@@ -10,7 +10,7 @@
 #'
 #' app$getValue(name, iotype = c("auto", "input", "output"))
 #' app$setValue(name, value, iotype = c("auto", "input", "output"))
-#' app$send_keys(name = NULL, keys)
+#' app$sendKeys(name = NULL, keys)
 #'
 #' app$get_windows_size()
 #' app$set_window_size(width, height)
@@ -52,14 +52,14 @@
 #'      app.}
 #'   \item{debug}{Whether to start the app in debugging mode. In debugging
 #'      mode debug messages are printed to the console.}
-#'   \item{name}{Name of a shiny widget. For \code{$send_keys} it can
+#'   \item{name}{Name of a shiny widget. For \code{$sendKeys} it can
 #'      be \code{NULL}, in which case the keys are sent to the active
 #'      HTML element.}
 #'   \item{iotype}{Type of the Shiny widget. Usually \code{shinytest}
 #'      finds the widgets by their name, so this need not be specified,
 #'      but Shiny allows input and output widgets with identical names.}
 #'   \item{keys}{Keys to send to the widget or the app. See the
-#'      \code{send_keys} method of the \code{webdriver} package.}
+#'      \code{sendKeys} method of the \code{webdriver} package.}
 #'   \item{width}{Scalar integer, the desired width of the browser window.}
 #'   \item{height}{Scalar integer, the desired height of the browser
 #'      window.}
@@ -116,7 +116,7 @@
 #' \code{app$setValue()} finds a widget and sets its value. See the
 #' \code{setValue} method of the \code{\link{widget}} class.
 #'
-#' \code{app$send_keys} sends the specified keys to the HTML element of the
+#' \code{app$sendKeys} sends the specified keys to the HTML element of the
 #' widget.
 #'
 #' \code{app$get_window_size()} returns the current size of the browser
@@ -210,8 +210,8 @@ ShinyDriver <- R6Class(
     getAllValues = function(input = TRUE, output = TRUE, export = TRUE)
       app_getAllValues(self, private, input, output, export),
 
-    send_keys = function(name = NULL, keys)
-      app_send_keys(self, private, name, keys),
+    sendKeys = function(name = NULL, keys)
+      app_sendKeys(self, private, name, keys),
 
     set_window_size = function(width, height)
       app_set_window_size(self, private, width, height),
@@ -360,9 +360,9 @@ app_setValue <- function(self, private, name, value, iotype) {
   invisible(self)
 }
 
-app_send_keys <- function(self, private, name, keys) {
-  "!DEBUG app_send_keys `name`"
-  self$find_widget(name)$send_keys(keys)
+app_sendKeys <- function(self, private, name, keys) {
+  "!DEBUG app_sendKeys `name`"
+  self$find_widget(name)$sendKeys(keys)
   invisible(self)
 }
 

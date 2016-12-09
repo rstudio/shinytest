@@ -15,7 +15,7 @@
 #' w$getValue()
 #' w$setValue(value)
 #'
-#' w$send_keys(keys)
+#' w$sendKeys(keys)
 #'
 #' w$list_tabs()
 #' }
@@ -31,7 +31,7 @@
 #'     and an output widget with the same name.)}
 #'   \item{value}{Value to set for the widget. Its interpretation depends
 #'     on the type of the widget, see details below.}
-#'   \item{keys}{Keys to send to the widget. See the \code{send_keys}
+#'   \item{keys}{Keys to send to the widget. See the \code{sendKeys}
 #'     method of the \code{\link[webdriver]{element}} class in the
 #'     \code{webdriver} package.}
 #' }
@@ -68,7 +68,7 @@
 #' browser. Different widget types expect different different \code{value}
 #' arguments. TODO: list widgets and types.
 #'
-#' \code{w$send_keys} sends the specified keys to the HTML element of the
+#' \code{w$sendKeys} sends the specified keys to the HTML element of the
 #' widget.
 #'
 #' \code{w$list_tabs} lists the tab names of a \code{tabsetPanel} widget.
@@ -104,8 +104,8 @@ widget <- R6Class(
     setValue = function(value)
       widget_setValue(self, private, value),
 
-    send_keys = function(keys)
-      widget_send_keys(self, private, keys),
+    sendKeys = function(keys)
+      widget_sendKeys(self, private, keys),
 
     list_tabs = function()
       widget_list_tabs(self, private),
@@ -131,9 +131,9 @@ widget_initialize <- function(self, private, name, element, type, iotype) {
   invisible(self)
 }
 
-widget_send_keys <- function(self, private, keys) {
-  "!DEBUG widget_send_keys `private$name`"
-  private$element$send_keys(keys)
+widget_sendKeys <- function(self, private, keys) {
+  "!DEBUG widget_sendKeys `private$name`"
+  private$element$sendKeys(keys)
 }
 
 widget_list_tabs <- function(self, private) {
