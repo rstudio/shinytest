@@ -1,23 +1,23 @@
 
 context("ShinyDriver")
 
-test_that("get_value", {
+test_that("getValue", {
 
   app <- ShinyDriver$new("apps/081-widgets-gallery")
 
-  expect_true(app$get_value("checkbox"))
-  expect_identical(app$get_value("checkGroup"), "1")
-  expect_identical(app$get_value("date"), as.Date("2014-01-01"))
-  expect_identical(app$get_value("dates"), c(Sys.Date(), Sys.Date()))
+  expect_true(app$getValue("checkbox"))
+  expect_identical(app$getValue("checkGroup"), "1")
+  expect_identical(app$getValue("date"), as.Date("2014-01-01"))
+  expect_identical(app$getValue("dates"), c(Sys.Date(), Sys.Date()))
 
   ## fileInput, TODO
 
-  expect_identical(app$get_value("num"), 1L)
-  expect_identical(app$get_value("radio"), "1")
-  expect_identical(app$get_value("select"), "1")
-  expect_identical(app$get_value("slider1"), 50)
-  expect_identical(app$get_value("slider2"), c(25, 75))
-  expect_identical(app$get_value("text"), "Enter text...")
+  expect_identical(app$getValue("num"), 1L)
+  expect_identical(app$getValue("radio"), "1")
+  expect_identical(app$getValue("select"), "1")
+  expect_identical(app$getValue("slider1"), 50)
+  expect_identical(app$getValue("slider2"), c(25, 75))
+  expect_identical(app$getValue("text"), "Enter text...")
 
   ## passwordInput, TODO
 })

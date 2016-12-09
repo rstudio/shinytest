@@ -8,7 +8,7 @@
 #' app$stop()
 #' app$get_debug_log(type = c("all", ShinyDriver$debugLogTypes))
 #'
-#' app$get_value(name, iotype = c("auto", "input", "output"))
+#' app$getValue(name, iotype = c("auto", "input", "output"))
 #' app$set_value(name, value, iotype = c("auto", "input", "output"))
 #' app$send_keys(name = NULL, keys)
 #'
@@ -100,8 +100,8 @@
 #' \code{app$get_debug_log()} queries one or more of the debug logs:
 #' \code{shiny_console}, \code{browser} or \code{shinytest}.
 #'
-#' \code{app$get_value()} finds a widget and queries its value. See
-#' the \code{get_value} method of the \code{\link{widget}} class.
+#' \code{app$getValue()} finds a widget and queries its value. See
+#' the \code{getValue} method of the \code{\link{widget}} class.
 #'
 #' \code{app$set_inputs()} sets the value of inputs. The arguments must all
 #' be named; an input with each name will be assigned the given value.
@@ -201,8 +201,8 @@ ShinyDriver <- R6Class(
     stop = function()
       app_stop(self, private),
 
-    get_value = function(name, iotype = c("auto", "input", "output"))
-      app_get_value(self, private, name, match.arg(iotype)),
+    getValue = function(name, iotype = c("auto", "input", "output"))
+      app_getValue(self, private, name, match.arg(iotype)),
 
     set_value = function(name, value, iotype = c("auto", "input", "output"))
       app_set_value(self, private, name, value, match.arg(iotype)),
@@ -349,9 +349,9 @@ ShinyDriver$debugLogTypes <- c(
   "shinytest"
 )
 
-app_get_value <- function(self, private, name, iotype) {
-  "!DEBUG app_get_value `name` (`iotype`)"
-  self$find_widget(name, iotype)$get_value()
+app_getValue <- function(self, private, name, iotype) {
+  "!DEBUG app_getValue `name` (`iotype`)"
+  self$find_widget(name, iotype)$getValue()
 }
 
 app_set_value <- function(self, private, name, value, iotype) {
