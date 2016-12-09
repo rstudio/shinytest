@@ -2,7 +2,7 @@
 #' @importFrom processx process
 #' @importFrom webdriver Session
 
-app_initialize <- function(self, private, path, load_timeout, check_names,
+app_initialize <- function(self, private, path, loadTimeout, check_names,
                            debug, phantom_debug_level) {
 
   "!DEBUG get phantom port (starts phantom if not running)"
@@ -29,9 +29,9 @@ app_initialize <- function(self, private, path, load_timeout, check_names,
   "!DEBUG wait until Shiny starts"
   load_ok <- private$web$waitFor(
     'window.shinytest && window.shinytest.connected === true',
-    timeout = load_timeout
+    timeout = loadTimeout
   )
-  if (!load_ok) stop("Shiny app did not load in ", load_timeout, "ms")
+  if (!load_ok) stop("Shiny app did not load in ", loadTimeout, "ms")
 
   "!DEBUG shiny started"
   private$state <- "running"

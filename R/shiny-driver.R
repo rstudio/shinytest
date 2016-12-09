@@ -2,7 +2,7 @@
 #' Class to manage a shiny app and a phantom.js headless browser
 #'
 #' @section Usage:
-#' \preformatted{app <- ShinyDriver$new(path = ".", load_timeout = 5000,
+#' \preformatted{app <- ShinyDriver$new(path = ".", loadTimeout = 5000,
 #'               check_names = TRUE, debug = c("none", "all",
 #'               ShinyDriver$debugLogTypes))
 #' app$stop()
@@ -46,7 +46,7 @@
 #'   \item{path}{Path to a directory containing a Shiny app, i.e. a
 #'      single \code{app.R} file or a \code{server.R} and \code{ui.R}
 #'      pair.}
-#'   \item{load_timeout}{How long to wait for the app to load, in ms.
+#'   \item{loadTimeout}{How long to wait for the app to load, in ms.
 #'      This includes the time to start R.}
 #'   \item{check_names}{Whether to check if widget names are unique in the
 #'      app.}
@@ -88,9 +88,9 @@
 #' \code{ShinyDriver$new()} function creates a \code{ShinyDriver} object. It starts
 #' the Shiny app in a new R session, and it also starts a \code{phantomjs}
 #' headless browser that connects to the app. It waits until the app is
-#' ready to use. It waits at most \code{load_timeout} milliseconds, and if
+#' ready to use. It waits at most \code{loadTimeout} milliseconds, and if
 #' the app is not ready, then it throws an error. You can increase
-#' \code{load_timeout} for slow loading apps. Currently it supports apps
+#' \code{loadTimeout} for slow loading apps. Currently it supports apps
 #' that are defined in a single \code{app.R} file, or in a \code{server.R}
 #' and \code{ui.R} pair.
 #'
@@ -192,10 +192,10 @@ ShinyDriver <- R6Class(
 
   public = list(
 
-    initialize = function(path = ".", load_timeout = 5000,
+    initialize = function(path = ".", loadTimeout = 5000,
       check_names = TRUE,
       debug = c("none", "all", ShinyDriver$debugLogTypes))
-      app_initialize(self, private, path, load_timeout, check_names,
+      app_initialize(self, private, path, loadTimeout, check_names,
                      match.arg(debug, several.ok = TRUE)),
 
     stop = function()
