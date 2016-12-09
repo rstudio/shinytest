@@ -36,7 +36,7 @@
 #'
 #' app$findWidget(name, iotype = c("auto", "input", "output"))
 #'
-#' app$expect_update(output, ..., timeout = 3000,
+#' app$expectUpdate(output, ..., timeout = 3000,
 #'     iotype = c("auto", "input", "output"))
 #' }
 #'
@@ -78,7 +78,7 @@
 #'   \item{timeout}{Timeout for the condition, in milliseconds.}
 #'   \item{output}{Character vector, the name(s) of the Shiny output
 #'     widgets that should be updated.}
-#'   \item{...}{For \code{expect_update} these can be named arguments.
+#'   \item{...}{For \code{expectUpdate} these can be named arguments.
 #'     The argument names correspond to Shiny input widgets: each input
 #'     widget will be set to the specified value.}
 #' }
@@ -167,7 +167,7 @@
 #' \code{app$findWidget()} finds the corresponding HTML element of a Shiny
 #' widget. It returns a \code{\link{widget}} object.
 #'
-#' \code{expect_update()} is one of the main functions to test Shiny apps.
+#' \code{expectUpdate()} is one of the main functions to test Shiny apps.
 #' It performs one or more update operations via the browser, and then
 #' waits for the specified output widgets to update. The test succeeds if
 #' all specified output widgets are updated before the timeout. For
@@ -178,9 +178,9 @@
 #' \dontrun{
 #' ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
 #' app <- ShinyDriver$new("050-kmeans-example")
-#' expect_update(app, xcol = "Sepal.Width", output = "plot1")
-#' expect_update(app, ycol = "Petal.Width", output = "plot1")
-#' expect_update(app, clusters = 4, output = "plot1")
+#' expectUpdate(app, xcol = "Sepal.Width", output = "plot1")
+#' expectUpdate(app, ycol = "Petal.Width", output = "plot1")
+#' expectUpdate(app, clusters = 4, output = "plot1")
 #' }
 NULL
 
@@ -271,10 +271,10 @@ ShinyDriver <- R6Class(
     findWidget = function(name, iotype = c("auto", "input", "output"))
       app_findWidget(self, private, name, match.arg(iotype)),
 
-    expect_update = function(output, ..., timeout = 3000,
+    expectUpdate = function(output, ..., timeout = 3000,
       iotype = c("auto", "input", "output"))
-      app_expect_update(self, private, output, ..., timeout = timeout,
-                        iotype = match.arg(iotype)),
+      app_expectUpdate(self, private, output, ..., timeout = timeout,
+                       iotype = match.arg(iotype)),
 
     set_inputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
       app_set_inputs(self, private, ..., wait_ = wait_, values_ = values_,

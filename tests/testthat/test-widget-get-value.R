@@ -80,7 +80,7 @@ test_that("widget$getValue for all output widgets", {
     app$findWidget("html")$getValue(),
     "<div><p>This is a paragraph.</p></div>"
   )
-  expect_update(app, select = "h2", output = "html")
+  expectUpdate(app, select = "h2", output = "html")
   expect_identical(
     app$findWidget("html")$getValue(),
     "<div><h2>This is a heading</h2></div>"
@@ -91,7 +91,7 @@ test_that("widget$getValue for all output widgets", {
     app$findWidget("verbatim")$getValue(),
     "<b>This is verbatim, too</b>"
   )
-  expect_update(app, select = "p", output = "verbatim")
+  expectUpdate(app, select = "p", output = "verbatim")
   expect_identical(
     app$findWidget("verbatim")$getValue(),
     "This is verbatim, really. <div></div>"
@@ -102,7 +102,7 @@ test_that("widget$getValue for all output widgets", {
     app$findWidget("text")$getValue(),
     "This is text. <div></div>"
   )
-  expect_update(app, select = "h2", output = "text")
+  expectUpdate(app, select = "h2", output = "text")
   expect_identical(
     app$findWidget("text")$getValue(),
     "<b>This, too</b>"

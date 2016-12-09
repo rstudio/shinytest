@@ -53,9 +53,9 @@ test_that("getting and setting active tab", {
   expect_equal(t3$getValue(), "xxx")
 })
 
-test_that("tabs in expect_update", {
+test_that("tabs in expectUpdate", {
   app <- ShinyDriver$new(test_path("apps/006-tabsets-id"))
 
-  expect_update(app, dist = "unif", output = "plot")
-  expect_update(app, tabs = "Summary", output = "summary")
+  expectUpdate(app, dist = "unif", output = "plot")
+  expectUpdate(app, tabs = "Summary", output = "summary")
 })

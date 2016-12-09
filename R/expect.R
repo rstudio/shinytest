@@ -17,14 +17,14 @@
 #' \dontrun{
 #' ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
 #' app <- ShinyDriver$new("050-kmeans-example")
-#' expect_update(app, xcol = "Sepal.Width", output = "plot1")
-#' expect_update(app, ycol = "Petal.Width", output = "plot1")
-#' expect_update(app, clusters = 4, output = "plot1")
+#' expectUpdate(app, xcol = "Sepal.Width", output = "plot1")
+#' expectUpdate(app, ycol = "Petal.Width", output = "plot1")
+#' expectUpdate(app, clusters = 4, output = "plot1")
 #' }
 
-expect_update <- function(app, output, ..., timeout = 3000,
+expectUpdate <- function(app, output, ..., timeout = 3000,
                           iotype = c("auto", "input", "output")) {
-  app$expect_update(
+  app$expectUpdate(
     output,
     ...,
     timeout = timeout,
@@ -32,9 +32,9 @@ expect_update <- function(app, output, ..., timeout = 3000,
   )
 }
 
-app_expect_update <- function(self, private, output, ..., timeout,
+app_expectUpdate <- function(self, private, output, ..., timeout,
                               iotype) {
-  "!DEBUG app_expect_update `paste(output, collapse = ', ')`"
+  "!DEBUG app_expectUpdate `paste(output, collapse = ', ')`"
 
   assert_that(is.character(output))
   assert_that(is_all_named(inputs <- list(...)))
