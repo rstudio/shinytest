@@ -110,7 +110,7 @@
 #' be named and the value must be the path to a local file; that file will be
 #' uploaded to a file input with that name.
 #'
-#' \code{app$get_all_values()} returns a named list of all inputs, outputs,
+#' \code{app$getAllValues()} returns a named list of all inputs, outputs,
 #' and error values.
 #'
 #' \code{app$setValue()} finds a widget and sets its value. See the
@@ -207,8 +207,8 @@ ShinyDriver <- R6Class(
     setValue = function(name, value, iotype = c("auto", "input", "output"))
       app_setValue(self, private, name, value, match.arg(iotype)),
 
-    get_all_values = function(input = TRUE, output = TRUE, export = TRUE)
-      app_get_all_values(self, private, input, output, export),
+    getAllValues = function(input = TRUE, output = TRUE, export = TRUE)
+      app_getAllValues(self, private, input, output, export),
 
     send_keys = function(name = NULL, keys)
       app_send_keys(self, private, name, keys),

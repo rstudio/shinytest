@@ -4,7 +4,7 @@ app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
 test_that("app$set_inputs for all input widgets", {
   # Check initial values
-  x <- app$get_all_values()
+  x <- app$getAllValues()
   expect_identical(
     x$input$action,
     structure(0L, class = c("integer", "shinyActionButtonValue"))

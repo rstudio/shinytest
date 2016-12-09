@@ -15,7 +15,7 @@ app_set_inputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   }
 
   if (values_)
-    invisible(self$get_all_values())
+    invisible(self$getAllValues())
   else
     invisible()
 }
@@ -71,7 +71,7 @@ app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   )
 
   if (values_)
-    self$get_all_values()
+    self$getAllValues()
   else
     invisible()
 }
