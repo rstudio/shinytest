@@ -31,7 +31,7 @@ test_that("updates for all widget in the gallery", {
   expect_equal(app$getValue("datesOut"), capture.output(print(v)))
 
   ## We cannot check the value of the output easily, because
-  ## set_value() is not atomic for the input widget, and the output
+  ## setValue() is not atomic for the input widget, and the output
   ## watcher finishes before its final value is set
   expect_update(app, num = 42, output = "numOut")
   expect_true(

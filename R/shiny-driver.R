@@ -9,7 +9,7 @@
 #' app$get_debug_log(type = c("all", ShinyDriver$debugLogTypes))
 #'
 #' app$getValue(name, iotype = c("auto", "input", "output"))
-#' app$set_value(name, value, iotype = c("auto", "input", "output"))
+#' app$setValue(name, value, iotype = c("auto", "input", "output"))
 #' app$send_keys(name = NULL, keys)
 #'
 #' app$get_windows_size()
@@ -113,8 +113,8 @@
 #' \code{app$get_all_values()} returns a named list of all inputs, outputs,
 #' and error values.
 #'
-#' \code{app$set_value()} finds a widget and sets its value. See the
-#' \code{set_value} method of the \code{\link{widget}} class.
+#' \code{app$setValue()} finds a widget and sets its value. See the
+#' \code{setValue} method of the \code{\link{widget}} class.
 #'
 #' \code{app$send_keys} sends the specified keys to the HTML element of the
 #' widget.
@@ -204,8 +204,8 @@ ShinyDriver <- R6Class(
     getValue = function(name, iotype = c("auto", "input", "output"))
       app_getValue(self, private, name, match.arg(iotype)),
 
-    set_value = function(name, value, iotype = c("auto", "input", "output"))
-      app_set_value(self, private, name, value, match.arg(iotype)),
+    setValue = function(name, value, iotype = c("auto", "input", "output"))
+      app_setValue(self, private, name, value, match.arg(iotype)),
 
     get_all_values = function(input = TRUE, output = TRUE, export = TRUE)
       app_get_all_values(self, private, input, output, export),
@@ -354,9 +354,9 @@ app_getValue <- function(self, private, name, iotype) {
   self$find_widget(name, iotype)$getValue()
 }
 
-app_set_value <- function(self, private, name, value, iotype) {
-  "!DEBUG app_set_value `name`"
-  self$find_widget(name, iotype)$set_value(value)
+app_setValue <- function(self, private, name, value, iotype) {
+  "!DEBUG app_setValue `name`"
+  self$find_widget(name, iotype)$setValue(value)
   invisible(self)
 }
 

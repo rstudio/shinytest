@@ -13,7 +13,7 @@
 #' w$is_output()
 #'
 #' w$getValue()
-#' w$set_value(value)
+#' w$setValue(value)
 #'
 #' w$send_keys(keys)
 #'
@@ -64,7 +64,7 @@
 #' returned depends on the type of the widget. TODO: list widgets and their
 #' return types.
 #'
-#' \code{w$set_value()} sets the value of the widget, through the web
+#' \code{w$setValue()} sets the value of the widget, through the web
 #' browser. Different widget types expect different different \code{value}
 #' arguments. TODO: list widgets and types.
 #'
@@ -101,8 +101,8 @@ widget <- R6Class(
     getValue = function()
       widget_getValue(self, private),
 
-    set_value = function(value)
-      widget_set_value(self, private, value),
+    setValue = function(value)
+      widget_setValue(self, private, value),
 
     send_keys = function(keys)
       widget_send_keys(self, private, keys),
