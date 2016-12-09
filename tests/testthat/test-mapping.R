@@ -3,7 +3,7 @@ context("mapping")
 
 test_that("input widgets", {
 
-  app <- ShinyDriver$new("apps/081-widgets-gallery")
+  app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
   expect_equal(app$find_widget("action")$get_type(),     "actionButton")
   expect_equal(app$find_widget("checkbox")$get_type(),   "checkboxInput")
@@ -22,7 +22,7 @@ test_that("input widgets", {
 
 test_that("output widgets with the same name", {
 
-  app <- ShinyDriver$new("apps/081-widgets-gallery")
+  app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
   names <- c(
     "actionOut", "checkboxOut", "checkGroupOut", "dateOut", "datesOut",
