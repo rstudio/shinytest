@@ -3,7 +3,7 @@
 #'
 #' @section Usage:
 #' \preformatted{app <- ShinyDriver$new(path = ".", loadTimeout = 5000,
-#'               check_names = TRUE, debug = c("none", "all",
+#'               checkNames = TRUE, debug = c("none", "all",
 #'               ShinyDriver$debugLogTypes))
 #' app$stop()
 #' app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
@@ -48,7 +48,7 @@
 #'      pair.}
 #'   \item{loadTimeout}{How long to wait for the app to load, in ms.
 #'      This includes the time to start R.}
-#'   \item{check_names}{Whether to check if widget names are unique in the
+#'   \item{checkNames}{Whether to check if widget names are unique in the
 #'      app.}
 #'   \item{debug}{Whether to start the app in debugging mode. In debugging
 #'      mode debug messages are printed to the console.}
@@ -193,9 +193,9 @@ ShinyDriver <- R6Class(
   public = list(
 
     initialize = function(path = ".", loadTimeout = 5000,
-      check_names = TRUE,
+      checkNames = TRUE,
       debug = c("none", "all", ShinyDriver$debugLogTypes))
-      app_initialize(self, private, path, loadTimeout, check_names,
+      app_initialize(self, private, path, loadTimeout, checkNames,
                      match.arg(debug, several.ok = TRUE)),
 
     stop = function()

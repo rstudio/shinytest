@@ -2,7 +2,7 @@
 #' @importFrom processx process
 #' @importFrom webdriver Session
 
-app_initialize <- function(self, private, path, loadTimeout, check_names,
+app_initialize <- function(self, private, path, loadTimeout, checkNames,
                            debug, phantom_debug_level) {
 
   "!DEBUG get phantom port (starts phantom if not running)"
@@ -46,7 +46,7 @@ app_initialize <- function(self, private, path, loadTimeout, check_names,
   )
 
   "!DEBUG checking widget names"
-  if (check_names) self$checkUniqueWidgetNames()
+  if (checkNames) self$checkUniqueWidgetNames()
 
   invisible(self)
 }
