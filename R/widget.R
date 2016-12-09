@@ -2,7 +2,7 @@
 #' Class for a Shiny widget
 #'
 #' @section Usage:
-#' \preformatted{w <- app$find_widget(name,
+#' \preformatted{w <- app$findWidget(name,
 #'     iotype = c("auto", "input", "output"))
 #'
 #' w$get_name()
@@ -39,7 +39,7 @@
 #' @section Details:
 #'
 #' A \code{widget} object represents a Shiny input or output widget.
-#' \code{app$find_widget} creates a widget object from a
+#' \code{app$findWidget} creates a widget object from a
 #' \code{\link{ShinyDriver}} object.
 #'
 #' \code{w$get_name()} returns the name of the widget.

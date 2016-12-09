@@ -55,7 +55,7 @@ app_expect_update <- function(self, private, output, ..., timeout,
 
   ## Do the changes to the inputs
   for (n in names(inputs)) {
-    self$find_widget(n, iotype = iotype)$setValue(inputs[[n]])
+    self$findWidget(n, iotype = iotype)$setValue(inputs[[n]])
   }
 
   "!DEBUG waiting for update"

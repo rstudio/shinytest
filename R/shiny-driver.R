@@ -34,7 +34,7 @@
 #'
 #' app$check_unique_widget_names()
 #'
-#' app$find_widget(name, iotype = c("auto", "input", "output"))
+#' app$findWidget(name, iotype = c("auto", "input", "output"))
 #'
 #' app$expect_update(output, ..., timeout = 3000,
 #'     iotype = c("auto", "input", "output"))
@@ -164,7 +164,7 @@
 #' \code{app$check_unique_widget_names()} checks if Shiny widget names
 #' are unique.
 #'
-#' \code{app$find_widget()} finds the corresponding HTML element of a Shiny
+#' \code{app$findWidget()} finds the corresponding HTML element of a Shiny
 #' widget. It returns a \code{\link{widget}} object.
 #'
 #' \code{expect_update()} is one of the main functions to test Shiny apps.
@@ -268,8 +268,8 @@ ShinyDriver <- R6Class(
 
     ## Main methods
 
-    find_widget = function(name, iotype = c("auto", "input", "output"))
-      app_find_widget(self, private, name, match.arg(iotype)),
+    findWidget = function(name, iotype = c("auto", "input", "output"))
+      app_findWidget(self, private, name, match.arg(iotype)),
 
     expect_update = function(output, ..., timeout = 3000,
       iotype = c("auto", "input", "output"))
@@ -351,18 +351,18 @@ ShinyDriver$debugLogTypes <- c(
 
 app_getValue <- function(self, private, name, iotype) {
   "!DEBUG app_getValue `name` (`iotype`)"
-  self$find_widget(name, iotype)$getValue()
+  self$findWidget(name, iotype)$getValue()
 }
 
 app_setValue <- function(self, private, name, value, iotype) {
   "!DEBUG app_setValue `name`"
-  self$find_widget(name, iotype)$setValue(value)
+  self$findWidget(name, iotype)$setValue(value)
   invisible(self)
 }
 
 app_sendKeys <- function(self, private, name, keys) {
   "!DEBUG app_sendKeys `name`"
-  self$find_widget(name)$sendKeys(keys)
+  self$findWidget(name)$sendKeys(keys)
   invisible(self)
 }
 

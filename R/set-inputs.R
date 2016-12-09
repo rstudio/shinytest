@@ -61,7 +61,7 @@ app_upload_file <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     timeout_
   )
 
-  self$find_widget(names(inputs)[1])$upload_file(inputs[[1]])
+  self$findWidget(names(inputs)[1])$upload_file(inputs[[1]])
 
   res <- private$web$execute_script_async(
     "var wait = arguments[0];
