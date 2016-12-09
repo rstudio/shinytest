@@ -81,11 +81,11 @@ snapshotCompare <- function(name, testsDir, autoremove = TRUE) {
   current_dir  <- file.path(testsDir, paste0(name, "-current"))
   expected_dir <- file.path(testsDir, paste0(name, "-expected"))
 
-  # When this function is called from test_app(), this is the way that we get
-  # the relative path from the current working dir when test_app() is called.
+  # When this function is called from testApp(), this is the way that we get
+  # the relative path from the current working dir when testApp() is called.
   # (By the time this function is called, the current working dir is usually set
   # to the test directory.) If the option isn't set, this function was probably
-  # called directly (not from test_app()), and we'll just use the value passed
+  # called directly (not from testApp()), and we'll just use the value passed
   # in.
   relativeTestsDir <- getOption("shinytest.tests.dir", default = testsDir)
 
