@@ -22,9 +22,9 @@ window.shinyRecorder = (function() {
         sendFileUploadEventToParent(event.name, event.files);
     });
 
-    // Ctrl-click to record an output value
+    // Ctrl-click or Cmd-click (Mac) to record an output value
     $(document).on("click", ".shiny-bound-output", function(e) {
-        if (!e.ctrlKey)
+        if (!(e.ctrlKey || e.metaKey))
             return;
 
         var id = e.target.id;
