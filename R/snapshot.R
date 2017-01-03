@@ -8,7 +8,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   current_dir  <- paste0(self$getSnapshotDir(), "-current")
 
   if (is.null(filename)) {
-    filename <- sprintf("%02d.json", private$snapshotCount)
+    filename <- sprintf("%03d.json", private$snapshotCount)
   }
 
   # The default is to take a screenshot when the default is used for items (all
