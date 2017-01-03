@@ -88,7 +88,6 @@ snapshotCompare <- function(name, appDir, autoremove = TRUE) {
   # called directly (not from testApp()), and we'll just use the value passed
   # in.
   relativeAppDir <- getOption("shinytest.app.dir", default = appDir)
-  relativeTestsDir <- file.path(relativeAppDir, "tests")
 
   if (dir_exists(expected_dir)) {
     res <- dirs_diff(expected_dir, current_dir)
@@ -128,7 +127,7 @@ snapshotCompare <- function(name, appDir, autoremove = TRUE) {
 
       message('\n  To save current results as expected results, run:\n',
               '    snapshotUpdate("', name, '", "',
-              relativeTestsDir, '")\n')
+              relativeAppDir, '")\n')
     }
 
     if (!any_different && autoremove) {

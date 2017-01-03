@@ -47,7 +47,7 @@ recordTest <- function(app, save_dir = NULL) {
 
   # Run the test script
   if (isTRUE(res$run)) {
-    testApp(rel_path(app$getAppDir()), res$file)
+    testApp(rel_path(res$appDir), res$file)
   }
 
   invisible(res$file)
