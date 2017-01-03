@@ -1,9 +1,9 @@
 target_url <- getOption("shinytest.recorder.url")
-save_dir <- getOption("shinytest.recorder.savedir")
+app_dir <- getOption("shinytest.app.dir")
 
-if (is.null(target_url) || is.null(save_dir)) {
+if (is.null(target_url) || is.null(app_dir)) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
-    "'shinytest.recorder.savedir' options to be set.")
+    "'shinytest.app.dir' options to be set.")
 }
 
 # Can't register more than once, so remove existing one just in case.
@@ -128,7 +128,8 @@ shinyApp(
         actionButton("snapshot", "Take snapshot"),
         actionButton("exit", "Exit", class = "btn-danger"),
         textInput("testname", label = "Name of tests", value = "mytests"),
-        checkboxInput("editSaveFile", "Open script in editor", value = TRUE)
+        checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
+        checkboxInput("runScript", "Run test script on exit", value = TRUE)
       ),
       div(class = "recorded-events-header", "Recorded events"),
       div(id = "recorded-events",
@@ -150,7 +151,7 @@ shinyApp(
     })
 
     saveFile <- reactive({
-      file.path(save_dir, paste0(input$testname, ".R"))
+      file.path(app_dir, "tests", paste0(input$testname, ".R"))
     })
 
     output$recordedEvents <- renderTable(
@@ -189,7 +190,11 @@ shinyApp(
         if (input$editSaveFile)
           file.edit(saveFile())
 
-        invisible(testCode())
+        invisible(list(
+          appDir = app_dir,
+          file = paste0(input$testname, ".R"),
+          run = input$runScript
+        ))
       })
     })
   }

@@ -40,10 +40,17 @@ recordTest <- function(app, save_dir = NULL) {
   withr::with_options(
     list(
       shinytest.recorder.url = url,
-      shinytest.recorder.savedir = save_dir
+      shinytest.app.dir = app$getAppDir()
     ),
-    shiny::runApp(system.file("recorder", package = "shinytest"))
+    res <- shiny::runApp(system.file("recorder", package = "shinytest"))
   )
+
+  # Run the test script
+  if (isTRUE(res$run)) {
+    testApp(rel_path(app$getAppDir()), res$file)
+  }
+
+  invisible(res$file)
 }
 
 
