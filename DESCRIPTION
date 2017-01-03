@@ -24,6 +24,10 @@ Imports:
     utils,
     webdriver (>= 1.0.2),
     withr
-Remotes: rstudio/shiny
+Remotes:
+    rstudio/shiny,
+    gaborcsardi/debugme,
+    MangoTheCat/processx,
+    MangoTheCat/webdriver
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)

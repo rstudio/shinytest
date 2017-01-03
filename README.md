@@ -10,16 +10,12 @@
 [![](http://www.r-pkg.org/badges/version/shinytest)](http://www.r-pkg.org/pkg/shinytest)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/shinytest)](http://www.r-pkg.org/pkg/shinytest)
 
-
 Uses a headless browser, driven through 'WebDriver'.
 
 ## Installation
 
 
 ```r
-source("https://install-github.me/gaborcsardi/debugme")
-source("https://install-github.me/MangoTheCat/processx")
-source("https://install-github.me/MangoTheCat/webdriver")
 source("https://install-github.me/MangoTheCat/shinytest")
 ```
 
