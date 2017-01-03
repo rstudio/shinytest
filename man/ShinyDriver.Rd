@@ -183,7 +183,6 @@ waits for the specified output widgets to update. The test succeeds if
 all specified output widgets are updated before the timeout. For
 updates that involve a lot of computation, you increase the timeout.
 }
-
 \examples{
 \dontrun{
 ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
@@ -193,3 +192,4 @@ expectUpdate(app, ycol = "Petal.Width", output = "plot1")
 expectUpdate(app, clusters = 4, output = "plot1")
 }
 }
+

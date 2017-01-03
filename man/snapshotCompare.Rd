@@ -5,14 +5,14 @@
 \alias{snapshotUpdate}
 \title{Compare current and expected snapshots}
 \usage{
-snapshotCompare(name, testsDir, autoremove = TRUE)
+snapshotCompare(name, appDir, autoremove = TRUE)
 
-snapshotUpdate(name, testsDir = ".")
+snapshotUpdate(name, appDir = ".")
 }
 \arguments{
 \item{name}{Name of a snapshot.}
 
-\item{testsDir}{Directory that holds the tests for an application. This is
+\item{appDir}{Directory that holds the tests for an application. This is
 the parent directory for the expected and current snapshot directories.}
 
 \item{autoremove}{If the current results match the expected results, should
@@ -24,3 +24,4 @@ any differences to the console.
 
 Update expected snapshot with current snapshot
 }
+

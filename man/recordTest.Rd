@@ -14,3 +14,4 @@ recordTest(app, save_dir = NULL)
 \description{
 Launch test event recorder for a Shiny app
 }
+

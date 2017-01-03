@@ -33,3 +33,4 @@ expectUpdate(app, ycol = "Petal.Width", output = "plot1")
 expectUpdate(app, clusters = 4, output = "plot1")
 }
 }
+
