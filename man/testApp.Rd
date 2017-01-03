@@ -4,10 +4,14 @@
 \alias{testApp}
 \title{Run tests for a Shiny application}
 \usage{
-testApp(appDir)
+testApp(appDir, scripts = NULL)
 }
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
+
+\item{scripts}{Test script(s) to run. For example, \code{"mytest"} or
+\code{c("mytest", "mytest2")}. If \code{NULL} (the default), all scripts in
+the tests/ directory will be run.}
 }
 \description{
 Run tests for a Shiny application
