@@ -144,7 +144,7 @@ snapshotCompare <- function(name, appDir, autoremove = TRUE) {
             " This is a first run of tests.\n",
             '  To save current results as expected results, run:\n',
             '    snapshotUpdate("', name, '", "',
-            relativeTestsDir, '")\n')
+            relativeAppDir, '")\n')
 
     snapshot_status <- "new"
   }
