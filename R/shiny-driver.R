@@ -313,8 +313,7 @@ ShinyDriver <- R6Class(
     phantomPort = NULL,
     web = NULL,                         # webdriver session
     afterId = NULL,
-    shinyTestSnapshotBaseUrl = NULL, # URL for shiny's test API
-    testsDir = "tests",                # Directory for test scripts
+    shinyTestSnapshotBaseUrl = NULL,   # URL for shiny's test API
     snapshotDir = "snapshot",          # Directory for storing test artifacts
     snapshotCount = 0,
 
