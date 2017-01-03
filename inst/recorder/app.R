@@ -127,13 +127,8 @@ shinyApp(
       div(class = "shiny-recorder-controls",
         actionButton("snapshot", "Take snapshot"),
         actionButton("exit", "Exit", class = "btn-danger"),
-        checkboxInput("save", "Save script to file on exit", value = TRUE),
-        conditionalPanel("input.save === true",
-          wellPanel(
-            textInput("testname", label = "Name of tests", value = "mytests"),
-            checkboxInput("editSaveFile", "Open script in editor", value = TRUE)
-          )
-        )
+        textInput("testname", label = "Name of tests", value = "mytests"),
+        checkboxInput("editSaveFile", "Open script in editor", value = TRUE)
       ),
       div(class = "recorded-events-header", "Recorded events"),
       div(id = "recorded-events",
@@ -189,18 +184,11 @@ shinyApp(
 
     observeEvent(input$exit, {
       stopApp({
-        if (input$save) {
-          cat(testCode(), file = saveFile())
-          message("Saved test code to ", saveFile())
-          if (input$editSaveFile)
-            file.edit(saveFile())
+        cat(testCode(), file = saveFile())
+        message("Saved test code to ", saveFile())
+        if (input$editSaveFile)
+          file.edit(saveFile())
 
-        } else {
-          cat(sep = "\n",
-            "========== Code for testing application ==========",
-            testCode()
-          )
-        }
         invisible(testCode())
       })
     })
