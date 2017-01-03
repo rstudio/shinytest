@@ -1,9 +1,9 @@
 #' Launch test event recorder for a Shiny app
 #'
-#' @param app A \code{\link{ShinyDriver}} object, or path to
+#' @param app A \code{\link{ShinyDriver}} object, or path to a Shiny application.
 #' @param save_dir A directory to save stuff.
 #' @export
-recordTest <- function(app, save_dir = NULL) {
+recordTest <- function(app = ".", save_dir = NULL) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.

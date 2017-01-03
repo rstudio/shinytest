@@ -6,7 +6,7 @@
 #'   scripts in the tests/ directory will be run.
 #'
 #' @export
-testApp <- function(appDir, files = NULL) {
+testApp <- function(appDir = ".", files = NULL) {
   testsDir <- file.path(appDir, "tests")
 
   r_files <- list.files(testsDir, pattern = "\\.[r|R]$")
