@@ -290,11 +290,8 @@ ShinyDriver <- R6Class(
                         screenshot = NULL)
       sd_snapshot(self, private, items, filename, screenshot),
 
-    getTestsDir = function()
-      sd_getTestsDir(self, private),
-
-    setTestsDir = function(path)
-      sd_setTestsDir(self, private, path),
+    getAppDir = function()
+      sd_getAppDir(self, private),
 
     getSnapshotDir = function()
       sd_getSnapshotDir(self, private),
@@ -448,19 +445,12 @@ sd_getTestSnapshotUrl = function(self, private, input, output, export,
   )
 }
 
-sd_getTestsDir <- function(self, private) {
-  file.path(private$path, "tests")
-}
-
-sd_setTestsDir <- function(self, private, path) {
-  if (grepl("^/", path)) {
-    stop("Tests dir must be a relative path.")
-  }
-  private$testsDir <- path
+sd_getAppDir <- function(self, private) {
+  private$path
 }
 
 sd_getSnapshotDir <- function(self, private) {
-  file.path(self$getTestsDir(), private$snapshotDir)
+  file.path(private$path, "tests", private$snapshotDir)
 }
 
 sd_snapshotInit <- function(self, private, path) {

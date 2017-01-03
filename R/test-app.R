@@ -11,7 +11,7 @@ testApp <- function(appDir) {
     # Run in test directory, and pass the (usually relative) path as an option,
     # so that the printed output can print the relative path.
     withr::with_dir(testsDir, {
-      withr::with_options(list(shinytest.tests.dir = testsDir), {
+      withr::with_options(list(shinytest.app.dir = appDir), {
         env <- new.env(parent = .GlobalEnv)
         message("====== Running ", file, " ======")
         source(file, local = env)

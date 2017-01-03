@@ -62,7 +62,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
 
 
 sd_snapshotCompare <- function(self, private, autoremove) {
-  snapshotCompare(private$snapshotDir, self$getTestsDir(), autoremove)
+  snapshotCompare(private$snapshotDir, self$getAppDir(), autoremove)
 }
 
 #' Compare current and expected snapshots
@@ -71,15 +71,15 @@ sd_snapshotCompare <- function(self, private, autoremove) {
 #' any differences to the console.
 #'
 #' @param name Name of a snapshot.
-#' @param testsDir Directory that holds the tests for an application. This is
+#' @param appDir Directory that holds the tests for an application. This is
 #'   the parent directory for the expected and current snapshot directories.
 #' @param autoremove If the current results match the expected results, should
 #'   the current results be removed automatically? Defaults to TRUE.
 #'
 #' @export
-snapshotCompare <- function(name, testsDir, autoremove = TRUE) {
-  current_dir  <- file.path(testsDir, paste0(name, "-current"))
-  expected_dir <- file.path(testsDir, paste0(name, "-expected"))
+snapshotCompare <- function(name, appDir, autoremove = TRUE) {
+  current_dir  <- file.path(appDir, "tests", paste0(name, "-current"))
+  expected_dir <- file.path(appDir, "tests", paste0(name, "-expected"))
 
   # When this function is called from testApp(), this is the way that we get
   # the relative path from the current working dir when testApp() is called.
@@ -87,7 +87,8 @@ snapshotCompare <- function(name, testsDir, autoremove = TRUE) {
   # to the test directory.) If the option isn't set, this function was probably
   # called directly (not from testApp()), and we'll just use the value passed
   # in.
-  relativeTestsDir <- getOption("shinytest.tests.dir", default = testsDir)
+  relativeAppDir <- getOption("shinytest.app.dir", default = appDir)
+  relativeTestsDir <- file.path(relativeAppDir, "tests")
 
   if (dir_exists(expected_dir)) {
     res <- dirs_diff(expected_dir, current_dir)
@@ -160,11 +161,11 @@ snapshotCompare <- function(name, testsDir, autoremove = TRUE) {
 #' @rdname snapshotCompare
 #' @inheritParams snapshotCompare
 #' @export
-snapshotUpdate <- function(name, testsDir = ".") {
+snapshotUpdate <- function(name, appDir = ".") {
   # Strip off trailing slash if present
   name <- sub("/$", "", name)
 
-  base_path <- file.path(testsDir, name)
+  base_path <- file.path(appDir, "tests", name)
   current_dir  <- paste0(base_path, "-current")
   expected_dir <- paste0(base_path, "-expected")
 
