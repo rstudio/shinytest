@@ -47,7 +47,12 @@ recordTest <- function(app = ".", save_dir = NULL) {
 
   # Run the test script
   if (isTRUE(res$run)) {
-    testApp(rel_path(res$appDir), res$file)
+    message("Saving baseline...")
+    dest <- suppressMessages({
+      testApp(rel_path(res$appDir), res$file)
+      snapshotUpdate(tools::file_path_sans_ext(res$file), rel_path(res$appDir))
+    })
+    message("Saved baseline to ", dest)
   }
 
   invisible(res$file)
