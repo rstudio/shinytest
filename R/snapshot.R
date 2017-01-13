@@ -180,5 +180,5 @@ snapshotUpdate <- function(name, appDir = ".") {
   message("Renaming ", rel_path(current_dir),
           "\n      => ", rel_path(expected_dir), ".")
   file.rename(current_dir, expected_dir)
-  invisible()
+  invisible(expected_dir)
 }
