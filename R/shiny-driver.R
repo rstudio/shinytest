@@ -192,11 +192,11 @@ ShinyDriver <- R6Class(
 
   public = list(
 
-    initialize = function(path = ".", loadTimeout = 5000,
-      checkNames = TRUE,
-      debug = c("none", "all", ShinyDriver$debugLogTypes))
-      sd_initialize(self, private, path, loadTimeout, checkNames,
-                    match.arg(debug, several.ok = TRUE)),
+    initialize = function(path = ".", loadTimeout = 5000, checkNames = TRUE,
+      debug = c("none", "all", "shiny_console", "browser", "shinytest"))
+    {
+      sd_initialize(self, private, path, loadTimeout, checkNames, debug)
+    },
 
     stop = function()
       sd_stop(self, private),
