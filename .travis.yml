@@ -26,5 +26,5 @@ r:
 r_github_packages:
   - gaborcsardi/debugme
   - MangoTheCat/processx
-  - MangoTheCat/webdriver
+  - rstudio/webdriver
   - rstudio/shiny

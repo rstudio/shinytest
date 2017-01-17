@@ -6,9 +6,9 @@ Maintainer: Gábor Csárdi <gcsardi@mango-solutions.com>
 Description: Uses a headless browser, driven through 'WebDriver'.
 License: MIT + file LICENSE
 LazyData: true
-URL: https://github.com/MangoTheCat/shinytest
-BugReports: https://github.com/MangoTheCat/shinytest/issues
-RoxygenNote: 5.0.1.9000
+URL: https://github.com/rstudio/shinytest
+BugReports: https://github.com/rstudio/shinytest/issues
+RoxygenNote: 5.0.1
 Imports:
     assertthat,
     crayon,
@@ -25,9 +25,8 @@ Imports:
     webdriver (>= 1.0.2),
     withr
 Remotes:
-    rstudio/shiny,
     gaborcsardi/debugme,
     MangoTheCat/processx,
-    MangoTheCat/webdriver
+    rstudio/webdriver
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
