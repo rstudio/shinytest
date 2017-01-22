@@ -68,7 +68,7 @@ On the left is the target app (in this case, the "Shiny Widgets Gallery"), and o
 
 The panel on the right displays some controls for the test recorder, as well as a list of **Recorded events**. As you interact with the target app -- in other words, when you set inputs on the app -- you will see those interactions recorded in the Recorded events list.
 
-For testing a Shiny application, setting inputs is only one part. It's also necessary to check that the application's gives the correct outputs. This is accomplished by taking snapshots of the application's state.
+For testing a Shiny application, setting inputs is only one part. It's also necessary to check that the application produces the correct outputs. This is accomplished by taking snapshots of the application's state.
 
 There are two ways to record output values. One way is to take a **snapshot** of the application's state. This will record all input values, output values, and *exported* values (more on exported values later). To do this, click the "Take snapshot" button on the recorder app.
 
