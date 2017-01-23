@@ -176,6 +176,8 @@ shinyApp(
             list(type = "snapshot", name = "<all>")
           } else if (type == "input") {
             list(type = "input", name = event$name)
+          } else if (type == "fileUpload") {
+            list(type = "file-upload", name = event$name)
           }
         })
 
