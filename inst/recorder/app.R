@@ -154,6 +154,15 @@ shinyApp(
       file.path(app_dir, "tests", paste0(input$testname, ".R"))
     })
 
+    # Number of snapshot events in input$testevents
+    numSnapshots <- reactive({
+      snapshots <- vapply(input$testevents, function(event) {
+        return(event$type == "snapshot")
+      }, logical(1))
+
+      sum(snapshots)
+    })
+
     output$recordedEvents <- renderTable(
       {
         # Genereate list of lists from all events. Inner lists have 'type' and
@@ -185,16 +194,27 @@ shinyApp(
 
     observeEvent(input$exit, {
       stopApp({
-        cat(testCode(), file = saveFile())
-        message("Saved test code to ", saveFile())
-        if (input$editSaveFile)
-          file.edit(saveFile())
+        # If no snapshot events occurred, don't write file.
+        if (numSnapshots() == 0) {
+          message("No snapshot events occurred, so not saving test code.")
+          invisible(list(
+            appDir = NULL,
+            file = NULL,
+            run = FALSE
+          ))
 
-        invisible(list(
-          appDir = app_dir,
-          file = paste0(input$testname, ".R"),
-          run = input$runScript
-        ))
+        } else {
+          cat(testCode(), file = saveFile())
+          message("Saved test code to ", saveFile())
+          if (input$editSaveFile)
+            file.edit(saveFile())
+
+          invisible(list(
+            appDir = app_dir,
+            file = paste0(input$testname, ".R"),
+            run = input$runScript
+          ))
+        }
       })
     })
   }
