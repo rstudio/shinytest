@@ -69,7 +69,6 @@ window.shinyRecorder = (function() {
         }
 
         shinyrecorder.initialized = true;
-        console.log(previousInputValues);
     }
     if (Shiny && Shiny.shinyapp && Shiny.shinyapp.isConnected()) {
         initialize();
