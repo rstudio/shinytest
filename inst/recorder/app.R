@@ -83,6 +83,10 @@ codeGenerators <- list(
     )
   },
 
+  fileDownload = function(event) {
+    paste0('app$downloadFile("', event$name, '")')
+  },
+
   outputValue = function(event) {
     paste0('app$snapshot(list(output = "', event$name, '"))')
   },
@@ -178,6 +182,8 @@ shinyApp(
             list(type = "input", name = event$name)
           } else if (type == "fileUpload") {
             list(type = "file-upload", name = event$name)
+          } else if (type == "fileDownload") {
+            list(type = "file-download", name = event$name)
           }
         })
 

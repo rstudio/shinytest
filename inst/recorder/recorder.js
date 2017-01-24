@@ -1,3 +1,7 @@
+// The content of this file gets injected into the Shiny application that is
+// in the iframe. This is the application for which interactions are being
+// recorded.
+
 window.shinyRecorder = (function() {
     var shinyrecorder = {
         initialized: false,
@@ -20,6 +24,10 @@ window.shinyRecorder = (function() {
 
     $(document).on("shiny:fileuploaded", function(event) {
         sendFileUploadEventToParent(event.name, event.files);
+    });
+
+    $(document).on("shiny:filedownload", function(event) {
+        sendFileDownloadEventToParent(event.name);
     });
 
     // Ctrl-click or Cmd-click (Mac) to record an output value
@@ -45,6 +53,13 @@ window.shinyRecorder = (function() {
         parent.postMessage({
             token: shinyrecorder.token,
             fileUpload: { name: name, files: files }
+        }, "*");
+    }
+
+    function sendFileDownloadEventToParent(name, url) {
+        parent.postMessage({
+            token: shinyrecorder.token,
+            fileDownload: { name: name }
         }, "*");
     }
 

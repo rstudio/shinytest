@@ -1,3 +1,5 @@
+// This file is loaded by the recorder app.
+
 window.recorder = (function() {
     var recorder = {
         token: randomId(),
@@ -115,6 +117,18 @@ window.recorder = (function() {
                     type: "fileUpload",
                     name: evt.name,
                     files: evt.files.map(function(file) { return file.name; })
+                });
+
+                // Send updated values to server
+                Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+            }
+
+            if (message.fileDownload) {
+                evt = message.fileDownload;
+
+                recorder.testEvents.push({
+                    type: "fileDownload",
+                    name: evt.name
                 });
 
                 // Send updated values to server
