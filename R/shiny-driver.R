@@ -285,6 +285,9 @@ ShinyDriver <- R6Class(
       sd_uploadFile(self, private, ..., wait_ = wait_, values_ = values_,
                      timeout_ = timeout_),
 
+    snapshotDownload = function(id, filename = NULL)
+      sd_snapshotDownload(self, private, id, filename),
+
     snapshot = function(items = NULL,
                         filename = NULL,
                         screenshot = NULL)

@@ -65,6 +65,25 @@ sd_snapshotCompare <- function(self, private, autoremove) {
   snapshotCompare(private$snapshotDir, self$getAppDir(), autoremove)
 }
 
+sd_snapshotDownload <- function(self, private, id, filename) {
+
+  current_dir <- paste0(self$getSnapshotDir(), "-current")
+
+  private$snapshotCount <- private$snapshotCount + 1
+
+  if (is.null(filename)) {
+    filename <- sprintf("%03d.download", private$snapshotCount)
+  }
+
+  # Find the URL to download from (the href of the <a> tag)
+  url <- self$findElement(paste0("#", id))$getAttribute("href")
+
+  req <- httr::GET(url)
+  writeBin(req$content, file.path(current_dir, filename))
+
+  invisible(req$content)
+}
+
 #' Compare current and expected snapshots
 #'
 #' This compares a current and expected snapshot for a test set, and prints
