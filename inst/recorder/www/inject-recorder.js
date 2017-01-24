@@ -148,21 +148,6 @@ window.recorder = (function() {
                 Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
         });
-
-
-        $(document).on("shiny:fileuploaded", function(event) {
-            console.log('event triggered');
-            recorder.testEvents.push({
-                type: "fileupload",
-                name: evt.name,
-                filename: evt.files[0]
-            });
-
-            // Send updated values to server
-            Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
-        });
-
-
     });
 
 
