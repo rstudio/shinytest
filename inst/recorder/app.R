@@ -83,6 +83,10 @@ codeGenerators <- list(
     )
   },
 
+  fileDownload = function(event) {
+    paste0('app$snapshotDownload("', event$name, '")')
+  },
+
   outputValue = function(event) {
     paste0('app$snapshot(list(output = "', event$name, '"))')
   },
@@ -154,10 +158,10 @@ shinyApp(
       file.path(app_dir, "tests", paste0(input$testname, ".R"))
     })
 
-    # Number of snapshot events in input$testevents
+    # Number of snapshot or fileDownload events in input$testevents
     numSnapshots <- reactive({
       snapshots <- vapply(input$testevents, function(event) {
-        return(event$type == "snapshot")
+        return(event$type %in% c("snapshot", "fileDownload"))
       }, logical(1))
 
       sum(snapshots)
@@ -178,6 +182,8 @@ shinyApp(
             list(type = "input", name = event$name)
           } else if (type == "fileUpload") {
             list(type = "file-upload", name = event$name)
+          } else if (type == "fileDownload") {
+            list(type = "file-download", name = event$name)
           }
         })
 
@@ -198,7 +204,7 @@ shinyApp(
       stopApp({
         # If no snapshot events occurred, don't write file.
         if (numSnapshots() == 0) {
-          message("No snapshot events occurred, so not saving test code.")
+          message("No snapshot or download events occurred; not saving test code.")
           invisible(list(
             appDir = NULL,
             file = NULL,
