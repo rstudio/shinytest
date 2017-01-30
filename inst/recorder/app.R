@@ -61,12 +61,21 @@ processInputValue <- function(value, inputType) {
 }
 
 
+# Quote variable/argument names. Normal names like x, x1, or x_y will not be changed, but
+# if there are any strange characters, it will be quoted; x-1 will return `x-1`.
+quoteName <- function(name) {
+  if (!grepl("^[a-zA-Z0-9_]*$", name)) {
+    paste0("`", name, "`")
+  } else {
+    name
+  }
+}
 
 codeGenerators <- list(
   input = function(event) {
     paste0(
       "app$setInputs(",
-      event$name, " = ",
+      quoteName(event$name), " = ",
       processInputValue(event$value, event$inputType),
       ")"
     )
@@ -75,7 +84,7 @@ codeGenerators <- list(
   fileUpload = function(event) {
     paste0(
       "app$uploadFile(",
-      event$name, " = ",
+      quoteName(event$name), " = ",
       # `event$files` is a char vector, which works with the "default" input
       # processor.
       processInputValue(event$files, "default"),
