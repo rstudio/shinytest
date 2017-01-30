@@ -134,7 +134,7 @@ snapshotCompare <- function(name, appDir, autoremove = TRUE) {
       status[["Status"]][!res$expected] <- "Missing in -expected/"
 
       # Use which() to ignore NA's
-      status[[" "]][which(!res$identical)]      <- "\U2260"   # not-equal symbol
+      status[[" "]][which(!res$identical)]      <- "!="
       status[["Status"]][which(!res$identical)] <- "Files differ"
 
       # Add spaces for nicer printed output
