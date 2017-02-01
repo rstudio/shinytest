@@ -110,19 +110,6 @@ window.recorder = (function() {
                 Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
 
-            if (message.fileUpload) {
-                evt = message.fileUpload;
-
-                recorder.testEvents.push({
-                    type: "fileUpload",
-                    name: evt.name,
-                    files: evt.files.map(function(file) { return file.name; })
-                });
-
-                // Send updated values to server
-                Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
-            }
-
             if (message.fileDownload) {
                 evt = message.fileDownload;
 

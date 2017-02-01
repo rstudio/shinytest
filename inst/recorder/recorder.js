@@ -22,10 +22,6 @@ window.shinyRecorder = (function() {
         sendInputEventToParent(event.inputType, event.name, event.value);
     });
 
-    $(document).on("shiny:fileuploaded", function(event) {
-        sendFileUploadEventToParent(event.name, event.files);
-    });
-
     $(document).on("shiny:filedownload", function(event) {
         sendFileDownloadEventToParent(event.name);
     });
@@ -46,13 +42,6 @@ window.shinyRecorder = (function() {
         parent.postMessage({
             token: shinyrecorder.token,
             inputEvent: { inputType: inputType, name: name, value: value }
-        }, "*");
-    }
-
-    function sendFileUploadEventToParent(name, files) {
-        parent.postMessage({
-            token: shinyrecorder.token,
-            fileUpload: { name: name, files: files }
         }, "*");
     }
 

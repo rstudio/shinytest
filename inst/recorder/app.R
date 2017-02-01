@@ -48,6 +48,12 @@ inputProcessors <- list(
 
   shiny.action = function(value) {
     '"click"'
+  },
+
+  shiny.fileupload = function(value) {
+    # Extract filenames, then send to default processor
+    value <- vapply(value, function(file) file$name, character(1))
+    inputProcessors$default(value)
   }
 )
 
@@ -73,23 +79,23 @@ quoteName <- function(name) {
 
 codeGenerators <- list(
   input = function(event) {
-    paste0(
-      "app$setInputs(",
-      quoteName(event$name), " = ",
-      processInputValue(event$value, event$inputType),
-      ")"
-    )
-  },
+    if (event$inputType == "shiny.fileupload") {
+      # Special case for file uploads
+      paste0(
+        "app$uploadFile(",
+        quoteName(event$name), " = ",
+        processInputValue(event$value, event$inputType),
+        ")"
+      )
 
-  fileUpload = function(event) {
-    paste0(
-      "app$uploadFile(",
-      quoteName(event$name), " = ",
-      # `event$files` is a char vector, which works with the "default" input
-      # processor.
-      processInputValue(event$files, "default"),
-      ")"
-    )
+    } else {
+      paste0(
+        "app$setInputs(",
+        quoteName(event$name), " = ",
+        processInputValue(event$value, event$inputType),
+        ")"
+      )
+    }
   },
 
   fileDownload = function(event) {
@@ -188,9 +194,12 @@ shinyApp(
           } else if (type == "snapshot") {
             list(type = "snapshot", name = "<all>")
           } else if (type == "input") {
-            list(type = "input", name = event$name)
-          } else if (type == "fileUpload") {
-            list(type = "file-upload", name = event$name)
+            if (event$inputType == "shiny.fileupload") {
+              # File uploads are a special case of inputs
+              list(type = "file-upload", name = event$name)
+            } else {
+              list(type = "input", name = event$name)
+            }
           } else if (type == "fileDownload") {
             list(type = "file-download", name = event$name)
           }
