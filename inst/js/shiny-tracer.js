@@ -37,10 +37,10 @@ window.shinytest = (function() {
 
             function flushItem(item) {
                 shinytest.log("inputQueue: flushing " + item.name);
-                var $el = $("#" + item.name);
-                var binding = findInputBinding($el[0]);
-                var value = preprocess($el[0], item.value);
+                var binding = findInputBinding(item.name);
+                var value = preprocess(item.name, item.value);
 
+                var $el = $("#" + item.name);
                 binding.setValue($el[0], value);
                 $el.trigger("change");
             }
@@ -86,10 +86,10 @@ window.shinytest = (function() {
 
         // Given a DOM ID, return the input binding for that element; if not
         // found, throw an error.
-        function findInputBinding(el) {
-            var $el = $(el);
+        function findInputBinding(id) {
+            var $el = $("#" + id);
             if ($el.length === 0 || !$el.data("shinyInputBinding")) {
-                var msg = "Unable to find input binding for element";
+                var msg = "Unable to find input binding for element with id " + id;
                 shinytest.log("  " + msg);
                 throw msg;
             }
@@ -100,11 +100,12 @@ window.shinytest = (function() {
         // Given a DOM ID and value, find the input binding for that DOM
         // element and run appropriate preprocessor, if present. If no
         // preprocessor, simply return the value.
-        function preprocess(el, value) {
-            var binding = findInputBinding(el);
+        function preprocess(id, value) {
+            var binding = findInputBinding(id);
+            var $el = $("#" + id);
 
             if (inputqueue.preprocessors[binding.name])
-                return inputqueue.preprocessors[binding.name](el, value);
+                return inputqueue.preprocessors[binding.name]($el[0], value);
             else
                 return value;
         }
