@@ -2,8 +2,9 @@
 #'
 #' @param app A \code{\link{ShinyDriver}} object, or path to a Shiny application.
 #' @param save_dir A directory to save stuff.
+#' @param load_test A boolean that determines whether or not the resulting test script will be used for load testing
 #' @export
-recordTest <- function(app = ".", save_dir = NULL) {
+recordTest <- function(app = ".", save_dir = NULL, load_test = FALSE) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
@@ -40,7 +41,8 @@ recordTest <- function(app = ".", save_dir = NULL) {
   withr::with_options(
     list(
       shinytest.recorder.url = url,
-      shinytest.app.dir = app$getAppDir()
+      shinytest.app.dir = app$getAppDir(),
+      shinytest.load.test = load_test
     ),
     res <- shiny::runApp(system.file("recorder", package = "shinytest"))
   )

@@ -1,5 +1,6 @@
 target_url <- getOption("shinytest.recorder.url")
 app_dir <- getOption("shinytest.app.dir")
+load_test <- getOption("shinytest.load.test")
 
 if (is.null(target_url) || is.null(app_dir)) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
@@ -107,7 +108,12 @@ codeGenerators <- list(
   },
 
   snapshot = function(event) {
-    "app$snapshot()"
+    if (load_test){
+      "app$takeScreenshot()"
+    } else{
+      "app$snapshot()"
+    }
+
   }
 )
 
@@ -126,7 +132,11 @@ generateTestCode <- function(events, name) {
     paste0('app$snapshotInit("', name, '")'),
     '',
     eventCode,
-    '\napp$snapshotCompare()\n',
+    if (load_test) {
+      '\nrm(app)\n'
+    } else {
+      '\napp$snapshotCompare()\n'
+    },
     sep = "\n"
   )
 }
@@ -146,9 +156,11 @@ shinyApp(
       div(class = "shiny-recorder-controls",
         actionButton("snapshot", "Take snapshot"),
         actionButton("exit", "Exit", class = "btn-danger"),
-        textInput("testname", label = "Name of tests", value = "mytests"),
+        textInput("testname", label = "Name of tests",
+          value = ifelse(load_test, "myloadtest", "mytests")),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
-        checkboxInput("runScript", "Run test script on exit", value = TRUE)
+        checkboxInput("runScript", "Run test script on exit",
+          value = ifelse(load_test, TRUE, FALSE))
       ),
       div(class = "recorded-events-header", "Recorded events"),
       div(id = "recorded-events",
