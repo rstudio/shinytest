@@ -277,9 +277,12 @@ ShinyDriver <- R6Class(
       sd_expectUpdate(self, private, output, ..., timeout = timeout,
                        iotype = match.arg(iotype)),
 
-    setInputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
+    setInputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000,
+                         timing_ = FALSE)
+    {
       sd_setInputs(self, private, ..., wait_ = wait_, values_ = values_,
-                    timeout_ = timeout_),
+                    timeout_ = timeout_, timing_ = timing_)
+    },
 
     uploadFile = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
       sd_uploadFile(self, private, ..., wait_ = wait_, values_ = values_,
