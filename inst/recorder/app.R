@@ -94,6 +94,9 @@ codeGenerators <- list(
         "app$setInputs(",
         quoteName(event$name), " = ",
         processInputValue(event$value, event$inputType),
+        if (load_mode) {
+          ", values_ = FALSE, timing_ = TRUE "
+        },
         ")"
       )
     }
@@ -135,15 +138,19 @@ generateTestCode <- function(events, name) {
 
   paste(
     if (load_mode) {
-      'app <- ShinyDriver$new(url)'
+      paste0('url <- getOption("target.url")\n',
+       'i <- getOption("connection.id")\n\n',
+       'time_start <- Sys.time()\n',
+       'app <- ShinyDriver$new(url)\n',
+       'load_time <- Sys.time() - time_start')
     } else {
-      'app <- ShinyDriver$new("..")'
+       paste0('app <- ShinyDriver$new("..")\n',
+              'app$snapshotInit("', name, '")')
     },
-    paste0('app$snapshotInit("', name, '")'),
     '',
     eventCode,
     if (load_mode) {
-      '\napp$takeScreenshot(paste0("connection_",i))\napp$stop()\n'
+      '\napp$takeScreenshot(paste0("connection_", i, ".png"))\napp$stop()\n'
     } else {
       '\napp$snapshotCompare()\n'
     },
