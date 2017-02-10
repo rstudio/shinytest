@@ -1,5 +1,6 @@
 target_url <- getOption("shinytest.recorder.url")
 app_dir <- getOption("shinytest.app.dir")
+load_mode <- getOption("shinytest.load.mode")
 
 if (is.null(target_url) || is.null(app_dir)) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
@@ -103,11 +104,22 @@ codeGenerators <- list(
   },
 
   outputValue = function(event) {
-    paste0('app$snapshot(list(output = "', event$name, '"))')
+    if (load_mode) {
+      paste0('# app$snapshot(list(output = "', event$name, '"))',
+        ' ## snapshots not supported for deployed apps')
+    } else {
+      paste0('app$snapshot(list(output = "', event$name, '"))')
+    }
+
   },
 
   snapshot = function(event) {
-    "app$snapshot()"
+    if (load_mode) {
+      "# app$snapshot() ## snapshots not supported for deployed apps"
+    } else {
+      "app$snapshot()"
+    }
+
   }
 )
 
@@ -122,11 +134,19 @@ generateTestCode <- function(events, name) {
   }
 
   paste(
-    'app <- ShinyDriver$new("..")',
+    if (load_mode) {
+      'app <- ShinyDriver$new(url)'
+    } else {
+      'app <- ShinyDriver$new("..")'
+    },
     paste0('app$snapshotInit("', name, '")'),
     '',
     eventCode,
-    '\napp$snapshotCompare()\n',
+    if (load_mode) {
+      '\napp$takeScreenshot(paste0("connection_",i))\napp$stop()\n'
+    } else {
+      '\napp$snapshotCompare()\n'
+    },
     sep = "\n"
   )
 }
@@ -146,9 +166,10 @@ shinyApp(
       div(class = "shiny-recorder-controls",
         actionButton("snapshot", "Take snapshot"),
         actionButton("exit", "Exit", class = "btn-danger"),
-        textInput("testname", label = "Name of tests", value = "mytests"),
+        textInput("testname", label = "Name of tests",
+          value = if (load_mode) "myloadtest" else "mytests"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
-        checkboxInput("runScript", "Run test script on exit", value = TRUE)
+        checkboxInput("runScript", "Run test script on exit", value = !load_mode)
       ),
       div(class = "recorded-events-header", "Recorded events"),
       div(id = "recorded-events",
@@ -175,11 +196,10 @@ shinyApp(
 
     # Number of snapshot or fileDownload events in input$testevents
     numSnapshots <- reactive({
-      snapshots <- vapply(input$testevents, function(event) {
-        return(event$type %in% c("snapshot", "fileDownload"))
-      }, logical(1))
-
-      sum(snapshots)
+        snapshots <- vapply(input$testevents, function(event) {
+          return(event$type %in% c("snapshot", "fileDownload"))
+        }, logical(1))
+        sum(snapshots)
     })
 
     output$recordedEvents <- renderTable(
