@@ -4,7 +4,7 @@
 \alias{recordTest}
 \title{Launch test event recorder for a Shiny app}
 \usage{
-recordTest(app = ".", save_dir = NULL, load_test = FALSE)
+recordTest(app = ".", save_dir = NULL, load_mode = FALSE)
 }
 \arguments{
 \item{app}{A \code{\link{ShinyDriver}} object, or path to a Shiny
@@ -12,8 +12,8 @@ application.}
 
 \item{save_dir}{A directory to save stuff.}
 
-\item{load_test}{A boolean that determines whether or not the resulting test
-script should be appropriate for load testing}
+\item{load_mode}{A boolean that determines whether or not the resulting test
+script should be appropriate for load testing.}
 }
 \description{
 Launch test event recorder for a Shiny app
