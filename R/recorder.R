@@ -1,8 +1,10 @@
 #' Launch test event recorder for a Shiny app
 #'
-#' @param app A \code{\link{ShinyDriver}} object, or path to a Shiny application.
+#' @param app A \code{\link{ShinyDriver}} object, or path to a Shiny
+#'   application.
 #' @param save_dir A directory to save stuff.
-#' @param load_test A boolean that determines whether or not the resulting test script will be used for load testing
+#' @param load_test A boolean that determines whether or not the resulting test
+#'   script should be appropriate for load testing
 #' @export
 recordTest <- function(app = ".", save_dir = NULL, load_test = FALSE) {
 
