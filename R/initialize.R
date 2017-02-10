@@ -8,18 +8,24 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   "!DEBUG get phantom port (starts phantom if not running)"
   private$phantomPort <- get_phantomPort()
 
-  "!DEBUG start up shiny app from `path`"
-  private$startShiny(path)
-
   "!DEBUG create new phantomjs session"
   private$web <- Session$new(port = private$phantomPort)
 
   ## Set implicit timeout to zero. According to the standard it should
   ## be zero, but phantomjs uses about 200 ms
-  private$web$setTimeout(implicit = 0)
+  private$web$setTimeout(implicit = 0 )
 
-  "!DEBUG navigate to Shiny app"
-  private$web$go(private$getShinyUrl())
+  ## Figure out if we are driving a local app or a deployed app
+  if (grepl("^http(s?)://", path)) {
+    "!DEBUG navigate to deployed app"
+    private$web$go(path)
+  } else {
+    "!DEBUG start up shiny app from `path`"
+    private$startShiny(path)
+
+    "!DEBUG navigate to locally running Shiny app"
+    private$web$go(private$getShinyUrl())
+  }
 
   "!DEBUG inject shiny-tracer.js"
   js_file <- system.file("js", "shiny-tracer.js", package = "shinytest")

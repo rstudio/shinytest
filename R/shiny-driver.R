@@ -382,7 +382,9 @@ sd_setWindowSize <- function(self, private, width, height) {
 
 sd_stop <- function(self, private) {
   "!DEBUG sd_stop"
-  private$shinyProcess$kill()
+  private$web$delete()
+  if (!is.null(private$shinyProcess))
+    private$shinyProcess$kill()
   private$state <- "stopped"
   invisible(self)
 }
