@@ -166,7 +166,7 @@ generateTestCode <- function(events, name) {
     if (load_mode) {
       paste0('\napp$takeScreenshot(paste0("connection_", i, ".png"))\n',
              'app$stop()\n',
-             'do.call(rbind, lapply(timing, data.frame, stringsAsFactors=FALSE))')
+             'timing <- do.call(rbind, lapply(timing, data.frame, stringsAsFactors=FALSE))')
     } else {
       '\napp$snapshotCompare()\n'
     },
