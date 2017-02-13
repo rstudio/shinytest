@@ -103,7 +103,8 @@ window.recorder = (function() {
                     type: "input",
                     inputType: evt.inputType,
                     name: evt.name,
-                    value: evt.value
+                    value: evt.value,
+                    time: Date.now()
                 });
 
                 // Send updated values to server
@@ -115,7 +116,8 @@ window.recorder = (function() {
 
                 recorder.testEvents.push({
                     type: "fileDownload",
-                    name: evt.name
+                    name: evt.name,
+                    time: Date.now()
                 });
 
                 // Send updated values to server
@@ -128,7 +130,8 @@ window.recorder = (function() {
                 recorder.testEvents.push({
                     type: "outputValue",
                     name: evt.name,
-                    value: evt.value
+                    value: evt.value,
+                    time: Date.now()
                 });
 
                 // Send updated values to server
@@ -142,7 +145,8 @@ window.recorder = (function() {
             if (event.name === "snapshot") {
                 recorder.testEvents.push({
                     type: "snapshot",
-                    value: event.value
+                    value: event.value,
+                    time: Date.now()
                 });
 
                 // Send updated values to server

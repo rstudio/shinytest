@@ -123,13 +123,36 @@ codeGenerators <- list(
   }
 )
 
-generateTestCode <- function(events, name) {
+generateTestCode <- function(events, name, useTimes = FALSE) {
+  if (useTimes) {
+    # Convert from absolute to relative times; first event has time 0.
+    startTime <- NA
+    if (length(events) != 0) {
+      events[[1]]$timediff <- 0
+      for (i in seq_len(length(events)-1)) {
+        events[[i+1]]$timediff <- events[[i+1]]$time - events[[i]]$time
+      }
+    }
+  }
+
   # Generate code for each input and output event
   eventCode <- vapply(events, function(event) {
     codeGenerators[[event$type]](event)
   }, "")
 
+
   if (length(eventCode) != 0) {
+    if (useTimes) {
+      timingCode <- vapply(events, function(event) {
+        sprintf("Sys.sleep(%0.1f)", event$timediff / 1000)
+      }, "")
+
+      # Shift timingCode entries left by one
+      timingCode <- c(timingCode[-1], "")
+      # Interleave events and times with c(rbind()) trick
+      eventCode <- c(rbind(eventCode, timingCode))
+    }
+
     eventCode <- paste(eventCode, collapse = "\n")
   }
 
@@ -185,10 +208,6 @@ shinyApp(
       readChar(file, file.info(file)$size, useBytes = TRUE)
     })
     outputOptions(output, "recorder_js", suspendWhenHidden = FALSE)
-
-    testCode <- reactive({
-      generateTestCode(input$testevents, input$testname)
-    })
 
     saveFile <- reactive({
       file.path(app_dir, "tests", paste0(input$testname, ".R"))
@@ -250,7 +269,11 @@ shinyApp(
           ))
 
         } else {
-          cat(testCode(), file = saveFile())
+
+          code <- generateTestCode(input$testevents, input$testname,
+                                   useTimes = load_mode)
+
+          cat(code, file = saveFile())
           message("Saved test code to ", saveFile())
           if (input$editSaveFile)
             file.edit(saveFile())
