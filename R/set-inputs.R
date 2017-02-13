@@ -32,12 +32,15 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     if (is.null(values))
       values <- list()
 
+    inputs <- list(...)
+
     values$timing <- data.frame(stringsAsFactors = FALSE,
-      event    = "setInputs",
-      start    = time_start,
-      end      = time_end,
-      duration = as.numeric(time_end - time_start, units = "secs"),
-      timedout = res$timedOut
+                                event    = "setInputs",
+                                actions  = sapply(seq_along(inputs), function(i) paste0(names(inputs)[[i]], ": ", inputs[[i]])),
+                                start    = time_start,
+                                end      = time_end,
+                                duration = as.numeric(time_end - time_start, units = "secs"),
+                                timedout = res$timedOut
     )
   }
 

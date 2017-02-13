@@ -91,10 +91,19 @@ codeGenerators <- list(
 
     } else {
       paste0(
+        if (load_mode) {
+          'timing[[ length(timing)+1 ]] <- '
+        },
         "app$setInputs(",
         quoteName(event$name), " = ",
         processInputValue(event$value, event$inputType),
-        ")"
+        if (load_mode) {
+          ", values_ = FALSE, timing_ = TRUE "
+        },
+        ")",
+        if (load_mode) {
+          '$timing'
+        }
       )
     }
   },
@@ -158,15 +167,29 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
 
   paste(
     if (load_mode) {
-      'app <- ShinyDriver$new(url)'
+      paste0('url <- getOption("target.url")\n',
+       'i <- getOption("connection.id")\n\n',
+       'time_start <- Sys.time()\n',
+       'app <- ShinyDriver$new(url)\n',
+       'time_end <- Sys.time()\n\n',
+       'timing <- data.frame(event    = "pageLoad",
+                     actions  = url,
+                     start    = time_start,
+                     end      = time_end,
+                     duration = as.numeric(time_end - time_start, units = "secs"),
+                     timedout = FALSE)\n',
+       'timing <- list(timing)')
+
     } else {
-      'app <- ShinyDriver$new("..")'
+       paste0('app <- ShinyDriver$new("..")\n',
+              'app$snapshotInit("', name, '")')
     },
-    paste0('app$snapshotInit("', name, '")'),
     '',
     eventCode,
     if (load_mode) {
-      '\napp$takeScreenshot(paste0("connection_",i))\napp$stop()\n'
+      paste0('\napp$takeScreenshot(paste0("connection_", i, ".png"))\n',
+             'app$stop()\n',
+             'timing <- do.call(rbind, lapply(timing, data.frame, stringsAsFactors=FALSE))')
     } else {
       '\napp$snapshotCompare()\n'
     },
