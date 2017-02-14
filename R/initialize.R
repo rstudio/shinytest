@@ -20,9 +20,10 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 
   private$path <- path
 
-  if (!grepl("^http(s?)://", path))
+  if (!grepl("^http(s?)://", path)) {
     "!DEBUG starting shiny app from path"
     private$startShiny(path)
+  }
 
   "!DEBUG navigate to app"
   private$web$go(private$getShinyUrl())
