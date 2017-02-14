@@ -1,5 +1,6 @@
 target_url <- getOption("shinytest.recorder.url")
 app_dir <- getOption("shinytest.app.dir")
+load_mode <- getOption("shinytest.load.mode")
 
 if (is.null(target_url) || is.null(app_dir)) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
@@ -103,30 +104,72 @@ codeGenerators <- list(
   },
 
   outputValue = function(event) {
-    paste0('app$snapshot(list(output = "', event$name, '"))')
+    if (load_mode) {
+      paste0('# app$snapshot(list(output = "', event$name, '"))',
+        ' ## snapshots not supported for deployed apps')
+    } else {
+      paste0('app$snapshot(list(output = "', event$name, '"))')
+    }
+
   },
 
   snapshot = function(event) {
-    "app$snapshot()"
+    if (load_mode) {
+      "# app$snapshot() ## snapshots not supported for deployed apps"
+    } else {
+      "app$snapshot()"
+    }
+
   }
 )
 
-generateTestCode <- function(events, name) {
+generateTestCode <- function(events, name, useTimes = FALSE) {
+  if (useTimes) {
+    # Convert from absolute to relative times; first event has time 0.
+    startTime <- NA
+    if (length(events) != 0) {
+      events[[1]]$timediff <- 0
+      for (i in seq_len(length(events)-1)) {
+        events[[i+1]]$timediff <- events[[i+1]]$time - events[[i]]$time
+      }
+    }
+  }
+
   # Generate code for each input and output event
   eventCode <- vapply(events, function(event) {
     codeGenerators[[event$type]](event)
   }, "")
 
+
   if (length(eventCode) != 0) {
+    if (useTimes) {
+      timingCode <- vapply(events, function(event) {
+        sprintf("Sys.sleep(%0.1f)", event$timediff / 1000)
+      }, "")
+
+      # Shift timingCode entries left by one
+      timingCode <- c(timingCode[-1], "")
+      # Interleave events and times with c(rbind()) trick
+      eventCode <- c(rbind(eventCode, timingCode))
+    }
+
     eventCode <- paste(eventCode, collapse = "\n")
   }
 
   paste(
-    'app <- ShinyDriver$new("..")',
+    if (load_mode) {
+      'app <- ShinyDriver$new(url)'
+    } else {
+      'app <- ShinyDriver$new("..")'
+    },
     paste0('app$snapshotInit("', name, '")'),
     '',
     eventCode,
-    '\napp$snapshotCompare()\n',
+    if (load_mode) {
+      '\napp$takeScreenshot(paste0("connection_",i))\napp$stop()\n'
+    } else {
+      '\napp$snapshotCompare()\n'
+    },
     sep = "\n"
   )
 }
@@ -146,9 +189,10 @@ shinyApp(
       div(class = "shiny-recorder-controls",
         actionButton("snapshot", "Take snapshot"),
         actionButton("exit", "Exit", class = "btn-danger"),
-        textInput("testname", label = "Name of tests", value = "mytests"),
+        textInput("testname", label = "Name of tests",
+          value = if (load_mode) "myloadtest" else "mytests"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
-        checkboxInput("runScript", "Run test script on exit", value = TRUE)
+        checkboxInput("runScript", "Run test script on exit", value = !load_mode)
       ),
       div(class = "recorded-events-header", "Recorded events"),
       div(id = "recorded-events",
@@ -165,21 +209,16 @@ shinyApp(
     })
     outputOptions(output, "recorder_js", suspendWhenHidden = FALSE)
 
-    testCode <- reactive({
-      generateTestCode(input$testevents, input$testname)
-    })
-
     saveFile <- reactive({
       file.path(app_dir, "tests", paste0(input$testname, ".R"))
     })
 
     # Number of snapshot or fileDownload events in input$testevents
     numSnapshots <- reactive({
-      snapshots <- vapply(input$testevents, function(event) {
-        return(event$type %in% c("snapshot", "fileDownload"))
-      }, logical(1))
-
-      sum(snapshots)
+        snapshots <- vapply(input$testevents, function(event) {
+          return(event$type %in% c("snapshot", "fileDownload"))
+        }, logical(1))
+        sum(snapshots)
     })
 
     output$recordedEvents <- renderTable(
@@ -230,7 +269,11 @@ shinyApp(
           ))
 
         } else {
-          cat(testCode(), file = saveFile())
+
+          code <- generateTestCode(input$testevents, input$testname,
+                                   useTimes = load_mode)
+
+          cat(code, file = saveFile())
           message("Saved test code to ", saveFile())
           if (input$editSaveFile)
             file.edit(saveFile())
