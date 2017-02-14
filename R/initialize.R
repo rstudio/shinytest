@@ -13,19 +13,19 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 
   ## Set implicit timeout to zero. According to the standard it should
   ## be zero, but phantomjs uses about 200 ms
-  private$web$setTimeout(implicit = 0 )
+  private$web$setTimeout(implicit = 0)
 
-  ## Figure out if we are driving a local app or a deployed app
-  if (grepl("^http(s?)://", path)) {
-    "!DEBUG navigate to deployed app"
-    private$web$go(path)
-  } else {
-    "!DEBUG start up shiny app from `path`"
+  ## Validate and save the path before using
+  assert_that(is_string(path))
+
+  private$path <- path
+
+  if (!grepl("^http(s?)://", path))
+    "!DEBUG starting shiny app from path"
     private$startShiny(path)
 
-    "!DEBUG navigate to locally running Shiny app"
-    private$web$go(private$getShinyUrl())
-  }
+  "!DEBUG navigate to app"
+  private$web$go(private$getShinyUrl())
 
   "!DEBUG inject shiny-tracer.js"
   js_file <- system.file("js", "shiny-tracer.js", package = "shinytest")
@@ -60,11 +60,10 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path) {
+sd_startShiny <- function(self, private) {
 
-  assert_that(is_string(path))
-
-  private$path <- normalizePath(path)
+  ## normalize path since it is a local file
+  private$path <- normalizePath(private$path)
 
   libpath <- paste(deparse(.libPaths()), collapse = "")
   rcmd <- sprintf(
@@ -74,7 +73,7 @@ sd_startShiny <- function(self, private, path) {
       "shiny::runApp('%s', test.mode=TRUE)"
     ),
     libpath,
-    path
+    private$path
   )
 
   ## On windows, if is better to use single quotes
@@ -126,7 +125,14 @@ sd_startShiny <- function(self, private, path) {
 }
 
 sd_getShinyUrl <- function(self, private) {
-  paste0("http://", private$shinyHost, ":", private$shinyPort)
+  if (is.null(private$shinyProcess)) {
+    ## we are connected to a deployed app
+    private$path
+  } else {
+    ## we are running the app locally
+    paste0("http://", private$shinyHost, ":", private$shinyPort)
+  }
+
 }
 
 # Possible locations of the PhantomJS executable
