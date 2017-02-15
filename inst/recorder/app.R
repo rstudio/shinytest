@@ -104,22 +104,11 @@ codeGenerators <- list(
   },
 
   outputValue = function(event) {
-    if (load_mode) {
-      paste0('# app$snapshot(list(output = "', event$name, '"))',
-        ' ## snapshots not supported for deployed apps')
-    } else {
-      paste0('app$snapshot(list(output = "', event$name, '"))')
-    }
-
+    paste0('app$snapshot(list(output = "', event$name, '"))')
   },
 
   snapshot = function(event) {
-    if (load_mode) {
-      "# app$snapshot() ## snapshots not supported for deployed apps"
-    } else {
-      "app$snapshot()"
-    }
-
+    "app$snapshot()"
   }
 )
 
@@ -158,7 +147,7 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
 
   paste(
     if (load_mode) {
-      'app <- ShinyDriver$new(url)'
+      'app <- ShinyLoadDriver$new("APPLICATION_URL")'
     } else {
       'app <- ShinyDriver$new("..")'
     },
@@ -166,7 +155,7 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
     '',
     eventCode,
     if (load_mode) {
-      '\napp$takeScreenshot(paste0("connection_",i))\napp$stop()\n'
+      '\napp$snapshot()\napp$stop()\n'
     } else {
       '\napp$snapshotCompare()\n'
     },
@@ -187,12 +176,12 @@ shinyApp(
     div(id = "shiny-recorder",
       div(class = "shiny-recorder-title", "Test event recorder"),
       div(class = "shiny-recorder-controls",
-        actionButton("snapshot", "Take snapshot"),
+        if (!load_mode) actionButton("snapshot", "Take snapshot"),
         actionButton("exit", "Exit", class = "btn-danger"),
         textInput("testname", label = "Name of tests",
           value = if (load_mode) "myloadtest" else "mytests"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
-        checkboxInput("runScript", "Run test script on exit", value = !load_mode)
+        if (!load_mode) checkboxInput("runScript", "Run test script on exit")
       ),
       div(class = "recorded-events-header", "Recorded events"),
       div(id = "recorded-events",
@@ -259,8 +248,9 @@ shinyApp(
 
     observeEvent(input$exit, {
       stopApp({
-        # If no snapshot events occurred, don't write file.
-        if (numSnapshots() == 0) {
+        # If no snapshot events occurred, don't write file. However, in load
+        # testing mode, we don't expect snapshots (except one at the end).
+        if (!load_mode && numSnapshots() == 0) {
           message("No snapshot or download events occurred; not saving test code.")
           invisible(list(
             appDir = NULL,
