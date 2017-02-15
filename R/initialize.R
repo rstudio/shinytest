@@ -8,9 +8,6 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   "!DEBUG get phantom port (starts phantom if not running)"
   private$phantomPort <- get_phantomPort()
 
-  "!DEBUG start up shiny app from `path`"
-  private$startShiny(path)
-
   "!DEBUG create new phantomjs session"
   private$web <- Session$new(port = private$phantomPort)
 
@@ -18,7 +15,17 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   ## be zero, but phantomjs uses about 200 ms
   private$web$setTimeout(implicit = 0)
 
-  "!DEBUG navigate to Shiny app"
+  ## Validate and save the path before using
+  assert_that(is_string(path))
+
+  private$path <- path
+
+  if (!grepl("^http(s?)://", path)) {
+    "!DEBUG starting shiny app from path"
+    private$startShiny(path)
+  }
+
+  "!DEBUG navigate to app"
   private$web$go(private$getShinyUrl())
 
   "!DEBUG inject shiny-tracer.js"
@@ -54,11 +61,10 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path) {
+sd_startShiny <- function(self, private) {
 
-  assert_that(is_string(path))
-
-  private$path <- normalizePath(path)
+  ## normalize path since it is a local file
+  private$path <- normalizePath(private$path)
 
   libpath <- paste(deparse(.libPaths()), collapse = "")
   rcmd <- sprintf(
@@ -68,7 +74,7 @@ sd_startShiny <- function(self, private, path) {
       "shiny::runApp('%s', test.mode=TRUE)"
     ),
     libpath,
-    path
+    private$path
   )
 
   ## On windows, if is better to use single quotes
@@ -120,7 +126,14 @@ sd_startShiny <- function(self, private, path) {
 }
 
 sd_getShinyUrl <- function(self, private) {
-  paste0("http://", private$shinyHost, ":", private$shinyPort)
+  if (is.null(private$shinyProcess)) {
+    ## we are connected to a deployed app
+    private$path
+  } else {
+    ## we are running the app locally
+    paste0("http://", private$shinyHost, ":", private$shinyPort)
+  }
+
 }
 
 # Possible locations of the PhantomJS executable
