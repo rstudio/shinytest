@@ -74,3 +74,25 @@ rel_path <- function(path, base = getwd()) {
     path
   }
 }
+
+parse_url <- function(url) {
+  res <- regexpr("^(?<protocol>https?)://(?<host>[^:/]+)(:(?<port>\\d+))?(?<path>/.*)?$", url, perl = TRUE)
+
+  if (res == -1) stop(url, " is not a valid URL.")
+
+  start  <- attr(res, "capture.start",  exact = TRUE)[1, ]
+  length <- attr(res, "capture.length", exact = TRUE)[1, ]
+
+  get_piece <- function(n) {
+    if (start[[n]] == 0) return("")
+
+    s <- substring(url, start[[n]], start[[n]] + length[[n]] - 1)
+  }
+
+  list(
+    protocol = get_piece("protocol"),
+    host     = get_piece("host"),
+    port     = get_piece("port"),
+    path     = get_piece("path")
+  )
+}

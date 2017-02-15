@@ -33,6 +33,14 @@ on_failure(is_port) <- function(call, env) {
   paste0(deparse(call$x), " is not a port number")
 }
 
+is_url_path <- function(x) {
+  assert_that(is_string(x) && grepl("^/", x))
+}
+
+on_failure(is_url_path) <- function(call, env) {
+  paste0(deparse(call$x), " is not a path for a URL")
+}
+
 is_all_named <- function(x) {
   length(names(x)) == length(x) && all(names(x) != "")
 }
