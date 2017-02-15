@@ -388,7 +388,16 @@ sd_setWindowSize <- function(self, private, width, height) {
 
 sd_stop <- function(self, private) {
   "!DEBUG sd_stop"
-  private$shinyProcess$kill()
+
+  ## first, disconnect the phantomJS
+  ## session from the app
+  private$web$delete()
+
+  ## then, if the app is being hosted
+  ## locally, kill the process
+  if (!is.null(private$shinyProcess))
+    private$shinyProcess$kill()
+
   private$state <- "stopped"
   invisible(self)
 }
