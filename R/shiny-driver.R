@@ -313,8 +313,10 @@ ShinyDriver <- R6Class(
 
     state = "stopped",                  # stopped or running
     path = NULL,                        # Shiny app path
-    shinyHost = NULL,                   # usually 127.0.0.1
-    shinyPort = NULL,
+    shinyUrlProtocol = NULL,            # "http" or "https"
+    shinyUrlHost = NULL,                # usually 127.0.0.1
+    shinyUrlPort = NULL,
+    shinyUrlPath = NULL,
     shinyProcess = NULL,                # process object
     phantomPort = NULL,
     web = NULL,                         # webdriver session
@@ -329,6 +331,9 @@ ShinyDriver <- R6Class(
     getShinyUrl = function()
       sd_getShinyUrl(self, private),
 
+    setShinyUrl = function(url)
+      sd_setShinyUrl(self, private, url),
+
     setupDebugging = function(debug)
       sd_setupDebugging(self, private, debug),
 
@@ -340,9 +345,10 @@ ShinyDriver <- R6Class(
 
     getTestSnapshotUrl = function(input = TRUE, output = TRUE,
       export = TRUE, format = "json")
+    {
       sd_getTestSnapshotUrl(self, private, input, output, export,
-                                format)
-
+        format)
+    }
   )
 )
 

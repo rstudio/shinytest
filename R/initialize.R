@@ -8,8 +8,13 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   "!DEBUG get phantom port (starts phantom if not running)"
   private$phantomPort <- get_phantomPort()
 
-  "!DEBUG start up shiny app from `path`"
-  private$startShiny(path)
+  if (grepl("^http(s?)://", path)) {
+    private$setShinyUrl(path)
+
+  } else {
+    "!DEBUG starting shiny app from path"
+    private$startShiny(path)
+  }
 
   "!DEBUG create new phantomjs session"
   private$web <- Session$new(port = private$phantomPort)
@@ -111,16 +116,39 @@ sd_startShiny <- function(self, private, path) {
 
   "!DEBUG shiny up and running, port `m[, 'port']`"
 
-  assert_that(is_host(host <- m[, "host"]))
-  assert_that(is_port(port <- as.integer(m[, "port"])))
+  url <- sub(".*(https?://.*)", "\\1", l)
+  private$setShinyUrl(url)
 
-  private$shinyHost <- host
-  private$shinyPort <- port
-  private$shinyProcess <- sh
+  private$shinyProcess     <- sh
 }
 
 sd_getShinyUrl <- function(self, private) {
-  paste0("http://", private$shinyHost, ":", private$shinyPort)
+  paste0(
+    private$shinyUrlProtocol, "://", private$shinyUrlHost,
+    if (!is.null(private$shinyUrlPort)) paste0(":", private$shinyUrlPort),
+    private$shinyUrlPath
+  )
+}
+
+sd_setShinyUrl <- function(self, private, url) {
+  res <- parse_url(url)
+
+  if (nzchar(res$port)) {
+    res$port <- as.integer(res$port)
+    assert_that(is_port(res$port))
+  } else {
+    res$port <- NULL
+  }
+
+  res$path <- if (nzchar(res$path)) res$path else "/"
+
+  assert_that(is_host(res$host))
+  assert_that(is_url_path(res$path))
+
+  private$shinyUrlProtocol <- res$protocol
+  private$shinyUrlHost     <- res$host
+  private$shinyUrlPort     <- res$port
+  private$shinyUrlPath     <- res$path
 }
 
 # Possible locations of the PhantomJS executable
