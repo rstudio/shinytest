@@ -48,6 +48,8 @@
 #'      pair.}
 #'   \item{loadTimeout}{How long to wait for the app to load, in ms.
 #'      This includes the time to start R.}
+#'   \item{phantomTimeout}{How long to wait when connecting to phantomJS
+#'      process, in ms.}
 #'   \item{checkNames}{Whether to check if widget names are unique in the
 #'      app.}
 #'   \item{debug}{Whether to start the app in debugging mode. In debugging
