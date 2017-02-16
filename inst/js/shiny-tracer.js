@@ -249,8 +249,8 @@ window.shinytest = (function() {
     // Check if we're already connected and the Shiny session has been
     // initialized by the time this code executes. If not, set up a callback
     // for the first shiny:idle event.
-    if (Shiny && Shiny.shinyapp && Shiny.shinyapp.config &&
-        Shiny.shinyapp.config.sessionId)
+    if (typeof Shiny !== "undefined" && Shiny.shinyapp &&
+        Shiny.shinyapp.config && Shiny.shinyapp.config.sessionId)
     {
         shinytest.connected = true;
         shinytest.log("already connected");
