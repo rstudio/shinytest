@@ -246,16 +246,25 @@ window.shinytest = (function() {
         };
     };
 
-    // Check if we're already connected by the time this code executes.
-    if (Shiny && Shiny.shinyapp && Shiny.shinyapp.isConnected()) {
+    // Check if we're already connected and the Shiny session has been
+    // initialized by the time this code executes. If not, set up a callback
+    // for the first shiny:idle event.
+    if (Shiny && Shiny.shinyapp && Shiny.shinyapp.config &&
+        Shiny.shinyapp.config.sessionId)
+    {
         shinytest.connected = true;
         shinytest.log("already connected");
-    }
 
-    $(document).on("shiny:connected", function(e) {
-        shinytest.connected = true;
-        shinytest.log("connected");
-    });
+    } else {
+        // Use one("shiny:idle") instead of on("shiny:connected") because the
+        // connected event is actually fired earlier than we need, and relying on
+        // it can result in a race condition. See
+        // https://github.com/rstudio/shiny/pull/1568 for more information.
+        $(document).one("shiny:idle", function(e) {
+            shinytest.connected = true;
+            shinytest.log("connected");
+        });
+    }
 
     $(document).on("shiny:busy", function(e) {
         shinytest.busy = true;
