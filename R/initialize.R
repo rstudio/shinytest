@@ -3,10 +3,10 @@
 #' @importFrom webdriver Session
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
-                          debug, phantom_debug_level) {
+                          debug, phantomTimeout) {
 
   "!DEBUG get phantom port (starts phantom if not running)"
-  private$phantomPort <- get_phantomPort()
+  private$phantomPort <- get_phantomPort(timeout = phantomTimeout)
 
   if (grepl("^http(s?)://", path)) {
     private$setShinyUrl(path)

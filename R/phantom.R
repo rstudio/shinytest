@@ -3,9 +3,9 @@ phantom_env <- new.env()
 
 #' @importFrom webdriver run_phantomjs
 
-get_phantomPort <- function() {
+get_phantomPort <- function(timeout = 5000) {
   if (! is_phantom_alive()) {
-    ph <- run_phantomjs()
+    ph <- run_phantomjs(timeout = timeout)
     phantom_env$process <- ph$process
     phantom_env$port <- ph$port
   }

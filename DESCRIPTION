@@ -22,7 +22,7 @@ Imports:
     shiny (>= 0.14.2),
     testthat (>= 1.0.0),
     utils,
-    webdriver (>= 1.0.2),
+    webdriver (>= 1.0.2.9000),
     withr
 Remotes:
     gaborcsardi/debugme,
