@@ -84,9 +84,9 @@ widget.
 \code{w$listTabs} lists the tab names of a \code{tabsetPanel} widget.
 It fails for other types of widgets.
 }
+
 \examples{
 {
 
 }
 }
-

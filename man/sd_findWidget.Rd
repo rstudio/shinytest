@@ -21,4 +21,3 @@ knowing whether it is an input or output element.}
 Try to deduce the shiny input/output element type from its name
 }
 \keyword{internal}
-

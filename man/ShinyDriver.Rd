@@ -56,6 +56,8 @@ app$expectUpdate(output, ..., timeout = 3000,
      pair.}
   \item{loadTimeout}{How long to wait for the app to load, in ms.
      This includes the time to start R.}
+  \item{phantomTimeout}{How long to wait when connecting to phantomJS
+     process, in ms.}
   \item{checkNames}{Whether to check if widget names are unique in the
      app.}
   \item{debug}{Whether to start the app in debugging mode. In debugging
@@ -183,6 +185,7 @@ waits for the specified output widgets to update. The test succeeds if
 all specified output widgets are updated before the timeout. For
 updates that involve a lot of computation, you increase the timeout.
 }
+
 \examples{
 \dontrun{
 ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
@@ -192,4 +195,3 @@ expectUpdate(app, ycol = "Petal.Width", output = "plot1")
 expectUpdate(app, clusters = 4, output = "plot1")
 }
 }
-

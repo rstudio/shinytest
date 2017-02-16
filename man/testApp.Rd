@@ -16,4 +16,3 @@ scripts in the tests/ directory will be run.}
 \description{
 Run tests for a Shiny application
 }
-

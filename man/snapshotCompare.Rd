@@ -24,4 +24,3 @@ any differences to the console.
 
 Update expected snapshot with current snapshot
 }
-

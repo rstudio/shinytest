@@ -18,4 +18,3 @@ script should be appropriate for load testing.}
 \description{
 Launch test event recorder for a Shiny app
 }
-
