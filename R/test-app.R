@@ -35,4 +35,6 @@ testApp <- function(appDir = ".", files = NULL) {
       })
     })
   })
+
+  res
 }
