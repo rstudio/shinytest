@@ -28,6 +28,7 @@ sd_getSource <- function(self, private) {
 
 sd_takeScreenshot <- function(self, private, file) {
   "!DEBUG sd_takeScreenshot"
+  self$logEvent("Taking screenshot")
   private$web$takeScreenshot(file)
 }
 

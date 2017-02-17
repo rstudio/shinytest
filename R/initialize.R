@@ -5,7 +5,10 @@
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
                           debug, phantomTimeout) {
 
+  self$logEvent("Start ShinyDriver initialization")
+
   "!DEBUG get phantom port (starts phantom if not running)"
+  self$logEvent("Getting PhantomJS port")
   private$phantomPort <- get_phantomPort(timeout = phantomTimeout)
 
   if (grepl("^http(s?)://", path)) {
@@ -13,10 +16,12 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 
   } else {
     "!DEBUG starting shiny app from path"
+    self$logEvent("Starting Shiny app")
     private$startShiny(path)
   }
 
   "!DEBUG create new phantomjs session"
+  self$logEvent("Creating new phantomjs session")
   private$web <- Session$new(port = private$phantomPort)
 
   ## Set implicit timeout to zero. According to the standard it should
@@ -24,14 +29,17 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   private$web$setTimeout(implicit = 0)
 
   "!DEBUG navigate to Shiny app"
+  self$logEvent("Navigating to Shiny app")
   private$web$go(private$getShinyUrl())
 
   "!DEBUG inject shiny-tracer.js"
+  self$logEvent("Injecting shiny-tracer.js")
   js_file <- system.file("js", "shiny-tracer.js", package = "shinytest")
   js <- readChar(js_file, file.info(js_file)$size, useBytes = TRUE)
   private$web$executeScript(js)
 
   "!DEBUG wait until Shiny starts"
+  self$logEvent("Waiting until Shiny app starts")
   load_ok <- private$web$waitFor(
     'window.shinytest && window.shinytest.connected === true',
     timeout = loadTimeout
@@ -39,6 +47,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   if (!load_ok) stop("Shiny app did not load in ", loadTimeout, "ms")
 
   "!DEBUG shiny started"
+  self$logEvent("Shiny app started")
   private$state <- "running"
 
   private$setupDebugging(debug)

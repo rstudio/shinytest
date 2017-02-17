@@ -1,20 +1,16 @@
 sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                         timeout_ = 3000, timing_ = FALSE) {
+                         timeout_ = 3000) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")
   }
-  if (timing_ && !wait_) {
-    stop("timing_=TRUE and wait_=FALSE are not compatible.",
-      "Can't return timing information without waiting for update.")
-  }
 
-  if (timing_) time_start <- Sys.time()
+  self$logEvent("Setting inputs",
+    input = paste(names(list(...)), collapse = ",")
+  )
 
   private$queueInputs(...)
   res <- private$flushInputs(wait_, timeout_)
-
-  if (timing_) time_end <- Sys.time()
 
   if (isTRUE(res$timedOut)) {
     message("setInputs: Server did not update any output values within ",
@@ -22,27 +18,18 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
       " seconds. If this is expected, use `wait_=FALSE, values_=FALSE`, or increase the value of timeout_.")
   }
 
+  self$logEvent("Finished setting inputs", timedout = res$timedOut)
 
   values <- NULL
   if (values_) {
     values <- self$getAllValues()
   }
 
-  if (timing_) {
-    if (is.null(values))
-      values <- list()
-
-    values$timing <- data.frame(stringsAsFactors = FALSE,
-      event    = "setInputs",
-      start    = time_start,
-      end      = time_end,
-      duration = as.numeric(time_end - time_start, units = "secs"),
-      timedout = res$timedOut
-    )
-  }
 
   invisible(values)
 }
+
+
 
 sd_queueInputs <- function(self, private, ...) {
   inputs <- list(...)
@@ -85,6 +72,8 @@ sd_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     timeout_
   )
 
+  self$logEvent("Uploading file", input = inputs[[1]])
+
   self$findWidget(names(inputs)[1])$uploadFile(inputs[[1]])
 
   res <- private$web$executeScriptAsync(
@@ -93,6 +82,8 @@ sd_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     shinytest.outputValuesWaiter.finish(wait, callback);",
     wait_
   )
+
+  self$logEvent("Finished uploading file")
 
   if (values_)
     self$getAllValues()

@@ -231,6 +231,14 @@ ShinyDriver <- R6Class(
     enableDebugLogMessages = function(enable = TRUE)
       sd_enableDebugLogMessages(self, private, enable),
 
+    ## Event logging
+
+    logEvent = function(event, ...)
+      sd_logEvent(self, private, event, ...),
+
+    getEventLog = function()
+      sd_getEventLog(self, private),
+
     ## These are just forwarded to the webdriver session
 
     getUrl = function()
@@ -281,11 +289,9 @@ ShinyDriver <- R6Class(
       sd_expectUpdate(self, private, output, ..., timeout = timeout,
                        iotype = match.arg(iotype)),
 
-    setInputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000,
-                         timing_ = FALSE)
-    {
+    setInputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000) {
       sd_setInputs(self, private, ..., wait_ = wait_, values_ = values_,
-                    timeout_ = timeout_, timing_ = timing_)
+                    timeout_ = timeout_)
     },
 
     uploadFile = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
@@ -328,6 +334,7 @@ ShinyDriver <- R6Class(
     shinyTestSnapshotBaseUrl = NULL,   # URL for shiny's test API
     snapshotDir = "snapshot",          # Directory for storing test artifacts
     snapshotCount = 0,
+    eventLog = list(),
 
     startShiny = function(path)
       sd_startShiny(self, private, path),
@@ -393,14 +400,14 @@ sd_setWindowSize <- function(self, private, width, height) {
 sd_stop <- function(self, private) {
   "!DEBUG sd_stop"
 
-  ## first, disconnect the phantomJS
-  ## session from the app
+  self$logEvent("Closing PhantomJS session")
   private$web$delete()
 
-  ## then, if the app is being hosted
-  ## locally, kill the process
-  if (!is.null(private$shinyProcess))
+  # If the app is being hosted locally, kill the process.
+  if (!is.null(private$shinyProcess)) {
+    self$logEvent("Killing Shiny process")
     private$shinyProcess$kill()
+  }
 
   private$state <- "stopped"
   invisible(self)

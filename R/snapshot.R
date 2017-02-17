@@ -35,6 +35,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   if (is.null(items$export)) items$export <- FALSE
 
   # Take snapshot -------------------------------------------------------------
+  self$logEvent("Taking snapshot")
   url <- private$getTestSnapshotUrl(items$input, items$output, items$export)
   req <- httr::GET(url)
 
