@@ -147,7 +147,7 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
 
   paste(
     if (load_mode) {
-      'app <- ShinyLoadDriver$new("APPLICATION_URL")'
+      'app <- ShinyLoadDriver$new()'
     } else {
       'app <- ShinyDriver$new("..")'
     },
@@ -155,7 +155,7 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
     '',
     eventCode,
     if (load_mode) {
-      '\napp$snapshot()\napp$stop()\n'
+      '\napp$snapshot()\napp$stop()\napp$getEventLog()\n'
     } else {
       '\napp$snapshotCompare()\n'
     },
