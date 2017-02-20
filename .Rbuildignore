@@ -5,3 +5,4 @@
 ^.travis.yml$
 ^appveyor.yml$
 ^travis_phantomjs$
+^docs$
