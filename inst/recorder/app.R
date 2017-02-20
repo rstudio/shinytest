@@ -181,7 +181,7 @@ shinyApp(
         textInput("testname", label = "Name of tests",
           value = if (load_mode) "myloadtest" else "mytests"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
-        if (!load_mode) checkboxInput("runScript", "Run test script on exit")
+        if (!load_mode) checkboxInput("runScript", "Run test script on exit", value = TRUE)
       ),
       div(class = "recorded-events-header", "Recorded events"),
       div(id = "recorded-events",
