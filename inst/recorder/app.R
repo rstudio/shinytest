@@ -80,7 +80,10 @@ quoteName <- function(name) {
 
 codeGenerators <- list(
   input = function(event) {
-    if (event$inputType == "shiny.fileupload") {
+    if (!event$hasBinding) {
+      paste0("# Input '", quoteName(event$name), "' was set, but doesn't have an input binding.")
+
+    } else if (event$inputType == "shiny.fileupload") {
       # Special case for file uploads
       paste0(
         "app$uploadFile(",

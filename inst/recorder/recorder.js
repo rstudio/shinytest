@@ -19,7 +19,8 @@ window.shinyRecorder = (function() {
             return;
         previousInputValues[event.name] = valueJSON;
 
-        sendInputEventToParent(event.inputType, event.name, event.value);
+        var hasBinding = !!event.binding;
+        sendInputEventToParent(event.inputType, event.name, event.value, hasBinding);
     });
 
     $(document).on("shiny:filedownload", function(event) {
@@ -38,10 +39,15 @@ window.shinyRecorder = (function() {
     });
 
 
-    function sendInputEventToParent(inputType, name, value) {
+    function sendInputEventToParent(inputType, name, value, hasBinding) {
         parent.postMessage({
             token: shinyrecorder.token,
-            inputEvent: { inputType: inputType, name: name, value: value }
+            inputEvent: {
+                inputType: inputType,
+                name: name,
+                value: value,
+                hasBinding: hasBinding
+             }
         }, "*");
     }
 

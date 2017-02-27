@@ -104,6 +104,7 @@ window.recorder = (function() {
                     inputType: evt.inputType,
                     name: evt.name,
                     value: evt.value,
+                    hasBinding: evt.hasBinding,
                     time: Date.now()
                 });
 
