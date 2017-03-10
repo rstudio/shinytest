@@ -27,6 +27,12 @@ window.shinyRecorder = (function() {
         sendFileDownloadEventToParent(event.name);
     });
 
+    $(document).on("shiny:value", function(event) {
+        // For now, we only care _that_ outputs have changed, but not what
+        // they are.
+        sendOutputEventToParentDebounced();
+    });
+
     // Ctrl-click or Cmd-click (Mac) to record an output value
     $(document).on("click", ".shiny-bound-output", function(e) {
         if (!(e.ctrlKey || e.metaKey))
@@ -38,6 +44,18 @@ window.shinyRecorder = (function() {
         sendOutputValueToParent(id, value);
     });
 
+
+    function debounce(f, delay) {
+        var timer = null;
+        return function() {
+            var context = this;
+            var args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                f.apply(context, args);
+            }, delay);
+        };
+    }
 
     function sendInputEventToParent(inputType, name, value, hasBinding) {
         parent.postMessage({
@@ -57,6 +75,18 @@ window.shinyRecorder = (function() {
             fileDownload: { name: name }
         }, "*");
     }
+
+    function sendOutputEventToParent() {
+        parent.postMessage({
+            token: shinyrecorder.token,
+            outputEvent: {}
+        }, "*");
+    }
+
+    // If multiple outputs are updated in a single reactive flush, the JS
+    // output events will all happen in a single tick. Debouncing for one tick
+    // will collapse them into a single call to sendOutputEventToParent().
+    var sendOutputEventToParentDebounced = debounce(sendOutputEventToParent, 10);
 
     function sendOutputValueToParent(name, value) {
         parent.postMessage({

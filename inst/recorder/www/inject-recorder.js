@@ -125,6 +125,18 @@ window.recorder = (function() {
                 Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
 
+            if (message.outputEvent) {
+                // We currently only care that an output event has happened,
+                // but not its value.
+                recorder.testEvents.push({
+                    type: "outputEvent",
+                    time: Date.now()
+                });
+
+                // Send updated values to server
+                Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+            }
+
             if (message.outputValue) {
                 evt = message.outputValue;
 

@@ -106,6 +106,10 @@ codeGenerators <- list(
     paste0('app$snapshotDownload("', event$name, '")')
   },
 
+  outputEvent = function(event) {
+    ""
+  },
+
   outputValue = function(event) {
     paste0('app$snapshot(list(output = "', event$name, '"))')
   },
@@ -132,6 +136,10 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
     codeGenerators[[event$type]](event)
   }, "")
 
+  # Find the indices of output events. The code lines and (optional)
+  # Sys.sleep() calls for these events will be removed later. We need the
+  # output events for now in order to calculate times.
+  outputEvents <- vapply(events, function(event) event$type == "outputEvent", logical(1))
 
   if (length(eventCode) != 0) {
     if (useTimes) {
@@ -139,10 +147,16 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
         sprintf("Sys.sleep(%0.1f)", event$timediff / 1000)
       }, "")
 
-      # Shift timingCode entries left by one
-      timingCode <- c(timingCode[-1], "")
+      # Remove output events
+      eventCode  <- eventCode[!outputEvents]
+      timingCode <- timingCode[!outputEvents]
+
       # Interleave events and times with c(rbind()) trick
-      eventCode <- c(rbind(eventCode, timingCode))
+      eventCode <- c(rbind(timingCode, eventCode))
+
+    } else {
+      # Remove output events
+      eventCode  <- eventCode[!outputEvents]
     }
 
     eventCode <- paste(eventCode, collapse = "\n")
@@ -233,6 +247,8 @@ shinyApp(
             }
           } else if (type == "fileDownload") {
             list(type = "file-download", name = event$name)
+          } else if (type == "outputEvent") {
+            list(type = "output-event", name = "--")
           }
         })
 
