@@ -79,6 +79,9 @@ quoteName <- function(name) {
 }
 
 codeGenerators <- list(
+  initialize = function(event) {
+    NA_character_
+  },
   input = function(event) {
     if (!event$hasBinding) {
       paste0("# Input '", quoteName(event$name), "' was set, but doesn't have an input binding.")
@@ -107,7 +110,7 @@ codeGenerators <- list(
   },
 
   outputEvent = function(event) {
-    ""
+     NA_character_
   },
 
   outputValue = function(event) {
@@ -136,10 +139,12 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
     codeGenerators[[event$type]](event)
   }, "")
 
-  # Find the indices of output events. The code lines and (optional)
-  # Sys.sleep() calls for these events will be removed later. We need the
-  # output events for now in order to calculate times.
-  outputEvents <- vapply(events, function(event) event$type == "outputEvent", logical(1))
+  # Find the indices of the initialize event and output events. The code lines
+  # and (optional) Sys.sleep() calls for these events will be removed later.
+  # We need the output events for now in order to calculate times.
+  removeEvents <- vapply(events, function(event) {
+    event$type %in% c("initialize", "outputEvent")
+  }, logical(1))
 
   if (length(eventCode) != 0) {
     if (useTimes) {
@@ -147,16 +152,16 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
         sprintf("Sys.sleep(%0.1f)", event$timediff / 1000)
       }, "")
 
-      # Remove output events
-      eventCode  <- eventCode[!outputEvents]
-      timingCode <- timingCode[!outputEvents]
+      # Remove unwanted events
+      eventCode  <- eventCode[!removeEvents]
+      timingCode <- timingCode[!removeEvents]
 
       # Interleave events and times with c(rbind()) trick
       eventCode <- c(rbind(timingCode, eventCode))
 
     } else {
-      # Remove output events
-      eventCode  <- eventCode[!outputEvents]
+      # Remove unwanted events
+      eventCode  <- eventCode[!removeEvents]
     }
 
     eventCode <- paste(eventCode, collapse = "\n")
@@ -234,7 +239,9 @@ shinyApp(
         events <- lapply(input$testevents, function(event) {
           type <- event$type
 
-          if (type == "outputValue") {
+          if (type == "initialize") {
+            NULL
+          } else if (type == "outputValue") {
             list(type = "snapshot-output", name = event$name)
           } else if (type == "snapshot") {
             list(type = "snapshot", name = "<all>")
@@ -251,6 +258,8 @@ shinyApp(
             list(type = "output-event", name = "--")
           }
         })
+
+        events <- events[!vapply(events, is.null, logical(1))]
 
         # Transpose list of lists into data frame
         data.frame(

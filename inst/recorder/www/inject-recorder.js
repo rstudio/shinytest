@@ -91,7 +91,13 @@ window.recorder = (function() {
             if (message.frameReady) {
                 console.log("Frame is ready.");
                 status.frameReady = true;
+
+                recorder.testEvents.push({
+                    type: "initialize",
+                    time: Date.now()
+                });
             }
+
             if (message.inputEvent) {
                 evt = message.inputEvent;
 
