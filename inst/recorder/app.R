@@ -79,19 +79,42 @@ quoteName <- function(name) {
 }
 
 codeGenerators <- list(
-  initialize = function(event) {
+  initialize = function(event, nextEvent = NULL, useTimes = FALSE) {
     NA_character_
   },
-  input = function(event) {
-    if (!event$hasBinding) {
-      paste0("# Input '", quoteName(event$name), "' was set, but doesn't have an input binding.")
 
-    } else if (event$inputType == "shiny.fileupload") {
+  input = function(event, nextEvent = NULL, useTimes = FALSE) {
+    if (!event$hasBinding) {
+      return(paste0(
+        "# Input '", quoteName(event$name),
+        "' was set, but doesn't have an input binding."
+      ))
+    }
+
+    # Extra arguments when using times
+    args <- ""
+    if (useTimes && !is.null(nextEvent)) {
+      if (nextEvent$type == "input") {
+        # When using timings, don't wait when next event is also setting an input.
+        args <- ", values_ = FALSE, wait_ = FALSE"
+
+      } else if (nextEvent$type == "outputEvent") {
+        # When the next event is an output event, use 3 * the timediff value
+        # (rounded to the nearest whole number) for the timeout, or 3 seconds,
+        # whichever is larger.
+          args <- paste0(", timeout_ = ",
+          max(3000, round(nextEvent$timediff * 3, -3))
+        )
+      }
+    }
+
+    if (event$inputType == "shiny.fileupload") {
       # Special case for file uploads
       paste0(
         "app$uploadFile(",
         quoteName(event$name), " = ",
         processInputValue(event$value, event$inputType),
+        argss,
         ")"
       )
 
@@ -100,24 +123,25 @@ codeGenerators <- list(
         "app$setInputs(",
         quoteName(event$name), " = ",
         processInputValue(event$value, event$inputType),
+        args,
         ")"
       )
     }
   },
 
-  fileDownload = function(event) {
+  fileDownload = function(event, nextEvent = NULL, useTimes = FALSE) {
     paste0('app$snapshotDownload("', event$name, '")')
   },
 
-  outputEvent = function(event) {
+  outputEvent = function(event, nextEvent = NULL, useTimes = FALSE) {
      NA_character_
   },
 
-  outputValue = function(event) {
+  outputValue = function(event, nextEvent = NULL, useTimes = FALSE) {
     paste0('app$snapshot(list(output = "', event$name, '"))')
   },
 
-  snapshot = function(event) {
+  snapshot = function(event, nextEvent = NULL, useTimes = FALSE) {
     "app$snapshot()"
   }
 )
@@ -135,9 +159,14 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
   }
 
   # Generate code for each input and output event
-  eventCode <- vapply(events, function(event) {
-    codeGenerators[[event$type]](event)
-  }, "")
+  eventCode <- mapply(
+    function(event, nextEvent, useTimes) {
+      codeGenerators[[event$type]](event, nextEvent, useTimes)
+    },
+    events,
+    c(events[-1], list(NULL)),
+    useTimes
+  )
 
   # Find the indices of the initialize event and output events. The code lines
   # and (optional) Sys.sleep() calls for these events will be removed later.
