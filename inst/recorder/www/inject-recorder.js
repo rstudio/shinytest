@@ -91,7 +91,13 @@ window.recorder = (function() {
             if (message.frameReady) {
                 console.log("Frame is ready.");
                 status.frameReady = true;
+
+                recorder.testEvents.push({
+                    type: "initialize",
+                    time: Date.now()
+                });
             }
+
             if (message.inputEvent) {
                 evt = message.inputEvent;
 
@@ -118,6 +124,18 @@ window.recorder = (function() {
                 recorder.testEvents.push({
                     type: "fileDownload",
                     name: evt.name,
+                    time: Date.now()
+                });
+
+                // Send updated values to server
+                Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+            }
+
+            if (message.outputEvent) {
+                // We currently only care that an output event has happened,
+                // but not its value.
+                recorder.testEvents.push({
+                    type: "outputEvent",
                     time: Date.now()
                 });
 
