@@ -5,6 +5,10 @@ sd_getAllValues <- function(self, private, input, output, export) {
   self$logEvent("Getting all values")
   tmpfile <- tempfile("shinytest_values", fileext = ".rds")
   req <- httr::GET(url)
+  if (req$status_code != 200) {
+    stop("Unable to fetch all values from server. Is target app running with options(shiny.testmode=TRUE?)")
+  }
+
   writeBin(req$content, tmpfile)
   on.exit(unlink(tmpfile))
 
