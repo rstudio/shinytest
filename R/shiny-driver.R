@@ -334,6 +334,7 @@ ShinyDriver <- R6Class(
     shinyTestSnapshotBaseUrl = NULL,   # URL for shiny's test API
     snapshotDir = "snapshot",          # Directory for storing test artifacts
     snapshotCount = 0,
+    shinyWorkerId = NA_character_,
     eventLog = list(),
 
     startShiny = function(path)

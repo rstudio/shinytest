@@ -52,6 +52,12 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 
   private$setupDebugging(debug)
 
+  private$shinyWorkerId <- private$web$executeScript(
+    'return Shiny.shinyapp.config.workerId'
+  )
+  if (identical(private$shinyWorkerId, ""))
+    private$shinyWorkerId <- NA_character_
+
   private$shinyTestSnapshotBaseUrl <- private$web$executeScript(
     'if (Shiny.shinyapp.getTestSnapshotBaseUrl)
       return Shiny.shinyapp.getTestSnapshotBaseUrl({ fullUrl:true });

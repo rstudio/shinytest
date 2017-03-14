@@ -25,5 +25,8 @@ sd_getEventLog <- function(self, private) {
     do.call(c, col)
   })
 
+  # Add workerId as first column
+  vecs <- c(workerid = private$shinyWorkerId, vecs)
+
   as.data.frame(vecs, stringsAsFactors = FALSE)
 }
