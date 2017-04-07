@@ -30,3 +30,5 @@ Remotes:
     rstudio/webdriver
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
+Suggests: doParallel,
+    foreach
