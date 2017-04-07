@@ -103,7 +103,7 @@ sd_startShiny <- function(self, private, path) {
 
   sh <- with_envvar(
     c("R_TESTS" = NA),
-    process$new(commandline = cmd)
+    process$new(commandline = cmd, stderr = "|")
   )
 
   "!DEBUG waiting for shiny to start"
