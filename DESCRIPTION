@@ -26,7 +26,7 @@ Imports:
     withr
 Remotes:
     gaborcsardi/debugme,
-    MangoTheCat/processx,
+    r-pkgs/processx,
     rstudio/webdriver
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
