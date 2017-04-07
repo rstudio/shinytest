@@ -18,7 +18,10 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
       " seconds. If this is expected, use `wait_=FALSE, values_=FALSE`, or increase the value of timeout_.")
   }
 
-  self$logEvent("Finished setting inputs", timedout = res$timedOut)
+  self$logEvent("Finished setting inputs",
+    input = paste(names(list(...)), collapse = ","),
+    timedout = res$timedOut
+  )
 
   values <- NULL
   if (values_) {
