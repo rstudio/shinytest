@@ -1,0 +1,14 @@
+dependencies:
+  - name: diff2html
+    version: 2.3.0
+    src: "htmlwidgets/lib/diff2html"
+    script:
+      - diff2html.min.js
+      - diff2html-ui.min.js
+    stylesheet:
+      - diff2html.min.css
+  - name: jsdiff
+    version: 3.2.0
+    src: "htmlwidgets/lib/jsdiff"
+    script:
+      - diff.js
