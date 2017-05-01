@@ -20,17 +20,21 @@ diffviewer = (function() {
     };
 
     dv.render = function(message) {
-      var diff_str = message.diff_data.map(function(x) {
-        return JsDiff.createPatch(x.filename, x.old, x.new, "", "");
+      message.diff_data.map(function(x, idx) {
+        var diff_str = JsDiff.createPatch(x.filename, x.old, x.new, "", "");
+
+        // Append element for current diff
+        var diff_el = document.createElement("div");
+        diff_el.id  = dv.id + "-file" + idx;
+        dv.el.appendChild(diff_el);
+
+        // Show diff
+        var diff2htmlUi = new Diff2HtmlUI({ diff: diff_str });
+        diff2htmlUi.draw("#" + diff_el.id, {
+          showFiles: false
+        });
       });
 
-      diff_str = diff_str.join("\n");
-
-      var diff2htmlUi = new Diff2HtmlUI({ diff: diff_str });
-      diff2htmlUi.draw("#" + dv.id, {
-        showFiles: true
-        // outputFormat: "side-by-side" 
-      });
     };
 
     return dv;
