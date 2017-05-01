@@ -114,7 +114,7 @@ codeGenerators <- list(
         "app$uploadFile(",
         quoteName(event$name), " = ",
         processInputValue(event$value, event$inputType),
-        argss,
+        args,
         ")"
       )
 
