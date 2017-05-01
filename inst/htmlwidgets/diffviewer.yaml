@@ -1,4 +1,9 @@
 dependencies:
+  - name: jquery
+    version: 1.12.4
+    src: "htmlwidgets/lib/jquery"
+    script:
+      - jquery.min.js
   - name: diff2html
     version: 2.3.0
     src: "htmlwidgets/lib/diff2html"
