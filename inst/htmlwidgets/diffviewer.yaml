@@ -17,3 +17,7 @@ dependencies:
     src: "htmlwidgets/lib/jsdiff"
     script:
       - diff.js
+  - name: diffviewer-styles
+    version: 0.1
+    src: htmlwidgets/lib/diffviewer
+    stylesheet: diffviewer.css

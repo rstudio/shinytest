@@ -43,8 +43,16 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL, pattern = N
   # Also, make it work with file lists in general.
 
   get_file_contents <- function(filename) {
-    if (file.exists(filename)) {
-      rawToChar(readBin(filename, 'raw', n = file.info(filename)$size))
+    if (!file.exists(filename)) {
+      return("")
+    }
+
+    bin_data <- readBin(filename, "raw", n = file.info(filename)$size)
+
+    if (grepl("\\.json$", filename)) {
+      rawToChar(bin_data)
+    } else if (grepl("\\.png$", filename)) {
+      paste0("data:image/png;base64,", jsonlite::base64_enc(bin_data))
     } else {
       ""
     }
