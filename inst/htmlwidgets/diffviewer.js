@@ -62,6 +62,43 @@ diffviewer = (function() {
 
   function create_image_diff(el, old_img, new_img) {
     var $wrapper = $(
+      '<div>' +
+        '<span class="image-diff-button" data-button="slider">Slider</span>' +
+        '<span class="image-diff-button" data-button="difference">Difference</span>' +
+        '<span class="image-diff-button" data-button="toggle">Toggle</span>' +
+        '<div></div>' +
+      '</div>'
+    )
+    $(el).append($wrapper);
+
+    $wrapper.on("mousedown", ".image-diff-button", function(e) {
+      var $el = $(this);
+      if ($el.hasClass("image-diff-button-selected")) return;
+
+      var $container = $wrapper.children("div");
+
+      $wrapper.find(".image-diff-button").removeClass("image-diff-button-selected");
+      $el.addClass("image-diff-button-selected");
+
+      $container.empty();
+
+      var button_type = $el.data("button");
+      if (button_type == "slider") {
+        create_image_slider($container, old_img, new_img);
+
+      } else if (button_type == "difference") {
+
+      } else if (button_type == "toggle") {
+
+      }
+    });
+
+    // Start with slider selected
+    $wrapper.children('span[data-button="slider"]').trigger("mousedown");
+  }
+
+  function create_image_slider(el, old_img, new_img) {
+    var $wrapper = $(
       '<div class="image-slider">' +
         '<div class="image-slider-right"><img></img></div>' +
         '<div class="image-slider-left"><img></img></div>' +
@@ -72,10 +109,10 @@ diffviewer = (function() {
     $wrapper.find(".image-slider-left > img").attr("src", old_img);
     $(el).append($wrapper);
 
-    addImageSlider(el);
+    add_image_slider(el);
   }
 
-  function addImageSlider(el) {
+  function add_image_slider(el) {
     var $el = $(el);
     var $left_image  = $el.find(".image-slider-left");
     var $right_image = $el.find(".image-slider-right");
