@@ -68,7 +68,7 @@ diffviewer = (function() {
         '<span class="image-diff-button" data-button="toggle">Toggle</span>' +
         '<div></div>' +
       '</div>'
-    )
+    );
     $(el).append($wrapper);
 
     $wrapper.on("mousedown", ".image-diff-button", function(e) {
@@ -89,7 +89,7 @@ diffviewer = (function() {
       } else if (button_type == "difference") {
 
       } else if (button_type == "toggle") {
-
+        create_image_toggle($container, old_img, new_img);
       }
     });
 
@@ -127,11 +127,11 @@ diffviewer = (function() {
 
 
       $(window).on("mousemove.image-slider", function(e) {
-        var x = e.pageX
+        var x = e.pageX;
 
         // Constrain mouse position to within image div
-        x = Math.max(x, $right_image.offset().left)
-        x = Math.min(x, $right_image.offset().left + $right_image.outerWidth())
+        x = Math.max(x, minX);
+        x = Math.min(x, maxX);
 
         var dx = x - lastX;
 
@@ -152,7 +152,128 @@ diffviewer = (function() {
         $(window).off("mousemove.image-slider");
       });
     });
+  }
 
+  function create_image_toggle(el, old_img, new_img) {
+    var $wrapper = $(
+      '<div class="image-toggle">' +
+        '<div class="image-toggle-old"><img></img></div>' +
+        '<div class="image-toggle-new"><img></img></div>' +
+      '</div>'
+    );
+    $wrapper.find(".image-toggle-old > img").attr("src", old_img);
+    $wrapper.find(".image-toggle-new > img").attr("src", new_img);
+    $(el).append($wrapper);
+
+    // Add controls
+    var $controls = $(el).append(
+      '<div class="image-toggle-controls">' +
+        '<div>' +
+          '<span class="image-toggle-button image-toggle-button-old">Old</span>' +
+          '<span class="image-toggle-button image-toggle-button-new">New</span>' +
+        '</div>' +
+        '<div>' +
+          '<span class="image-toggle-button image-play-button">&#9654;</span>' +
+          '<input type="range" min="0.25" max="2" value="0.75" step="0.25">' +
+          '<span class="image-toggle-delay"></span>' +
+        '</div>' +
+      '</div>'
+    );
+
+    var $new_image = $wrapper.find(".image-toggle-new");
+
+    var $new_button = $controls.find(".image-toggle-button-new");
+    var $old_button = $controls.find(".image-toggle-button-old");
+
+
+    var new_visible = true;
+    function toggle_new_visible() {
+      if (new_visible) {
+        hide_new();
+      } else {
+        show_new();
+      }
+    }
+
+    function show_new() {
+      $new_button.addClass("image-toggle-button-selected");
+      $old_button.removeClass("image-toggle-button-selected");
+
+      $new_image.show();
+      new_visible = true;
+    }
+
+    function hide_new() {
+      $old_button.addClass("image-toggle-button-selected");
+      $new_button.removeClass("image-toggle-button-selected");
+
+      $new_image.hide();
+      new_visible = false;
+    }
+
+
+    $wrapper.on("mousedown", function(e) {
+      if (e.which !== 1) return;
+      clear_play_button();
+      toggle_new_visible();
+    });
+
+    $new_button.on("mousedown", function(e) {
+      if (e.which !== 1) return;
+      clear_play_button();
+      show_new();
+    });
+
+    $old_button.on("mousedown", function(e) {
+      if (e.which !== 1) return;
+      clear_play_button();
+      hide_new();
+    });
+
+
+    var $play_button = $controls.find(".image-play-button");
+    $play_button.on("mousedown", function(e) {
+      // Make sure it's the left button
+      if (e.which !== 1) return;
+
+      if ($play_button.hasClass("image-toggle-button-selected")) {
+        clear_play_button();
+      } else {
+        $play_button.addClass("image-toggle-button-selected");
+        toggle_and_schedule_toggle();
+      }
+    });
+
+    function clear_play_button() {
+      $play_button.removeClass("image-toggle-button-selected");
+      clearTimeout(toggle_timer);
+    }
+
+
+    var $delay_slider = $controls.find('input[type="range"]');
+    var delay;
+    $delay_slider.on("input", function(e) {
+      delay = parseFloat(this.value);
+      $controls.find(".image-toggle-delay").text(delay + " s");
+    });
+
+
+    // Toggle visibility of new image, and schedule the same function to run
+    // again after delay, if play button is selected.
+    var toggle_timer;
+    function toggle_and_schedule_toggle() {
+      toggle_new_visible();
+
+      toggle_timer = setTimeout(function() {
+        if ($play_button.hasClass("image-toggle-button-selected")) {
+          toggle_and_schedule_toggle();
+        }
+      }, delay * 1000);
+    }
+
+
+    show_new();
+    $delay_slider.trigger("input");
   }
 
 

@@ -1,3 +1,20 @@
+.diffviewer .image-diff-button,
+.diffviewer .image-toggle-controls .image-toggle-button {
+    user-select: none;
+    padding: 8px;
+    margin: 3px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.diffviewer .image-diff-button-selected,
+.diffviewer .image-toggle-controls .image-toggle-button-selected {
+    background: #eee;
+    box-shadow: inset 0 0 10px rgba(1,1,1,.25);
+}
+
+
 .diffviewer .image-slider {
     position:relative;
     display: inline-block;
@@ -13,9 +30,16 @@
     width: 50%;
     max-width: 100%;
     overflow: hidden;
-    user-drag: none;
+    draggable: none;
     user-select: none;
     border-right: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+.diffviewer .image-slider img {
+    user-select: none;
+    max-width: 600px;
+    draggable: none;
+    user-select: none;
 }
 
 .diffviewer .image-slider > div.image-slider-handle {
@@ -27,24 +51,56 @@
     cursor: ew-resize;
 }
 
-.diffviewer .image-slider img {
+
+.diffviewer .image-toggle {
+    position:relative;
+    display: inline-block;
+    line-height: 0;
+    box-shadow: 1px 2px 20px -2px rgba(0, 0, 0, 0.25);
+}
+
+.diffviewer .image-toggle > div.image-toggle-new {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    user-drag: none;
     user-select: none;
-    max-width: 400px;
+}
+
+.diffviewer .image-toggle img {
+    user-select: none;
+    max-width: 600px;
     user-drag: none;
     user-select: none;
 }
 
 
-.diffviewer .image-diff-button {
-    user-select: none;
-    padding: 8px;
-    margin: 3px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    cursor: pointer;
+.diffviewer .image-toggle-controls {
+    display: inline-block;
+    vertical-align: top;
 }
 
-.diffviewer .image-diff-button-selected {
-    background: #eee;
-    box-shadow: inset 0 0 10px rgba(1,1,1,.25);
+.diffviewer .image-toggle-controls > div {
+    padding: 12px;
+}
+
+.diffviewer .image-toggle-controls .image-toggle-button-old {
+    padding: 8px;
+    margin: 3px 0 3px 3px;
+    border-radius: 3px 0 0 3px;
+}
+
+.diffviewer .image-toggle-controls .image-toggle-button-new {
+    padding: 8px;
+    margin: 3px 3px 3px -1px;
+    border-radius: 0 3px 3px 0;
+}
+
+.diffviewer .image-toggle-controls input[type="range"] {
+    width: 100px;
+    display: inline-block;
+    margin: 0 12px;
 }
