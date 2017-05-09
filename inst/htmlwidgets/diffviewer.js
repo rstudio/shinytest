@@ -38,7 +38,6 @@ diffviewer = (function() {
 
         } else if (is_image(x.old) && is_image(x.new)) {
           create_image_diff(diff_el, x.old, x.new);
-          console.log("image file: " + x.filename);
 
         } else {
 
@@ -62,20 +61,64 @@ diffviewer = (function() {
   }
 
   function create_image_diff(el, old_img, new_img) {
-    var wrapper = document.createElement("div");
-    wrapper.className = "image-slider";
-    el.appendChild(wrapper);
+    var $wrapper = $(
+      '<div class="image-slider">' +
+        '<div class="image-slider-right"><img></img></div>' +
+        '<div class="image-slider-left"><img></img></div>' +
+        '<div class="image-slider-handle"></div>' +
+      '</div>'
+    );
+    $wrapper.find(".image-slider-right > img").attr("src", new_img);
+    $wrapper.find(".image-slider-left > img").attr("src", old_img);
+    $(el).append($wrapper);
 
-    var div = document.createElement("div");
-    var img1 = document.createElement("img");
-    img1.src = old_img;
-    div.appendChild(img1);
+    addImageSlider(el);
+  }
 
-    var img2 = document.createElement("img");
-    img2.src = new_img;
-    wrapper.appendChild(img2);
+  function addImageSlider(el) {
+    var $el = $(el);
+    var $left_image  = $el.find(".image-slider-left");
+    var $right_image = $el.find(".image-slider-right");
+    var $handle      = $el.find(".image-slider-handle");
 
-    wrapper.appendChild(div);
+    $handle.on("mousedown", function(e) {
+      // Make sure it's the left button
+      if (e.which !== 1) return;
+
+      var lastX = e.pageX;
+
+      // Find minimum and maximum x values
+      var minX = $right_image.offset().left;
+      var maxX = minX + $right_image.outerWidth();
+
+
+      $(window).on("mousemove.image-slider", function(e) {
+        var x = e.pageX
+
+        // Constrain mouse position to within image div
+        x = Math.max(x, $right_image.offset().left)
+        x = Math.min(x, $right_image.offset().left + $right_image.outerWidth())
+
+        var dx = x - lastX;
+
+        // Move handle
+        $handle.offset({ left: $handle.offset().left + dx });
+        // Change width of div
+        $left_image.outerWidth($left_image.outerWidth() + dx);
+
+        lastX = x;
+      });
+
+      // Need to bind to window to detect mouseup events outside of browser
+       // window.
+      $(window).one("mouseup", function(e) {
+        // Make sure it's the left button
+        if (e.which !== 1) return;
+
+        $(window).off("mousemove.image-slider");
+      });
+
+    });
 
   }
 
