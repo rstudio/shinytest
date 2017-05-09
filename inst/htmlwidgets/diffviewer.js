@@ -109,14 +109,11 @@ diffviewer = (function() {
     $wrapper.find(".image-slider-left > img").attr("src", old_img);
     $(el).append($wrapper);
 
-    add_image_slider(el);
-  }
 
-  function add_image_slider(el) {
-    var $el = $(el);
-    var $left_image  = $el.find(".image-slider-left");
-    var $right_image = $el.find(".image-slider-right");
-    var $handle      = $el.find(".image-slider-handle");
+    // Add mouse event listener
+    var $left_image  = $wrapper.find(".image-slider-left");
+    var $right_image = $wrapper.find(".image-slider-right");
+    var $handle      = $wrapper.find(".image-slider-handle");
 
     $handle.on("mousedown", function(e) {
       // Make sure it's the left button
@@ -154,7 +151,6 @@ diffviewer = (function() {
 
         $(window).off("mousemove.image-slider");
       });
-
     });
 
   }
