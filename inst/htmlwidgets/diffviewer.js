@@ -105,8 +105,12 @@ diffviewer = (function() {
         '<div class="image-slider-handle"></div>' +
       '</div>'
     );
-    $wrapper.find(".image-slider-right > img").attr("src", new_img);
-    $wrapper.find(".image-slider-left > img").attr("src", old_img);
+    $wrapper.find(".image-slider-right > img")
+      .attr("src", new_img)
+      .on("dragstart", function () { return false; });
+    $wrapper.find(".image-slider-left > img")
+      .attr("src", old_img)
+      .on("dragstart", function () { return false; });
     $(el).append($wrapper);
 
 
@@ -161,8 +165,12 @@ diffviewer = (function() {
         '<div class="image-toggle-new"><img></img></div>' +
       '</div>'
     );
-    $wrapper.find(".image-toggle-old > img").attr("src", old_img);
-    $wrapper.find(".image-toggle-new > img").attr("src", new_img);
+    $wrapper.find(".image-toggle-old > img")
+      .attr("src", old_img)
+      .on("dragstart", function () { return false; });
+    $wrapper.find(".image-toggle-new > img")
+      .attr("src", new_img)
+      .on("dragstart", function () { return false; });
     $(el).append($wrapper);
 
     // Add controls

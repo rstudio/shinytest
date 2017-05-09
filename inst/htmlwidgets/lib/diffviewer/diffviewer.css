@@ -30,7 +30,6 @@
     width: 50%;
     max-width: 100%;
     overflow: hidden;
-    draggable: none;
     user-select: none;
     border-right: 1px solid rgba(255, 0, 0, 0.3);
 }
@@ -38,7 +37,6 @@
 .diffviewer .image-slider img {
     user-select: none;
     max-width: 600px;
-    draggable: none;
     user-select: none;
 }
 
