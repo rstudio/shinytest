@@ -102,7 +102,6 @@ diffviewer = (function() {
       '<div class="image-slider">' +
         '<div class="image-slider-right"><img></img></div>' +
         '<div class="image-slider-left"><img></img></div>' +
-        '<div class="image-slider-handle"></div>' +
       '</div>'
     );
     $wrapper.find(".image-slider-right > img")
@@ -117,34 +116,29 @@ diffviewer = (function() {
     // Add mouse event listener
     var $left_image  = $wrapper.find(".image-slider-left");
     var $right_image = $wrapper.find(".image-slider-right");
-    var $handle      = $wrapper.find(".image-slider-handle");
 
-    $handle.on("mousedown", function(e) {
+    $wrapper.on("mousedown", function(e) {
       // Make sure it's the left button
       if (e.which !== 1) return;
-
-      var lastX = e.pageX;
 
       // Find minimum and maximum x values
       var minX = $right_image.offset().left;
       var maxX = minX + $right_image.outerWidth();
 
-
-      $(window).on("mousemove.image-slider", function(e) {
-        var x = e.pageX;
-
+      function slide_to(x) {
         // Constrain mouse position to within image div
         x = Math.max(x, minX);
         x = Math.min(x, maxX);
 
-        var dx = x - lastX;
-
-        // Move handle
-        $handle.offset({ left: $handle.offset().left + dx });
         // Change width of div
-        $left_image.outerWidth($left_image.outerWidth() + dx);
+        $left_image.outerWidth(x - $left_image.offset().left);
+      }
 
-        lastX = x;
+      slide_to(e.pageX);
+
+      $(window).on("mousemove.image-slider", function(e) {
+        var x = e.pageX;
+        slide_to(x);
       });
 
       // Need to bind to window to detect mouseup events outside of browser
