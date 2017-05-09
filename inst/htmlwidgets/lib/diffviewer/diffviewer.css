@@ -1,6 +1,8 @@
 .diffviewer .image-diff-button,
 .diffviewer .image-toggle-controls .image-toggle-button {
     user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
     padding: 8px;
     margin: 3px;
     border: 1px solid #ccc;
@@ -31,13 +33,16 @@
     max-width: 100%;
     overflow: hidden;
     user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
     border-right: 1px solid rgba(255, 0, 0, 0.3);
 }
 
 .diffviewer .image-slider img {
-    user-select: none;
     max-width: 600px;
     user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 .diffviewer .image-slider > div.image-slider-handle {
@@ -64,15 +69,16 @@
     left: 0;
     max-width: 100%;
     overflow: hidden;
-    user-drag: none;
     user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 .diffviewer .image-toggle img {
-    user-select: none;
     max-width: 600px;
-    user-drag: none;
     user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 
