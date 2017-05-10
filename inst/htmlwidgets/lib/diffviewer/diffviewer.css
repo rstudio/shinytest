@@ -1,3 +1,9 @@
+.diffviewer .d2h-not-changed-tag {
+    color: #aaa;
+    border: #aaa 1px solid;
+}
+
+
 .diffviewer .image-diff {
     border: 1px solid #ddd;
     border-radius: 3px;

@@ -36,6 +36,14 @@ diffviewer = (function() {
             showFiles: false
           });
 
+          // diff2html adds a CHANGED label even if the file has not changed,
+          // so we need to manually make it show NOT CHANGED.
+          if (x.old === x.new) {
+            $(diff_el).find(".d2h-tag")
+              .addClass("d2h-not-changed-tag")
+              .text("NOT CHANGED");
+          }
+
         } else if (is_image(x.old) && is_image(x.new)) {
           create_image_diff(diff_el, x.filename, x.old, x.new);
 
