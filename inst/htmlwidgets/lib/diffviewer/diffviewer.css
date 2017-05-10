@@ -22,10 +22,13 @@
     display: inline-block;
     line-height: 0;
     cursor: ew-resize;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
     box-shadow: 1px 2px 20px -2px rgba(0, 0, 0, 0.25);
 }
 
-.diffviewer .image-slider > div.image-slider-left {
+.diffviewer .image-slider > .image-slider-left {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -33,17 +36,34 @@
     width: 50%;
     max-width: 100%;
     overflow: hidden;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
     border-right: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+
+.diffviewer .image-slider .image-slider-label {
+    position: absolute;
+    top: 0;
+    height: 25px;
+    width: 60px;
+    display: table;
+    vertical-align: middle;
+    text-align: center;
+    background: rgba(100, 100, 100, 0.4);
+    color: rgba(255, 255, 255, 0.85);
+}
+.diffviewer .image-slider > .image-slider-left .image-slider-label {
+    left: 0;
+}
+.diffviewer .image-slider > .image-slider-right .image-slider-label {
+    right: 0;
+}
+.diffviewer .image-slider .image-slider-label .image-slider-label-text{
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .diffviewer .image-slider img {
     max-width: 600px;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
 }
 
 

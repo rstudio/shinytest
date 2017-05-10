@@ -100,8 +100,18 @@ diffviewer = (function() {
   function create_image_slider(el, old_img, new_img) {
     var $wrapper = $(
       '<div class="image-slider">' +
-        '<div class="image-slider-right"><img></img></div>' +
-        '<div class="image-slider-left"><img></img></div>' +
+        '<div class="image-slider-right">' +
+          '<img></img>' +
+          '<div class="image-slider-label">' +
+            '<div class="image-slider-label-text">New</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="image-slider-left">' +
+          '<img></img>' +
+          '<div class="image-slider-label">' +
+            '<div class="image-slider-label-text">Old</div>' +
+          '</div>' +
+        '</div>' +
       '</div>'
     );
     $wrapper.find(".image-slider-right > img")
@@ -293,12 +303,12 @@ HTMLWidgets.widget({
   factory: function(el, width, height) {
 
     var dv = diffviewer.init(el);
-    
+
     return {
       renderValue: function(x) {
         dv.render(x);
       },
-      
+
       resize: function(width, height) {
       },
 
