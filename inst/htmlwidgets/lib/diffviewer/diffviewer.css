@@ -1,13 +1,35 @@
+.diffviewer .image-diff {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background: #f7f7f7;
+    font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    margin: 0 0 15px 0;
+}
+
+.image-diff .image-diff-filename {
+    line-height: 31px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+.image-diff .image-diff-controls {
+    padding: 5px 5px;
+    background: #f8fafd;
+}
+
 .diffviewer .image-diff-button,
 .diffviewer .image-toggle-controls .image-toggle-button {
+    display: inline-block;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    padding: 8px;
-    margin: 3px;
+    padding: 4px 8px;
+    margin: 0 6px 0 0;
     border: 1px solid #ccc;
     border-radius: 3px;
     cursor: pointer;
+    background: #fff;
 }
 
 .diffviewer .image-diff-button-selected,
@@ -16,12 +38,15 @@
 }
 
 .diffviewer .image-diff-container {
-    padding: 10px 0;
+    padding: 5px;
+    margin: 0 0 15px 0;
+    background: #f8fafd;
+    border-bottom: 1px solid #d8d8d8;
 }
 
 
 .diffviewer .image-slider {
-    position:relative;
+    position: relative;
     display: inline-block;
     line-height: 0;
     cursor: ew-resize;
@@ -107,7 +132,7 @@
 }
 
 .diffviewer .image-toggle-controls .image-toggle-button {
-    padding: 8px;
+    padding: 4px 8px;
     display: inline-block;
     text-align: center;
     vertical-align: middle;
@@ -125,8 +150,8 @@
 .diffviewer .image-toggle-controls .image-play-button {
     border-radius: 3px;
     width: 40px;
-    height: 40px;
-    line-height: 24px
+    height: 30px;
+    line-height: 20px
 }
 
 

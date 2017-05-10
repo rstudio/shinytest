@@ -37,7 +37,7 @@ diffviewer = (function() {
           });
 
         } else if (is_image(x.old) && is_image(x.new)) {
-          create_image_diff(diff_el, x.old, x.new);
+          create_image_diff(diff_el, x.filename, x.old, x.new);
 
         } else {
 
@@ -60,15 +60,32 @@ diffviewer = (function() {
     return str.match(/^data:image\/[^;]+;base64,/);
   }
 
-  function create_image_diff(el, old_img, new_img) {
+  function create_image_diff(el, filename, old_img, new_img) {
+
+    if (old_img === new_img) {
+      var $wrapper = $(
+        '<div class="image-diff">' +
+          '<div class="image-diff-filename"></div>' +
+          '<div class="image-diff-container">No changes</div>' +
+        '</div>'
+      );
+      $wrapper.find(".image-diff-filename").text(filename);
+      $(el).append($wrapper);
+      return;
+    };
+
     var $wrapper = $(
-      '<div>' +
-        '<span class="image-diff-button" data-button="slider">Slider</span>' +
-        '<span class="image-diff-button" data-button="difference">Difference</span>' +
-        '<span class="image-diff-button" data-button="toggle">Toggle</span>' +
+      '<div class="image-diff">' +
+        '<div class="image-diff-filename"></div>' +
+        '<div class="image-diff-controls">' +
+          '<span class="image-diff-button" data-button="slider">Slider</span>' +
+          '<span class="image-diff-button" data-button="difference">Difference</span>' +
+          '<span class="image-diff-button" data-button="toggle">Toggle</span>' +
+        '</div>' +
         '<div class="image-diff-container"></div>' +
       '</div>'
     );
+    $wrapper.find(".image-diff-filename").text(filename);
     $(el).append($wrapper);
 
     $wrapper.on("mousedown", ".image-diff-button", function(e) {
@@ -94,7 +111,7 @@ diffviewer = (function() {
     });
 
     // Start with slider selected
-    $wrapper.children('span[data-button="slider"]').trigger("mousedown");
+    $wrapper.find('span[data-button="slider"]').trigger("mousedown");
   }
 
   function create_image_slider(el, old_img, new_img) {
