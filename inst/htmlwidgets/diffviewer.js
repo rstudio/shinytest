@@ -62,37 +62,71 @@ diffviewer = (function() {
 
   function create_image_diff(el, filename, old_img, new_img) {
 
-    if (old_img === new_img) {
-      var $wrapper = $(
-        '<div class="image-diff">' +
-          '<div class="image-diff-filename"></div>' +
-          '<div class="image-diff-container">No changes</div>' +
-        '</div>'
-      );
-      $wrapper.find(".image-diff-filename").text(filename);
-      $(el).append($wrapper);
-      return;
-    };
-
     var $wrapper = $(
       '<div class="image-diff">' +
-        '<div class="image-diff-filename"></div>' +
-        '<div class="image-diff-controls">' +
-          '<span class="image-diff-button" data-button="slider">Slider</span>' +
-          '<span class="image-diff-button" data-button="difference">Difference</span>' +
-          '<span class="image-diff-button" data-button="toggle">Toggle</span>' +
+        '<div class="image-diff-header">' +
+          '<span class="image-diff-expand"></span>' +
+          '<span class="image-diff-filename"></span>' +
+          '<span class="image-diff-tag"></span>' +
         '</div>' +
-        '<div class="image-diff-container"></div>' +
+        '<div class="image-diff-controls"></div>' +
+        '<div class="image-diff-container">' +
+          '<div class="image-diff-content">' +
+          '</div>' +
+        '</div>' +
       '</div>'
     );
     $wrapper.find(".image-diff-filename").text(filename);
     $(el).append($wrapper);
 
+    $wrapper.on("mousedown", ".image-diff-expand", function(e) {
+      if (e.which !== 1) return;
+
+      $el = $(this);
+      if ($el.text() === "+") {
+        $el.text("\u2013");
+        $wrapper.find(".image-diff-controls").show()
+        $wrapper.find(".image-diff-container").show()
+      } else {
+        $el.text("+");
+        $wrapper.find(".image-diff-controls").hide()
+        $wrapper.find(".image-diff-container").hide()
+      }
+    });
+
+    if (old_img === new_img) {
+      $wrapper.find(".image-diff-tag")
+        .addClass("image-diff-not-changed-tag")
+        .text("NOT CHANGED");
+      $wrapper.find(".image-diff-container")
+        .html('<img class="image-diff-nochange"></img>');
+      $wrapper.find(".image-diff-container > img.image-diff-nochange")
+        .attr("src", new_img);
+
+      $wrapper.find(".image-diff-expand").text("+");
+      $wrapper.find(".image-diff-controls").hide()
+      $wrapper.find(".image-diff-container").hide()
+      return;
+    }
+
+    $wrapper.find(".image-diff-tag")
+      .addClass("image-diff-changed-tag")
+      .text("CHANGED");
+    $wrapper.find(".image-diff-expand").html("\u2013");
+    $wrapper.find(".image-diff-controls")
+      .html(
+        '<span class="image-diff-button" data-button="slider">Slider</span>' +
+        '<span class="image-diff-button" data-button="toggle">Toggle</span>' +
+        '<span class="image-diff-button" data-button="difference">Difference</span>'
+      );
+
     $wrapper.on("mousedown", ".image-diff-button", function(e) {
+      if (e.which !== 1) return;
+
       var $el = $(this);
       if ($el.hasClass("image-diff-button-selected")) return;
 
-      var $container = $wrapper.children(".image-diff-container");
+      var $container = $wrapper.find(".image-diff-container");
 
       $wrapper.find(".image-diff-button").removeClass("image-diff-button-selected");
       $el.addClass("image-diff-button-selected");
@@ -111,7 +145,10 @@ diffviewer = (function() {
     });
 
     // Start with slider selected
-    $wrapper.find('span[data-button="slider"]').trigger("mousedown");
+    $wrapper.find('span[data-button="slider"]').trigger({
+      type: "mousedown",
+      which: 1            // Simulate left button
+    });
   }
 
   function create_image_slider(el, old_img, new_img) {
