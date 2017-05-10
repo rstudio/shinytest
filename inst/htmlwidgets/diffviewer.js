@@ -66,7 +66,7 @@ diffviewer = (function() {
         '<span class="image-diff-button" data-button="slider">Slider</span>' +
         '<span class="image-diff-button" data-button="difference">Difference</span>' +
         '<span class="image-diff-button" data-button="toggle">Toggle</span>' +
-        '<div></div>' +
+        '<div class="image-diff-container"></div>' +
       '</div>'
     );
     $(el).append($wrapper);
@@ -75,7 +75,7 @@ diffviewer = (function() {
       var $el = $(this);
       if ($el.hasClass("image-diff-button-selected")) return;
 
-      var $container = $wrapper.children("div");
+      var $container = $wrapper.children(".image-diff-container");
 
       $wrapper.find(".image-diff-button").removeClass("image-diff-button-selected");
       $el.addClass("image-diff-button-selected");
