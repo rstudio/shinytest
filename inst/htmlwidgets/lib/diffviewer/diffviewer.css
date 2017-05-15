@@ -64,8 +64,7 @@
     border-top: 1px solid #d8d8d8;
 }
 
-.diffviewer .image-diff-button,
-.diffviewer .image-toggle-controls .image-toggle-button {
+.diffviewer .image-diff-controls .image-diff-button {
     display: inline-block;
     user-select: none;
     -webkit-user-select: none;
@@ -75,6 +74,9 @@
     border-radius: 3px;
     cursor: pointer;
     background: #fff;
+}
+.diffviewer .image-diff-controls .image-diff-button-selected {
+    background: #dde8f8;
 }
 
 .diffviewer .image-diff-controls .image-diff-button.image-diff-button-left {
@@ -91,10 +93,24 @@
     margin-left: -1px;
 }
 
-.diffviewer .image-diff-button-selected,
-.diffviewer .image-toggle-controls .image-toggle-button-selected {
-    background: #dde8f8;
+.diffviewer .image-diff-controls-sub {
+    margin-left: 30px;
 }
+
+.diffviewer .image-diff-controls-sub .image-toggle-play-button {
+    margin-left: 10px;
+}
+.diffviewer .image-diff-controls-sub .image-toggle-delay-slider {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    width: 60px;
+}
+.diffviewer .image-diff-controls-sub .image-toggle-delay-text {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
 
 .diffviewer .image-diff-container {
     padding: 5px;

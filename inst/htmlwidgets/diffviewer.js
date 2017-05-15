@@ -125,7 +125,8 @@ diffviewer = (function() {
       .html(
         '<span class="image-diff-button image-diff-button-left" data-button="difference">Difference</span>' +
         '<span class="image-diff-button image-diff-button-middle" data-button="toggle">Toggle</span>' +
-        '<span class="image-diff-button image-diff-button-right" data-button="slider">Slider</span>'
+        '<span class="image-diff-button image-diff-button-right" data-button="slider">Slider</span>' +
+        '<span class="image-diff-controls-sub"></span>'
       );
 
     $wrapper.on("mousedown", ".image-diff-button", function(e) {
@@ -136,8 +137,13 @@ diffviewer = (function() {
 
       var $container = $wrapper.find(".image-diff-container");
 
+      // Mark button as selected
       $wrapper.find(".image-diff-button").removeClass("image-diff-button-selected");
       $el.addClass("image-diff-button-selected");
+
+      // Clear out sub-controls
+      var $controls = $wrapper.find(".image-diff-controls-sub");
+      $controls.empty();
 
       $container.empty();
 
@@ -149,7 +155,7 @@ diffviewer = (function() {
         create_image_difference($container, old_img, new_img);
 
       } else if (button_type == "toggle") {
-        create_image_toggle($container, old_img, new_img);
+        create_image_toggle($container, old_img, new_img, $controls);
       }
     });
 
@@ -263,7 +269,7 @@ diffviewer = (function() {
     });
   }
 
-  function create_image_toggle(el, old_img, new_img) {
+  function create_image_toggle(el, old_img, new_img, $controls) {
     var $wrapper = $(
       '<div class="image-toggle">' +
         '<div class="image-toggle-old"><img></img></div>' +
@@ -279,18 +285,14 @@ diffviewer = (function() {
     $(el).append($wrapper);
 
     // Add controls
-    var $controls = $(el).append(
-      '<div class="image-toggle-controls">' +
-        '<div>' +
-          '<span class="image-toggle-button image-toggle-button-old">Old</span>' +
-          '<span class="image-toggle-button image-toggle-button-new">New</span>' +
-        '</div>' +
-        '<div>' +
-          '<span class="image-toggle-button image-play-button">&#9654;</span>' +
-          '<input type="range" min="0.25" max="2" value="0.75" step="0.25">' +
-          '<span class="image-toggle-delay"></span>' +
-        '</div>' +
-      '</div>'
+    $controls.append(
+      '<span class="image-diff-button image-diff-button-left image-toggle-button-old">Old</span>' +
+      '<span class="image-diff-button image-diff-button-right image-toggle-button-new">New</span>' +
+      '<span class="image-diff-button image-toggle-play-button">&#9654;</span>' +
+      '<span class="image-toggle-delay-slider">' +
+        '<input type="range" min="0.25" max="2" value="0.75" step="0.25">' +
+      '</span>' +
+      '<span class="image-toggle-delay-text"></span>'
     );
 
     var $new_image = $wrapper.find(".image-toggle-new");
@@ -309,16 +311,16 @@ diffviewer = (function() {
     }
 
     function show_new() {
-      $new_button.addClass("image-toggle-button-selected");
-      $old_button.removeClass("image-toggle-button-selected");
+      $new_button.addClass("image-diff-button-selected");
+      $old_button.removeClass("image-diff-button-selected");
 
       $new_image.show();
       new_visible = true;
     }
 
     function hide_new() {
-      $old_button.addClass("image-toggle-button-selected");
-      $new_button.removeClass("image-toggle-button-selected");
+      $old_button.addClass("image-diff-button-selected");
+      $new_button.removeClass("image-diff-button-selected");
 
       $new_image.hide();
       new_visible = false;
@@ -344,21 +346,21 @@ diffviewer = (function() {
     });
 
 
-    var $play_button = $controls.find(".image-play-button");
+    var $play_button = $controls.find(".image-toggle-play-button");
     $play_button.on("mousedown", function(e) {
       // Make sure it's the left button
       if (e.which !== 1) return;
 
-      if ($play_button.hasClass("image-toggle-button-selected")) {
+      if ($play_button.hasClass("image-diff-button-selected")) {
         clear_play_button();
       } else {
-        $play_button.addClass("image-toggle-button-selected");
+        $play_button.addClass("image-diff-button-selected");
         toggle_and_schedule_toggle();
       }
     });
 
     function clear_play_button() {
-      $play_button.removeClass("image-toggle-button-selected");
+      $play_button.removeClass("image-diff-button-selected");
       clearTimeout(toggle_timer);
     }
 
@@ -367,7 +369,7 @@ diffviewer = (function() {
     var delay;
     $delay_slider.on("input", function(e) {
       delay = parseFloat(this.value);
-      $controls.find(".image-toggle-delay").text(delay + " s");
+      $controls.find(".image-toggle-delay-text").text(delay + " s");
     });
 
 
@@ -378,7 +380,7 @@ diffviewer = (function() {
       toggle_new_visible();
 
       toggle_timer = setTimeout(function() {
-        if ($play_button.hasClass("image-toggle-button-selected")) {
+        if ($play_button.hasClass("image-diff-button-selected")) {
           toggle_and_schedule_toggle();
         }
       }, delay * 1000);
@@ -387,6 +389,10 @@ diffviewer = (function() {
 
     show_new();
     $delay_slider.trigger("input");
+    $play_button.trigger({
+      type: "mousedown",
+      which: 1            // Simulate left button
+    });
   }
 
 
