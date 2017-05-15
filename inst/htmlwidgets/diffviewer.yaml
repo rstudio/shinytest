@@ -17,6 +17,11 @@ dependencies:
     src: "htmlwidgets/lib/jsdiff"
     script:
       - diff.js
+  - name: resemble
+    version: 2.2.4
+    src: "htmlwidgets/lib/resemble"
+    script:
+      - resemble.js
   - name: diffviewer-styles
     version: 0.1
     src: htmlwidgets/lib/diffviewer
