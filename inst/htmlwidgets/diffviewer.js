@@ -90,15 +90,15 @@ diffviewer = (function() {
     $wrapper.on("mousedown", ".image-diff-expand", function(e) {
       if (e.which !== 1) return;
 
-      $el = $(this);
+      var $el = $(this);
       if ($el.text() === "+") {
         $el.text("\u2013");
-        $wrapper.find(".image-diff-controls").show()
-        $wrapper.find(".image-diff-container").show()
+        $wrapper.find(".image-diff-controls").show();
+        $wrapper.find(".image-diff-container").show();
       } else {
         $el.text("+");
-        $wrapper.find(".image-diff-controls").hide()
-        $wrapper.find(".image-diff-container").hide()
+        $wrapper.find(".image-diff-controls").hide();
+        $wrapper.find(".image-diff-container").hide();
       }
     });
 
@@ -112,8 +112,8 @@ diffviewer = (function() {
         .attr("src", new_img);
 
       $wrapper.find(".image-diff-expand").text("+");
-      $wrapper.find(".image-diff-controls").hide()
-      $wrapper.find(".image-diff-container").hide()
+      $wrapper.find(".image-diff-controls").hide();
+      $wrapper.find(".image-diff-container").hide();
       return;
     }
 
