@@ -123,9 +123,9 @@ diffviewer = (function() {
     $wrapper.find(".image-diff-expand").html("\u2013");
     $wrapper.find(".image-diff-controls")
       .html(
-        '<span class="image-diff-button" data-button="difference">Difference</span>' +
-        '<span class="image-diff-button" data-button="toggle">Toggle</span>' +
-        '<span class="image-diff-button" data-button="slider">Slider</span>'
+        '<span class="image-diff-button image-diff-button-left" data-button="difference">Difference</span>' +
+        '<span class="image-diff-button image-diff-button-middle" data-button="toggle">Toggle</span>' +
+        '<span class="image-diff-button image-diff-button-right" data-button="slider">Slider</span>'
       );
 
     $wrapper.on("mousedown", ".image-diff-button", function(e) {

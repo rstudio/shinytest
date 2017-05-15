@@ -71,11 +71,24 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     padding: 4px 8px;
-    margin: 0 6px 0 0;
     border: 1px solid #ccc;
     border-radius: 3px;
     cursor: pointer;
     background: #fff;
+}
+
+.diffviewer .image-diff-controls .image-diff-button.image-diff-button-left {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.diffviewer .image-diff-controls .image-diff-button.image-diff-button-middle {
+    border-radius: 0;
+    margin-left: -1px;
+}
+.diffviewer .image-diff-controls .image-diff-button.image-diff-button-right {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: -1px;
 }
 
 .diffviewer .image-diff-button-selected,
