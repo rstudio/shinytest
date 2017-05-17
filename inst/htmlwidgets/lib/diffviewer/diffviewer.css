@@ -1,3 +1,7 @@
+.diffviewer * {
+    box-sizing: border-box;
+}
+
 .diffviewer .d2h-not-changed-tag {
     color: #aaa;
     border: #aaa 1px solid;
@@ -99,6 +103,7 @@
 
 .diffviewer .image-diff-controls-sub .image-toggle-play-button {
     margin-left: 10px;
+    width: 2.2em;
 }
 .diffviewer .image-diff-controls-sub .image-toggle-delay-slider {
     display: inline-block;

@@ -129,7 +129,7 @@ diffviewer = (function() {
         '<span class="image-diff-controls-sub"></span>'
       );
 
-    $wrapper.on("mousedown", ".image-diff-button", function(e) {
+    $wrapper.on("mousedown", ".image-diff-controls > .image-diff-button", function(e) {
       if (e.which !== 1) return;
 
       var $el = $(this);
@@ -351,16 +351,18 @@ diffviewer = (function() {
       // Make sure it's the left button
       if (e.which !== 1) return;
 
-      if ($play_button.hasClass("image-diff-button-selected")) {
+      if ($play_button.html() === "\u258C\u258C") {
+        // If it's a pause symbol
         clear_play_button();
       } else {
-        $play_button.addClass("image-diff-button-selected");
+        $play_button.html("\u258C\u258C");
         toggle_and_schedule_toggle();
       }
     });
 
     function clear_play_button() {
-      $play_button.removeClass("image-diff-button-selected");
+      // Set to play button symbol
+      $play_button.html("\u25B6");
       clearTimeout(toggle_timer);
     }
 
@@ -380,7 +382,7 @@ diffviewer = (function() {
       toggle_new_visible();
 
       toggle_timer = setTimeout(function() {
-        if ($play_button.hasClass("image-diff-button-selected")) {
+        if ($play_button.html() === "\u258C\u258C") {
           toggle_and_schedule_toggle();
         }
       }, delay * 1000);
