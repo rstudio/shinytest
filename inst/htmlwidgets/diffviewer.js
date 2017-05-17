@@ -379,6 +379,10 @@ diffviewer = (function() {
     // again after delay, if play button is selected.
     var toggle_timer;
     function toggle_and_schedule_toggle() {
+      // If image diff has been removed from DOM, exit so we don't reschedule.
+      if ($wrapper.closest(document.documentElement).length === 0)
+        return;
+
       toggle_new_visible();
 
       toggle_timer = setTimeout(function() {
