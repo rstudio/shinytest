@@ -176,11 +176,11 @@ diffviewer = (function() {
     );
     resemble.outputSettings({
       errorColor: {
-        red: 255,
-        green: 160,
-        blue: 127
+        red: 200,
+        green: 0,
+        blue: 0
       },
-      transparency: 0.25
+      transparency: 0.2
     });
 
     function set_image_difference_from_cache() {
