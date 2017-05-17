@@ -110,6 +110,9 @@
     vertical-align: middle;
     margin-left: 5px;
 }
+.diffviewer .image-diff-controls-sub .image-toggle-delay-slider input[type="range"] {
+    width: 100%;
+}
 
 
 .diffviewer .image-diff-container {
@@ -205,44 +208,4 @@
 
 .diffviewer .image-toggle img {
     max-width: 600px;
-}
-
-
-.diffviewer .image-toggle-controls {
-    display: inline-block;
-    vertical-align: top;
-}
-
-.diffviewer .image-toggle-controls > div {
-    padding: 12px;
-}
-
-.diffviewer .image-toggle-controls .image-toggle-button {
-    padding: 4px 8px;
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-}
-.diffviewer .image-toggle-controls .image-toggle-button-old {
-    margin: 3px 0 3px 3px;
-    border-radius: 3px 0 0 3px;
-    width: 60px;
-}
-.diffviewer .image-toggle-controls .image-toggle-button-new {
-    margin: 3px 3px 3px -1px;
-    border-radius: 0 3px 3px 0;
-    width: 60px;
-}
-.diffviewer .image-toggle-controls .image-play-button {
-    border-radius: 3px;
-    width: 40px;
-    height: 30px;
-    line-height: 20px
-}
-
-
-.diffviewer .image-toggle-controls input[type="range"] {
-    width: 100px;
-    display: inline-block;
-    margin: 0 12px;
 }
