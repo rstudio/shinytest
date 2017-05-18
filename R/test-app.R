@@ -36,5 +36,5 @@ testApp <- function(appDir = ".", files = NULL) {
     })
   })
 
-  res
+  invisible(res)
 }
