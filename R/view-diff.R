@@ -74,7 +74,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL, pattern = N
       diff_data = diff_data
     ),
     width = width,
-    height = height,
+    height = "100%",
     package = "shinytest"
   )
 }
