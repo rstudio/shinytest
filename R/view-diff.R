@@ -50,7 +50,9 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL, pattern = N
     bin_data <- readBin(filename, "raw", n = file.info(filename)$size)
 
     if (grepl("\\.json$", filename)) {
-      rawToChar(bin_data)
+      res <- rawToChar(bin_data)
+      Encoding(res) <- "UTF-8"
+      res
     } else if (grepl("\\.png$", filename)) {
       paste0("data:image/png;base64,", jsonlite::base64_enc(bin_data))
     } else {
