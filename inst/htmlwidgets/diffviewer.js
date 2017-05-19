@@ -147,6 +147,12 @@ diffviewer = (function() {
       var $controls = $wrapper.find(".image-diff-controls-sub");
       $controls.empty();
 
+      // To prevent document reflow after we remove the image (but before we
+      // add it back), we'll fix the height in place here, and then un-fix it
+      // after the new image has been added. The reflow can cause the whole
+      // page to scroll up, which can be jarring.
+      $container.height($container.height());
+
       $container.empty();
 
       var button_type = $el.data("button");
@@ -159,6 +165,14 @@ diffviewer = (function() {
       } else if (button_type == "toggle") {
         create_image_toggle($container, old_img, new_img, $controls);
       }
+
+      // The image loading may take some time, so we don't want to release the
+      // fixed height until the image has loaded. The selector is a little
+      // crude -- we find any image in the container, and then bind this
+      // callback to it.
+      $container.find("img").one("load", function() {
+        $container.css("height", "");
+      });
     });
 
     // Start with difference selected
