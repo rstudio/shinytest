@@ -47,7 +47,11 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
     dir.create(current_dir, recursive = TRUE)
   }
 
-  writeBin(req$content, file.path(current_dir, filename))
+  # Convert to text, then replace base64-encoded images with hashes of them.
+  content <- rawToChar(req$content)
+  Encoding(content) <- "UTF-8"
+  content <- hash_snapshot_image_data(content)
+  writeChar(content, file.path(current_dir, filename))
 
   if (screenshot) {
     # Replace extension with .png
@@ -201,4 +205,54 @@ snapshotUpdate <- function(name, appDir = ".") {
           "\n      => ", rel_path(expected_dir), ".")
   file.rename(current_dir, expected_dir)
   invisible(expected_dir)
+}
+
+
+# Given a JSON string, find any strings that represent base64-encoded images
+# and replace them with a hash of the value. The image is base64-decoded and
+# then hashed with SHA1. The resulting hash value is the same as if the image
+# were saved to a file on disk and then hashed.
+hash_snapshot_image_data <- function(data) {
+  image_offsets <- gregexpr(
+    '"data:image/[^;]+;base64,([^"]+)"', data, useBytes = TRUE, perl = TRUE
+  )[[1]]
+
+  # Image data indices
+  image_start_idx <- as.integer(attr(image_offsets, "capture.start", exact = TRUE))
+  image_stop_idx <- image_start_idx +
+    as.integer(attr(image_offsets, "capture.length", exact = TRUE)) - 1
+
+  # Text (non-image) data indices
+  text_start_idx <- c(
+    0,
+    image_offsets + attr(image_offsets, "match.length", exact = TRUE)
+  )
+  text_stop_idx <- c(
+    image_offsets - 1,
+    nchar(data, type = "bytes")
+  )
+
+  # Get the strings representing image data, and all the other stuff
+  image_data <- substring(data, image_start_idx, image_stop_idx)
+  text_data  <- substring(data, text_start_idx,  text_stop_idx)
+
+  # Hash the images
+  image_hashes <- vapply(image_data, FUN.VALUE = "", function(dat) {
+    digest::digest(
+      jsonlite::base64_dec(dat),
+      algo = "sha1", serialize = FALSE
+    )
+  })
+
+  image_hashes <- paste0('"[image data sha1: ', image_hashes, ']"')
+
+  # There's one fewer image hash than text elements. We need to add a blank
+  # so that we can properly interleave them.
+  image_hashes <- c(image_hashes, "")
+
+  # Interleave the text data and the image hashes
+  paste(
+    c(rbind(text_data, image_hashes)),
+    collapse = ""
+  )
 }
