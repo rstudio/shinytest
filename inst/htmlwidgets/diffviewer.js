@@ -290,7 +290,7 @@ diffviewer = (function() {
     $controls.append(
       '<span class="image-diff-button image-diff-button-left image-toggle-button-old">Old</span>' +
       '<span class="image-diff-button image-diff-button-right image-toggle-button-new">New</span>' +
-      '<span class="image-diff-button image-toggle-play-button">&#9654;</span>' +
+      '<span class="image-diff-button image-toggle-play-button"></span>' +
       '<span class="image-toggle-delay-slider">' +
         '<input type="range" min="0.25" max="2" value="0.75" step="0.25">' +
       '</span>' +
@@ -353,18 +353,17 @@ diffviewer = (function() {
       // Make sure it's the left button
       if (e.which !== 1) return;
 
-      if ($play_button.html() === "\u258C\u258C") {
+      if ($play_button.hasClass("image-toggle-play-button-pause")) {
         // If it's a pause symbol
         clear_play_button();
       } else {
-        $play_button.html("\u258C\u258C");
+        $play_button.addClass("image-toggle-play-button-pause");
         toggle_and_schedule_toggle();
       }
     });
 
     function clear_play_button() {
-      // Set to play button symbol
-      $play_button.html("\u25B6");
+      $play_button.removeClass("image-toggle-play-button-pause");
       clearTimeout(toggle_timer);
     }
 
@@ -388,7 +387,7 @@ diffviewer = (function() {
       toggle_new_visible();
 
       toggle_timer = setTimeout(function() {
-        if ($play_button.html() === "\u258C\u258C") {
+        if ($play_button.hasClass("image-toggle-play-button-pause")) {
           toggle_and_schedule_toggle();
         }
       }, delay * 1000);
