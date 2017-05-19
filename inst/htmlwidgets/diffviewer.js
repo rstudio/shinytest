@@ -27,22 +27,7 @@ diffviewer = (function() {
         dv.el.appendChild(diff_el);
 
         if (is_text(x.old) && is_text(x.new)) {
-          // Do diff
-          var diff_str = JsDiff.createPatch(x.filename, x.old, x.new, "", "");
-
-          // Show diff
-          var diff2htmlUi = new Diff2HtmlUI({ diff: diff_str });
-          diff2htmlUi.draw("#" + diff_el.id, {
-            showFiles: false
-          });
-
-          // diff2html adds a CHANGED label even if the file has not changed,
-          // so we need to manually make it show NOT CHANGED.
-          if (x.old === x.new) {
-            $(diff_el).find(".d2h-tag")
-              .addClass("d2h-not-changed-tag")
-              .text("NOT CHANGED");
-          }
+          create_text_diff(diff_el, x.filename, x.old, x.new);
 
         } else if (is_image(x.old) && is_image(x.new)) {
           create_image_diff(diff_el, x.filename, x.old, x.new);
@@ -51,6 +36,8 @@ diffviewer = (function() {
 
         }
       });
+
+      enable_expand_buttons(dv.el);
 
     };
 
@@ -68,12 +55,43 @@ diffviewer = (function() {
     return str.match(/^data:image\/[^;]+;base64,/);
   }
 
+
+  function create_text_diff(el, filename, old_txt, new_txt) {
+    // Do diff
+    var diff_str = JsDiff.createPatch(filename, old_txt, new_txt, "", "");
+
+    // Show diff
+    var diff2htmlUi = new Diff2HtmlUI({ diff: diff_str });
+    diff2htmlUi.draw("#" + el.id, {
+      showFiles: false
+    });
+
+
+    var $el = $(el);
+
+    // Instead of showing a text file icon, we want an expand button.
+    var $expand_button = $el.find(".d2h-file-name-wrapper .d2h-icon-wrapper")
+      .text("")
+      .attr("class", "diff-expand-button");
+
+    if (old_txt === new_txt) {
+      // Start with content collapsed
+      $el.find(".d2h-file-wrapper").addClass("diffviewer-collapsed");
+
+      // diff2html adds a CHANGED label even if the file has not changed,
+      // so we need to manually make it show NOT CHANGED.
+      $el.find(".d2h-tag")
+        .addClass("d2h-not-changed-tag")
+        .text("NOT CHANGED");
+    }
+  }
+
   function create_image_diff(el, filename, old_img, new_img) {
 
     var $wrapper = $(
       '<div class="image-diff">' +
         '<div class="image-diff-header">' +
-          '<span class="image-diff-expand"></span>' +
+          '<span class="diff-expand-button"></span>' +
           '<span class="image-diff-filename"></span>' +
           '<span class="image-diff-tag"></span>' +
         '</div>' +
@@ -87,20 +105,6 @@ diffviewer = (function() {
     $wrapper.find(".image-diff-filename").text(filename);
     $(el).append($wrapper);
 
-    $wrapper.on("mousedown", ".image-diff-expand", function(e) {
-      if (e.which !== 1) return;
-
-      var $el = $(this);
-      if ($el.text() === "+") {
-        $el.text("\u2013");
-        $wrapper.find(".image-diff-controls").show();
-        $wrapper.find(".image-diff-container").show();
-      } else {
-        $el.text("+");
-        $wrapper.find(".image-diff-controls").hide();
-        $wrapper.find(".image-diff-container").hide();
-      }
-    });
 
     if (old_img === new_img) {
       $wrapper.find(".image-diff-tag")
@@ -111,16 +115,14 @@ diffviewer = (function() {
       $wrapper.find(".image-diff-container > img.image-diff-nochange")
         .attr("src", new_img);
 
-      $wrapper.find(".image-diff-expand").text("+");
-      $wrapper.find(".image-diff-controls").hide();
-      $wrapper.find(".image-diff-container").hide();
+      $wrapper.addClass("diffviewer-collapsed");
+
       return;
     }
 
     $wrapper.find(".image-diff-tag")
       .addClass("image-diff-changed-tag")
       .text("CHANGED");
-    $wrapper.find(".image-diff-expand").html("\u2013");
     $wrapper.find(".image-diff-controls")
       .html(
         '<span class="image-diff-button image-diff-button-left" data-button="difference">Difference</span>' +
@@ -399,6 +401,25 @@ diffviewer = (function() {
       type: "mousedown",
       which: 1            // Simulate left button
     });
+  }
+
+
+  function enable_expand_buttons(el) {
+    $(el).on("mousedown", ".diff-expand-button", function(e) {
+      if (e.which !== 1) return;
+
+      var $button = $(this);
+
+      // Search for closest text diff or image diff wrapper.
+      var $wrapper = $button.closest(".d2h-file-wrapper,.image-diff");
+
+      if ($wrapper.hasClass("diffviewer-collapsed")) {
+        $wrapper.removeClass("diffviewer-collapsed");
+      } else {
+        $wrapper.addClass("diffviewer-collapsed");
+      }
+    });
+
   }
 
 

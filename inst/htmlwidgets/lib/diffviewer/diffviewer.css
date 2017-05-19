@@ -2,6 +2,43 @@
     box-sizing: border-box;
 }
 
+.diffviewer .diff-expand-button {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    margin-right: 8px;
+    width: 14px;
+    height: 14px;
+    color: #777;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.diffviewer .diff-expand-button::before {
+    content: "\2013";
+}
+
+.diffviewer .diffviewer-collapsed .diff-expand-button::before {
+    content: "+";
+}
+
+/* Collapsed diff blocks */
+.diffviewer .image-diff.diffviewer-collapsed .image-diff-controls,
+.diffviewer .image-diff.diffviewer-collapsed .image-diff-container,
+.diffviewer .d2h-file-wrapper.diffviewer-collapsed .d2h-file-diff {
+    display: none;
+}
+.diffviewer .d2h-file-wrapper.diffviewer-collapsed .d2h-file-header {
+    /* Needed so that we don't have a double border on the bottom */
+    border-bottom: 0;
+}
+
+
 .diffviewer .d2h-not-changed-tag {
     color: #aaa;
     border: #aaa 1px solid;
@@ -18,27 +55,9 @@
 }
 
 .diffviewer .image-diff .image-diff-header {
-    line-height: 31px;
     padding: 5px 10px;
     display: flex;
     align-items: center;
-}
-
-.diffviewer .image-diff .image-diff-header .image-diff-expand {
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    margin-right: 8px;
-    width: 14px;
-    height: 14px;
-    color: #777;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
 }
 
 .diffviewer .image-diff .image-diff-header .image-diff-tag {
