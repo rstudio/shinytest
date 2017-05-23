@@ -193,9 +193,26 @@
     width: 50%;
     max-width: 100%;
     overflow: hidden;
-    border-right: 1px solid rgba(255, 0, 0, 0.3);
+    border-right: 1px solid rgb(255, 150, 150);
 }
 
+.diffviewer .image-slider > .image-slider-right {
+    /* Make sure that the right image div allocates enough space to fill with
+       the checkerboard pattern, in case the image is narrower. */
+    width: 600px;
+}
+
+.diffviewer .image-slider > .image-slider-left,
+.diffviewer .image-slider > .image-slider-right {
+    /* Checkerboard pattern */
+    background:url(
+        data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAJ0lEQVQoU2Ps6Oj4z4AGXFxc0IUYGIeCwjNnzmB4Zs+ePZieGQIKAZKhLO1oE8Z/AAAAAElFTkSuQmCC
+    ) repeat;
+}
+
+.diffviewer .image-slider img {
+    max-width: 600px;
+}
 
 .diffviewer .image-slider .image-slider-label {
     position: absolute;
@@ -217,10 +234,6 @@
 .diffviewer .image-slider .image-slider-label .image-slider-label-text{
     display: table-cell;
     vertical-align: middle;
-}
-
-.diffviewer .image-slider img {
-    max-width: 600px;
 }
 
 

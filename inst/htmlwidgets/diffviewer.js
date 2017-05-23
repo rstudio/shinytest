@@ -167,11 +167,17 @@ diffviewer = (function() {
       }
 
       // The image loading may take some time, so we don't want to release the
-      // fixed height until the image has loaded. The selector is a little
-      // crude -- we find any image in the container, and then bind this
-      // callback to it.
-      $container.find("img").one("load", function() {
-        $container.css("height", "");
+      // fixed height until all image have loaded.
+      var n_imgs = $container.find("img").length;
+      var imgs_loaded = 0;
+      $container.find("img").on("load.image-diff-heightcontrol", function() {
+        imgs_loaded++;
+
+        if (imgs_loaded == n_imgs) {
+          $container.css("height", "");
+          // Remove the event handler
+          $container.find("img").off("load.image-diff-heightcontrol");
+        }
       });
     });
 
@@ -246,17 +252,53 @@ diffviewer = (function() {
     $(el).append($wrapper);
 
 
-    // Add mouse event listener
-    var $left_image  = $wrapper.find(".image-slider-left");
-    var $right_image = $wrapper.find(".image-slider-right");
+    var $left_div  = $wrapper.find(".image-slider-left");
+    var $right_div = $wrapper.find(".image-slider-right");
 
+    var $left_img  = $left_div.find("img");
+    var $right_img = $right_div.find("img")
+
+    // Set the scaling after the images load
+    var left_img_loaded  = false;
+    var right_img_loaded = false;
+    $left_img.on("load", function() {
+      left_img_loaded = true;
+      if (left_img_loaded && right_img_loaded)
+        scale_images();
+    });
+    $right_img.on("load", function() {
+      right_img_loaded = true;
+      if (left_img_loaded && right_img_loaded)
+        scale_images();
+    });
+
+    function scale_images() {
+      // Scale images in divs to use same scaling ratio
+      match_image_scaling(
+        $left_img,
+        $right_img,
+        // Get the max-width from CSS
+        parseFloat($left_img.css("max-width"))
+      );
+
+      // Because the left image div has position:absolute, if it's taller than
+      // the right image div, the wrapper div won't inherit its size. So we need
+      // to explicitly set the height of the right image div.
+      $right_div.height(Math.max(
+        $left_img.height(),
+        $right_img.height(),
+      ));
+    }
+
+
+    // Add mouse event listener
     $wrapper.on("mousedown", function(e) {
       // Make sure it's the left button
       if (e.which !== 1) return;
 
       // Find minimum and maximum x values
-      var minX = $right_image.offset().left;
-      var maxX = minX + $right_image.outerWidth();
+      var minX = $right_div.offset().left;
+      var maxX = minX + Math.max($left_div.outerWidth(), $right_div.outerWidth());
 
       function slide_to(x) {
         // Constrain mouse position to within image div
@@ -264,7 +306,7 @@ diffviewer = (function() {
         x = Math.min(x, maxX);
 
         // Change width of div
-        $left_image.outerWidth(x - $left_image.offset().left);
+        $left_div.outerWidth(x - $left_div.offset().left);
       }
 
       slide_to(e.pageX);
@@ -432,7 +474,28 @@ diffviewer = (function() {
         $wrapper.addClass("diffviewer-collapsed");
       }
     });
+  }
 
+
+  function match_image_scaling($img1, $img2, max_width) {
+    var width1 = $img1.prop("naturalWidth");
+    var width2 = $img2.prop("naturalWidth");
+
+    var max_natural_width = Math.max(width1, width2)
+
+    // If images are both smaller than the max width, use 1:1 scaling
+    if (max_natural_width <= max_width) {
+      $img1.width(width1);
+      $img2.width(width2);
+      return;
+    }
+
+    // If at least one of the images is larger than max_width, find the
+    // scaling ratio to fit that image to max_width, and scale both images
+    // using that ratio.
+    var scale_ratio =  max_width / max_natural_width;
+    $img1.width(width1 * scale_ratio);
+    $img2.width(width2 * scale_ratio);
   }
 
 
