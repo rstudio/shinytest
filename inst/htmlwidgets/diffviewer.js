@@ -70,7 +70,7 @@ diffviewer = (function() {
     var $el = $(el);
 
     // Instead of showing a text file icon, we want an expand button.
-    var $expand_button = $el.find(".d2h-file-name-wrapper .d2h-icon-wrapper")
+    $el.find(".d2h-file-name-wrapper .d2h-icon-wrapper")
       .text("")
       .attr("class", "diff-expand-button");
 
