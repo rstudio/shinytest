@@ -183,8 +183,8 @@ diffviewer = (function() {
   }
 
 
-  var image_difference_cache = null;
   function create_image_difference(el, old_img, new_img) {
+    var $el = $(el);
     var $wrapper = $(
       '<div class="image-difference">' +
         '<img></img>' +
@@ -201,14 +201,14 @@ diffviewer = (function() {
 
     function set_image_difference_from_cache() {
       $wrapper.children("img")
-        .attr("src", image_difference_cache)
+        .attr("src", $el.data("image-difference-cache"))
         .on("dragstart", function () { return false; });
     }
 
-    if (image_difference_cache === null) {
+    if ($el.data("image-difference-cache") === undefined) {
       resemble(old_img).compareTo(new_img)
         .onComplete(function(data) {
-          image_difference_cache = data.getImageDataUrl();
+          $el.data("image-difference-cache", data.getImageDataUrl());
           set_image_difference_from_cache();
         });
 
@@ -216,7 +216,7 @@ diffviewer = (function() {
       set_image_difference_from_cache();
     }
 
-    $(el).append($wrapper);
+    $el.append($wrapper);
   }
 
 
