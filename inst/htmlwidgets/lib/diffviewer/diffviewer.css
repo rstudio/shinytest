@@ -203,7 +203,9 @@
 }
 
 .diffviewer .image-slider > .image-slider-left,
-.diffviewer .image-slider > .image-slider-right {
+.diffviewer .image-slider > .image-slider-right,
+.diffviewer .image-toggle > .image-toggle-old,
+.diffviewer .image-toggle > .image-toggle-new {
     /* Checkerboard pattern */
     background:url(
         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAJ0lEQVQoU2Ps6Oj4z4AGXFxc0IUYGIeCwjNnzmB4Zs+ePZieGQIKAZKhLO1oE8Z/AAAAAElFTkSuQmCC

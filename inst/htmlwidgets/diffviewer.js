@@ -256,7 +256,7 @@ diffviewer = (function() {
     var $right_div = $wrapper.find(".image-slider-right");
 
     var $left_img  = $left_div.find("img");
-    var $right_img = $right_div.find("img")
+    var $right_img = $right_div.find("img");
 
     // Set the scaling after the images load
     var left_img_loaded  = false;
@@ -274,7 +274,7 @@ diffviewer = (function() {
 
     function scale_images() {
       // Scale images in divs to use same scaling ratio
-      match_image_scaling(
+      var dims = match_image_scaling(
         $left_img,
         $right_img,
         // Get the max-width from CSS
@@ -284,10 +284,7 @@ diffviewer = (function() {
       // Because the left image div has position:absolute, if it's taller than
       // the right image div, the wrapper div won't inherit its size. So we need
       // to explicitly set the height of the right image div.
-      $right_div.height(Math.max(
-        $left_img.height(),
-        $right_img.height(),
-      ));
+      $right_div.height(dims.height);
     }
 
 
@@ -353,7 +350,41 @@ diffviewer = (function() {
       '<span class="image-toggle-delay-text"></span>'
     );
 
-    var $new_image = $wrapper.find(".image-toggle-new");
+    var $new_div = $wrapper.find(".image-toggle-new");
+    var $old_div = $wrapper.find(".image-toggle-old");
+
+    var $old_img = $old_div.find("img");
+    var $new_img = $new_div.find("img");
+
+    // Set the scaling after the images load
+    var old_img_loaded = false;
+    var new_img_loaded = false;
+    $old_img.on("load", function() {
+      old_img_loaded = true;
+      if (old_img_loaded && new_img_loaded)
+        scale_images();
+    });
+    $new_img.on("load", function() {
+      new_img_loaded = true;
+      if (old_img_loaded && new_img_loaded)
+        scale_images();
+    });
+
+    function scale_images() {
+      // Scale images in divs to use same scaling ratio
+      var dims = match_image_scaling(
+        $old_img,
+        $new_img,
+        // Get the max-width from CSS
+        parseFloat($new_img.css("max-width"))
+      );
+
+      // We need to set the dimensions of the divs
+      $old_div.height(dims.height);
+      $new_div.height(dims.height);
+      $old_div.width(dims.width);
+      $new_div.width(dims.width);
+    }
 
     var $new_button = $controls.find(".image-toggle-button-new");
     var $old_button = $controls.find(".image-toggle-button-old");
@@ -372,7 +403,7 @@ diffviewer = (function() {
       $new_button.addClass("image-diff-button-selected");
       $old_button.removeClass("image-diff-button-selected");
 
-      $new_image.show();
+      $new_div.show();
       new_visible = true;
     }
 
@@ -380,7 +411,7 @@ diffviewer = (function() {
       $old_button.addClass("image-diff-button-selected");
       $new_button.removeClass("image-diff-button-selected");
 
-      $new_image.hide();
+      $new_div.hide();
       new_visible = false;
     }
 
@@ -476,18 +507,28 @@ diffviewer = (function() {
     });
   }
 
-
+  // Scale two images so that they fit into the same max_width. Returns an
+  // object with the width and height of the rectangle that fits both images
+  // after being scaled. This can also be used on img elements that are
+  // hidden.
   function match_image_scaling($img1, $img2, max_width) {
     var width1 = $img1.prop("naturalWidth");
     var width2 = $img2.prop("naturalWidth");
 
-    var max_natural_width = Math.max(width1, width2)
+    var max_natural_width  = Math.max(width1, width2);
+    var max_natural_height = Math.max(
+      $img1.prop("naturalHeight"),
+      $img2.prop("naturalHeight")
+    );
 
     // If images are both smaller than the max width, use 1:1 scaling
     if (max_natural_width <= max_width) {
       $img1.width(width1);
       $img2.width(width2);
-      return;
+      return {
+        width: max_natural_width,
+        height: max_natural_height
+      };
     }
 
     // If at least one of the images is larger than max_width, find the
@@ -496,6 +537,11 @@ diffviewer = (function() {
     var scale_ratio =  max_width / max_natural_width;
     $img1.width(width1 * scale_ratio);
     $img2.width(width2 * scale_ratio);
+
+    return {
+      width: max_width,
+      height: max_natural_height * scale_ratio
+    };
   }
 
 
