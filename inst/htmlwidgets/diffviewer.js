@@ -278,6 +278,9 @@ diffviewer = (function() {
       }
     );
 
+    var $left_label  = $left_div.find(".image-slider-label");
+    var $right_label = $right_div.find(".image-slider-label");
+
     // Add mouse event listener
     $wrapper.on("mousedown", function(e) {
       // Make sure it's the left button
@@ -294,6 +297,21 @@ diffviewer = (function() {
 
         // Change width of div
         $left_div.outerWidth(x - $left_div.offset().left);
+
+        // Make labels disappear/reappear as necessary. Use css visibility
+        // instead of show()/hide() because the latter will make offset()
+        // return 0.
+        if (x < $left_label.offset().left + $left_label.width() + 50) {
+          $left_label.css("visibility", "hidden")
+        } else {
+          $left_label.css("visibility", "visible")
+        }
+        if (x > $right_label.offset().left - 50) {
+          $right_label.css("visibility", "hidden")
+        } else {
+          $right_label.css("visibility", "visible")
+        }
+
       }
 
       slide_to(e.pageX);
