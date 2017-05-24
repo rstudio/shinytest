@@ -44,6 +44,11 @@
     border: #aaa 1px solid;
 }
 
+/* Remove vertical padding between rows in code diffs */
+.d2h-diff-tbody > tr > td {
+    padding: 0;
+}
+
 
 .diffviewer .image-diff {
     border: 1px solid #ddd;
