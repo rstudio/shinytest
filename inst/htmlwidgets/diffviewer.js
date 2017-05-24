@@ -420,7 +420,7 @@ diffviewer = (function() {
         clear_play_button();
       } else {
         $play_button.addClass("image-toggle-play-button-pause");
-        toggle_and_schedule_toggle();
+        schedule_toggle();
       }
     });
 
@@ -441,22 +441,22 @@ diffviewer = (function() {
     // Toggle visibility of new image, and schedule the same function to run
     // again after delay, if play button is selected.
     var toggle_timer;
-    function toggle_and_schedule_toggle() {
-      // If image diff has been removed from DOM, exit so we don't reschedule.
-      if ($wrapper.closest(document.documentElement).length === 0)
-        return;
-
-      toggle_new_visible();
+    function schedule_toggle() {
 
       toggle_timer = setTimeout(function() {
+        // If image diff has been removed from DOM, exit so we don't reschedule.
+        if ($wrapper.closest(document.documentElement).length === 0)
+          return;
+
         if ($play_button.hasClass("image-toggle-play-button-pause")) {
-          toggle_and_schedule_toggle();
+          toggle_new_visible();
+          schedule_toggle();
         }
       }, delay * 1000);
     }
 
-
-    show_new();
+    // Start with Old visible
+    hide_new();
   }
 
 
