@@ -370,12 +370,6 @@ diffviewer = (function() {
         // are loaded but before they are properly resized. The drawback is that
         // there can be a quick blank-out flash.
         $(el).append($wrapper);
-
-        $delay_slider.trigger("input");
-        $play_button.trigger({
-          type: "mousedown",
-          which: 1            // Simulate left button
-        });
       }
     );
 
@@ -475,6 +469,12 @@ diffviewer = (function() {
 
     // Start with Old visible
     hide_new();
+
+    $delay_slider.trigger("input");
+    $play_button.trigger({
+      type: "mousedown",
+      which: 1            // Simulate left button
+    });
   }
 
 
