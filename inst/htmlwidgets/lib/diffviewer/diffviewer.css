@@ -183,6 +183,11 @@
     line-height: 0;
     cursor: ew-resize;
     box-shadow: 1px 2px 20px -2px rgba(0, 0, 0, 0.25);
+    max-width: 600px;
+}
+
+.diffviewer .image-slider img {
+    max-width: 600px;
 }
 
 .diffviewer .image-slider > .image-slider-left {
@@ -190,16 +195,8 @@
     top: 0;
     bottom: 0;
     left: 0;
-    width: 50%;
-    max-width: 100%;
     overflow: hidden;
     border-right: 1px solid rgb(255, 150, 150);
-}
-
-.diffviewer .image-slider > .image-slider-right {
-    /* Make sure that the right image div allocates enough space to fill with
-       the checkerboard pattern, in case the image is narrower. */
-    width: 600px;
 }
 
 .diffviewer .image-slider > .image-slider-left,
@@ -210,10 +207,6 @@
     background:url(
         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAJ0lEQVQoU2Ps6Oj4z4AGXFxc0IUYGIeCwjNnzmB4Zs+ePZieGQIKAZKhLO1oE8Z/AAAAAElFTkSuQmCC
     ) repeat;
-}
-
-.diffviewer .image-slider img {
-    max-width: 600px;
 }
 
 .diffviewer .image-slider .image-slider-label {
@@ -244,6 +237,7 @@
     display: inline-block;
     line-height: 0;
     box-shadow: 1px 2px 20px -2px rgba(0, 0, 0, 0.25);
+    max-width: 600px;
 }
 
 .diffviewer .image-toggle > div.image-toggle-new {
@@ -251,10 +245,5 @@
     top: 0;
     bottom: 0;
     left: 0;
-    max-width: 100%;
     overflow: hidden;
-}
-
-.diffviewer .image-toggle img {
-    max-width: 600px;
 }
