@@ -49,15 +49,18 @@ diffviewer = (function() {
 
   function is_text(str) {
     // If it's not base64 encoded, assume it's text.
-    return !str.match(/^data:[^;]+;base64,/);
+    return str === null || !str.match(/^data:[^;]+;base64,/);
   }
 
   function is_image(str) {
-    return str.match(/^data:image\/[^;]+;base64,/);
+    return str === null || str.match(/^data:image\/[^;]+;base64,/);
   }
 
 
   function create_text_diff(el, filename, old_txt, new_txt) {
+    if (old_txt === null) old_txt = "";
+    if (new_txt === null) new_txt = "";
+
     // Do diff
     var diff_str = JsDiff.createPatch(filename, old_txt, new_txt, "", "");
 
@@ -88,6 +91,12 @@ diffviewer = (function() {
   }
 
   function create_image_diff(el, filename, old_img, new_img) {
+    // If one of the files was an empty string, then it was likely a missing
+    // file. For image diff to work, we need to use an image. This is a 1x1
+    // PNG.
+    empty_png = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=";
+    if (old_img === null) old_img = empty_png;
+    if (new_img === null) new_img = empty_png;
 
     var $wrapper = $(
       '<div class="image-diff">' +

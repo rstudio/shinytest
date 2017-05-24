@@ -44,7 +44,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL, pattern = N
 
   get_file_contents <- function(filename) {
     if (!file.exists(filename)) {
-      return("")
+      return(NULL)
     }
 
     bin_data <- readBin(filename, "raw", n = file.info(filename)$size)
