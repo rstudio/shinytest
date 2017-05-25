@@ -11,6 +11,7 @@ BugReports: https://github.com/rstudio/shinytest/issues
 RoxygenNote: 6.0.1
 Imports:
     assertthat,
+    digest,
     crayon,
     debugme,
     parsedate,

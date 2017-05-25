@@ -1,0 +1,28 @@
+dependencies:
+  - name: jquery
+    version: 1.12.4
+    src: "htmlwidgets/lib/jquery"
+    script:
+      - jquery.min.js
+  - name: diff2html
+    version: 2.3.0
+    src: "htmlwidgets/lib/diff2html"
+    script:
+      - diff2html.min.js
+      - diff2html-ui.min.js
+    stylesheet:
+      - diff2html.min.css
+  - name: jsdiff
+    version: 3.2.0
+    src: "htmlwidgets/lib/jsdiff"
+    script:
+      - diff.js
+  - name: resemble
+    version: 2.2.4
+    src: "htmlwidgets/lib/resemble"
+    script:
+      - resemble.js
+  - name: diffviewer-styles
+    version: 0.1
+    src: htmlwidgets/lib/diffviewer
+    stylesheet: diffviewer.css
