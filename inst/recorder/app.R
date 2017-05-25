@@ -225,16 +225,31 @@ shinyApp(
       tags$iframe(id = "app-iframe", src = target_url)
     ),
     div(id = "shiny-recorder",
-      div(class = "shiny-recorder-title", "Test event recorder"),
+      div(class = "shiny-recorder-header", "Test event recorder"),
       div(class = "shiny-recorder-controls",
-        if (!load_mode) actionButton("snapshot", "Take snapshot"),
-        actionButton("exit", "Exit", class = "btn-danger"),
-        textInput("testname", label = "Name of tests",
+        if (!load_mode) {
+          tagList(
+            actionLink("snapshot",
+              span(
+                img(src = "snapshot.png", class = "shiny-recorder-icon"),
+                "Take snapshot"
+              )
+            ),
+            hr()
+          )
+        },
+        actionLink("exit",
+          span(
+            img(src = "exit.png", class = "shiny-recorder-icon"),
+            "Exit test event recorder"
+          )
+        ),
+        textInput("testname", label = "On exit, save tests as:",
           value = if (load_mode) "myloadtest" else "mytests"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
         if (!load_mode) checkboxInput("runScript", "Run test script on exit", value = TRUE)
       ),
-      div(class = "recorded-events-header", "Recorded events"),
+      div(class = "shiny-recorder-header", "Recorded events"),
       div(id = "recorded-events",
         tableOutput("recordedEvents")
       )
@@ -299,8 +314,7 @@ shinyApp(
         )
       },
       width = "100%",
-      rownames = TRUE,
-      striped = TRUE
+      rownames = TRUE
     )
 
     observeEvent(input$exit, {

@@ -1,6 +1,9 @@
 html,body {
+  font-size: 12px;
   width: 100%;
-  height:100%; 
+  height:100%;
+  font-family: "Lucida Sans", "DejaVu Sans", "Lucida Grande", "Segoe UI",
+               Verdana, Helvetica, sans-serif;
 }
 
 #app-iframe-container {
@@ -29,28 +32,104 @@ html,body {
   flex-flow: column;
 }
 
-#shiny-recorder .shiny-recorder-title {
-  font-size: 20px;
+#shiny-recorder .shiny-recorder-header {
+  font-size: 11px;
+  color: #000;
+  background: #d6dadd;
   font-weight: bold;
-  color: #fff;
-  background: #ea4343;
-  padding: 8px;
+  padding: 5px 10px;
 }
 
 #shiny-recorder .shiny-recorder-controls {
   padding: 10px;
-  /*text-align: right;*/
+  background: #f6f7f9;
 }
 
-#shiny-recorder .recorded-events-header {
-  font-size: 20px;
-  font-weight: bold;
-  color: #fff;
-  background: #ea4343;
-  padding: 8px;
+#shiny-recorder hr {
+  margin: 12px 0;
+  border-top: 1px solid #b6babc;
 }
+
+#shiny-recorder .shiny-recorder-icon {
+  width: 20px;
+  height: 18px;
+  margin-right: 4px;
+  vertical-align: bottom;
+}
+
+#shiny-recorder a.action-button,
+#shiny-recorder a.action-button:visited,
+#shiny-recorder a.action-button:hover {
+  margin: 10px 0;
+  text-decoration:  none;
+  color: #000;
+  height: 18px;
+}
+
+#shiny-recorder .form-group {
+  margin: 10px 0;
+}
+
+#shiny-recorder .form-group label {
+  font-weight: normal;
+}
+
+#shiny-recorder .form-group > label {
+  margin-left: 3px;
+  margin-bottom: 3px;
+}
+
+
+
+/* Need to do override Bootstrap styling. */
+#shiny-recorder input[type="text"] {
+  border-radius: 0;
+  font-size: 11px;
+  height: inherit;
+  padding: 2px 4px;
+  border: 1px solid #999;
+}
+
+/* Bring the two checkboxes closer together. */
+#shiny-recorder .form-group .checkbox {
+  margin-bottom: -10px;
+}
+
 
 #recorded-events {
   flex-grow: 1;
   overflow-y: scroll;
+}
+
+#shiny-recorder .table {
+
+}
+
+#shiny-recorder .table thead {
+}
+
+#shiny-recorder .table thead > tr > th {
+  padding-left: 10px;
+  font-weight: normal;
+  background: #eeeff1;
+  border-top:    1px solid #f7f8f9;
+  border-right:  1px solid #d6dadd;
+  border-bottom: 1px solid #d6dadd;
+  border-left:   1px solid #f7f8f9;
+}
+
+#shiny-recorder .table thead > tr > th:nth-child(1) {
+  border-right: none;
+}
+#shiny-recorder .table thead > tr > th:nth-child(2) {
+  border-left: none;
+}
+#shiny-recorder .table thead > tr > th:nth-child(3) {
+  border-right: none;
+}
+
+#shiny-recorder .table tbody > tr > td {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border-top: none;
 }
