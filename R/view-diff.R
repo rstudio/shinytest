@@ -1,20 +1,8 @@
-#' @inheritParams diffviewer_widget
-#' @export
-view_diff <- function(old, new, pattern = NULL) {
-
-  app <- shinyApp(
-    ui = fluidPage(
-      diffviewer_widget(old, new, pattern = pattern)
-    ),
-    server = function(input, output) {
-
-    }
-  )
-
-  runApp(app)
-}
-
-
+#' Creat an htmlwidget that shows differences between files or directories
+#'
+#' This function can be used for viewing differences between current test
+#' results and the expected results
+#'
 #' @param old,new Names of the old and new directories to compare.
 #'   Alternatively, they can be a character vectors of specific files to
 #'   compare.

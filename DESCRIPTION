@@ -24,6 +24,8 @@ Imports:
     testthat (>= 1.0.0),
     utils,
     webdriver (>= 1.0.2.9000),
+    htmlwidgets,
+    jsonlite,
     withr
 Remotes:
     gaborcsardi/debugme,
