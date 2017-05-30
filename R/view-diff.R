@@ -63,8 +63,12 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL, pattern = N
     list(
       diff_data = diff_data
     ),
-    width = width,
-    height = "100%",
+    sizingPolicy = htmlwidgets::sizingPolicy(
+      defaultWidth = "100%",
+      defaultHeight = "100%",
+      browser.padding = 10,
+      viewer.fill = FALSE
+    ),
     package = "shinytest"
   )
 }
