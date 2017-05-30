@@ -386,14 +386,14 @@ diffviewer = (function() {
         // instead of show()/hide() because the latter will make offset()
         // return 0.
         if (x < $left_label.offset().left + $left_label.width() + 50) {
-          $left_label.css("visibility", "hidden")
+          $left_label.css("visibility", "hidden");
         } else {
-          $left_label.css("visibility", "visible")
+          $left_label.css("visibility", "visible");
         }
         if (x > $right_label.offset().left - 50) {
-          $right_label.css("visibility", "hidden")
+          $right_label.css("visibility", "hidden");
         } else {
-          $right_label.css("visibility", "visible")
+          $right_label.css("visibility", "visible");
         }
 
       }
