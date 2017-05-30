@@ -97,7 +97,7 @@
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    padding: 4px 8px;
+    padding: 3px 8px;
     border: 1px solid #b4b9be;
     border-radius: 5px;
     cursor: pointer;
@@ -111,7 +111,7 @@
     background: #5bb4e7;
 }
 .diffviewer .image-diff-controls > .image-diff-button {
-    width: 80px;
+    width: 75px;
 }
 
 .diffviewer .image-diff-controls .image-diff-button.image-diff-button-left {
