@@ -14,6 +14,11 @@ diffviewer = (function() {
 
   var MAX_IMAGE_WIDTH = 600;
 
+  // If one of the files was an empty string, then it was likely a missing
+  // file. For image diff to work, we need to use an image. This is a 1x1
+  // PNG.
+  var empty_png = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=";
+
   diffviewer.init = function(el) {
     var dv = {
       el: el,
@@ -21,22 +26,26 @@ diffviewer = (function() {
     };
 
     dv.render = function(message) {
-      message.diff_data.map(function(x, idx) {
+      var results = message.diff_data.map(function(x, idx) {
         // Append element for current diff
         var diff_el = document.createElement("div");
         diff_el.id  = dv.id + "-file" + idx;
         dv.el.appendChild(diff_el);
 
+        var res;
+
         if (is_text(x.old) && is_text(x.new)) {
-          create_text_diff(diff_el, x.filename, x.old, x.new);
+          res = create_text_diff(diff_el, x.filename, x.old, x.new);
 
         } else if (is_image(x.old) && is_image(x.new)) {
-          create_image_diff(diff_el, x.filename, x.old, x.new);
-
-        } else {
+          res = create_image_diff(diff_el, x.filename, x.old, x.new);
 
         }
+
+        return res;
       });
+
+      render_file_change_table(dv.el, results);
 
       enable_expand_buttons(dv.el);
 
@@ -58,8 +67,18 @@ diffviewer = (function() {
 
 
   function create_text_diff(el, filename, old_txt, new_txt) {
-    if (old_txt === null) old_txt = "";
-    if (new_txt === null) new_txt = "";
+    var status;
+    if (old_txt === new_txt) {
+      status = "same";
+    } else if (old_txt === null) {
+      old_txt = "";
+      status = "added";
+    } else if (new_txt === null) {
+      new_txt = "";
+      status = "removed";
+    } else {
+      status = "changed";
+    }
 
     // Do diff
     var diff_str = JsDiff.createPatch(filename, old_txt, new_txt, "", "");
@@ -72,31 +91,67 @@ diffviewer = (function() {
 
 
     var $el = $(el);
-
     // Instead of showing a text file icon, we want an expand button.
     $el.find(".d2h-file-name-wrapper .d2h-icon-wrapper")
       .text("")
       .attr("class", "diff-expand-button");
 
-    if (old_txt === new_txt) {
+    if (status === "same") {
       // Start with content collapsed
       $el.find(".d2h-file-wrapper").addClass("diffviewer-collapsed");
+    }
 
-      // diff2html adds a CHANGED label even if the file has not changed,
-      // so we need to manually make it show NOT CHANGED.
-      $el.find(".d2h-tag")
+    // Need to manually modify tags. diff2html adds a CHANGED label even if
+    // the file has not changed, so we need to manually make it show NOT
+    // CHANGED. Same for ADDED and REMOVED.
+    var $status_tag = $el.find(".d2h-tag");
+
+    if (status === "same") {
+      $status_tag
+        .removeClass("d2h-changed")
+        .removeClass("d2h-changed-tag")
+        .addClass("d2h-not-changed")
         .addClass("d2h-not-changed-tag")
         .text("NOT CHANGED");
+
+    } else if (status === "added") {
+      $status_tag
+        .removeClass("d2h-changed")
+        .removeClass("d2h-changed-tag")
+        .addClass("d2h-added")
+        .addClass("d2h-added-tag")
+        .text("ADDED");
+
+    } else if (status === "removed") {
+      $status_tag
+        .removeClass("d2h-changed")
+        .removeClass("d2h-changed-tag")
+        .addClass("d2h-deleted")
+        .addClass("d2h-deleted-tag")
+        .text("REMOVED");
     }
+
+    return {
+      filename: filename,
+      status: status
+    };
   }
 
   function create_image_diff(el, filename, old_img, new_img) {
-    // If one of the files was an empty string, then it was likely a missing
-    // file. For image diff to work, we need to use an image. This is a 1x1
-    // PNG.
-    empty_png = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=";
-    if (old_img === null) old_img = empty_png;
-    if (new_img === null) new_img = empty_png;
+    var status;
+
+    if (old_img === new_img) {
+      status = "same";
+    } else if (old_img === null) {
+      old_img = empty_png;
+      status = "added";
+    } else if (new_img === null) {
+      new_img = empty_png;
+      status = "removed";
+    } else {
+      status = "changed";
+    }
+
 
     var $wrapper = $(
       '<div class="image-diff">' +
@@ -116,7 +171,7 @@ diffviewer = (function() {
     $(el).append($wrapper);
 
 
-    if (old_img === new_img) {
+    if (status === "same") {
       $wrapper.find(".image-diff-tag")
         .addClass("image-diff-not-changed-tag")
         .text("NOT CHANGED");
@@ -127,12 +182,28 @@ diffviewer = (function() {
 
       $wrapper.addClass("diffviewer-collapsed");
 
-      return;
+      return {
+        filename: filename,
+        status: status
+      };
     }
 
-    $wrapper.find(".image-diff-tag")
-      .addClass("image-diff-changed-tag")
-      .text("CHANGED");
+    if (status === "changed") {
+      $wrapper.find(".image-diff-tag")
+        .addClass("image-diff-changed-tag")
+        .text("CHANGED");
+
+    } else if (status === "added") {
+      $wrapper.find(".image-diff-tag")
+        .addClass("image-diff-added-tag")
+        .text("ADDED");
+
+    } else if (status === "removed") {
+      $wrapper.find(".image-diff-tag")
+        .addClass("image-diff-removed-tag")
+        .text("REMOVED");
+    }
+
     $wrapper.find(".image-diff-controls")
       .html(
         '<span class="image-diff-button image-diff-button-left" data-button="difference">Difference</span>' +
@@ -196,6 +267,11 @@ diffviewer = (function() {
       type: "mousedown",
       which: 1            // Simulate left button
     });
+
+    return {
+      filename: filename,
+      status: status
+    };
   }
 
 
@@ -577,6 +653,23 @@ diffviewer = (function() {
     }
   }
 
+  function render_file_change_table(el, files) {
+    var $el = $(el);
+
+    var $list = $('<ul class="diff-file-list"></ul>');
+    files.map(function(file, idx) {
+      $list.append(
+        '<li class="diff-file-' + file.status + '">' +
+          '<span class="diff-file-icon"></span>' +
+          '<a href = "#' + el.id + "-file" + idx + '">' +
+            file.filename +
+          '</a>' +
+        '</li>'
+      );
+    });
+
+    $el.prepend($list);
+  }
 
   return diffviewer;
 }());

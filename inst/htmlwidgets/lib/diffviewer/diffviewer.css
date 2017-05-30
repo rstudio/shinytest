@@ -2,6 +2,59 @@
     box-sizing: border-box;
 }
 
+.diffviewer .diff-file-list {
+    list-style: none;
+    padding-left: 2px;
+    font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+.diffviewer .diff-file-list a,
+.diffviewer .diff-file-list a:visited,
+.diffviewer .diff-file-list a:hover {
+    color: #337ab7;
+}
+.diffviewer .diff-file-list .diff-file-icon {
+    margin-right: 6px;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #000;
+    color: #000;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+.diffviewer .diff-file-list > .diff-file-same .diff-file-icon {
+    color: #aaa;
+    border-color: #aaa;
+}
+.diffviewer .diff-file-list > .diff-file-same .diff-file-icon::before {
+    content: "\25cf";
+}
+.diffviewer .diff-file-list > .diff-file-changed .diff-file-icon {
+    color: #d0b44c;
+    border-color: #d0b44c;
+}
+.diffviewer .diff-file-list > .diff-file-changed .diff-file-icon::before {
+    content: "C";
+}
+.diffviewer .diff-file-list > .diff-file-added .diff-file-icon {
+    color: #399839;
+    border-color: #399839;
+}
+.diffviewer .diff-file-list > .diff-file-added .diff-file-icon::before {
+    content: "A";
+}
+.diffviewer .diff-file-list > .diff-file-removed .diff-file-icon {
+    color: #c33;
+    border-color: #c33;
+}
+.diffviewer .diff-file-list > .diff-file-removed .diff-file-icon::before {
+    content: "R";
+}
+
+
 .diffviewer .diff-expand-button {
     user-select: none;
     -webkit-user-select: none;
@@ -39,8 +92,11 @@
 }
 
 
-.diffviewer .d2h-not-changed-tag {
+
+.diffviewer .d2h-not-changed {
     color: #aaa;
+}
+.diffviewer .d2h-not-changed-tag {
     border: #aaa 1px solid;
 }
 
@@ -82,6 +138,14 @@
 .diffviewer .image-diff .image-diff-header .image-diff-not-changed-tag {
     color: #aaa;
     border: #aaa 1px solid;
+}
+.diffviewer .image-diff .image-diff-header .image-diff-added-tag {
+    color: #399839;
+    border: #399839 1px solid;
+}
+.diffviewer .image-diff .image-diff-header .image-diff-removed-tag {
+    color: #c33;
+    border: #c33 1px solid;
 }
 
 
