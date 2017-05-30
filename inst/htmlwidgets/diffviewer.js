@@ -26,6 +26,14 @@ diffviewer = (function() {
     };
 
     dv.render = function(message) {
+      var $el = $(dv.el);
+
+      if (message.title) {
+        $el.append("<h2>" + message.title + "</h2>");
+      }
+      var $toc = $("<div></div>");
+      $el.append($toc);
+
       var results = message.diff_data.map(function(x, idx) {
         // Append element for current diff
         var diff_el = document.createElement("div");
@@ -45,7 +53,7 @@ diffviewer = (function() {
         return res;
       });
 
-      render_file_change_table(dv.el, results);
+      render_file_change_table($toc, results);
 
       enable_expand_buttons(dv.el);
 

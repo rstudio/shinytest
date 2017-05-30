@@ -6,12 +6,15 @@
 #' @param old,new Names of the old and new directories to compare.
 #'   Alternatively, they can be a character vectors of specific files to
 #'   compare.
+#' @param title An optional title for the widget.
 #' @param pattern A filter to apply to the old and new directories.
 #' @param width Width of the htmlwidget.
 #' @param height Height of the htmlwidget
 #'
 #' @export
-diffviewer_widget <- function(old, new, width = NULL, height = NULL, pattern = NULL) {
+diffviewer_widget <- function(old, new, title = NULL,
+  width = NULL, height = NULL, pattern = NULL)
+{
 
   if (xor(assertthat::is.dir(old), assertthat::is.dir(new))) {
       stop("`old` and `new` must both be directories, or character vectors of filenames.")
@@ -61,6 +64,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL, pattern = N
   htmlwidgets::createWidget(
     name = "diffviewer",
     list(
+      title = title,
       diff_data = diff_data
     ),
     sizingPolicy = htmlwidgets::sizingPolicy(
