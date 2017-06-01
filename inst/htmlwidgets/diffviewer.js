@@ -221,13 +221,13 @@ diffviewer = (function() {
         '</span>' +
         '<span class="image-zoom-text"></span>' +
         '<span class="image-diff-view-buttons">' +
-          // TODO: populate these buttons from the views object
-          '<span class="image-diff-button image-diff-button-left" data-button="difference">Difference</span>' +
-          '<span class="image-diff-button image-diff-button-middle" data-button="toggle">Toggle</span>' +
-          '<span class="image-diff-button image-diff-button-right" data-button="slider">Slider</span>' +
         '</span>' +
         '<span class="image-diff-controls-sub"></span>'
       );
+
+    $wrapper
+      .find(".image-diff-view-buttons")
+      .html(generate_view_buttons(Views.summary()));
 
     var $container = $wrapper.find(".image-diff-container");
     var $controls = $wrapper.find(".image-diff-controls-sub");
@@ -273,14 +273,31 @@ diffviewer = (function() {
 
 
   var Views = (function() {
-    var viewTypes = {};
+    var view_types = {};
+    var view_order = [];
+
+    // Add a new type of view, and keep track of order
+    function add_view(view) {
+      view_types[view.name] = view;
+      view_order.push(view.name);
+    }
+
+    function summary() {
+      return view_order.map(function(name) {
+        return {
+          name:  name,
+          label: view_types[name].label
+        };
+      });
+    }
 
     function create($container, $controls, old_img, new_img) {
       var views = {};
 
+      // Activate a particular view
       function activate(name) {
         if (!views[name]) {
-          views[name] = viewTypes[name].create($container, $controls, old_img, new_img);
+          views[name] = view_types[name].create($container, $controls, old_img, new_img);
         }
 
         for (var key in views) {
@@ -301,13 +318,14 @@ diffviewer = (function() {
     }
 
     return {
-      viewTypes: viewTypes,
+      add_view: add_view,
+      summary: summary,
       create: create
     };
   })();
 
 
-  Views.viewTypes.difference = (function() {
+  Views.add_view((function() {
     var view = {
       name: "difference",
       label: "Difference"
@@ -358,10 +376,10 @@ diffviewer = (function() {
     };
 
     return view;
-  })();
+  })());
 
 
-  Views.viewTypes.toggle = (function() {
+  Views.add_view((function() {
     var view = {
       name: "toggle",
       label: "Toggle"
@@ -548,10 +566,10 @@ diffviewer = (function() {
     };
 
     return view;
-  })();
+  })());
 
 
-  Views.viewTypes.slider = (function() {
+  Views.add_view((function() {
     var view = {
       name: "slider",
       label: "Slider"
@@ -664,8 +682,25 @@ diffviewer = (function() {
     };
 
     return view;
-  })();
+  })());
 
+
+  function generate_view_buttons(view_summary) {
+    var str = "";
+    var position;
+    for (var i=0; i<view_summary.length; i++) {
+      var item = view_summary[i];
+
+      if      (i === 0)                     position = "left";
+      else if (i === view_summary.length-1) position = "right";
+      else                                 position = "middle";
+
+      str += '<span class="image-diff-button image-diff-button-' + position +
+        '" data-button="' + item.name + '">' + item.label + '</span>';
+    }
+
+    return str;
+  }
 
 
   function enable_expand_buttons(el) {
