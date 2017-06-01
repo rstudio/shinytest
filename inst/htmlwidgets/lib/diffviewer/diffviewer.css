@@ -192,6 +192,19 @@
     margin-left: -1px;
 }
 
+.diffviewer .image-diff-controls .image-zoom-slider {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    width: 50px;
+}
+.diffviewer .image-diff-controls .image-zoom-text {
+    display: inline-block;
+    width: 40px;
+    margin-left: 8px;
+}
+
+
 .diffviewer .image-diff-controls-sub {
     margin-left: 11px;
 }
