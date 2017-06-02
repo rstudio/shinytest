@@ -12,9 +12,7 @@
 diffviewer = (function() {
   var diffviewer = {};
 
-  var ZOOM_STEPS = [0.25, 0.5, 1, 2];
-  var ZOOM_START_IDX = 1;
-  var ZOOM_DEFAULT = ZOOM_STEPS[ZOOM_START_IDX];
+  var ZOOM_DEFAULT = 0.5;
 
   // If one of the files was an empty string, then it was likely a missing
   // file. For image diff to work, we need to use an image. This is a 1x1
@@ -239,7 +237,8 @@ diffviewer = (function() {
       var zoom_level = $el.data("button");
       state.views.zoom(zoom_level);
     });
-    // Start with first button selected
+    // Start with 1:2 button selected.
+    // Note that the value should match ZOOM_DEFAULT.
     $wrapper.find(".image-zoom-buttons > .image-diff-button:nth-child(2)").trigger({
       type: "mousedown",
       which: 1
