@@ -539,6 +539,13 @@ URL: https://github.com/Huddle/Resemble.js
 						triggerDataUpdate();
 						return;
 					}
+
+					// Modification for diffviewer: Return the dimensions of each image.
+					data.dims = [
+						{ width: images[0].width, height: images[0].height },
+						{ width: images[1].width, height: images[1].height }
+					];
+
 					width = images[0].width > images[1].width ? images[0].width : images[1].width;
 					height = images[0].height > images[1].height ? images[0].height : images[1].height;
 
