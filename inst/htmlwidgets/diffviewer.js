@@ -185,17 +185,10 @@ diffviewer = (function() {
       $wrapper.find(".image-diff-tag")
         .addClass("image-diff-not-changed-tag")
         .text("NOT CHANGED");
-      $wrapper.find(".image-diff-container")
-        .html('<img class="image-diff-nochange"></img>');
-      $wrapper.find(".image-diff-container > img.image-diff-nochange")
-        .attr("src", new_img);
 
       $wrapper.addClass("diffviewer-collapsed");
 
-      return state;
-    }
-
-    if (state.status === "changed") {
+    } else if (state.status === "changed") {
       $wrapper.find(".image-diff-tag")
         .addClass("image-diff-changed-tag")
         .text("CHANGED");
@@ -210,6 +203,7 @@ diffviewer = (function() {
         .addClass("image-diff-removed-tag")
         .text("REMOVED");
     }
+
 
     $wrapper.find(".image-diff-controls")
       .html(
@@ -231,6 +225,7 @@ diffviewer = (function() {
     var $controls = $wrapper.find(".image-diff-controls-sub");
     state.views = Views.create($container, $controls, old_img, new_img);
 
+    // Zoom buttons
     $wrapper.on("mousedown", ".image-zoom-buttons > .image-diff-button", function(e) {
       if (e.which !== 1) return;
 
@@ -250,7 +245,7 @@ diffviewer = (function() {
       which: 1
     });
 
-
+    // View buttons
     $wrapper.on("mousedown", ".image-diff-view-buttons > .image-diff-button", function(e) {
       if (e.which !== 1) return;
 
