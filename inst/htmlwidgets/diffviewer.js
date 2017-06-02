@@ -174,8 +174,6 @@ diffviewer = (function() {
         '</div>' +
         '<div class="image-diff-controls"></div>' +
         '<div class="image-diff-container">' +
-          '<div class="image-diff-content">' +
-          '</div>' +
         '</div>' +
       '</div>'
     );
