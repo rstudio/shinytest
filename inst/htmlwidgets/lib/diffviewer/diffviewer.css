@@ -18,40 +18,36 @@
     margin-right: 6px;
     width: 15px;
     height: 15px;
-    border: 1px solid #000;
-    color: #000;
+    color: #fff;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
+    border-radius: 1px;
 }
 .diffviewer .diff-file-list > .diff-file-same .diff-file-icon {
-    color: #aaa;
-    border-color: #aaa;
+    background-color: #aaa;
 }
 .diffviewer .diff-file-list > .diff-file-same .diff-file-icon::before {
     content: "\25cf";
 }
-.diffviewer .diff-file-list > .diff-file-changed .diff-file-icon {
-    color: #d0b44c;
-    border-color: #d0b44c;
+.diffviewer .diff-file-list > .diff-file-modified .diff-file-icon {
+    background-color: #5687d9;
 }
-.diffviewer .diff-file-list > .diff-file-changed .diff-file-icon::before {
-    content: "C";
+.diffviewer .diff-file-list > .diff-file-modified .diff-file-icon::before {
+    content: "M";
 }
 .diffviewer .diff-file-list > .diff-file-added .diff-file-icon {
-    color: #399839;
-    border-color: #399839;
+    background-color: #f2cc36;
 }
 .diffviewer .diff-file-list > .diff-file-added .diff-file-icon::before {
     content: "A";
 }
 .diffviewer .diff-file-list > .diff-file-removed .diff-file-icon {
-    color: #c33;
-    border-color: #c33;
+    background-color: #e73f1d;
 }
 .diffviewer .diff-file-list > .diff-file-removed .diff-file-icon::before {
-    content: "R";
+    content: "D";
 }
 
 
@@ -92,14 +88,6 @@
 }
 
 
-
-.diffviewer .d2h-not-changed {
-    color: #aaa;
-}
-.diffviewer .d2h-not-changed-tag {
-    border: #aaa 1px solid;
-}
-
 /* Remove vertical padding between rows in code diffs */
 .d2h-diff-tbody > tr > td {
     padding: 0;
@@ -121,33 +109,30 @@
     align-items: center;
 }
 
-.diffviewer .image-diff .image-diff-header .image-diff-tag {
+.diffviewer .diff-tag{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     font-size: 10px;
     margin-left: 5px;
-    padding: 0 2px;
-    background-color: #fff;
+    padding: 2px 4px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 1px;
     line-height: normal;
 }
-.diffviewer .image-diff .image-diff-header .image-diff-changed-tag {
-    color: #d0b44c;
-    border: #d0b44c 1px solid;
+.diffviewer .diff-same-tag {
+    background-color: #aaa;
 }
-.diffviewer .image-diff .image-diff-header .image-diff-not-changed-tag {
-    color: #aaa;
-    border: #aaa 1px solid;
+.diffviewer .diff-modified-tag {
+    background-color: #5687d9;
 }
-.diffviewer .image-diff .image-diff-header .image-diff-added-tag {
-    color: #399839;
-    border: #399839 1px solid;
+.diffviewer .diff-added-tag {
+    background-color: #f2cc36;
 }
-.diffviewer .image-diff .image-diff-header .image-diff-removed-tag {
-    color: #c33;
-    border: #c33 1px solid;
+.diffviewer .diff-removed-tag {
+    background-color: #e73f1d;
 }
-
 
 
 .diffviewer .image-diff .image-diff-controls {

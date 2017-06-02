@@ -84,7 +84,7 @@ diffviewer = (function() {
       new_txt = "";
       status = "removed";
     } else {
-      status = "changed";
+      status = "modified";
     }
 
     // Do diff
@@ -111,30 +111,28 @@ diffviewer = (function() {
     // Need to manually modify tags. diff2html adds a CHANGED label even if
     // the file has not changed, so we need to manually make it show NOT
     // CHANGED. Same for ADDED and REMOVED.
-    var $status_tag = $el.find(".d2h-tag");
+    var $status_tag = $el.find(".d2h-tag")
+      .removeClass()
+      .addClass("diff-tag");
 
     if (status === "same") {
       $status_tag
-        .removeClass("d2h-changed")
-        .removeClass("d2h-changed-tag")
-        .addClass("d2h-not-changed")
-        .addClass("d2h-not-changed-tag")
+        .addClass("diff-same-tag")
         .text("NOT CHANGED");
+
+    } else if (status === "modified") {
+      $status_tag
+        .addClass("diff-modified-tag")
+        .text("MODIFIED");
 
     } else if (status === "added") {
       $status_tag
-        .removeClass("d2h-changed")
-        .removeClass("d2h-changed-tag")
-        .addClass("d2h-added")
-        .addClass("d2h-added-tag")
+        .addClass("diff-added-tag")
         .text("ADDED");
 
     } else if (status === "removed") {
       $status_tag
-        .removeClass("d2h-changed")
-        .removeClass("d2h-changed-tag")
-        .addClass("d2h-deleted")
-        .addClass("d2h-deleted-tag")
+        .addClass("diff-removed-tag")
         .text("REMOVED");
     }
 
@@ -160,7 +158,7 @@ diffviewer = (function() {
       new_img = empty_png;
       state.status = "removed";
     } else {
-      state.status = "changed";
+      state.status = "modified";
     }
 
     var $wrapper = $(
@@ -168,7 +166,7 @@ diffviewer = (function() {
         '<div class="image-diff-header">' +
           '<span class="diff-expand-button"></span>' +
           '<span class="image-diff-filename"></span>' +
-          '<span class="image-diff-tag"></span>' +
+          '<span class="diff-tag"></span>' +
         '</div>' +
         '<div class="image-diff-controls"></div>' +
         '<div class="image-diff-container">' +
@@ -180,25 +178,25 @@ diffviewer = (function() {
 
 
     if (state.status === "same") {
-      $wrapper.find(".image-diff-tag")
-        .addClass("image-diff-not-changed-tag")
+      $wrapper.find(".diff-tag")
+        .addClass("diff-same-tag")
         .text("NOT CHANGED");
 
       $wrapper.addClass("diffviewer-collapsed");
 
-    } else if (state.status === "changed") {
-      $wrapper.find(".image-diff-tag")
-        .addClass("image-diff-changed-tag")
-        .text("CHANGED");
+    } else if (state.status === "modified") {
+      $wrapper.find(".diff-tag")
+        .addClass("diff-modified-tag")
+        .text("MODIFIED");
 
     } else if (state.status === "added") {
-      $wrapper.find(".image-diff-tag")
-        .addClass("image-diff-added-tag")
+      $wrapper.find(".diff-tag")
+        .addClass("diff-added-tag")
         .text("ADDED");
 
     } else if (state.status === "removed") {
-      $wrapper.find(".image-diff-tag")
-        .addClass("image-diff-removed-tag")
+      $wrapper.find(".diff-tag")
+        .addClass("diff-removed-tag")
         .text("REMOVED");
     }
 
