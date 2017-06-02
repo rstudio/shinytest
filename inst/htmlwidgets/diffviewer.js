@@ -213,12 +213,13 @@ diffviewer = (function() {
 
     $wrapper.find(".image-diff-controls")
       .html(
-        '<span class="image-zoom-slider">' +
-          '<input type="range" min="0" max="3" value="' + ZOOM_START_IDX + '" step="1">' +
+        '<span class="image-zoom-buttons">' +
+          '<span class="image-diff-button image-diff-button-left" data-button="0.25">1:4</span>' +
+          '<span class="image-diff-button image-diff-button-middle" data-button="0.5">1:2</span>' +
+          '<span class="image-diff-button image-diff-button-middle" data-button="1">1:1</span>' +
+          '<span class="image-diff-button image-diff-button-right" data-button="2">2:1</span>' +
         '</span>' +
-        '<span class="image-zoom-text"></span>' +
-        '<span class="image-diff-view-buttons">' +
-        '</span>' +
+        '<span class="image-diff-view-buttons"></span>' +
         '<span class="image-diff-controls-sub"></span>'
       );
 
@@ -230,14 +231,24 @@ diffviewer = (function() {
     var $controls = $wrapper.find(".image-diff-controls-sub");
     state.views = Views.create($container, $controls, old_img, new_img);
 
-    // TODO: make zoom work even when there's no difference.
-    var $zoom_slider = $wrapper.find('input[type="range"]');
-    $zoom_slider.on("input", function(e) {
-      var zoom = ZOOM_STEPS[parseInt(this.value)];
-      $wrapper.find(".image-zoom-text").text(zoom + "x");
-      state.views.zoom(zoom);
+    $wrapper.on("mousedown", ".image-zoom-buttons > .image-diff-button", function(e) {
+      if (e.which !== 1) return;
+
+      var $el = $(this);
+      if ($el.hasClass("image-diff-button-selected")) return;
+
+      // Unselect sibling buttons and select this button.
+      $el.siblings(".image-diff-button").removeClass("image-diff-button-selected");
+      $el.addClass("image-diff-button-selected");
+
+      var zoom_level = $el.data("button");
+      state.views.zoom(zoom_level);
     });
-    $zoom_slider.trigger("input");
+    // Start with first button selected
+    $wrapper.find(".image-zoom-buttons > .image-diff-button:nth-child(2)").trigger({
+      type: "mousedown",
+      which: 1
+    });
 
 
     $wrapper.on("mousedown", ".image-diff-view-buttons > .image-diff-button", function(e) {
