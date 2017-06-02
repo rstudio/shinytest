@@ -12,10 +12,9 @@
 diffviewer = (function() {
   var diffviewer = {};
 
-  var MAX_IMAGE_WIDTH = 600;
-
   var ZOOM_STEPS = [0.25, 0.5, 1, 2];
-  var START_ZOOM_IDX = 1;
+  var ZOOM_START_IDX = 1;
+  var ZOOM_DEFAULT = ZOOM_STEPS[ZOOM_START_IDX];
 
   // If one of the files was an empty string, then it was likely a missing
   // file. For image diff to work, we need to use an image. This is a 1x1
@@ -217,7 +216,7 @@ diffviewer = (function() {
     $wrapper.find(".image-diff-controls")
       .html(
         '<span class="image-zoom-slider">' +
-          '<input type="range" min="0" max="3" value="' + START_ZOOM_IDX + '" step="1">' +
+          '<input type="range" min="0" max="3" value="' + ZOOM_START_IDX + '" step="1">' +
         '</span>' +
         '<span class="image-zoom-text"></span>' +
         '<span class="image-diff-view-buttons">' +
@@ -236,13 +235,9 @@ diffviewer = (function() {
     // TODO: make zoom work even when there's no difference.
     var $zoom_slider = $wrapper.find('input[type="range"]');
     $zoom_slider.on("input", function(e) {
-      state.zoom = ZOOM_STEPS[parseInt(this.value)];
-      $wrapper.find(".image-zoom-text").text(state.zoom + "x");
-
-      // Tell the view what the zoom is
-      if (state.views && state.views.zoom) {
-        state.views.zoom(state.zoom);
-      }
+      var zoom = ZOOM_STEPS[parseInt(this.value)];
+      $wrapper.find(".image-zoom-text").text(zoom + "x");
+      state.views.zoom(zoom);
     });
     $zoom_slider.trigger("input");
 
@@ -293,16 +288,18 @@ diffviewer = (function() {
 
     function create($container, $controls, old_img, new_img) {
       var views = {};
+      var zoom_level = ZOOM_DEFAULT;
+      var _dimensions = null;
 
-      // Activate a particular view
+      // Activate a particular view and hide others
       function activate(name) {
         if (!views[name]) {
-          views[name] = view_types[name].create($container, $controls, old_img, new_img);
+          views[name] = view_types[name].create($container, $controls,
+            old_img, new_img, zoom_level, dims);
         }
 
         for (var key in views) {
-          if (!views.hasOwnProperty(key))
-            continue;
+          if (!views.hasOwnProperty(key)) continue;
 
           if (key === name) {
             views[key].show();
@@ -312,8 +309,28 @@ diffviewer = (function() {
         }
       }
 
+      // Set zoom level on all views
+      function zoom(zoom) {
+        zoom_level = zoom;
+        for (var key in views) {
+          if (!views.hasOwnProperty(key)) continue;
+
+          views[key].zoom(zoom);
+        }
+      }
+
+      // Get or set dimensions of old and new images.
+      function dims(dimensions) {
+        if (dimensions) {
+          _dimensions = dimensions;
+        }
+        return _dimensions;
+      }
+
       return {
-        activate: activate
+        activate: activate,
+        dims: dims,
+        zoom: zoom
       };
     }
 
@@ -331,10 +348,7 @@ diffviewer = (function() {
       label: "Difference"
     };
 
-    view.create = function($container, $controls, old_img, new_img) {
-      var images_ready = false;
-      var images_ready_callback;
-
+    view.create = function($container, $controls, old_img, new_img, zoom_level, dims) {
       var $wrapper = $(
         '<div class="image-difference"><img></img></div>'
       );
@@ -351,27 +365,41 @@ diffviewer = (function() {
         transparency: 0.2
       });
 
-
       resemble(old_img).compareTo(new_img)
         .onComplete(function(data) {
-
-          $img.attr("src", data.getImageDataUrl());
-
-          images_ready = true;
-          if (typeof images_ready_callback === "function") {
-            images_ready_callback();
+          if (!dims()) {
+            // Store the dimensions if needed.
+            dims({
+              old: data.dims[0],
+              new: data.dims[1]
+            });
           }
+
+          // Set zoom, if we haven't already successfully done so.
+          zoom(zoom_level);
+          $img.attr("src", data.getImageDataUrl());
         });
 
+      function zoom(zoom_level) {
+        if (!dims())
+          return false;
+
+        // Width of the output image - will be the same as the greater of the
+        // widths of the two images.
+        var natural_width = Math.max(dims().old.width, dims().new.width);
+        $wrapper.css("width", natural_width * zoom_level + "px");
+        return true;
+      }
+
+      // This call to zoom() will succeed if another view has already called
+      // dims(); if this is the first view used, then it will do nothing.
+      zoom(zoom_level);
 
       return {
         $el: $wrapper,
         show: function() { $wrapper.show(); },
         hide: function() { $wrapper.hide(); },
-        zoom: function(zoom) {
-          // TODO: Implement zoom
-          console.log(zoom);
-        }
+        zoom: zoom
       };
     };
 
@@ -385,7 +413,7 @@ diffviewer = (function() {
       label: "Toggle"
     };
 
-    view.create = function($container, $controls, old_img, new_img) {
+    view.create = function($container, $controls, old_img, new_img, zoom_level, dims) {
       var $wrapper = $(
         '<div class="image-toggle">' +
           '<div class="image-toggle-old"><img></img></div>' +
@@ -416,20 +444,10 @@ diffviewer = (function() {
 
       var $new_div = $wrapper.find(".image-toggle-new");
       var $old_div = $wrapper.find(".image-toggle-old");
+      var $new_img = $new_div.find("img");
+      var $old_img = $old_div.find("img");
 
-      schedule_image_resize_when_loaded(
-        $old_div,
-        $new_div,
-        MAX_IMAGE_WIDTH,
-        function() {
-          // Attach the wrapper to the DOM only after the images are loaded. This
-          // prevents an annoying resize flash, which shows the images after they
-          // are loaded but before they are properly resized. The drawback is that
-          // there can be a quick blank-out flash.
-          $container.append($wrapper);
-        }
-      );
-
+      $container.append($wrapper);
 
       var $new_button = $controls.find(".image-toggle-button-new");
       var $old_button = $controls.find(".image-toggle-button-old");
@@ -536,6 +554,83 @@ diffviewer = (function() {
       });
 
 
+      var has_zoomed = false;
+
+      function zoom(zoom_level) {
+        var dim = dims();
+        if (!dim)
+          return false;
+
+        if (has_zoomed) {
+          $wrapper.addClass("zooming");
+
+          // Get the duration of the transition, so that we can remove the
+          // "zooming" class at the end of the transition. The zooming class
+          // enables transitions, but we only want those transitions during
+          // the zoom because they cause problems when dragging the slider.
+          var duration = $wrapper.css('transition-duration');
+          if (/^[0-9.]+s$/.test(duration)) {
+            duration = parseFloat(duration);
+
+            setTimeout(function() {
+              $wrapper.removeClass("zooming");
+            }, duration * 1000);
+          }
+        } else {
+          // Don't use transitions for initial zoom.
+          has_zoomed = true;
+        }
+
+        var max = {
+          width:  Math.max(dim.old.width,  dim.new.width),
+          height: Math.max(dim.old.height, dim.new.height)
+        };
+
+        $wrapper.css("width", zoom_level * max.width);
+
+        $old_div
+          .css("width",  zoom_level * max.width)
+          .css("height", zoom_level * max.height);
+        $new_div
+          .css("width",  zoom_level * max.width)
+          .css("height", zoom_level * max.height);
+        $old_img
+          .css("width",  zoom_level * dim.old.width)
+          .css("height", zoom_level * dim.old.height);
+        $new_img
+          .css("width",  zoom_level * dim.new.width)
+          .css("height", zoom_level * dim.new.height);
+
+        return true;
+      }
+
+      // Try to zoom immediately; if not successful, that means we have to
+      // wait for the images to be loaded and then we can get the dimensions.
+      if (!zoom(zoom_level)) {
+        var imgs_loaded = 0;
+        var img_loaded_callback = function() {
+          imgs_loaded++;
+          // Set zooming after both images loaded
+          if (imgs_loaded == 2) {
+            dims({
+              old: {
+                width:  $old_img.prop("naturalWidth"),
+                height: $old_img.prop("naturalHeight")
+              },
+              new: {
+                width:  $new_img.prop("naturalWidth"),
+                height: $new_img.prop("naturalHeight")
+              }
+            });
+
+            zoom(zoom_level);
+          }
+        };
+
+        $old_img.one("load", img_loaded_callback);
+        $new_img.one("load", img_loaded_callback);
+      }
+
       // State of play button when hidden. Need to know this so that when we
       // show it again, we have the same state.
       var prev_play_state = false;
@@ -559,9 +654,7 @@ diffviewer = (function() {
           $wrapper.hide();
           $subcontrols.hide();
         },
-        zoom: function(zoom) {
-          console.log("implement zoom");
-        }
+        zoom: zoom
       };
     };
 
@@ -575,7 +668,7 @@ diffviewer = (function() {
       label: "Slider"
     };
 
-    view.create = function($container, $controls, old_img, new_img) {
+    view.create = function($container, $controls, old_img, new_img, zoom_level, dims) {
       var $wrapper = $(
         '<div class="image-slider">' +
           '<div class="image-slider-right">' +
@@ -592,72 +685,32 @@ diffviewer = (function() {
           '</div>' +
         '</div>'
       );
-      $wrapper.find(".image-slider-right > img")
-        .attr("src", new_img)
-        .on("dragstart", function () { return false; });
       $wrapper.find(".image-slider-left > img")
         .attr("src", old_img)
         .on("dragstart", function () { return false; });
+      $wrapper.find(".image-slider-right > img")
+        .attr("src", new_img)
+        .on("dragstart", function () { return false; });
 
-      var $left_div  = $wrapper.find(".image-slider-left");
-      var $right_div = $wrapper.find(".image-slider-right");
+      var $old_div = $wrapper.find(".image-slider-left");
+      var $new_div = $wrapper.find(".image-slider-right");
+      var $old_img = $old_div.find("img");
+      var $new_img = $new_div.find("img");
 
-      schedule_image_resize_when_loaded(
-        $left_div,
-        $right_div,
-        MAX_IMAGE_WIDTH,
-        function() {
-          // Put the line in the middle.
-          $left_div.css("width", "50%");
-          // Attach the wrapper to the DOM only after the images are loaded. This
-          // prevents an annoying resize flash, which shows the images after they
-          // are loaded but before they are properly resized. The drawback is that
-          // there can be a quick blank-out flash.
-          $container.append($wrapper);
-        }
-      );
+      $container.append($wrapper);
 
-      var $left_label  = $left_div.find(".image-slider-label");
-      var $right_label = $right_div.find(".image-slider-label");
+      var $old_label = $old_div.find(".image-slider-label");
+      var $new_label = $new_div.find(".image-slider-label");
 
       // Add mouse event listener
       $wrapper.on("mousedown", function(e) {
         // Make sure it's the left button
         if (e.which !== 1) return;
 
-        // Find minimum and maximum x values
-        var minX = $right_div.offset().left;
-        var maxX = minX + Math.max($left_div.outerWidth(), $right_div.outerWidth());
-
-        function slide_to(x) {
-          // Constrain mouse position to within image div
-          x = Math.max(x, minX);
-          x = Math.min(x, maxX);
-
-          // Change width of div
-          $left_div.outerWidth(x - $left_div.offset().left);
-
-          // Make labels disappear/reappear as necessary. Use css visibility
-          // instead of show()/hide() because the latter will make offset()
-          // return 0.
-          if (x < $left_label.offset().left + $left_label.width() + 50) {
-            $left_label.css("visibility", "hidden");
-          } else {
-            $left_label.css("visibility", "visible");
-          }
-          if (x > $right_label.offset().left - 50) {
-            $right_label.css("visibility", "hidden");
-          } else {
-            $right_label.css("visibility", "visible");
-          }
-
-        }
-
         slide_to(e.pageX);
 
         $(window).on("mousemove.image-slider", function(e) {
-          var x = e.pageX;
-          slide_to(x);
+          slide_to(e.pageX);
         });
 
         // Need to bind to window to detect mouseup events outside of browser
@@ -670,14 +723,164 @@ diffviewer = (function() {
         });
       });
 
+      function min_x() {
+        return $new_div.offset().left;
+      }
+      function max_x() {
+        // Attempt to get the pixel width from style attribute
+        var old_width = get_target_width($old_div);
+        var new_width = get_target_width($new_div);
+
+        return min_x() + Math.max(old_width, new_width);
+      }
+
+      // This attempts to get the pixel width from a style attribute, and if
+      // that fails, gets the computed width (by calling width()). The reason
+      // that we want to try to get the width from the style is because,
+      // during a transition, this gives us the _target_ width, whereas the
+      // computed width gives us the width at the moment the function is
+      // called. In many cases, we need to get the target width.
+      function get_target_width($el) {
+        var width = $el[0].style.width;
+        if (/^[0-9.]+px$/.test(width)) {
+          return parseFloat(width);
+        } else {
+          return $old_div.width();
+        }
+      }
+
+      function slide_to(x) {
+        // Constrain mouse position to within image div
+        x = Math.max(x, min_x());
+        x = Math.min(x, max_x());
+
+        // Change width of div
+        $old_div.width(x - $old_div.offset().left);
+
+        set_label_visibility();
+      }
+
+      // Make labels disappear/reappear depending on how close slider is.
+      function set_label_visibility() {
+        var x = $old_div.offset().left + get_target_width($old_div);
+
+        // Use css visibility instead of show()/hide() because the latter will
+        // make offset() return 0.
+        if (x < $old_label.offset().left + $old_label.width() + 50) {
+          $old_label.css("visibility", "hidden");
+        } else {
+          $old_label.css("visibility", "visible");
+        }
+
+        // Can't use $new_label.offset().left because during transitions, it
+        // gives the current value instead of target value. We need to compute
+        // the target left position.
+        var new_label_left = $new_div.offset().left + get_target_width($new_div) -
+                             $new_label.width();
+        if (x > new_label_left - 50) {
+          $new_label.css("visibility", "hidden");
+        } else {
+          $new_label.css("visibility", "visible");
+        }
+      }
+
+      function slide_to_proportion(p, min, max) {
+        $old_div.width((max_x() - min_x()) * p);
+      }
+
+      function get_slide_proportion() {
+        var x = $old_div.offset().left + get_target_width($old_div);
+        return (x - min_x()) / (max_x() - min_x());
+      }
+
+      var has_zoomed = false;
+
+      function zoom(zoom_level) {
+        var dim = dims();
+        if (!dim)
+          return false;
+
+        var proportion;
+        if (has_zoomed) {
+          proportion = get_slide_proportion();
+          $wrapper.addClass("zooming");
+
+          // Get the duration of the transition, so that we can remove the
+          // "zooming" class at the end of the transition. The zooming class
+          // enables transitions, but we only want those transitions during
+          // the zoom because they cause problems when dragging the slider.
+          var duration = $wrapper.css('transition-duration');
+          if (/^[0-9.]+s$/.test(duration)) {
+            duration = parseFloat(duration);
+
+            setTimeout(function() {
+              $wrapper.removeClass("zooming");
+            }, duration * 1000);
+          }
+        } else {
+          // On first call to zoom(), start in the middle, and don't use transitions.
+          proportion = 0.5;
+          has_zoomed = true;
+        }
+
+        var max = {
+          width:  Math.max(dim.old.width,  dim.new.width),
+          height: Math.max(dim.old.height, dim.new.height)
+        };
+
+        $wrapper.css("width", zoom_level * max.width);
+
+        $old_div
+          .css("width",  zoom_level * max.width)
+          .css("height", zoom_level * max.height);
+        $new_div
+          .css("width",  zoom_level * max.width)
+          .css("height", zoom_level * max.height);
+        $old_img
+          .css("height", zoom_level * dim.old.height);
+        $new_img
+          .css("width",  zoom_level * dim.new.width)
+          .css("height", zoom_level * dim.new.height);
+
+        slide_to_proportion(proportion); // Sets the width for $old_img
+        set_label_visibility();
+
+        return true;
+      }
+
+      // Try to zoom immediately; if not successful, that means we have to
+      // wait for the images to be loaded and then we can get the dimensions.
+      if (!zoom(zoom_level)) {
+        var imgs_loaded = 0;
+        var img_loaded_callback = function() {
+          imgs_loaded++;
+          // Set zooming after both images loaded
+          if (imgs_loaded == 2) {
+            dims({
+              old: {
+                width:  $old_img.prop("naturalWidth"),
+                height: $old_img.prop("naturalHeight")
+              },
+              new: {
+                width:  $new_img.prop("naturalWidth"),
+                height: $new_img.prop("naturalHeight")
+              }
+            });
+
+            zoom(zoom_level);
+          }
+        };
+
+        $old_img.one("load", img_loaded_callback);
+        $new_img.one("load", img_loaded_callback);
+      }
+
+
       return {
         $el: $wrapper,
         show: function() { $wrapper.show(); },
         hide: function() { $wrapper.hide(); },
-        zoom: function(zoom) {
-          // TODO: Implement zoom
-          console.log(zoom);
-        }
+        zoom: zoom
       };
     };
 
@@ -718,88 +921,6 @@ diffviewer = (function() {
         $wrapper.addClass("diffviewer-collapsed");
       }
     });
-  }
-
-  // Given two divs, each containing an img tag, schedule a scaling of the
-  // images after the images are loaded.
-  function schedule_image_resize_when_loaded($div1, $div2, max_width, callback) {
-    var $img1 = $div1.find("img");
-    var $img2 = $div2.find("img");
-
-    // Set the scaling after the images load
-    var img1_loaded = false;
-    var img2_loaded = false;
-
-    $img1.one("load", function() {
-      img1_loaded = true;
-      scale_if_all_loaded();
-    });
-    $img2.one("load", function() {
-      img2_loaded = true;
-      scale_if_all_loaded();
-    });
-
-    function scale_if_all_loaded() {
-      if (!(img1_loaded && img2_loaded))
-        return;
-
-      scale_image_divs($div1, $div2, max_width);
-
-      if (callback)
-        callback();
-    }
-
-    function scale_image_divs($div1, $div2, max_width) {
-      // Scale images in divs to use same scaling ratio
-      var dims = match_image_scaling(
-        $div1.find("img"),
-        $div2.find("img"),
-        max_width
-      );
-
-      // Set the dimensions of the divs
-      $div1.height(dims.height);
-      $div2.height(dims.height);
-      $div1.width(dims.width);
-      $div2.width(dims.width);
-    }
-
-    // Scale two images so that they fit into the same max_width. Returns an
-    // object with the width and height of the rectangle that fits both images
-    // after being scaled. This can also be used on img elements that are
-    // hidden.
-    function match_image_scaling($img1, $img2, max_width) {
-      var width1 = $img1.prop("naturalWidth");
-      var width2 = $img2.prop("naturalWidth");
-
-      var max_natural_width  = Math.max(width1, width2);
-      var max_natural_height = Math.max(
-        $img1.prop("naturalHeight"),
-        $img2.prop("naturalHeight")
-      );
-
-      // If images are both smaller than the max width, use 1:1 scaling
-      if (max_natural_width <= max_width) {
-        $img1.width(width1);
-        $img2.width(width2);
-        return {
-          width: max_natural_width,
-          height: max_natural_height
-        };
-      }
-
-      // If at least one of the images is larger than max_width, find the
-      // scaling ratio to fit that image to max_width, and scale both images
-      // using that ratio.
-      var scale_ratio =  max_width / max_natural_width;
-      $img1.width(width1 * scale_ratio);
-      $img2.width(width2 * scale_ratio);
-
-      return {
-        width: max_width,
-        height: max_natural_height * scale_ratio
-      };
-    }
   }
 
   function render_file_change_table(el, id, files) {

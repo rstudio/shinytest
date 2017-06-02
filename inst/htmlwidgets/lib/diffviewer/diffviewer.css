@@ -266,13 +266,15 @@
 
 
 .diffviewer .image-difference {
-    max-width: 600px;
     box-shadow: 1px 2px 20px -2px rgba(0, 0, 0, 0.25);
     background: #fff;
+    transition-property: width;
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
 }
 
 .diffviewer .image-difference > img {
-    max-width: 100%;
+    width: 100%;
 }
 
 
@@ -282,11 +284,6 @@
     line-height: 0;
     cursor: ew-resize;
     box-shadow: 1px 2px 20px -2px rgba(0, 0, 0, 0.25);
-    max-width: 600px;
-}
-
-.diffviewer .image-slider img {
-    max-width: 600px;
 }
 
 .diffviewer .image-slider > .image-slider-left {
@@ -296,6 +293,16 @@
     left: 0;
     overflow: hidden;
     border-right: 1px solid rgb(255, 150, 150);
+}
+
+.diffviewer .image-slider.zooming,
+.diffviewer .image-slider.zooming > .image-slider-left,
+.diffviewer .image-slider.zooming > .image-slider-right,
+.diffviewer .image-slider.zooming > .image-slider-left > img,
+.diffviewer .image-slider.zooming > .image-slider-right > img {
+    transition-property: width, height;
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
 }
 
 .diffviewer .image-slider > .image-slider-left,
@@ -336,13 +343,23 @@
     display: inline-block;
     line-height: 0;
     box-shadow: 1px 2px 20px -2px rgba(0, 0, 0, 0.25);
-    max-width: 600px;
+    width: 600px;
 }
 
-.diffviewer .image-toggle > div.image-toggle-new {
+.diffviewer .image-toggle > .image-toggle-new {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     overflow: hidden;
+}
+
+.diffviewer .image-toggle.zooming,
+.diffviewer .image-toggle.zooming > .image-toggle-old,
+.diffviewer .image-toggle.zooming > .image-toggle-new,
+.diffviewer .image-toggle.zooming > .image-toggle-old > img,
+.diffviewer .image-toggle.zooming > .image-toggle-new > img {
+    transition-property: width, height;
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
 }
