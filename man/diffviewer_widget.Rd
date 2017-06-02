@@ -4,12 +4,15 @@
 \alias{diffviewer_widget}
 \title{Creat an htmlwidget that shows differences between files or directories}
 \usage{
-diffviewer_widget(old, new, width = NULL, height = NULL, pattern = NULL)
+diffviewer_widget(old, new, title = NULL, width = NULL, height = NULL,
+  pattern = NULL)
 }
 \arguments{
 \item{old, new}{Names of the old and new directories to compare.
 Alternatively, they can be a character vectors of specific files to
 compare.}
+
+\item{title}{An optional title for the widget.}
 
 \item{width}{Width of the htmlwidget.}
 
