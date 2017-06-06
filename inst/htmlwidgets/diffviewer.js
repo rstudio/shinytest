@@ -811,7 +811,10 @@ diffviewer = (function() {
           // enables transitions, but we only want those transitions during
           // the zoom because they cause problems when dragging the slider.
           var duration = $wrapper.css('transition-duration');
-          if (/^[0-9.]+s$/.test(duration)) {
+          // In most browsers (Chrome, Firefox, Safari) the string is "0.15s",
+          // but in RStudio on Mac, it is "0.15s, 0.15s", so we need the
+          // regexp to be a little lenient.
+          if (/^[0-9.]+s/.test(duration)) {
             duration = parseFloat(duration);
 
             setTimeout(function() {
