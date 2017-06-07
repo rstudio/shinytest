@@ -744,7 +744,10 @@ diffviewer = (function() {
       function get_target_width($el) {
         var width = $el[0].style.width;
         if (/^[0-9.]+px$/.test(width)) {
-          return parseFloat(width);
+          // Subtract border width because we want to return the inner width.
+          return parseFloat(width) -
+                 parseFloat($el.css("border-left-width")) -
+                 parseFloat($el.css("border-right-width"));
         } else {
           return $old_div.width();
         }
