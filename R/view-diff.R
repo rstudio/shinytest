@@ -6,14 +6,13 @@
 #' @param old,new Names of the old and new directories to compare.
 #'   Alternatively, they can be a character vectors of specific files to
 #'   compare.
-#' @param title An optional title for the widget.
 #' @param pattern A filter to apply to the old and new directories.
 #' @param width Width of the htmlwidget.
 #' @param height Height of the htmlwidget
 #'
 #' @export
-diffviewer_widget <- function(old, new, title = NULL,
-  width = NULL, height = NULL, pattern = NULL)
+diffviewer_widget <- function(old, new, width = NULL, height = NULL,
+  pattern = NULL)
 {
 
   if (xor(assertthat::is.dir(old), assertthat::is.dir(new))) {
@@ -64,7 +63,6 @@ diffviewer_widget <- function(old, new, title = NULL,
   htmlwidgets::createWidget(
     name = "diffviewer",
     list(
-      title = title,
       diff_data = diff_data
     ),
     sizingPolicy = htmlwidgets::sizingPolicy(
@@ -75,4 +73,52 @@ diffviewer_widget <- function(old, new, title = NULL,
     ),
     package = "shinytest"
   )
+}
+
+
+#' Interactive viewer widget for changes in test results
+#'
+#' @param testname Name of test to compare.
+#' @param appDir Directory of the Shiny application that was tested.
+#'
+#' @export
+viewTestDiffWidget <- function(testname = NULL, appDir = ".") {
+  expected <- file.path(appDir, "tests", paste0(testname, "-expected"))
+  current  <- file.path(appDir, "tests", paste0(testname, "-current"))
+  diffviewer_widget(expected, current)
+}
+
+
+#' Interactive viewer for changes in test results
+#'
+#' @inheritParams viewTestDiffWidget
+#' @import shiny
+#' @export
+viewTestDiff <- function(testname = NULL, appDir = ".") {
+  app <- shinyApp(
+    ui = fluidPage(
+      h2(paste0("Differences between expected and current test results for ", basename(appDir), ": ", testname)),
+      viewTestDiffWidget(testname, appDir),
+      wellPanel(
+        actionButton("accept", "Save new results as expected results",
+          class = "btn-primary"),
+        actionButton("reject", "Quit (don't save new results)",
+          class = "btn-danger")
+      )
+    ),
+
+    server = function(input, output) {
+      observeEvent(input$accept, {
+        snapshotUpdate(testname, appDir)
+        stopApp()
+      })
+
+      observeEvent(input$reject, {
+        stopApp()
+      })
+
+    }
+  )
+
+  shiny::runApp(app)
 }

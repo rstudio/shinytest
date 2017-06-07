@@ -28,9 +28,6 @@ diffviewer = (function() {
     dv.render = function(message) {
       var $el = $(dv.el);
 
-      if (message.title) {
-        $el.append("<h2>" + message.title + "</h2>");
-      }
       var $toc = $("<div></div>");
       $el.append($toc);
 

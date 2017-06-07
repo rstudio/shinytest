@@ -149,9 +149,23 @@ snapshotCompare <- function(name, appDir, autoremove = TRUE) {
       status_table <- sub("^", "   ", status_table)
       message(paste(status_table, collapse = "\n"))
 
-      message('\n  To save current results as expected results, run:\n',
-              '    snapshotUpdate("', name, '", "',
-              relativeAppDir, '")\n')
+      print_view_message <- TRUE
+      if (interactive()) {
+        response <- readline("Would you like to view the differences between expected and current results [y/n]? ")
+        if (tolower(response) == "y") {
+          print_view_message <- FALSE
+          viewTestDiff(name, appDir)
+        }
+      }
+
+      if (print_view_message) {
+        message('\n  To view differences between expected and current results, run:\n',
+                '    viewTestDiff("', name, '", "',
+                relativeAppDir, '")\n',
+                '  To save current results as expected results, run:\n',
+                '    snapshotUpdate("', name, '", "',
+                relativeAppDir, '")\n')
+      }
     }
 
     if (!any_different && autoremove) {
