@@ -93,6 +93,12 @@
     padding: 0;
 }
 
+/* Need to override absolute positioning for scrolling to work properly in
+   flexbox. */
+.d2h-code-linenumber {
+    position: inherit;
+}
+
 
 .diffviewer .image-diff {
     border: 1px solid #ddd;

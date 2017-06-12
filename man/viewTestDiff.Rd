@@ -4,12 +4,12 @@
 \alias{viewTestDiff}
 \title{Interactive viewer for changes in test results}
 \usage{
-viewTestDiff(testname = NULL, appDir = ".")
+viewTestDiff(appDir = ".", testname = NULL)
 }
 \arguments{
-\item{testname}{Name of test to compare.}
-
 \item{appDir}{Directory of the Shiny application that was tested.}
+
+\item{testname}{Name of test to compare.}
 }
 \description{
 Interactive viewer for changes in test results

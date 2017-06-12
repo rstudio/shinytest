@@ -78,11 +78,11 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 
 #' Interactive viewer widget for changes in test results
 #'
-#' @param testname Name of test to compare.
 #' @param appDir Directory of the Shiny application that was tested.
+#' @param testname Name of test to compare.
 #'
 #' @export
-viewTestDiffWidget <- function(testname = NULL, appDir = ".") {
+viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
   expected <- file.path(appDir, "tests", paste0(testname, "-expected"))
   current  <- file.path(appDir, "tests", paste0(testname, "-current"))
   diffviewer_widget(expected, current)
@@ -94,31 +94,14 @@ viewTestDiffWidget <- function(testname = NULL, appDir = ".") {
 #' @inheritParams viewTestDiffWidget
 #' @import shiny
 #' @export
-viewTestDiff <- function(testname = NULL, appDir = ".") {
-  app <- shinyApp(
-    ui = fluidPage(
-      h2(paste0("Differences between expected and current test results for ", basename(appDir), ": ", testname)),
-      viewTestDiffWidget(testname, appDir),
-      wellPanel(
-        actionButton("accept", "Save new results as expected results",
-          class = "btn-primary"),
-        actionButton("reject", "Quit (don't save new results)",
-          class = "btn-danger")
-      )
+viewTestDiff <- function(appDir = ".", testname = NULL) {
+  withr::with_options(
+    list(
+      shinytest.app.dir = normalizePath(appDir, mustWork = TRUE),
+      shinytest.test.name = testname
     ),
-
-    server = function(input, output) {
-      observeEvent(input$accept, {
-        snapshotUpdate(appDir, testname)
-        stopApp("accept")
-      })
-
-      observeEvent(input$reject, {
-        stopApp("reject")
-      })
-
-    }
+    invisible(
+      shiny::runApp(system.file("diffviewerapp", package = "shinytest"))
+    )
   )
-
-  shiny::runApp(app)
 }

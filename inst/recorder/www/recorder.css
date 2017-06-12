@@ -60,10 +60,17 @@ html,body {
 #shiny-recorder a.action-button,
 #shiny-recorder a.action-button:visited,
 #shiny-recorder a.action-button:hover {
+  display: block;
   margin: 10px 0;
   text-decoration:  none;
   color: #000;
   height: 18px;
+}
+
+/* Snapshot button needs no margin on top. Need double qualifier for CSS rule
+   to override previous one. */
+#shiny-recorder #snapshot {
+  margin-top: 0;
 }
 
 #shiny-recorder .form-group {

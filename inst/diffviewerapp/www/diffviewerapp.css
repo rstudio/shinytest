@@ -1,0 +1,48 @@
+body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-flow: column;
+}
+
+.header {
+  background: #f6f7f9;
+  padding: 0;
+  border-bottom: 1px solid #d6dadd;
+}
+
+.header > .title {
+  padding: 3px 10px;
+  font-size: 15px;
+  font-weight: bold;
+  background: #d6dadd;
+}
+
+.header > .controls {
+  padding: 8px 10px;
+}
+
+.header > .controls a.action-button,
+.header > .controls a.action-button:visited,
+.header > .controls a.action-button:hover {
+  margin: 0 8px;
+  text-decoration: none;
+  color: #000;
+}
+
+
+.content {
+  flex-grow: 1;
+  overflow-y: scroll;
+  padding: 0 10px;
+}
+
+.diffviewer-icon {
+  width: 20px;
+  height: 18px;
+  margin-right: 4px;
+  vertical-align: bottom;
+}
