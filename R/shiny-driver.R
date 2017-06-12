@@ -312,8 +312,8 @@ ShinyDriver <- R6Class(
     getSnapshotDir = function()
       sd_getSnapshotDir(self, private),
 
-    snapshotInit = function(path)
-      sd_snapshotInit(self, private, path),
+    snapshotInit = function(path, screenshot = TRUE)
+      sd_snapshotInit(self, private, path, screenshot),
 
     snapshotCompare = function(autoremove = TRUE)
       sd_snapshotCompare(self, private, autoremove)
@@ -334,6 +334,7 @@ ShinyDriver <- R6Class(
     shinyTestSnapshotBaseUrl = NULL,   # URL for shiny's test API
     snapshotDir = "snapshot",          # Directory for storing test artifacts
     snapshotCount = 0,
+    snapshotScreenshot = TRUE,         # Whether to take screenshots for each snapshot
     shinyWorkerId = NA_character_,
     eventLog = list(),
 
@@ -485,7 +486,7 @@ sd_getSnapshotDir <- function(self, private) {
   file.path(private$path, "tests", private$snapshotDir)
 }
 
-sd_snapshotInit <- function(self, private, path) {
+sd_snapshotInit <- function(self, private, path, screenshot) {
   if (grepl("^/", path)) {
     stop("Snapshot dir must be a relative path.")
   }
@@ -495,4 +496,5 @@ sd_snapshotInit <- function(self, private, path) {
 
   private$snapshotCount <- 0
   private$snapshotDir <- path
+  private$snapshotScreenshot <- screenshot
 }

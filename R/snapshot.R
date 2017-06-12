@@ -11,10 +11,10 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
     filename <- sprintf("%03d.json", private$snapshotCount)
   }
 
-  # The default is to take a screenshot when the default is used for items (all
-  # items), but not when the user specifies items.
+  # The default is to take a screenshot when the snapshotScreenshot option is
+  # TRUE and the user does not specify specific items to snapshot.
   if (is.null(screenshot)) {
-    screenshot <- is.null(items)
+    screenshot <- private$snapshotScreenshot && is.null(items)
   }
 
   # Figure out which items to snapshot ----------------------------------------
