@@ -91,17 +91,22 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 
 #' Compare current and expected snapshots
 #'
-#' This compares a current and expected snapshot for a test set, and prints
-#' any differences to the console.
+#' This compares a current and expected snapshot for a test set, and prints any
+#' differences to the console.
 #'
 #' @param name Name of a snapshot.
-#' @param appDir Directory that holds the tests for an application. This is
-#'   the parent directory for the expected and current snapshot directories.
+#' @param appDir Directory that holds the tests for an application. This is the
+#'   parent directory for the expected and current snapshot directories.
 #' @param autoremove If the current results match the expected results, should
 #'   the current results be removed automatically? Defaults to TRUE.
+#' @param interactive If there are any differences between current results and
+#'   expected results, provide an interactive graphical viewer that shows the
+#'   changes and allows the user to accept or reject the changes.
 #'
 #' @export
-snapshotCompare <- function(name, appDir, autoremove = TRUE) {
+snapshotCompare <- function(name, appDir, autoremove = TRUE,
+  interactive = base::interactive())
+{
   current_dir  <- file.path(appDir, "tests", paste0(name, "-current"))
   expected_dir <- file.path(appDir, "tests", paste0(name, "-expected"))
 
@@ -150,11 +155,11 @@ snapshotCompare <- function(name, appDir, autoremove = TRUE) {
       message(paste(status_table, collapse = "\n"))
 
       print_view_message <- TRUE
-      if (interactive()) {
+      if (interactive) {
         response <- readline("Would you like to view the differences between expected and current results [y/n]? ")
         if (tolower(response) == "y") {
           print_view_message <- FALSE
-          viewTestDiff(name, appDir)
+          result <- viewTestDiff(name, appDir)
         }
       }
 

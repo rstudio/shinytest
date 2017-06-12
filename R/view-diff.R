@@ -110,11 +110,11 @@ viewTestDiff <- function(testname = NULL, appDir = ".") {
     server = function(input, output) {
       observeEvent(input$accept, {
         snapshotUpdate(testname, appDir)
-        stopApp()
+        stopApp("accept")
       })
 
       observeEvent(input$reject, {
-        stopApp()
+        stopApp("reject")
       })
 
     }
