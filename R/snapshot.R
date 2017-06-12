@@ -185,9 +185,7 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
     message("  No existing snapshots at ", basename(expected_dir), "/.",
             " This is a first run of tests.\n")
 
-    message("Saving baseline...")
     snapshotUpdate(appDir, name)
-    message("Saved baseline to ", expected_dir)
 
     snapshot_status <- "new"
   }
@@ -215,6 +213,8 @@ snapshotUpdate <- function(appDir = ".", name) {
   if (!dir_exists(current_dir)) {
     stop("Current result directory not found: ", current_dir)
   }
+
+  message("Updating baseline snapshot at ",  expected_dir, "...")
 
   if (dir_exists(expected_dir)) {
     message("Removing ", rel_path(expected_dir), ".")
