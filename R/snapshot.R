@@ -67,7 +67,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
 
 
 sd_snapshotCompare <- function(self, private, autoremove) {
-  snapshotCompare(private$snapshotDir, self$getAppDir(), autoremove)
+  message("app$snapshotCompare() no longer used")
 }
 
 sd_snapshotDownload <- function(self, private, id, filename) {
@@ -104,7 +104,7 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #'   changes and allows the user to accept or reject the changes.
 #'
 #' @export
-snapshotCompare <- function(name, appDir, autoremove = TRUE,
+snapshotCompare <- function(appDir, name, autoremove = TRUE,
   interactive = base::interactive())
 {
   current_dir  <- file.path(appDir, "tests", paste0(name, "-current"))
@@ -183,10 +183,11 @@ snapshotCompare <- function(name, appDir, autoremove = TRUE,
 
   } else {
     message("  No existing snapshots at ", basename(expected_dir), "/.",
-            " This is a first run of tests.\n",
-            '  To save current results as expected results, run:\n',
-            '    snapshotUpdate("', name, '", "',
-            relativeAppDir, '")\n')
+            " This is a first run of tests.\n")
+
+    message("Saving baseline...")
+    snapshotUpdate(appDir, name)
+    message("Saved baseline to ", expected_dir)
 
     snapshot_status <- "new"
   }
@@ -203,7 +204,7 @@ snapshotCompare <- function(name, appDir, autoremove = TRUE,
 #' @rdname snapshotCompare
 #' @inheritParams snapshotCompare
 #' @export
-snapshotUpdate <- function(name, appDir = ".") {
+snapshotUpdate <- function(appDir = ".", name) {
   # Strip off trailing slash if present
   name <- sub("/$", "", name)
 

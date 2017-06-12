@@ -207,8 +207,6 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
     eventCode,
     if (load_mode) {
       '\napp$snapshot()\napp$stop()\napp$getEventLog()\n'
-    } else {
-      '\napp$snapshotCompare()\n'
     },
     sep = "\n"
   )

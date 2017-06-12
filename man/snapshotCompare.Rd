@@ -5,22 +5,27 @@
 \alias{snapshotUpdate}
 \title{Compare current and expected snapshots}
 \usage{
-snapshotCompare(name, appDir, autoremove = TRUE)
+snapshotCompare(appDir, name, autoremove = TRUE,
+  interactive = base::interactive())
 
-snapshotUpdate(name, appDir = ".")
+snapshotUpdate(appDir = ".", name)
 }
 \arguments{
-\item{name}{Name of a snapshot.}
+\item{appDir}{Directory that holds the tests for an application. This is the
+parent directory for the expected and current snapshot directories.}
 
-\item{appDir}{Directory that holds the tests for an application. This is
-the parent directory for the expected and current snapshot directories.}
+\item{name}{Name of a snapshot.}
 
 \item{autoremove}{If the current results match the expected results, should
 the current results be removed automatically? Defaults to TRUE.}
+
+\item{interactive}{If there are any differences between current results and
+expected results, provide an interactive graphical viewer that shows the
+changes and allows the user to accept or reject the changes.}
 }
 \description{
-This compares a current and expected snapshot for a test set, and prints
-any differences to the console.
+This compares a current and expected snapshot for a test set, and prints any
+differences to the console.
 
 Update expected snapshot with current snapshot
 }

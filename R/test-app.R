@@ -32,8 +32,13 @@ testApp <- function(appDir = ".", files = NULL) {
         env <- new.env(parent = .GlobalEnv)
         message("====== Running ", file, " ======")
         source(file, local = env)
+
       })
     })
+
+    # Remove .R from name
+    name <- sub("\\.[rR]$", "", file)
+    snapshotCompare(appDir, name)
   })
 
   invisible(res)
