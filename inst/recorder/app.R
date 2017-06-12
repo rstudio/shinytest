@@ -236,10 +236,16 @@ shinyApp(
             hr()
           )
         },
-        actionLink("exit",
+        actionLink("exit_save",
           span(
             img(src = "exit.png", class = "shiny-recorder-icon"),
-            "Exit test event recorder"
+            "Save script and exit test event recorder"
+          )
+        ),
+        actionLink("exit_nosave",
+          span(
+            img(src = "exit.png", class = "shiny-recorder-icon"),
+            "Quit without saving"
           )
         ),
         textInput("testname", label = "On exit, save tests as:",
@@ -315,7 +321,7 @@ shinyApp(
       rownames = TRUE
     )
 
-    observeEvent(input$exit, {
+    observeEvent(input$exit_save, {
       stopApp({
         # If no snapshot events occurred, don't write file. However, in load
         # testing mode, we don't expect snapshots (except one at the end).
@@ -343,6 +349,17 @@ shinyApp(
             run = input$runScript
           ))
         }
+      })
+    })
+
+    observeEvent(input$exit_nosave, {
+      stopApp({
+        message("Quitting without saving or running tests.")
+        invisible(list(
+          appDir = NULL,
+          file = NULL,
+          run = FALSE
+        ))
       })
     })
   }
