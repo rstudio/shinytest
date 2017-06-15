@@ -51,7 +51,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   content <- rawToChar(req$content)
   Encoding(content) <- "UTF-8"
   content <- hash_snapshot_image_data(content)
-  writeChar(content, file.path(current_dir, filename))
+  writeChar(content, file.path(current_dir, filename), eos = NULL)
 
   if (screenshot) {
     # Replace extension with .png
@@ -236,6 +236,11 @@ hash_snapshot_image_data <- function(data) {
   image_offsets <- gregexpr(
     '"data:image/[^;]+;base64,([^"]+)"', data, useBytes = TRUE, perl = TRUE
   )[[1]]
+
+  # No image data found
+  if (length(image_offsets) == 1 && image_offsets == -1) {
+    return(data)
+  }
 
   # Image data indices
   image_start_idx <- as.integer(attr(image_offsets, "capture.start", exact = TRUE))
