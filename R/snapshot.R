@@ -159,7 +159,7 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
         response <- readline("Would you like to view the differences between expected and current results [y/n]? ")
         if (tolower(response) == "y") {
           print_view_message <- FALSE
-          result <- viewTestDiff(name, appDir)
+          result <- viewTestDiff(appDir, name)
         }
       }
 
