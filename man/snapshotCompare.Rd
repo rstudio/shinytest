@@ -6,9 +6,9 @@
 \title{Compare current and expected snapshots}
 \usage{
 snapshotCompare(appDir, name, autoremove = TRUE,
-  interactive = base::interactive())
+  interactive = base::interactive(), quiet = FALSE)
 
-snapshotUpdate(appDir = ".", name)
+snapshotUpdate(appDir = ".", name, quiet = FALSE)
 }
 \arguments{
 \item{appDir}{Directory that holds the tests for an application. This is the
@@ -22,6 +22,9 @@ the current results be removed automatically? Defaults to TRUE.}
 \item{interactive}{If there are any differences between current results and
 expected results, provide an interactive graphical viewer that shows the
 changes and allows the user to accept or reject the changes.}
+
+\item{quiet}{Should output be suppressed? This is useful for automated
+testing.}
 }
 \description{
 This compares a current and expected snapshot for a test set, and prints any

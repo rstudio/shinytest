@@ -4,9 +4,11 @@
 #' @param files Test script(s) to run. For example, \code{"mytest.R"} or
 #'   \code{c("mytest.R", "mytest2.R")}. If \code{NULL} (the default), all
 #'   scripts in the tests/ directory will be run.
+#' @param quiet Should output be suppressed? This is useful for automated
+#'   testing.
 #'
 #' @export
-testApp <- function(appDir = ".", files = NULL) {
+testApp <- function(appDir = ".", files = NULL, quiet = FALSE) {
   testsDir <- file.path(appDir, "tests")
 
   r_files <- list.files(testsDir, pattern = "\\.[r|R]$")
@@ -24,22 +26,29 @@ testApp <- function(appDir = ".", files = NULL) {
     r_files <- unique(files)
   }
 
-  res <- lapply(r_files, function(file) {
+  # Run all the test scripts.
+  lapply(r_files, function(file) {
     # Run in test directory, and pass the (usually relative) path as an option,
     # so that the printed output can print the relative path.
     withr::with_dir(testsDir, {
       withr::with_options(list(shinytest.app.dir = appDir), {
         env <- new.env(parent = .GlobalEnv)
-        message("====== Running ", file, " ======")
+        if (!quiet) {
+          message("====== Running ", file, " ======")
+        }
         source(file, local = env)
-
       })
     })
-
-    # Remove .R from name
-    name <- sub("\\.[rR]$", "", file)
-    snapshotCompare(appDir, name)
   })
 
-  invisible(res)
+  # Compare all results
+  results <- lapply(r_files, function(file) {
+    name <- sub("\\.[rR]$", "", file)
+    snapshotCompare(appDir, name, quiet = quiet)
+  })
+
+  invisible(list(
+    appDir = appDir,
+    results = results
+  ))
 }

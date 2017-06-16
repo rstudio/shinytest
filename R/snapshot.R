@@ -102,10 +102,12 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #' @param interactive If there are any differences between current results and
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
+#' @param quiet Should output be suppressed? This is useful for automated
+#'   testing.
 #'
 #' @export
 snapshotCompare <- function(appDir, name, autoremove = TRUE,
-  interactive = base::interactive())
+  interactive = base::interactive(), quiet = FALSE)
 {
   current_dir  <- file.path(appDir, "tests", paste0(name, "-current"))
   expected_dir <- file.path(appDir, "tests", paste0(name, "-expected"))
@@ -126,6 +128,9 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
     any_different <- any(!res$current | !res$expected | !res$identical)
 
     if (any_different) {
+      snapshot_pass <- FALSE
+      snapshot_status <- "different"
+
       message("  Differences detected between ", basename(current_dir),
               "/ and ", basename(expected_dir), "/:\n")
 
@@ -154,23 +159,29 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
       status_table <- sub("^", "   ", status_table)
       message(paste(status_table, collapse = "\n"))
 
-      print_view_message <- TRUE
       if (interactive) {
         response <- readline("Would you like to view the differences between expected and current results [y/n]? ")
         if (tolower(response) == "y") {
-          print_view_message <- FALSE
+          quiet <- TRUE
           result <- viewTestDiff(appDir, name)
+
+          if (result == "accept") {
+            snapshot_pass <- TRUE
+            snapshot_status <- "updated"
+          }
         }
       }
 
-      if (print_view_message) {
+      if (!quiet) {
         message('\n  To view differences between expected and current results, run:\n',
-                '    viewTestDiff("', name, '", "',
-                relativeAppDir, '")\n',
+                '    viewTestDiff("', name, '", "', relativeAppDir, '")\n',
                 '  To save current results as expected results, run:\n',
-                '    snapshotUpdate("', name, '", "',
-                relativeAppDir, '")\n')
+                '    snapshotUpdate("', name, '", "', relativeAppDir, '")\n')
       }
+
+    } else {
+      snapshot_pass <- TRUE
+      snapshot_status <- "same"
     }
 
     if (!any_different && autoremove) {
@@ -178,20 +189,21 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
       unlink(current_dir, recursive = TRUE)
     }
 
-
-    snapshot_status <- if (any_different) "different" else "same"
-
   } else {
-    message("  No existing snapshots at ", basename(expected_dir), "/.",
-            " This is a first run of tests.\n")
+    if (!quiet) {
+      message("  No existing snapshots at ", basename(expected_dir), "/.",
+              " This is a first run of tests.\n")
+    }
 
-    snapshotUpdate(appDir, name)
+    snapshotUpdate(appDir, name, quiet = quiet)
 
+    snapshot_pass <- TRUE
     snapshot_status <- "new"
   }
 
   invisible(list(
     name = name,
+    pass = snapshot_pass,
     status = snapshot_status
   ))
 }
@@ -202,7 +214,7 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
 #' @rdname snapshotCompare
 #' @inheritParams snapshotCompare
 #' @export
-snapshotUpdate <- function(appDir = ".", name) {
+snapshotUpdate <- function(appDir = ".", name, quiet = FALSE) {
   # Strip off trailing slash if present
   name <- sub("/$", "", name)
 
@@ -214,15 +226,20 @@ snapshotUpdate <- function(appDir = ".", name) {
     stop("Current result directory not found: ", current_dir)
   }
 
-  message("Updating baseline snapshot at ",  expected_dir, "...")
+  if (!quiet) {
+    message("Updating baseline snapshot at ",  expected_dir, "...")
+  }
 
   if (dir_exists(expected_dir)) {
-    message("Removing ", rel_path(expected_dir), ".")
+    if (!quiet)
+      message("Removing ", rel_path(expected_dir), ".")
     unlink(expected_dir, recursive = TRUE)
   }
 
-  message("Renaming ", rel_path(current_dir),
-          "\n      => ", rel_path(expected_dir), ".")
+  if (!quiet) {
+    message("Renaming ", rel_path(current_dir),
+            "\n      => ", rel_path(expected_dir), ".")
+  }
   file.rename(current_dir, expected_dir)
   invisible(expected_dir)
 }

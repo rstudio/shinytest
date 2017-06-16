@@ -4,7 +4,7 @@
 \alias{testApp}
 \title{Run tests for a Shiny application}
 \usage{
-testApp(appDir = ".", files = NULL)
+testApp(appDir = ".", files = NULL, quiet = FALSE)
 }
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
@@ -12,6 +12,9 @@ testApp(appDir = ".", files = NULL)
 \item{files}{Test script(s) to run. For example, \code{"mytest.R"} or
 \code{c("mytest.R", "mytest2.R")}. If \code{NULL} (the default), all
 scripts in the tests/ directory will be run.}
+
+\item{quiet}{Should output be suppressed? This is useful for automated
+testing.}
 }
 \description{
 Run tests for a Shiny application
