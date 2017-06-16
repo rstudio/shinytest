@@ -27,23 +27,33 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE) {
   }
 
   # Run all the test scripts.
+  if (!quiet) {
+    message("Running ", appendLF = FALSE)
+  }
   lapply(r_files, function(file) {
+    name <- sub("\\.[rR]$", "", file)
+
     # Run in test directory, and pass the (usually relative) path as an option,
     # so that the printed output can print the relative path.
     withr::with_dir(testsDir, {
       withr::with_options(list(shinytest.app.dir = appDir), {
         env <- new.env(parent = .GlobalEnv)
         if (!quiet) {
-          message("====== Running ", file, " ======")
+          message(file, " ", appendLF = FALSE)
         }
         source(file, local = env)
       })
     })
   })
 
+  if (!quiet) message("")  # New line
+
   # Compare all results
   results <- lapply(r_files, function(file) {
     name <- sub("\\.[rR]$", "", file)
+    if (!quiet) {
+      message("====== Comparing ", name, " ======")
+    }
     snapshotCompare(appDir, name, quiet = quiet)
   })
 
