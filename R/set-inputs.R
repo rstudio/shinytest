@@ -13,7 +13,10 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   res <- private$flushInputs(wait_, timeout_)
 
   if (isTRUE(res$timedOut)) {
-    message("setInputs: Server did not update any output values within ",
+    message(
+      "setInputs(",
+      paste(names(list(...)), collapse = ", "),
+      "): Server did not update any output values within ",
       format(timeout_/1000, digits = 2),
       " seconds. If this is expected, use `wait_=FALSE, values_=FALSE`, or increase the value of timeout_.")
   }
