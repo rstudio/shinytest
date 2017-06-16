@@ -12,7 +12,7 @@
 #'
 #' @export
 expect_pass <- function(object, info = NULL) {
-  pass_idx <- !vapply(object$results, `[[`, "pass", FUN.VALUE = FALSE)
+  pass_idx <- vapply(object$results, `[[`, "pass", FUN.VALUE = FALSE)
   fail_names <- vapply(object$results[!pass_idx], `[[`, "name", FUN.VALUE = "")
 
   testthat::expect(
