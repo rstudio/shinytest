@@ -15,14 +15,14 @@ shinyApp(
       div(class = "controls",
         actionLink("accept",
           span(
-            img(src = "exit.png", class = "diffviewer-icon"),
+            img(src = "exit-save.png", class = "diffviewer-icon"),
             "Save and quit",
             title = "Replace the expected results with the current results"
           )
         ),
         actionLink("reject",
           span(
-            img(src = "exit.png", class = "diffviewer-icon"),
+            img(src = "exit-nosave.png", class = "diffviewer-icon"),
             "Quit",
             title = "Leave the expected results unchanged"
           )
