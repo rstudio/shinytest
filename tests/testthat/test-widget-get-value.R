@@ -26,7 +26,7 @@ test_that("Widget$getValue for all input widgets", {
   ## dateRangeInput
   expect_identical(
     app$findWidget("dates")$getValue(),
-    c(Sys.Date(), Sys.Date())
+    as.Date(c("2014-01-01", "2015-01-01"))
   )
 
   ## fileInput, TODO

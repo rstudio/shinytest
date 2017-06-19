@@ -13,7 +13,7 @@ test_that("getValue", {
   expect_true(app$getValue("checkbox"))
   expect_identical(app$getValue("checkGroup"), "1")
   expect_identical(app$getValue("date"), as.Date("2014-01-01"))
-  expect_identical(app$getValue("dates"), c(Sys.Date(), Sys.Date()))
+  expect_identical(app$getValue("dates"), as.Date(c("2014-01-01", "2015-01-01")))
 
   ## fileInput, TODO
 

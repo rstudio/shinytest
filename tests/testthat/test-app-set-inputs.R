@@ -12,7 +12,7 @@ test_that("app$setInputs for all input widgets", {
   expect_identical(x$input$checkbox, TRUE)
   expect_identical(x$input$checkGroup, "1")
   expect_identical(x$input$date, as.Date("2014-01-01"))
-  expect_identical(x$input$dates, rep(Sys.Date(), 2))
+  expect_identical(x$input$dates, as.Date(c("2014-01-01", "2015-01-01")))
   expect_identical(x$input$num, 1L)
   expect_identical(x$input$radio, "1")
   expect_identical(x$input$select, "1")
