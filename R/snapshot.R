@@ -174,9 +174,9 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
 
       if (!quiet) {
         message('\n  To view differences between expected and current results, run:\n',
-                '    viewTestDiff("', name, '", "', relativeAppDir, '")\n',
+                '    viewTestDiff("', relativeAppDir, '", "', name, '")\n',
                 '  To save current results as expected results, run:\n',
-                '    snapshotUpdate("', name, '", "', relativeAppDir, '")\n')
+                '    snapshotUpdate("', relativeAppDir, '", "', name, '")\n')
       }
 
     } else {
