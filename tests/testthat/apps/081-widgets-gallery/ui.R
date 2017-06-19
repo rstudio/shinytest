@@ -79,7 +79,8 @@ fluidPage(
     
     column(4,
       wellPanel(
-        dateRangeInput("dates", label = h3("Date range")),
+        dateRangeInput("dates", label = h3("Date range"),
+                       start = "2014-01-01", end = "2015-01-01"),
         hr(),
         p("Current Values:", style = "color:#888888;"), 
         verbatimTextOutput("datesOut"),
