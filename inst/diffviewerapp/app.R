@@ -16,7 +16,7 @@ shinyApp(
         actionLink("accept",
           span(
             img(src = "exit-save.png", class = "diffviewer-icon"),
-            "Save and quit",
+            "Update and quit",
             title = "Replace the expected results with the current results"
           )
         ),
