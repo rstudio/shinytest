@@ -51,9 +51,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE) {
 
   # Run the test script
   if (isTRUE(res$run)) {
-    dest <- suppressMessages({
-      testApp(rel_path(res$appDir), res$file)
-    })
+    testApp(rel_path(res$appDir), res$file)
   }
 
   invisible(res$file)

@@ -238,18 +238,18 @@ shinyApp(
         },
         actionLink("exit_save",
           span(
-            img(src = "exit.png", class = "shiny-recorder-icon"),
+            img(src = "exit-save.png", class = "shiny-recorder-icon"),
             "Save script and exit test event recorder"
           )
         ),
         actionLink("exit_nosave",
           span(
-            img(src = "exit.png", class = "shiny-recorder-icon"),
+            img(src = "exit-nosave.png", class = "shiny-recorder-icon"),
             "Quit without saving"
           )
         ),
         textInput("testname", label = "On exit, save tests as:",
-          value = if (load_mode) "myloadtest" else "mytests"),
+          value = if (load_mode) "myloadtest" else "mytest"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
         if (!load_mode) checkboxInput("runScript", "Run test script on exit", value = TRUE)
       ),
