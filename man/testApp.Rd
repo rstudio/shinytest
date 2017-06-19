@@ -9,9 +9,10 @@ testApp(appDir = ".", files = NULL, quiet = FALSE)
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
 
-\item{files}{Test script(s) to run. For example, \code{"mytest.R"} or
-\code{c("mytest.R", "mytest2.R")}. If \code{NULL} (the default), all
-scripts in the tests/ directory will be run.}
+\item{files}{Test script(s) to run. The .R extension of the filename is
+optional. For example, \code{"mytest"} or \code{c("mytest", "mytest2.R")}.
+If \code{NULL} (the default), all scripts in the tests/ directory will be
+run.}
 
 \item{quiet}{Should output be suppressed? This is useful for automated
 testing.}

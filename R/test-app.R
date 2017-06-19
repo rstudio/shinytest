@@ -1,9 +1,10 @@
 #' Run tests for a Shiny application
 #'
 #' @param appDir Path to the Shiny application to be tested.
-#' @param files Test script(s) to run. For example, \code{"mytest.R"} or
-#'   \code{c("mytest.R", "mytest2.R")}. If \code{NULL} (the default), all
-#'   scripts in the tests/ directory will be run.
+#' @param files Test script(s) to run. The .R extension of the filename is
+#'   optional. For example, \code{"mytest"} or \code{c("mytest", "mytest2.R")}.
+#'   If \code{NULL} (the default), all scripts in the tests/ directory will be
+#'   run.
 #' @param quiet Should output be suppressed? This is useful for automated
 #'   testing.
 #'
@@ -11,10 +12,14 @@
 testApp <- function(appDir = ".", files = NULL, quiet = FALSE) {
   testsDir <- file.path(appDir, "tests")
 
-  r_files <- list.files(testsDir, pattern = "\\.[r|R]$")
+  found_files <- list.files(testsDir, pattern = "\\.[r|R]$")
   if (!is.null(files)) {
+    # Strip .R extension from supplied filenames and found filenames
+    files_no_ext <- sub("\\.[rR]$", "", files)
+    found_files_no_ext <- sub("\\.[rR]$", "", found_files)
+
     # Keep only specified files
-    idx <- match(files, r_files)
+    idx <- match(files_no_ext, found_files_no_ext)
 
     if (any(is.na(idx))) {
       stop("Test files do not exist: ",
@@ -22,15 +27,15 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE) {
       )
     }
 
-    # Drop duplicates
-    r_files <- unique(files)
+    # Keep only specified files
+    found_files <- found_files[idx]
   }
 
   # Run all the test scripts.
   if (!quiet) {
     message("Running ", appendLF = FALSE)
   }
-  lapply(r_files, function(file) {
+  lapply(found_files, function(file) {
     name <- sub("\\.[rR]$", "", file)
 
     # Run in test directory, and pass the (usually relative) path as an option,
@@ -49,7 +54,7 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE) {
   if (!quiet) message("")  # New line
 
   # Compare all results
-  results <- lapply(r_files, function(file) {
+  results <- lapply(found_files, function(file) {
     name <- sub("\\.[rR]$", "", file)
     if (!quiet) {
       message("====== Comparing ", name, " ======")
