@@ -1,7 +1,9 @@
 ---
 title: "Getting started with shinytest"
 author: "Winston Chang"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -32,14 +34,12 @@ To create tests, the easiest method is to use the `recordTest()` function. This 
 ## Getting started
 
 
-**Shinytest** is in active development, and also requires the development version of Shiny. To install them:
+**Shinytest** is in active development:
 
 ```{r}
 library(devtools)
-install_github("rstudio/shiny")
-install_github("MangoTheCat/processx")
-install_github("MangoTheCat/webdriver")
-install_github("MangoTheCat/shinytest")
+install_github("rstudio/webdriver")
+install_github("rstudio/shinytest")
 ```
 
 
@@ -49,7 +49,10 @@ This is the general procedure for recording tests:
 
 * Run `recordTest()` to launch the app in a test recorder.
 * Create the tests by interacting with the application and telling the recorder to snapshot the state at various points.
-* Quit the test recorder. The test script will be saved in a .R file in a subdirectory of the application, named `tests/`. If you are running in the RStudio IDE, it will automatically open this file in the editor.
+* Quit the test recorder. When you do this, three things will happen:
+  * The test script will be saved in a .R file in a subdirectory of the application named `tests/`.
+  * If you are running in the RStudio IDE, it will automatically open this file in the editor.
+  * The test script will be run, and the snapshots will be saved in a subdirectory of the `tests/` directory.
 
 To record tests, run the following:
 
@@ -57,7 +60,7 @@ To record tests, run the following:
 library(shinytest)
 
 # Launch the target app (replace with the correct path)
-recordTest("PATH/TO/APP")
+recordTest("path/to/app")
 ```
 
 In a separate R process, this launches the Shiny application to be tested. We'll refer to this as the **target app**. This also launches a special Shiny application in the current R process which displays the target app in an iframe and has some controls outside the iframe. We'll refer to this as the **recorder app**. You will see something like this:
@@ -76,53 +79,54 @@ After modifying some inputs and taking a snapshot, it will look something like t
 
 ![](screenshot-recorder-2.png)
 
-It is also possible to take a target snapshot, of just a specific output. To do this, hold down the Control button on your keyboard and  click on an output: when you do that, it take a snapshot of just that output.
+It is also possible to take a *target* snapshot. This is a snapshot of on or more specified output (instead of the default, which is to snapshot the entire application). To do this, hold down the Control (or Command) button on your keyboard and click on an output; it will snapshot just that one output.
 
 
-When you are done recording a sequence of events, click on the "Exit" button. If you are in the RStudio IDE, it will open the test script in the `tests/` subdirectory of the application. In this case, the name of the script is `mytests.R`:
+When you are done recording a sequence of events, click on the "Save script and exit test event recorder" button. If you are in the RStudio IDE, it will open the test script in the `tests/` subdirectory of the application. In this case, the name of the script is `mytest.R`:
 
 ```{r}
 app <- ShinyDriver$new("..")
-app$snapshotInit("mytests")
+app$snapshotInit("mytest")
 
+app$snapshot()
 app$setInputs(checkGroup = c("1", "2"))
 app$setInputs(checkGroup = c("1", "2", "3"))
 app$setInputs(action = "click")
 app$snapshot()
-
-app$snapshotCompare()
 ```
 
 ### Running tests
 
-After you have used the test recorder to create a test script, you must run the test script. There are three separate components involved in running the tests:
+When you quit the test recorder, it will automatically run the test script. There are three separate components involved in running the tests:
 
-1. First is the **test driver**. This is the R process that coordinates the testing and controls the web browser. When working on creating tests interactively, this is the R session that you use.
+1. First is the **test driver**. This is the R process that coordinates the testing and controls the web browser. When working on creating tests interactively, this is the R process that you use.
 
 1. Next is the **Shiny process**, also known as the **server**. This is the R process that runs the target Shiny application.
 
-1. Finally, there is the **web browser**, also known as the **client**, which connects to the server. This is a headless web browser -- one which renders the web page internally, but doesn't actually display the content to the screen ([PhantomJS](http://phantomjs.org/)).
+1. Finally, there is the **web browser**, also known as the **client**, which connects to the server. This is a headless web browser -- one which renders the web page internally, but doesn't display the content to the screen ([PhantomJS](http://phantomjs.org/)).
 
-To run the test script, do the following:
+When you exit the test recorder, it will by default automatically run the test script, and will print something like this:
+
+```
+Saved test code to /path/to/app/tests/mytest.R
+Running mytest.R 
+====== Comparing mytest.R ======
+  No existing snapshots at mytest-expected/. This is a first run of tests.
+
+Updating baseline snapshot at tests/mytest-expected
+Renaming tests/mytest-current
+      => tests/mytest-expected.
+```
+
+Behind the scenes, it runs `testApp()`. You can manually run the tests with this:
 
 ```{r}
-library(shinytest)
-
-# Replace with the correct path
-recordTest("PATH/TO/APP")
+testApp("myshinyapp", "mytest")
 ```
 
-The first time you run tests, you will see something like this:
+This will play back the interactions and record snapshots, as specified in the test script. The very first time the tests are run, they will be saved in a subdirectory of the app called `tests/mytest-expected`. These are the expected results, and future test runs will be compared against them.
 
-```
-> testApp("PATH/TO/APP")
-====== Running mytests.R ======
-  No existing snapshots at mytests-expected/. This is a first run of tests.
-  To save current results as expected results, run:
-    snapshotUpdate("mytests", "PATH/TO/APP")
-```
-
-This will play back the interactions and record snapshots, as specified in the test script. The snapshots will be saved in a subdirectory of the app's `tests/` directory; in this case, it will be called `tests/mytests-current`. That directory will contain two files:
+The directory will contain two files for each snapshot. For exmaple:
 
 ```
 001.json
@@ -136,11 +140,11 @@ The JSON file stores the state of all the input, output, and export values at th
 ```json
 {
   "input": {
-    "action": 0,
+    "action": 1,
     "checkbox": true,
     "checkGroup": ["1", "2", "3"],
     "date": "2014-01-01",
-    "dates": ["2016-12-12", "2016-12-12"],
+    "dates": ["2014-01-01", "2015-01-01"],
     "file": null,
     "num": 1,
     "radio": "1",
@@ -150,11 +154,11 @@ The JSON file stores the state of all the input, output, and export values at th
     "text": "Enter text..."
   },
   "output": {
-    "actionOut": "[1] 0\nattr(,\"class\")\n[1] \"integer\"                \"shinyActionButtonValue\"",
+    "actionOut": "[1] 1\nattr(,\"class\")\n[1] \"integer\"                \"shinyActionButtonValue\"",
     "checkboxOut": "[1] TRUE",
     "checkGroupOut": "[1] \"1\" \"2\" \"3\"",
     "dateOut": "[1] \"2014-01-01\"",
-    "datesOut": "[1] \"2016-12-12\" \"2016-12-12\"",
+    "datesOut": "[1] \"2014-01-01\" \"2015-01-01\"",
     "fileOut": "NULL",
     "numOut": "[1] 1",
     "radioOut": "[1] \"1\"",
@@ -167,49 +171,58 @@ The JSON file stores the state of all the input, output, and export values at th
 }
 ```
 
-If the results in the JSON and PNG files look correct, save the results by running:
-
-```{r}
-snapshotUpdate("mytests", "PATH/TO/APP")
-```
-
-This saves the most recent test results as the *expected* results for future runs. It simply renames the `mytests-current/` directory to `mytests-expected/`. If you are using a source control system (like git), you should check in the contents of this directory.
+If you are using a source control system (like git), you should check in the expected results.
 
 
 ### Subsequent test runs
 
-After the initial test run, you can run the tests again in the future. If there are no changes to the snapshots, you will just see something like this, with no additional output:
+After the initial test run, you can run the tests again in the future to check for changes in your application's behavior. If there are no changes to the snapshots, you will just see something like this, with no additional output:
 
 ```
-> testApp("PATH/TO/APP")
-====== Running mytests.R ======
+> testApp("path/to/app")
+Running mytest.R 
+====== Comparing mytest ======
 ```
 
-If there are any changes, you'll see output like this:
+The results are saved to `tests/mytest-current`, and compared against the saved results in `tests/mytest-expected`. If the results are exactly the same, then the test is considered successful. It will return to the console with no additional output, and delete the `tests/mytest-current` directory.
+
+
+If there are any differences between the current and expected results, you'll see output like this:
 
 ```
-====== Running mytests.R ======
-  Differences detected between mytests-current/ and mytests-expected/:
+Running mytest.R 
+====== Comparing mytest ======
+  Differences detected between mytest-current/ and mytest-expected/:
 
     Name         Status      
-    001.json   ≠ Files differ
-    001.png    ≠ Files differ
-
-  To save current results as expected results, run:
-    snapshotUpdate("mytests", "PATH/TO/APP")
+    001.json  != Files differ
+    001.png   != Files differ
+Would you like to view the differences between expected and current results [y/n]? 
 ```
 
-At this point, you can use a diffing tool to see what is different between the expected and current tests. (NOTE: this will be made easier in the future.) You can also look at the screenshots to check if they have the expected result. If the changes are as you expect, then you can call `snapshotUpdate()`. This will delete the old `mytests-expected/` snapshot directory, and `mytests-current/` directory to  `mytests-expected/`.
+If you press `y` and then Enter, it will open a Shiny application which shows the differences between the expected and current results. For screenshots, the differences will be highlighted in red. You can also choose different ways of viewing the differences in screenshots. It will look something like this:
+
+![](diffviewer.png)
+
+After inspecting the changes, you can choose to update the expected results (that is, replace the old expected results with the new current results), or to just quit without updating.
+
+You should update the results if the changes are expected. You should quit without updating if the changes are unexpected.
+
+If you want to compare the results again in the future, without running `testApp()`, you can run the following:
+
+```{r}
+snapshotCompare("path/to/app/", "mytest")
+```
 
 
 ### Multiple test scripts
 
-In the example above, we had a single test script, named `mytests.R`. If you want to have more than one set of tests for an application, you can record new tests, each with a different name. You can enter the name when recording your tests:
+In the example above, we had a single test script, named `mytest.R`. If you want to have more than one set of tests for an application, you can record new tests, each with a different name. You can enter the name when recording your tests:
 
 ![](screenshot-recorder-name.png)
 
 
-When you run `testApp("PATH/TO/APP")`, it will run all the tests scripts in the application's `tests/` directory.
+When you run `testApp("path/to/app")`, it will run all the tests scripts in the application's `tests/` directory.
 
 
 ## Testing in depth
@@ -226,7 +239,7 @@ In the initialization, the script creates a new ShinyDriver object and tells it 
 # Initialize a ShinyDriver object using the app in the test script's parent
 # directory
 app <- ShinyDriver$new("..")
-app$snapshotInit("mytests")
+app$snapshotInit("mytest")
 ```
 
 Next, it defines some interactions with the application and takes snapshots.
@@ -241,13 +254,7 @@ app$setInputs(action = "click")
 app$snapshot()
 ```
 
-Finally, the last step is to call the `snapshotCompare()` method, which compares the current snapshots to the expected snapshots, and prints out messages if they differ:
-
-```{r}
-app$snapshotCompare()
-```
-
-For customizing a script, the middle portion -- the interactions and snapshots -- is the part you will want to modify. For snapshot-based testing, there are two methods that are used: `app$setInputs()` and `app$snapshot()`.
+For customizing a script, the second portion -- the interactions and snapshots -- is the part you will want to modify. For snapshot-based testing, there are two methods that are used: `app$setInputs()` and `app$snapshot()`.
 
 #### Setting inputs with `app$setInputs()`
 
@@ -279,21 +286,13 @@ app$setInputs(
 
 This will set the values of inputs simultaneously, which will make the tests run faster.
 
-This is because, when `app$setInputs()` is called, it normally returns control only after one of two things happens:
+This is because, when `app$setInputs()` is called, it normally returns control and moves on to the next step only after the server sends a response to the client.
 
-1. The server sends any updated output value to the client.
-1. A timeout elapses. The default is 3 seconds.
+The reason it waits for a response is so that a subsequent call to `app$snapshot()` will be sure to capture the updated output values. If `app$setInputs()` did not wait for a update, then, if the output update did not happen very quickly, a snapshot might capture the state of the application before the outputs are updated.
 
-The reason it waits for an update to outputs is so that a subsequent call to `app$snapshot()` will be sure to capture the updated output values. If `app$setInputs()` did not wait for a update, then, if the output update did not happen very quickly, a snapshot might capture the state of the application before the outputs are updated.
+Because `app$setInputs()` waits for an update each time, it is faster to set multiple inputs in a single call to `app$setInputs()` than it is to have multiple calls to `app$setInputs()`.
 
-Because `app$setInputs()` waits for an update, there are two things to keep in mind:
-
-* It is faster to set multiple inputs in a single call to `app$setInputs()`, than it is to have multiple calls to `app$setInputs()`.
-* If setting inputs does not result in any updates to output values, then it will simply wait for the timeout, which can slow down tests considerably.
-
-To avoid the timeouts, you can in most cases set multiple inputs in a single call to `setInputs()`. If that is not appropriate for your particular case, you can also tell it to **not** wait for an update, with `setInputs(wait_ = FALSE, values_ = FALSE)`.
-
-The `values_=FALSE` is required when using `wait_=FALSE`. Normally, `setInputs()` (invisibly) returns all input, output, and exported values, which can be used for expectation-style testing. The `values_=FALSE` option tells it not to return the values, and is required when using `wait_=FALSE`. Otherwise, if it returned the values without waiting for an update, those values would be unpredictable because in practice they could actually be fetched before or after an update due to the asynchronous nature of the system.
+Note: In versions of Shiny before 1.0.3.9000, calls to `app$setInputs()` which did not result in an output value change would timeout, and print a message about setting a longer timeout or calling `setInputs(wait_ = FALSE, values_ = FALSE)`. This is because those versions of Shiny did not send a response when no output values changed. As of Shiny 1.0.3.9000, when in testing mode, Shiny always sends a response to input changes, even if no output values have changed, so this message should no longer appear.
 
 
 #### Taking snapshots with `app$snapshot()`
@@ -306,7 +305,13 @@ app$snapshot()
 
 The first time this is called in a test script, it will record all input, output, and exported values from the application, in a file called `001.json`. The next call will save the values in `002.json`, and so on.
 
-Each time you call `app$snapshot()`, it will also save a **screen shot** of the web browser, in a file `001.png`, `002.png`, and so on. These screen shots are useful for debugging your tests and inspecting what they're doing. You can tell it to not take a screen shot, to save space and make the tests run slightly faster, with:
+Each time you call `app$snapshot()`, it will also save a **screen shot** of the web browser, in a file `001.png`, `002.png`, and so on. These screen shots are useful for debugging your tests and inspecting what they're doing. You can tell it to not take screen shots, to save space and make the tests run slightly faster, in the initialization step, with:
+
+```{r}
+app$snapshotInit("mytest", screenshot = FALSE)
+```
+
+If you want to disable screenshots for a single snapshot, you can use:
 
 ```{r}
 app$snapshot(screenshot = FALSE)
@@ -360,7 +365,7 @@ The rest of the test script can be run unchanged.
 
 #### Screenshots
 
-As you step through the script, you can inspect the state of the application in a few different ways. One is to view a screenshot. You should not to call `app$snapshot()` to get a screenshot, because it will increment the snapshot counter and shift the numbers of snapshots that really are part of the tests (e.g., snapshot 003 would be come 004). Instead you can do this:
+As you step through the script, you can inspect the state of the application in a few different ways. One is to view a screenshot. You should not to call `app$snapshot()` to get a screenshot, because it will increment the snapshot counter and shift the numbers of snapshots that really are part of the tests (e.g., snapshot 003 would become 004). Instead you can do this:
 
 ```{r}
 app$take_screenshot()
