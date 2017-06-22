@@ -93,10 +93,9 @@
     padding: 0;
 }
 
-/* Need to override absolute positioning for scrolling to work properly in
-   flexbox. */
-.d2h-code-linenumber {
-    position: inherit;
+/* Need this for scrolling to work properly with flexbox. */
+.d2h-wrapper {
+    position: relative;
 }
 
 
