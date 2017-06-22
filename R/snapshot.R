@@ -51,6 +51,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   content <- rawToChar(req$content)
   Encoding(content) <- "UTF-8"
   content <- hash_snapshot_image_data(content)
+  content <- jsonlite::prettify(content, indent = 2)
   writeChar(content, file.path(current_dir, filename), eos = NULL)
 
   if (screenshot) {
