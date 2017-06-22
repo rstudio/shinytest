@@ -31,6 +31,10 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE) {
     found_files <- found_files[idx]
   }
 
+  if (length(found_files) == 0) {
+    stop("No test scripts found in ", testsDir)
+  }
+
   # Run all the test scripts.
   if (!quiet) {
     message("Running ", appendLF = FALSE)
