@@ -228,7 +228,7 @@ snapshotUpdate <- function(appDir = ".", name, quiet = FALSE) {
   }
 
   if (!quiet) {
-    message("Updating baseline snapshot at ",  expected_dir, "...")
+    message("Updating baseline results at ",  expected_dir, "...")
   }
 
   if (dir_exists(expected_dir)) {
