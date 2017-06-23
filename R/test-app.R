@@ -10,6 +10,7 @@
 #'
 #' @export
 testApp <- function(appDir = ".", files = NULL, quiet = FALSE) {
+  library(shinytest)
   testsDir <- file.path(appDir, "tests")
 
   found_files <- list.files(testsDir, pattern = "\\.[r|R]$")
