@@ -196,10 +196,10 @@ ShinyDriver <- R6Class(
 
     initialize = function(path = ".", loadTimeout = 5000, checkNames = TRUE,
       debug = c("none", "all", shinytest::ShinyDriver$debugLogTypes),
-      phantomTimeout = 5000)
+      phantomTimeout = 5000, seed = NULL)
     {
       sd_initialize(self, private, path, loadTimeout, checkNames, debug,
-        phantomTimeout = phantomTimeout)
+        phantomTimeout = phantomTimeout, seed = seed)
     },
 
     stop = function()
@@ -338,8 +338,8 @@ ShinyDriver <- R6Class(
     shinyWorkerId = NA_character_,
     eventLog = list(),
 
-    startShiny = function(path)
-      sd_startShiny(self, private, path),
+    startShiny = function(path, seed = NULL)
+      sd_startShiny(self, private, path, seed),
 
     getShinyUrl = function()
       sd_getShinyUrl(self, private),

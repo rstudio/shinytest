@@ -5,8 +5,10 @@
 #' @param save_dir A directory to save stuff.
 #' @param load_mode A boolean that determines whether or not the resulting test
 #'   script should be appropriate for load testing.
+#' @param seed A random seed to set before running the app. This seed will also
+#'   be used in the test script.
 #' @export
-recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE) {
+recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
@@ -17,7 +19,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE) {
       stop("Recording tests for remote apps is not yet supported.")
     } else {
       # It's a path to an app; start the app
-      app <- ShinyDriver$new(app)
+      app <- ShinyDriver$new(app, seed = seed)
       on.exit({
         rm(app)
         gc()
@@ -44,7 +46,8 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE) {
     list(
       shinytest.recorder.url = url,
       shinytest.app.dir = app$getAppDir(),
-      shinytest.load.mode = load_mode
+      shinytest.load.mode = load_mode,
+      shinytest.seed = seed
     ),
     res <- shiny::runApp(system.file("recorder", package = "shinytest"))
   )

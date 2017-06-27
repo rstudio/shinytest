@@ -3,7 +3,7 @@
 #' @importFrom webdriver Session
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
-                          debug, phantomTimeout) {
+                          debug, phantomTimeout, seed) {
 
   self$logEvent("Start ShinyDriver initialization")
 
@@ -17,7 +17,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   } else {
     "!DEBUG starting shiny app from path"
     self$logEvent("Starting Shiny app")
-    private$startShiny(path)
+    private$startShiny(path, seed)
   }
 
   "!DEBUG create new phantomjs session"
@@ -74,7 +74,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path) {
+sd_startShiny <- function(self, private, path, seed) {
 
   assert_that(is_string(path))
 
@@ -85,6 +85,7 @@ sd_startShiny <- function(self, private, path) {
     paste(
       sep = ";",
       ".libPaths(c(%s, .libPaths()))",
+      if (!is.null(seed)) sprintf("set.seed(%s)", seed),
       "shiny::runApp('%s', test.mode=TRUE)"
     ),
     libpath,
