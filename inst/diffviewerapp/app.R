@@ -44,5 +44,10 @@ shinyApp(
     observeEvent(input$reject, {
       stopApp("reject")
     })
+
+    onSessionEnded(function() {
+      # Quit the app if the user closes the window
+      stopApp("reject")
+    })
   }
 )
