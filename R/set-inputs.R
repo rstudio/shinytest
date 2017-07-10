@@ -89,7 +89,7 @@ sd_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   self$logEvent("Finished uploading file")
 
   if (values_)
-    self$getAllValues()
+    invisible(self$getAllValues())
   else
     invisible()
 }
