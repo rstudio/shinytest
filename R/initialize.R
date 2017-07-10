@@ -83,10 +83,14 @@ sd_startShiny <- function(self, private, path, seed) {
   libpath <- paste(deparse(.libPaths()), collapse = "")
   rcmd <- sprintf(
     paste(
-      sep = ";",
-      ".libPaths(c(%s, .libPaths()))",
-      if (!is.null(seed)) sprintf("set.seed(%s)", seed),
-      "shiny::runApp('%s', test.mode=TRUE)"
+      # Use collapse and c() so that if seed is NULL, we don't get ";;", which
+      # would cause an error.
+      collapse = ";",
+      c(
+        ".libPaths(c(%s, .libPaths()))",
+        if (!is.null(seed)) sprintf("set.seed(%s)", seed),
+        "shiny::runApp('%s', test.mode=TRUE)"
+      )
     ),
     libpath,
     path
@@ -97,14 +101,15 @@ sd_startShiny <- function(self, private, path, seed) {
 
   Rexe <- if (is_windows()) "R.exe" else "R"
   Rbin <- file.path(R.home("bin"), Rexe)
-  cmd <- paste0(
-    shQuote(Rbin), " -q -e ",
-    shQuote(rcmd)
-  )
+  args <- c("-q", "-e", rcmd)
 
   sh <- with_envvar(
     c("R_TESTS" = NA),
-    process$new(commandline = cmd, stderr = "|")
+    process$new(
+      command = Rbin,
+      args = args,
+      stderr = "|"
+    )
   )
 
   "!DEBUG waiting for shiny to start"

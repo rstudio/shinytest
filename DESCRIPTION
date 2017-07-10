@@ -23,7 +23,7 @@ Imports:
     shiny (>= 1.0.0.9001),
     testthat (>= 1.0.0),
     utils,
-    webdriver (>= 1.0.2.9000),
+    webdriver (>= 1.0.2.9001),
     htmlwidgets,
     jsonlite,
     withr
