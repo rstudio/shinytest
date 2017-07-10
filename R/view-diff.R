@@ -95,6 +95,17 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
 #' @import shiny
 #' @export
 viewTestDiff <- function(appDir = ".", testname = NULL) {
+  valid_testnames <- dir(file.path(appDir, "tests"), pattern = "-(expected|current)$")
+  valid_testnames <- sub("-(expected|current)$", "", valid_testnames)
+  valid_testnames <- unique(valid_testnames)
+  if (is.null(testname) || !(testname %in% valid_testnames)) {
+    stop('"', testname, '" ',
+      'is not a valid testname for the app. Valid names are: "',
+      paste(valid_testnames, collapse = '", "'), '".'
+    )
+  }
+
+
   withr::with_options(
     list(
       shinytest.app.dir = normalizePath(appDir, mustWork = TRUE),
