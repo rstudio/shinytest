@@ -69,9 +69,12 @@ sd_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     stop("Can only upload file to exactly one input, and input must be named")
   }
 
+  # Wait for two messages by calling `.start(timeout, 2)`. This is because
+  # uploading a file will result in two messages before the file is successfully
+  # uploaded.
   private$web$executeScript(
     "var timeout = arguments[0];
-    shinytest.outputValuesWaiter.start(timeout);",
+    shinytest.outputValuesWaiter.start(timeout, 2);",
     timeout_
   )
 

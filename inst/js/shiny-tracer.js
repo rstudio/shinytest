@@ -127,24 +127,32 @@ window.shinytest = (function() {
     // is because calling `executeScriptAsync()` from the R side is
     // synchronous; it returns only when `callback()` is invoked.
     //
+    // start() can also be called with a second argument, n_messages. This is
+    // the number of messages that it will wait for before the finish callback
+    // is invoked. If the value is not supplied, it will wait for just one
+    // message before invoking the callback.
+    //
     // If wait==true, then wait for a message from server containing output
     // values before invoking callback. If `timeout` ms elapses without a
     // message arriving, invoke the callback. The callback function is passed
     // an object with one item, `timedOut`, which is a boolean that reports
     // whether the timeout elapsed when waiting for values.
     shinytest.outputValuesWaiter = (function() {
-        var found = false;
+        var n;          // Number of output value messages to wait for
+        var found;      // Number of output value messages found so far
         var finishCallback = null;
 
-        function start(timeout) {
+        function start(timeout, n_messages) {
+            if (n_messages === undefined) n_messages = 1;
+
             if (finishCallback !== null) {
                 throw "Can't start while already waiting";
             }
 
-            found = false;
+            n = n_messages;
+            found = 0;
 
-            waitForOutputValueMessage(timeout, function(timedOut) {
-                found = true;
+            waitForEnoughOutputValueMessages(timeout, function(timedOut) {
                 if (finishCallback) {
                     var tmp = finishCallback;
                     finishCallback = null;
@@ -161,20 +169,25 @@ window.shinytest = (function() {
             // we have already found the output message, or if we're told not
             // to wait for it. Otherwise store the callback; it will be
             // invoked when the output message arrives.
-            if (found || !wait) {
+            if (foundEnough() || !wait) {
                 callback({ timedOut: false });
             } else {
                 finishCallback = callback;
             }
         }
 
+        // Have enough messages been found?
+        function foundEnough() {
+            return found >= n;
+        }
 
-        // This waits for a shiny:message event to occur, where the messsage
-        // contains a field named `values`. That is a message from the server
-        // with output values. When that occurs, invoke `callback(false)`. Or,
-        // if timeout elapses without seeing such a message, invoke
-        // `callback(true)`.
-        function waitForOutputValueMessage(timeout, callback) {
+        // This waits for enough shiny:message events to occur, where the
+        // messsage contains a field named `values`. That is a message from
+        // the server with output values. Usually we wait for one, but
+        // sometimes we need to wait for more than one message. When that
+        // occurs, invoke `callback(false)`. Or, if timeout elapses without
+        // seeing such a message, invoke `callback(true)`.
+        function waitForEnoughOutputValueMessages(timeout, callback) {
             if (timeout === undefined) timeout = 3000;
 
             // This is a bit of a hack: we want the callback to be invoked _after_
@@ -188,12 +201,15 @@ window.shinytest = (function() {
             // Check that a message contains `values` field.
             function checkMessage(e) {
                 if (e.message && e.message.values) {
+                    found++;
                     shinytest.log("Found message with values field.");
 
-                    $(document).off("shiny:message", checkMessage);
-                    clearTimeout(timeoutCallback);
+                    if (foundEnough()) {
+                        $(document).off("shiny:message", checkMessage);
+                        clearTimeout(timeoutCallback);
 
-                    callbackWrapper(false);
+                        callbackWrapper(false);
+                    }
                 }
             }
 
