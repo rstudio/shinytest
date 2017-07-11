@@ -89,6 +89,10 @@ sd_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     wait_
   )
 
+  # Need to wait for the progress bar's CSS transition to complete. The
+  # transition is 0.6s, so this will ensure that it's done.
+  Sys.sleep(0.6)
+
   self$logEvent("Finished uploading file")
 
   if (values_)
