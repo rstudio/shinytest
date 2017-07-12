@@ -85,6 +85,15 @@ sd_snapshotDownload <- function(self, private, id, filename) {
   url <- self$findElement(paste0("#", id))$getAttribute("href")
 
   req <- httr::GET(url)
+
+  # For first snapshot, create -current snapshot dir.
+  if (private$snapshotCount == 1) {
+    if (dir_exists(current_dir)) {
+      unlink(current_dir, recursive = TRUE)
+    }
+    dir.create(current_dir, recursive = TRUE)
+  }
+
   writeBin(req$content, file.path(current_dir, filename))
 
   invisible(req$content)
