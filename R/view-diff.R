@@ -39,7 +39,8 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 
     bin_data <- readBin(filename, "raw", n = file.info(filename)$size)
 
-    if (grepl("\\.json$", filename)) {
+    # Assume .json and .download files are text
+    if (grepl("\\.json$", filename) || grepl("\\.download$", filename)) {
       res <- rawToChar(bin_data)
       Encoding(res) <- "UTF-8"
       res
