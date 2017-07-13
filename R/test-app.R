@@ -7,9 +7,15 @@
 #'   run.
 #' @param quiet Should output be suppressed? This is useful for automated
 #'   testing.
+#' @param compareScreenshot Should screenshots be compared? It can be useful to
+#'   set this to \code{FALSE} when the expected results were taken on a
+#'   different platform from the one currently being used to test the
+#'   application.
 #'
 #' @export
-testApp <- function(appDir = ".", files = NULL, quiet = FALSE) {
+testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
+  compareScreenshot = TRUE)
+{
   library(shinytest)
   testsDir <- file.path(appDir, "tests")
 
@@ -64,7 +70,7 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE) {
     if (!quiet) {
       message("====== Comparing ", name, " ======")
     }
-    snapshotCompare(appDir, name, quiet = quiet)
+    snapshotCompare(appDir, name, quiet = quiet, screenshot = compareScreenshot)
   })
 
   invisible(list(

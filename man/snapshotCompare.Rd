@@ -6,7 +6,7 @@
 \title{Compare current and expected snapshots}
 \usage{
 snapshotCompare(appDir, name, autoremove = TRUE,
-  interactive = base::interactive(), quiet = FALSE)
+  interactive = base::interactive(), quiet = FALSE, screenshot = TRUE)
 
 snapshotUpdate(appDir = ".", name, quiet = FALSE)
 }
@@ -25,6 +25,10 @@ changes and allows the user to accept or reject the changes.}
 
 \item{quiet}{Should output be suppressed? This is useful for automated
 testing.}
+
+\item{screenshot}{Should screenshots be compared? It can be useful to set
+this to \code{FALSE} when the expected results were taken on a different
+platform from the current results.}
 }
 \description{
 This compares a current and expected snapshot for a test set, and prints any

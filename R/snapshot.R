@@ -114,10 +114,13 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #'   changes and allows the user to accept or reject the changes.
 #' @param quiet Should output be suppressed? This is useful for automated
 #'   testing.
+#' @param screenshot Should screenshots be compared? It can be useful to set
+#'   this to \code{FALSE} when the expected results were taken on a different
+#'   platform from the current results.
 #'
 #' @export
 snapshotCompare <- function(appDir, name, autoremove = TRUE,
-  interactive = base::interactive(), quiet = FALSE)
+  interactive = base::interactive(), quiet = FALSE, screenshot = TRUE)
 {
   current_dir  <- file.path(appDir, "tests", paste0(name, "-current"))
   expected_dir <- file.path(appDir, "tests", paste0(name, "-expected"))
@@ -132,6 +135,10 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
 
   if (dir_exists(expected_dir)) {
     res <- dirs_diff(expected_dir, current_dir)
+
+    if (!screenshot) {
+      res <- res[!grepl(".*\\.png$", res$name), ]
+    }
 
     # If any files are missing from current or expected, or if they are not
     # identical, then there are differences between the dirs.

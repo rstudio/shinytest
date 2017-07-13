@@ -4,7 +4,8 @@
 \alias{testApp}
 \title{Run tests for a Shiny application}
 \usage{
-testApp(appDir = ".", files = NULL, quiet = FALSE)
+testApp(appDir = ".", files = NULL, quiet = FALSE,
+  compareScreenshot = TRUE)
 }
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
@@ -16,6 +17,11 @@ run.}
 
 \item{quiet}{Should output be suppressed? This is useful for automated
 testing.}
+
+\item{compareScreenshot}{Should screenshots be compared? It can be useful to
+set this to \code{FALSE} when the expected results were taken on a
+different platform from the one currently being used to test the
+application.}
 }
 \description{
 Run tests for a Shiny application
