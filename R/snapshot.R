@@ -219,6 +219,7 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
   }
 
   invisible(list(
+    appDir = appDir,
     name = name,
     pass = snapshot_pass,
     status = snapshot_status
