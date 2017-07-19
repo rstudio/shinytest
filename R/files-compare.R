@@ -1,4 +1,4 @@
-files_identical <- function(a, b) {
+files_identical <- function(a, b, preprocess = NULL) {
   if (!file.exists(a)) {
     message("File ", a, " not found.")
     return(FALSE)
@@ -15,13 +15,22 @@ files_identical <- function(a, b) {
     return(FALSE)
   }
 
-  a_content <- readBin(a, "raw", n = a_size)
-  b_content <- readBin(b, "raw", n = b_size)
+  a_content <- read_raw(a)
+  b_content <- read_raw(b)
+
+  if (!is.null(preprocess)) {
+    a_content <- preprocess(a, a_content)
+    b_content <- preprocess(b, b_content)
+  }
+
   identical(a_content, b_content)
 }
 
-
-dirs_diff <- function(expected, current) {
+# `expected` and `current` are directories. `file_preprocess` is an optional
+# function that takes two arguments, `name` (a filename) and `content` (a raw
+# vector of the file's contents). If present, the `file_preprocess` function
+# will be used to prepare file contents before they are compared.
+dirs_differ <- function(expected, current, file_preprocess = NULL) {
   diff_found <- FALSE
 
   if (!dir_exists(expected)) stop("Directory ", expected, " not found.")
@@ -43,7 +52,7 @@ dirs_diff <- function(expected, current) {
     )
 
     if (res$expected && res$current) {
-      res$identical <- files_identical(expected_file, current_file)
+      res$identical <- files_identical(expected_file, current_file, file_preprocess)
     } else {
       res$identical <- NA
     }
@@ -81,21 +90,58 @@ which_diff <- function() {
 # Return a text diff of two files or directories. First attempts to use `diff`
 # program, but if not found, will fall back to using `fc` on Windows. The format
 # of the output therefore can vary on different platforms.
-diff_files <- function(file1, file2) {
+#
+# If present, the `file_preprocess` function will be used to prepare file
+# contents before they are compared.
+diff_files <- function(file1, file2, file_preprocess = NULL) {
   diff_prog <- which_diff()
 
-  out_file <- tempfile(fileext=".diff")
-  on.exit(unlink(out_file))
+  tmp_dir <- tempfile("shinytest-diff-")
+  dir.create(tmp_dir)
+  on.exit(unlink(tmp_dir, recursive = TRUE))
+  out_file <- file.path(tmp_dir, "shinytest-diff-output.txt")
 
-  p <- process$new(
-    command = which_diff(),
-    stdout = out_file,
-    args = c(file1, file2)
+
+  # If there's a preprocess function, we need to copy the files to a temp
+  # directory and preprocess them before we can compare them.
+  if (!is.null(file_preprocess)) {
+    tmp_file1 <- file.path(tmp_dir, basename(file1))
+    tmp_file2 <- file.path(tmp_dir, basename(file2))
+
+    file.copy(file1, tmp_dir, recursive = TRUE)
+    file.copy(file2, tmp_dir, recursive = TRUE)
+
+    # Remove image hashes from tmp_file1 and tmp_file2. They can be files or
+    # directories.
+    lapply(
+      list(tmp_file1, tmp_file2),
+      function(path) {
+        if (file.info(path)$isdir) {
+          lapply(dir(path, full.names = TRUE), file_preprocess)
+        } else {
+          file_preprocess(path)
+        }
+      }
+    )
+
+    file1 <- tmp_file1
+    file2 <- tmp_file2
+
+    working_dir <- tmp_dir
+  } else {
+    working_dir <- getwd()
+  }
+
+  withr::with_dir(working_dir,
+    {
+      p <- process$new(
+        command = which_diff(),
+        stdout = out_file,
+        args = c(file1, file2)
+      )
+    }
   )
-  p$wait(timeout = 1000)
+  p$wait(timeout = 5000)
 
-  bin_data <- readBin(out_file, "raw", n = file.info(out_file)$size)
-  res <- rawToChar(bin_data)
-  Encoding(res) <- "UTF-8"
-  res
+  read_utf8(out_file)
 }

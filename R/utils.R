@@ -96,3 +96,18 @@ parse_url <- function(url) {
     path     = get_piece("path")
   )
 }
+
+raw_to_utf8 <- function(data) {
+  res <- rawToChar(data)
+  Encoding(res) <- "UTF-8"
+  res
+}
+
+read_raw <- function(file) {
+  readBin(file, "raw", n = file.info(file)$size)
+}
+
+read_utf8 <- function(file) {
+  res <- read_raw(file)
+  raw_to_utf8(res)
+}

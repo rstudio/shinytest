@@ -48,8 +48,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   }
 
   # Convert to text, then replace base64-encoded images with hashes of them.
-  content <- rawToChar(req$content)
-  Encoding(content) <- "UTF-8"
+  content <- raw_to_utf8(req$content)
   content <- hash_snapshot_image_data(content)
   content <- jsonlite::prettify(content, indent = 2)
   writeChar(content, file.path(current_dir, filename), eos = NULL)
@@ -61,9 +60,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   }
 
   # Invisibly return JSON content as a string
-  data <- rawToChar(req$content)
-  Encoding(data) <- "UTF-8"
-  invisible(data)
+  invisible(raw_to_utf8(req$content))
 }
 
 
@@ -114,13 +111,13 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #'   changes and allows the user to accept or reject the changes.
 #' @param quiet Should output be suppressed? This is useful for automated
 #'   testing.
-#' @param screenshot Should screenshots be compared? It can be useful to set
-#'   this to \code{FALSE} when the expected results were taken on a different
-#'   platform from the current results.
+#' @param images Should screenshots and PNG images be compared? It can be useful
+#'   to set this to \code{FALSE} when the expected results were taken on a
+#'   different platform from the current results.
 #'
 #' @export
 snapshotCompare <- function(appDir, name, autoremove = TRUE,
-  interactive = base::interactive(), quiet = FALSE, screenshot = TRUE)
+  interactive = base::interactive(), quiet = FALSE, images = TRUE)
 {
   current_dir  <- file.path(appDir, "tests", paste0(name, "-current"))
   expected_dir <- file.path(appDir, "tests", paste0(name, "-expected"))
@@ -134,9 +131,16 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
   relativeAppDir <- getOption("shinytest.app.dir", default = appDir)
 
   if (dir_exists(expected_dir)) {
-    res <- dirs_diff(expected_dir, current_dir)
 
-    if (!screenshot) {
+    if (images) {
+      filter_fun <- NULL
+    } else {
+      filter_fun <- remove_image_hashes_json
+    }
+
+    res <- dirs_differ(expected_dir, current_dir, filter_fun)
+
+    if (!images) {
       res <- res[!grepl(".*\\.png$", res$name), ]
     }
 
@@ -222,7 +226,8 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
     appDir = appDir,
     name = name,
     pass = snapshot_pass,
-    status = snapshot_status
+    status = snapshot_status,
+    images = images
   ))
 }
 
@@ -315,4 +320,45 @@ hash_snapshot_image_data <- function(data) {
     c(rbind(text_data, image_hashes)),
     collapse = ""
   )
+}
+
+
+# Given a JSON string, replace any lines like this:
+#   "src": "[image data sha1: ebee9032833ed776d2be63a4c4025961e39d1afe]",
+# with this:
+#   "src": "[image data]",
+remove_image_hashes <- function(json) {
+  gsub(
+    '((^|\\n)\\s*"src":\\s*"\\[image data) sha1: [^]]+\\]"',
+    "\\1]",
+    json
+  )
+}
+
+# Given a filename and contents: if it is a JSON file, remove the image hashes
+# and return the new JSON. If it is not a JSON file, return content unchanged.
+remove_image_hashes_json <- function(filename, content) {
+  if (!grepl("\\.json$", filename))
+    return(content)
+
+  content <- raw_to_utf8(content)
+  content <- remove_image_hashes(content)
+  charToRaw(content)
+}
+
+# Given a filename: If it is a PNG file, delete the file. If it is a JSON
+# file, remove the image hashes and overwrite the original file with the new
+# contents. For all other files, do nothing.
+remove_image_hashes_and_files <- function(filename) {
+  if (grepl("\\.png$", filename)) {
+    unlink(filename)
+
+  } else if (grepl("\\.json$", filename)) {
+    content <- read_utf8(filename)
+    content <- remove_image_hashes(content)
+    writeChar(content, filename, eos = NULL)
+    filename
+  }
+
+  filename
 }

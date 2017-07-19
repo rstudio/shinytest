@@ -23,9 +23,18 @@ expect_pass <- function(object, info = NULL) {
       current_dir  <- file.path(result$appDir, "tests", paste0(result$name, "-current"))
       expected_dir <- file.path(result$appDir, "tests", paste0(result$name, "-expected"))
 
+
+      if (result$images) {
+        filter_fun <- NULL
+      } else {
+        # If we're not using images, then delete PNG files and remove the
+        # hashes from JSON.
+        filter_fun <- remove_image_hashes_and_files
+      }
+
       paste0(
         "==== ", result$name, " ====\n",
-        diff_files(expected_dir, current_dir)
+        diff_files(expected_dir, current_dir, filter_fun)
       )
     })
 

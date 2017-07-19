@@ -14,7 +14,7 @@
 #'
 #' @export
 testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
-  compareScreenshot = TRUE)
+  compareImages = TRUE)
 {
   library(shinytest)
   testsDir <- file.path(appDir, "tests")
@@ -70,7 +70,7 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
     if (!quiet) {
       message("====== Comparing ", name, " ======")
     }
-    snapshotCompare(appDir, name, quiet = quiet, screenshot = compareScreenshot)
+    snapshotCompare(appDir, name, quiet = quiet, images = compareImages)
   })
 
   invisible(list(
