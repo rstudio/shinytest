@@ -44,7 +44,13 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
     'window.shinytest && window.shinytest.connected === true',
     timeout = loadTimeout
   )
-  if (!load_ok) stop("Shiny app did not load in ", loadTimeout, "ms")
+  if (!load_ok) {
+    shiny_error_lines <- private$shinyProcess$read_error_lines()
+    stop(
+      "Shiny app did not load in ", loadTimeout, "ms.\n",
+      "Shiny application messages:\n", paste(shiny_error_lines, collapse = "\n")
+    )
+  }
 
   "!DEBUG shiny started"
   self$logEvent("Shiny app started")
