@@ -103,7 +103,7 @@ sd_startShiny <- function(self, private, path, seed) {
   Rbin <- file.path(R.home("bin"), Rexe)
   args <- c("-q", "-e", rcmd)
 
-  sh <- with_envvar(
+  p <- with_envvar(
     c("R_TESTS" = NA),
     process$new(
       command = Rbin,
@@ -113,10 +113,10 @@ sd_startShiny <- function(self, private, path, seed) {
   )
 
   "!DEBUG waiting for shiny to start"
-  if (! sh$is_alive()) {
+  if (! p$is_alive()) {
     stop(
       "Failed to start shiny. Error: ",
-      strwrap(sh$read_error_lines())
+      strwrap(p$read_error_lines())
     )
   }
 
@@ -124,13 +124,18 @@ sd_startShiny <- function(self, private, path, seed) {
   ## Try to read out the port, keep trying for 10 seconds
   err_lines <- character()
   for (i in 1:100) {
-    l <- sh$read_error_lines(n = 1)
+    l <- p$read_error_lines(n = 1)
     err_lines <- c(err_lines, l)
+    if (!p$is_alive()) break
     if (length(l) && grepl("Listening on http", l)) break
     Sys.sleep(0.1)
   }
+  if (!p$is_alive()) {
+    err_lines <- c(err_lines, p$read_error_lines())
+    stop("Error starting application:\n", paste(err_lines, collapse = "\n"))
+  }
   if (i == 100) {
-    stop("Cannot find shiny port number. Error: ", strwrap(err_lines))
+    stop("Cannot find shiny port number. Error:\n", paste(err_lines, collapse = "\n"))
   }
 
   m <- re_match(text = l, "https?://(?<host>[^:]+):(?<port>[0-9]+)")
@@ -140,7 +145,7 @@ sd_startShiny <- function(self, private, path, seed) {
   url <- sub(".*(https?://.*)", "\\1", l)
   private$setShinyUrl(url)
 
-  private$shinyProcess     <- sh
+  private$shinyProcess <- p
 }
 
 sd_getShinyUrl <- function(self, private) {
