@@ -16,7 +16,7 @@ Imports:
     debugme,
     parsedate,
     pingr,
-    processx,
+    processx (>= 2.0.1.9000),
     R6,
     rematch,
     httr,
@@ -29,6 +29,7 @@ Imports:
     withr
 Remotes:
     gaborcsardi/debugme,
-    rstudio/webdriver
+    rstudio/webdriver,
+    r-lib/processx
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)

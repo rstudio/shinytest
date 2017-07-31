@@ -114,7 +114,8 @@ sd_startShiny <- function(self, private, path, seed) {
     process$new(
       command = Rbin,
       args = args,
-      stderr = "|"
+      stderr = "|",
+      supervise = TRUE
     )
   )
 
