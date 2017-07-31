@@ -142,6 +142,7 @@ diff_files <- function(file1, file2, file_preprocess = NULL) {
     }
   )
   p$wait(timeout = 5000)
+  p$kill()
 
   read_utf8(out_file)
 }
