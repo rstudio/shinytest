@@ -202,6 +202,9 @@ ShinyDriver <- R6Class(
         phantomTimeout = phantomTimeout, seed = seed)
     },
 
+    finalize = function()
+      sd_finalize(self, private),
+
     stop = function()
       sd_stop(self, private),
 

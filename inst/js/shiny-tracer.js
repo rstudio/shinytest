@@ -14,6 +14,7 @@ window.shinytest = (function() {
             message: message
         });
     };
+    shinytest.log("window.shinytest loaded");
 
 
     shinytest.inputQueue = (function() {
@@ -272,11 +273,8 @@ window.shinytest = (function() {
         shinytest.log("already connected");
 
     } else {
-        // Use one("shiny:idle") instead of on("shiny:connected") because the
-        // connected event is actually fired earlier than we need, and relying on
-        // it can result in a race condition. See
-        // https://github.com/rstudio/shiny/pull/1568 for more information.
-        $(document).one("shiny:idle", function(e) {
+        shinytest.log("waiting for shiny session to connect");
+        $(document).one("shiny:sessioninitialized", function(e) {
             shinytest.connected = true;
             shinytest.log("connected");
         });

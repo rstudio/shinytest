@@ -45,10 +45,10 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
     timeout = loadTimeout
   )
   if (!load_ok) {
-    shiny_error_lines <- private$shinyProcess$read_error_lines()
+    shiny_error_lines <- readLines(private$shinyProcess$get_error_file())
     stop(
       "Shiny app did not load in ", loadTimeout, "ms.\n",
-      "Shiny application messages:\n", paste(shiny_error_lines, collapse = "\n")
+      format(self$getDebugLog())
     )
   }
 
@@ -109,12 +109,14 @@ sd_startShiny <- function(self, private, path, seed) {
   Rbin <- file.path(R.home("bin"), Rexe)
   args <- c("-q", "-e", rcmd)
 
+  tempfile_format <- tempfile("%s-", fileext = ".log")
   p <- with_envvar(
     c("R_TESTS" = NA),
     process$new(
       command = Rbin,
       args = args,
-      stderr = "|",
+      stdout = sprintf(tempfile_format, "shiny-stdout"),
+      stderr = sprintf(tempfile_format, "shiny-stderr"),
       supervise = TRUE
     )
   )
@@ -123,33 +125,32 @@ sd_startShiny <- function(self, private, path, seed) {
   if (! p$is_alive()) {
     stop(
       "Failed to start shiny. Error: ",
-      strwrap(p$read_error_lines())
+      strwrap(readLines(p$get_error_file()))
     )
   }
 
   "!DEBUG finding shiny port"
   ## Try to read out the port, keep trying for 10 seconds
-  err_lines <- character()
-  for (i in 1:100) {
-    l <- p$read_error_lines(n = 1)
-    err_lines <- c(err_lines, l)
-    if (!p$is_alive()) break
-    if (length(l) && grepl("Listening on http", l)) break
-    Sys.sleep(0.1)
+  for (i in 1:50) {
+    err_lines <- readLines(p$get_error_file())
+
+    if (!p$is_alive()) {
+      stop("Error starting application:\n", paste(err_lines, collapse = "\n"))
+    }
+    if (any(grepl("Listening on http", err_lines))) break
+
+    Sys.sleep(0.2)
   }
-  if (!p$is_alive()) {
-    err_lines <- c(err_lines, p$read_error_lines())
-    stop("Error starting application:\n", paste(err_lines, collapse = "\n"))
-  }
-  if (i == 100) {
+  if (i == 50) {
     stop("Cannot find shiny port number. Error:\n", paste(err_lines, collapse = "\n"))
   }
 
-  m <- re_match(text = l, "https?://(?<host>[^:]+):(?<port>[0-9]+)")
+  line <- err_lines[grepl("Listening on http", err_lines)]
+  m <- re_match(text = line, "https?://(?<host>[^:]+):(?<port>[0-9]+)")
 
   "!DEBUG shiny up and running, port `m[, 'port']`"
 
-  url <- sub(".*(https?://.*)", "\\1", l)
+  url <- sub(".*(https?://.*)", "\\1", line)
   private$setShinyUrl(url)
 
   private$shinyProcess <- p
@@ -224,4 +225,10 @@ find_phantom <- function() {
     return(NULL)
   }
   path.expand(path)
+}
+
+
+sd_finalize <- function(self, private) {
+  unlink(private$shinyProcess$get_output_file())
+  unlink(private$shinyProcess$get_error_file())
 }

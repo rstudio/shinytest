@@ -17,8 +17,8 @@ sd_getDebugLog <- function(self, private, type) {
 
   if ("shiny_console" %in% type) {
     "!DEBUG sd_getDebugLog shiny_console"
-    out <- private$shinyProcess$read_output_lines()
-    err <- private$shinyProcess$read_error_lines()
+    out <- readLines(private$shinyProcess$get_output_file())
+    err <- readLines(private$shinyProcess$get_error_file())
     output$shiny_console <- make_shiny_console_log(out = out, err = err)
   }
 
@@ -76,7 +76,10 @@ make_shinytest_log <- function(entries) {
   data.frame(
     stringsAsFactors = FALSE,
     level = if (length(entries)) "INFO" else character(),
-    timestamp = parse_date(vapply(entries, "[[", "", "timestamp")),
+    # Workaround for bug in parsedate::parse_date where it errors on empty input:
+    # https://github.com/gaborcsardi/parsedate/issues/20
+    timestamp = if (length(entries)) parse_date(vapply(entries, "[[", "", "timestamp"))
+                else as.POSIXct(character()),
     message = vapply(entries, "[[", "", "message"),
     type = if (length(entries)) "shinytest" else character()
   )
@@ -92,7 +95,7 @@ merge_logs <- function(output) {
 #' @export
 #' @importFrom crayon blue magenta cyan make_style
 
-print.shinytest_logs <- function(x, ...) {
+format.shinytest_logs <- function(x, ...) {
 
   colors <- list(
     shiny_console = magenta,
@@ -106,7 +109,7 @@ print.shinytest_logs <- function(x, ...) {
     shinytest = "S"
   )
 
-  for (i in seq_len(nrow(x))) {
+  lines <- vapply(seq_len(nrow(x)), function(i) {
 
     time <- if (is.na(x$timestamp[i])) {
       "-----------"
@@ -114,7 +117,7 @@ print.shinytest_logs <- function(x, ...) {
       format(x$timestamp[i], "%H:%M:%OS2")
     }
 
-    cat(
+    paste(
       sep = "",
       types[x$type[i]],
       "/",
@@ -122,10 +125,17 @@ print.shinytest_logs <- function(x, ...) {
       " ",
       time,
       " ",
-      colors[[ x$type[i] ]](x$message[i]),
-      "\n"
+      colors[[ x$type[i] ]](x$message[i])
     )
-  }
+  }, character(1))
 
+  paste(lines, collapse = "\n")
+}
+
+#' @export
+#' @importFrom crayon blue magenta cyan make_style
+
+print.shinytest_logs <- function(x, ...) {
+  cat(format(x), ...)
   invisible(x)
 }
