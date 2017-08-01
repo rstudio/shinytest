@@ -6,7 +6,7 @@ sudo: false
 # Code referenced from:
 #   https://github.com/travis-ci/travis-ci/issues/3225#issuecomment-255500144
 cache:
-  packages:
+  packages: true
   directories:
     - "travis_phantomjs"
 before_install:
