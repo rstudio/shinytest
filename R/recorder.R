@@ -19,7 +19,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
       stop("Recording tests for remote apps is not yet supported.")
     } else {
       # It's a path to an app; start the app
-      app <- ShinyDriver$new(app, seed = seed)
+      app <- ShinyDriver$new(app, seed = seed, loadTimeout = 10000)
       on.exit({
         rm(app)
         gc()
