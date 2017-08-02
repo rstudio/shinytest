@@ -346,6 +346,7 @@ ShinyDriver <- R6Class(
     snapshotScreenshot = TRUE,         # Whether to take screenshots for each snapshot
     shinyWorkerId = NA_character_,
     eventLog = list(),
+    cleanLogs = TRUE,                  # Whether to clean logs when GC'd
 
     startShiny = function(path, seed = NULL)
       sd_startShiny(self, private, path, seed),
