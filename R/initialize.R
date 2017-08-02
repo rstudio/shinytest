@@ -3,7 +3,9 @@
 #' @importFrom webdriver Session
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
-                          debug, phantomTimeout, seed) {
+                          debug, phantomTimeout, seed, cleanLogs) {
+
+  private$cleanLogs <- cleanLogs
 
   self$logEvent("Start ShinyDriver initialization")
 
@@ -229,6 +231,8 @@ find_phantom <- function() {
 
 
 sd_finalize <- function(self, private) {
-  unlink(private$shinyProcess$get_output_file())
-  unlink(private$shinyProcess$get_error_file())
+  if (isTRUE(private$cleanLogs)) {
+    unlink(private$shinyProcess$get_output_file())
+    unlink(private$shinyProcess$get_error_file())
+  }
 }

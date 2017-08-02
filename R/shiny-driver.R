@@ -4,7 +4,8 @@
 #' @section Usage:
 #' \preformatted{app <- ShinyDriver$new(path = ".", loadTimeout = 5000,
 #'               checkNames = TRUE, debug = c("none", "all",
-#'               ShinyDriver$debugLogTypes))
+#'               ShinyDriver$debugLogTypes), phantomTimeout = 5000,
+#'               seed = NULL, cleanLogs = TRUE))
 #' app$stop()
 #' app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
 #'
@@ -54,6 +55,11 @@
 #'      app.}
 #'   \item{debug}{Whether to start the app in debugging mode. In debugging
 #'      mode debug messages are printed to the console.}
+#'   \item{seed}{An optional random seed to use before starting the
+#'      application. For apps that use R's random number generator, this
+#'      can make their behavior repeatable.}
+#'   \item{cleanLogs}{Whether to remove the stdout and stderr logs when the
+#'     Shiny process object is garbage collected.}
 #'   \item{name}{Name of a shiny widget. For \code{$sendKeys} it can
 #'      be \code{NULL}, in which case the keys are sent to the active
 #'      HTML element.}
@@ -196,10 +202,10 @@ ShinyDriver <- R6Class(
 
     initialize = function(path = ".", loadTimeout = 5000, checkNames = TRUE,
       debug = c("none", "all", shinytest::ShinyDriver$debugLogTypes),
-      phantomTimeout = 5000, seed = NULL)
+      phantomTimeout = 5000, seed = NULL, cleanLogs = TRUE)
     {
       sd_initialize(self, private, path, loadTimeout, checkNames, debug,
-        phantomTimeout = phantomTimeout, seed = seed)
+        phantomTimeout = phantomTimeout, seed = seed, cleanLogs = cleanLogs)
     },
 
     finalize = function()
