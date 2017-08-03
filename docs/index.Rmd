@@ -1,9 +1,10 @@
 ---
 title: "Getting started with shinytest"
-author: "Winston Chang"
 output:
   html_document: default
   pdf_document: default
+editor_options:
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
