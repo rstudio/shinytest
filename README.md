@@ -1,5 +1,7 @@
-shinytest
-=========
+
+
+
+# shinytest
 
 > Test Shiny Apps
 
@@ -8,9 +10,8 @@ shinytest
 [![](http://www.r-pkg.org/badges/version/shinytest)](http://www.r-pkg.org/pkg/shinytest)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/shinytest)](http://www.r-pkg.org/pkg/shinytest)
 
-Uses a headless browser, driven through 'WebDriver'.
-
 ## Installation
+
 
 ```r
 source("https://install-github.me/rstudio/shinytest")
@@ -18,10 +19,7 @@ source("https://install-github.me/rstudio/shinytest")
 
 ## Usage
 
-
-```r
-library(shinytest)
-```
+See the [getting started guide](https://rstudio.github.io/shinytest/articles/shinytest.html) to learn how to use shinytest.
 
 ## License
 
