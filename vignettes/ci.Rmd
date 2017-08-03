@@ -32,14 +32,14 @@ Once you have enabled continuous integration, the typical development cycle is t
 As you develop your application, it may also be appropriate to add, remove, or modify tests, or re-run tests and save new expected results.
 
 
-### Travis setup
+## Travis setup
 
 You will first need to create an account on [Travis CI](https://travis-ci.org/). You can sign in to Travis with your GitHub account.
 
 If you have not created a GitHub repository for your project, do that. Then, on the Travis [profile page](https://travis-ci.org/profile), you can enable Travis CI for your project. This means that whenever you push commits to GitHub, it will trigger a test run on Travis.
 
 
-### A repository with a single application
+## A repository with a single application
 
 For Shiny applications that aren't part of an R package, there are two common ways that the repository will be set up:
 
@@ -68,7 +68,7 @@ This section explains how to set up Travis to test a repoistory with a single ap
 The files that you will need to add are described below.
 
 
-#### `.travis.yml`
+### `.travis.yml`
 
 This file contains information for Travis to build and test your application. It should look like this:
 
@@ -112,7 +112,7 @@ script:
 You should change the R version (set to `3.4.1` above) to whatever R version is being used on the platform that your application will be deployed to.
 
 
-#### `run_tests.R`
+### `run_tests.R`
 
 The `run_tests.R` script should look like this. It simply runs the tests for the app, and if the tests fail, it raises error (so that Travis knows the test failed) and outputs logging information:
 
@@ -133,7 +133,7 @@ Notice the use of `compareImages=FALSE`. When the expected results are generated
 If you develop on Linux and create the expected test results on Linux, then you should be able to leave out the `compareImages` argument; it defaults to `TRUE`.
 
 
-#### `packrat/packrat.lock`
+### `packrat/packrat.lock`
 
 This file contains a list of packages used by your application, and the version of each package that you currently have installed on your system. It is the same mechanism that is used by shinyapps.io and RStudio Connect. This file ensures that Travis will use the same versions of packages that you are using locally.
 
@@ -150,7 +150,7 @@ NOTE: Future versions of packrat (0.4.8-15 and higher) will be able to use use `
 An alternative to using packrat is to create a DESCRIPTION file. This will not lock package versions; instead, it will use the latest version of each package from CRAN.
 
 
-#### Running the first build
+### Running the first build
 
 Once you've added these files, commit them and push to GitHub. This will trigger a build on Travis. (There may be a delay of a few minutes before the tests begin.)
 
@@ -159,7 +159,7 @@ The first time the test runs, Travis will send you an email with the result. Aft
 The first build of your package on Travis will generally take much longer than subsequent runs, because it needs to install all the R packages the first time. After that, the packages are cached, so the builds should be much faster.
 
 
-### A repository with multiple applications
+## A repository with multiple applications
 
 Another way to run your tests is using a repository with multiple applications, each in its own subdirectory. The directory structure would look something like this:
 
@@ -196,7 +196,7 @@ Another way to run your tests is using a repository with multiple applications, 
 For a repository with this structure, the configuration is largely the same as a repository with a single app, as described above. The only difference is in the `run_tests.R` file.
 
 
-#### `run_tests.R`
+### `run_tests.R`
 
 The `run_tests.R` script should test each application in the respective directory, instead of testing just one application in the current directory.
 
@@ -212,11 +212,11 @@ test_that("Application works", {
 
 
 
-### Testing applications in a package
+## Testing applications in a package
 
 This section coming soon.
 
-### RStudio Connect
+## RStudio Connect
 
 In the coming months, RStudio Connect will have the ability to automatically test Shiny applications.
 

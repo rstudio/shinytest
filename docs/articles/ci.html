@@ -99,15 +99,16 @@
 <li>The CI platform will automatically do a <em>build</em>, in which it downloads the code and runs tests. If the tests fail, it will send you an email alert.</li>
 </ul>
 <p>As you develop your application, it may also be appropriate to add, remove, or modify tests, or re-run tests and save new expected results.</p>
-<div id="travis-setup" class="section level3">
-<h3 class="hasAnchor">
-<a href="#travis-setup" class="anchor"></a>Travis setup</h3>
+</div>
+<div id="travis-setup" class="section level2">
+<h2 class="hasAnchor">
+<a href="#travis-setup" class="anchor"></a>Travis setup</h2>
 <p>You will first need to create an account on <a href="https://travis-ci.org/">Travis CI</a>. You can sign in to Travis with your GitHub account.</p>
 <p>If you have not created a GitHub repository for your project, do that. Then, on the Travis <a href="https://travis-ci.org/profile">profile page</a>, you can enable Travis CI for your project. This means that whenever you push commits to GitHub, it will trigger a test run on Travis.</p>
 </div>
-<div id="a-repository-with-a-single-application" class="section level3">
-<h3 class="hasAnchor">
-<a href="#a-repository-with-a-single-application" class="anchor"></a>A repository with a single application</h3>
+<div id="a-repository-with-a-single-application" class="section level2">
+<h2 class="hasAnchor">
+<a href="#a-repository-with-a-single-application" class="anchor"></a>A repository with a single application</h2>
 <p>For Shiny applications that aren’t part of an R package, there are two common ways that the repository will be set up:</p>
 <ol style="list-style-type: decimal">
 <li>The repository contains one application, and the application files (like <code>server.R</code>, <code>ui.R</code>, or <code>app.R</code>) are contained at the top level of the repository.</li>
@@ -129,10 +130,10 @@
 └── packrat
     └── packrat.lock</code></pre>
 <p>The files that you will need to add are described below.</p>
-<div id="travis-yml" class="section level4">
-<h4 class="hasAnchor">
+<div id="travis-yml" class="section level3">
+<h3 class="hasAnchor">
 <a href="#travis-yml" class="anchor"></a><code>.travis.yml</code>
-</h4>
+</h3>
 <p>This file contains information for Travis to build and test your application. It should look like this:</p>
 <div class="sourceCode"><pre class="sourceCode yml"><code class="sourceCode yaml"><span class="fu">dist:</span><span class="at"> trusty   </span><span class="co"># Use Ubuntu 14.04 image (instead of 12.04)</span>
 <span class="fu">language:</span><span class="at"> r</span>
@@ -170,10 +171,10 @@
   <span class="kw">-</span> R -f run_tests.R</code></pre></div>
 <p>You should change the R version (set to <code>3.4.1</code> above) to whatever R version is being used on the platform that your application will be deployed to.</p>
 </div>
-<div id="run_tests-r" class="section level4">
-<h4 class="hasAnchor">
+<div id="run_tests-r" class="section level3">
+<h3 class="hasAnchor">
 <a href="#run_tests-r" class="anchor"></a><code>run_tests.R</code>
-</h4>
+</h3>
 <p>The <code>run_tests.R</code> script should look like this. It simply runs the tests for the app, and if the tests fail, it raises error (so that Travis knows the test failed) and outputs logging information:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(testthat)
 <span class="kw">library</span>(shinytest)
@@ -187,10 +188,10 @@
 <p>Notice the use of <code>compareImages=FALSE</code>. When the expected results are generated on one platform (like Mac or Windows) and then tested on another (Travis uses Linux), this option is needed to avoid spurious test failures. This is because R’s plot rendering engine generates slightly different results across platforms, and also because the headless browser generates slightly different results across platforms. When this option is used, the test will only compare the JSON representation of application state, and not the screenshots or plots.</p>
 <p>If you develop on Linux and create the expected test results on Linux, then you should be able to leave out the <code>compareImages</code> argument; it defaults to <code>TRUE</code>.</p>
 </div>
-<div id="packratpackrat-lock" class="section level4">
-<h4 class="hasAnchor">
+<div id="packratpackrat-lock" class="section level3">
+<h3 class="hasAnchor">
 <a href="#packratpackrat-lock" class="anchor"></a><code>packrat/packrat.lock</code>
-</h4>
+</h3>
 <p>This file contains a list of packages used by your application, and the version of each package that you currently have installed on your system. It is the same mechanism that is used by shinyapps.io and RStudio Connect. This file ensures that Travis will use the same versions of packages that you are using locally.</p>
 <p>To create the <code>packrat/packrat.lock</code> file, run:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">packrat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/packrat/topics/snapshotImpl">.snapshotImpl</a></span>(<span class="st">"."</span>, <span class="dt">snapshot.sources =</span> <span class="ot">FALSE</span>)</code></pre></div>
@@ -198,17 +199,17 @@
 <p><strong>Whenever you update packages on your development machine, you should run this command again to make sure the packages used on Travis stay in sync.</strong></p>
 <p>An alternative to using packrat is to create a DESCRIPTION file. This will not lock package versions; instead, it will use the latest version of each package from CRAN.</p>
 </div>
-<div id="running-the-first-build" class="section level4">
-<h4 class="hasAnchor">
-<a href="#running-the-first-build" class="anchor"></a>Running the first build</h4>
+<div id="running-the-first-build" class="section level3">
+<h3 class="hasAnchor">
+<a href="#running-the-first-build" class="anchor"></a>Running the first build</h3>
 <p>Once you’ve added these files, commit them and push to GitHub. This will trigger a build on Travis. (There may be a delay of a few minutes before the tests begin.)</p>
 <p>The first time the test runs, Travis will send you an email with the result. After a successful build, Travis will send emails when a build fails.</p>
 <p>The first build of your package on Travis will generally take much longer than subsequent runs, because it needs to install all the R packages the first time. After that, the packages are cached, so the builds should be much faster.</p>
 </div>
 </div>
-<div id="a-repository-with-multiple-applications" class="section level3">
-<h3 class="hasAnchor">
-<a href="#a-repository-with-multiple-applications" class="anchor"></a>A repository with multiple applications</h3>
+<div id="a-repository-with-multiple-applications" class="section level2">
+<h2 class="hasAnchor">
+<a href="#a-repository-with-multiple-applications" class="anchor"></a>A repository with multiple applications</h2>
 <p>Another way to run your tests is using a repository with multiple applications, each in its own subdirectory. The directory structure would look something like this:</p>
 <pre><code>/
 ├── .travis.yml
@@ -238,10 +239,10 @@
 └── packrat
     └── packrat.lock</code></pre>
 <p>For a repository with this structure, the configuration is largely the same as a repository with a single app, as described above. The only difference is in the <code>run_tests.R</code> file.</p>
-<div id="run_tests-r-1" class="section level4">
-<h4 class="hasAnchor">
+<div id="run_tests-r-1" class="section level3">
+<h3 class="hasAnchor">
 <a href="#run_tests-r-1" class="anchor"></a><code>run_tests.R</code>
-</h4>
+</h3>
 <p>The <code>run_tests.R</code> script should test each application in the respective directory, instead of testing just one application in the current directory.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(testthat)
 <span class="kw">library</span>(shinytest)
@@ -252,16 +253,15 @@
 })</code></pre></div>
 </div>
 </div>
-<div id="testing-applications-in-a-package" class="section level3">
-<h3 class="hasAnchor">
-<a href="#testing-applications-in-a-package" class="anchor"></a>Testing applications in a package</h3>
+<div id="testing-applications-in-a-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#testing-applications-in-a-package" class="anchor"></a>Testing applications in a package</h2>
 <p>This section coming soon.</p>
 </div>
-<div id="rstudio-connect" class="section level3">
-<h3 class="hasAnchor">
-<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h3>
+<div id="rstudio-connect" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
 <p>In the coming months, RStudio Connect will have the ability to automatically test Shiny applications.</p>
-</div>
 </div>
 <div id="frequently-asked-questions" class="section level2">
 <h2 class="hasAnchor">
@@ -307,6 +307,11 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#overview">Overview</a></li>
+      <li><a href="#travis-setup">Travis setup</a></li>
+      <li><a href="#a-repository-with-a-single-application">A repository with a single application</a></li>
+      <li><a href="#a-repository-with-multiple-applications">A repository with multiple applications</a></li>
+      <li><a href="#testing-applications-in-a-package">Testing applications in a package</a></li>
+      <li><a href="#rstudio-connect">RStudio Connect</a></li>
       <li><a href="#frequently-asked-questions">Frequently asked questions</a></li>
       </ul>
 </div>
