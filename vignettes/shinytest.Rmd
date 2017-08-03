@@ -410,3 +410,8 @@ vals <- app$getAllValues()
 
 expect_identical(vals$output$checkboxOut, "[1] TRUE")
 ```
+
+
+## Next
+
+See the article about using shinytest with [continuous integration](ci.html).

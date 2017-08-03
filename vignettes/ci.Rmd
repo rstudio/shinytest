@@ -1,0 +1,276 @@
+---
+title: "Using shinytest with continuous integration"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Shinytest can be used not only when developing applications locally -- it can also be used with continuous integration (CI) platforms, such as [Travis](https://travis-ci.org/). If your project uses CI, then every commit of the project can be automatically tested on a CI server. This can help you detect problems quickly and automatically during development.
+
+This document explains how to use shinytest with GitHub and Travis CI in two use cases: with applications that stand alone (are not part of an R package), and with an application that are part of an R package.
+
+
+## Overview
+
+The overall procedure for enabling tests on a CI platform is this:
+
+* First create tests locally (on your development machine) and save the expected results.
+* Commit the expected results into the project's git repository and push to GitHub.
+* Enable Travis CI for the repository.
+
+Once you have enabled continuous integration, the typical development cycle is this:
+
+* Modify your project, commit, and push the changes.
+* The CI platform will automatically do a *build*, in which it downloads the code and runs tests. If the tests fail, it will send you an email alert.
+
+As you develop your application, it may also be appropriate to add, remove, or modify tests, or re-run tests and save new expected results.
+
+
+### Travis setup
+
+You will first need to create an account on [Travis CI](https://travis-ci.org/). You can sign in to Travis with your GitHub account.
+
+If you have not created a GitHub repository for your project, do that. Then, on the Travis [profile page](https://travis-ci.org/profile), you can enable Travis CI for your project. This means that whenever you push commits to GitHub, it will trigger a test run on Travis.
+
+
+### A repository with a single application
+
+For Shiny applications that aren't part of an R package, there are two common ways that the repository will be set up:
+
+1. The repository contains one application, and the application files (like `server.R`, `ui.R`, or `app.R`) are contained at the top level of the repository.
+1. The repository contains more than one application files, and each application is contained in a subdirectory.
+
+This section explains how to set up Travis to test a repoistory with a single application.
+
+```
+/
+├── .travis.yml
+├── run_tests.R
+├── README.md
+├── app.R
+├── tests
+│   ├── test.R
+│   ├── test-expected
+│       ├── 001.json
+│       ├── 001.png
+│       ├── 002.json
+│       └── 002.png
+└── packrat
+    └── packrat.lock
+```
+
+The files that you will need to add are described below.
+
+
+#### `.travis.yml`
+
+This file contains information for Travis to build and test your application. It should look like this:
+
+```yml
+dist: trusty   # Use Ubuntu 14.04 image (instead of 12.04)
+language: r
+sudo: false
+r: 3.4.1
+
+# Install packrat if needed and have it restore packages.
+install:
+  - R -e 'if (system.file(package="packrat") == "") install.packages("packrat")'
+  - R -e "packrat::packify(); packrat::restore()"
+
+cache:
+  # Main R library
+  packages: true
+  directories:
+    # Packrat packages
+    - packrat/lib
+    # PhantomJS
+    - travis_phantomjs
+
+# Install PhantomJS (if not cached)
+before_install:
+  - "export PHANTOMJS_VERSION=2.1.1"
+  - "phantomjs --version"
+  - "export PATH=$PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin:$PATH"
+  - "hash -r"
+  - "phantomjs --version"
+  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi"
+  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then wget https://github.com/Medium/phantomjs/releases/download/v$PHANTOMJS_VERSION/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2; fi"
+  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then tar -xvf $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi"
+  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then hash -r; fi"
+  - "phantomjs --version"
+
+script:
+  - R -f run_tests.R
+```
+
+You should change the R version (set to `3.4.1` above) to whatever R version is being used on the platform that your application will be deployed to.
+
+
+#### `run_tests.R`
+
+The `run_tests.R` script should look like this. It simply runs the tests for the app, and if the tests fail, it raises error (so that Travis knows the test failed) and outputs logging information:
+
+```R
+library(testthat)
+library(shinytest)
+
+test_that("Application works", {
+  # Use compareImages=FALSE because the expected image screenshots were created
+  # on a Mac, and they will differ from screenshots taken on the CI platform,
+  # which runs on Linux.
+  expect_pass(testApp(".", compareImages = FALSE))
+})
+```
+
+Notice the use of `compareImages=FALSE`. When the expected results are generated on one platform (like Mac or Windows) and then tested on another (Travis uses Linux), this option is needed to avoid spurious test failures. This is because R's plot rendering engine generates slightly different results across platforms, and also because the headless browser generates slightly different results across platforms. When this option is used, the test will only compare the JSON representation of application state, and not the screenshots or plots.
+
+If you develop on Linux and create the expected test results on Linux, then you should be able to leave out the `compareImages` argument; it defaults to `TRUE`.
+
+
+#### `packrat/packrat.lock`
+
+This file contains a list of packages used by your application, and the version of each package that you currently have installed on your system. It is the same mechanism that is used by shinyapps.io and RStudio Connect. This file ensures that Travis will use the same versions of packages that you are using locally.
+
+To create the `packrat/packrat.lock` file, run:
+
+```R
+packrat::.snapshotImpl(".", snapshot.sources = FALSE)
+```
+
+NOTE: Future versions of packrat (0.4.8-15 and higher) will be able to use use `snapshot(snapshot.sources=FALSE)` instead of `.snapshotImpl`.
+
+**Whenever you update packages on your development machine, you should run this command again to make sure the packages used on Travis stay in sync.**
+
+An alternative to using packrat is to create a DESCRIPTION file. This will not lock package versions; instead, it will use the latest version of each package from CRAN.
+
+
+#### Running the first build
+
+Once you've added these files, commit them and push to GitHub. This will trigger a build on Travis. (There may be a delay of a few minutes before the tests begin.)
+
+The first time the test runs, Travis will send you an email with the result. After a successful build, Travis will send emails when a build fails.
+
+The first build of your package on Travis will generally take much longer than subsequent runs, because it needs to install all the R packages the first time. After that, the packages are cached, so the builds should be much faster.
+
+
+### A repository with multiple applications
+
+Another way to run your tests is using a repository with multiple applications, each in its own subdirectory. The directory structure would look something like this:
+
+```
+/
+├── .travis.yml
+├── run_tests.R
+├── README.md
+│
+├── 01_hello
+│   ├── app.R
+│   └── tests
+│       ├── test.R
+│       ├── test-expected
+│           ├── 001.json
+│           ├── 001.png
+│           ├── 002.json
+│           └── 002.png
+├── 06_tabsets
+│  ├── app.R
+│  └── tests
+│      ├── mytest.R
+│      └── mytest-expected
+│          ├── 001.json
+│          ├── 001.png
+│          ├── 002.json
+│          ├── 002.png
+│          ├── 003.json
+│          └── 003.png
+└── packrat
+    └── packrat.lock
+```
+
+For a repository with this structure, the configuration is largely the same as a repository with a single app, as described above. The only difference is in the `run_tests.R` file.
+
+
+#### `run_tests.R`
+
+The `run_tests.R` script should test each application in the respective directory, instead of testing just one application in the current directory.
+
+```R
+library(testthat)
+library(shinytest)
+
+test_that("Application works", {
+  expect_pass(testApp("01_hello", compareImages = FALSE))
+  expect_pass(testApp("06_tabsets", compareImages = FALSE))
+})
+```
+
+
+
+### Testing applications in a package
+
+This section coming soon.
+
+### RStudio Connect
+
+In the coming months, RStudio Connect will have the ability to automatically test Shiny applications.
+
+
+## Frequently asked questions
+
+### How do I add a status badge to my project?
+
+In your `README.md` file, you can add a build status badge, like the one below, so that you can see the status of your code at a glance:
+
+[![shinytest Build Status](https://travis-ci.org/rstudio/shinytest.svg?branch=master)](https://travis-ci.org/rstudio/shinytest)
+
+You can get the link by visiting your project's Travis page (something like like https://travis-ci.org/rstudio/shinytest-ci-example) and clicking on the status badge that is displayed on that page. It will display a dialog box with the URL. Select "Markdown", then copy and paste the code into your `README.md` file.
+
+
+### How do I use a `DESCRIPTION` file instead of packrat?
+
+Instead of using packrat, you can use a `DESCRIPTION` file can be used to tell Travis which packages are needed to test the application. Instead of locking each package to a specific version like packat, this will result in the latest version of each package being downloaded from CRAN. This may be appropriate if you want to make sure your application works with the latest version of each package, instead of a frozen set of packages.
+
+To use a `DESCRIPTION` file, you need to modify your `.travis.yml` file to use Travis's default package installation system instead of packrat. Remove these lines from the template provided above:
+
+```yml
+# Install packrat if needed and have it restore packages.
+install:
+  - R -e 'if (system.file(package="packrat") == "") install.packages("packrat")'
+  - R -e "packrat::packify(); packrat::restore()"
+```
+
+As well as this from the `cache` section:
+
+```yml
+    # Packrat packages
+    - packrat/lib
+```
+
+You will not want generate a `packrat.lock` file, so do not run the packrat snapshot command listed above.
+
+
+Next, create a `DESCRIPTION` file that looks something like this:
+
+```
+Imports:
+  shiny,
+  shinytest
+```
+
+The `Imports` field must list the R packages that your application uses.
+
+Normally the latest versions of the listed packages will be installed from CRAN. However, if you need to install development versions of packages from Github, that can be done by adding a `Remotes` section. For example:
+
+```
+Remotes:
+  rstudio/shiny,
+  rstudio/shinytest@dev
+```
+
+This tells Travis to install the shiny package from the `master` branch of https://github.com/rstudio/shiny, the shinytest package from the `dev` branch of https://github.com/rstudio/shinytest. In addition to branch names like `dev`, you can use commit hashes or tags.

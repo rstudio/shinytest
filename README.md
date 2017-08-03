@@ -1,7 +1,5 @@
-
-
-
-# shinytest
+shinytest
+=========
 
 > Test Shiny Apps
 
@@ -14,12 +12,9 @@ Uses a headless browser, driven through 'WebDriver'.
 
 ## Installation
 
-
 ```r
 source("https://install-github.me/rstudio/shinytest")
 ```
-
-You also need to download PhantomJS and add it to your PATH (http://phantomjs.org/).
 
 ## Usage
 

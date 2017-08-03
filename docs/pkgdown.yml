@@ -1,0 +1,7 @@
+urls:
+  reference: http://rstudio.github.io/shinytest//reference
+  article: http://rstudio.github.io/shinytest//articles
+articles:
+  ci: ci.html
+  shinytest: shinytest.html
+
