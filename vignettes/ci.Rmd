@@ -46,7 +46,9 @@ For Shiny applications that aren't part of an R package, there are two common wa
 1. The repository contains one application, and the application files (like `server.R`, `ui.R`, or `app.R`) are contained at the top level of the repository.
 1. The repository contains more than one application files, and each application is contained in a subdirectory.
 
-This section explains how to set up Travis to test a repoistory with a single application.
+This section explains how to set up Travis to test a repoistory with a single application. See https://github.com/rstudio/shinytest-ci-example for an example.
+
+The directory structure of such a project will look something like this:
 
 ```
 /
@@ -161,7 +163,9 @@ The first build of your package on Travis will generally take much longer than s
 
 ## A repository with multiple applications
 
-Another way to run your tests is using a repository with multiple applications, each in its own subdirectory. The directory structure would look something like this:
+Another way to run your tests is using a repository with multiple applications, each in its own subdirectory. See https://github.com/rstudio/shinytest-ci-example-multi for an example.
+
+The directory structure would look something like this:
 
 ```
 /
