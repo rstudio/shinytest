@@ -3,5 +3,6 @@ urls:
   article: http://rstudio.github.io/shinytest//articles
 articles:
   ci: ci.html
+  in-depth: in-depth.html
   shinytest: shinytest.html
 

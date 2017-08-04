@@ -1,0 +1,222 @@
+---
+title: "Testing in depth"
+output:
+  html_document: default
+  pdf_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+## Customizing test scripts
+
+The test recorder is the easiest way to create test scripts, but it is not the only way. You can create and edit test scripts manually.
+
+A test script has this basic structure: first, there is an initialization, then the tests, and finally the tests are wrapped up.
+
+In the initialization, the script creates a new ShinyDriver object and tells it what name to use for this set of tests.
+
+```{r}
+# Initialize a ShinyDriver object using the app in the test script's parent
+# directory
+app <- ShinyDriver$new("..")
+app$snapshotInit("mytest")
+```
+
+Next, it defines some interactions with the application and takes snapshots.
+
+```{r}
+app$setInputs(checkGroup = c("1", "2"))
+app$setInputs(checkGroup = c("1", "2", "3"))
+app$setInputs(action = "click")
+app$snapshot()
+
+app$setInputs(action = "click")
+app$snapshot()
+```
+
+For customizing a script, the second portion -- the interactions and snapshots -- is the part you will want to modify. For snapshot-based testing, there are two methods that are used: `app$setInputs()` and `app$snapshot()`.
+
+### Setting inputs with `app$setInputs()`
+
+With `app$setInputs()`, you provide the name of one or more inputs and corresponding values to set them to. Consider this set of directives:
+
+```{r}
+app$setInputs(checkGroup = c("1", "2"))
+app$setInputs(checkGroup = c("1", "2", "3"))
+app$setInputs(action = "click")
+```
+
+Notice that we set the value of `checkGroup` two times in a row. When we recorded this test script, it started with the value `"1"`, and then we checked the `"2"` and `"3"` boxes. The recorded script set the value to `c("1", "2")`, and then ` c("1", "2", "3")`. The `c("1", "2")` value was simply an intermediate step.
+
+It's possible to simplify and speed up the tests by dropping the intermediate step, which leaves us with this:
+
+```{r}
+app$setInputs(checkGroup = c("1", "2", "3"))
+app$setInputs(action = "click")
+```
+
+And it's also possible to set `action` in the same call, resulting in this:
+
+```{r}
+app$setInputs(
+  checkGroup = c("1", "2", "3"),
+  action = "click"
+)
+```
+
+This will set the values of inputs simultaneously, which will make the tests run faster.
+
+This is because, when `app$setInputs()` is called, it normally returns control and moves on to the next step only after the server sends a response to the client.
+
+The reason it waits for a response is so that a subsequent call to `app$snapshot()` will be sure to capture the updated output values. If `app$setInputs()` did not wait for a update, then, if the output update did not happen very quickly, a snapshot might capture the state of the application before the outputs are updated.
+
+Because `app$setInputs()` waits for an update each time, it is faster to set multiple inputs in a single call to `app$setInputs()` than it is to have multiple calls to `app$setInputs()`.
+
+Note: In versions of Shiny before 1.0.3.9000, calls to `app$setInputs()` which did not result in an output value change would timeout, and print a message about setting a longer timeout or calling `setInputs(wait_ = FALSE, values_ = FALSE)`. This is because those versions of Shiny did not send a response when no output values changed. As of Shiny 1.0.3.9000, when in testing mode, Shiny always sends a response to input changes, even if no output values have changed, so this message should no longer appear.
+
+
+### Taking snapshots with `app$snapshot()`
+
+There are two ways to use `app$snapshot()`. The simplest way is to call it with no arguments:
+
+```{r}
+app$snapshot()
+```
+
+The first time this is called in a test script, it will record all input, output, and exported values from the application, in a file called `001.json`. The next call will save the values in `002.json`, and so on.
+
+Each time you call `app$snapshot()`, it will also save a **screen shot** of the web browser, in a file `001.png`, `002.png`, and so on. These screen shots are useful for debugging your tests and inspecting what they're doing. You can tell it to not take screen shots, to save space and make the tests run slightly faster, in the initialization step, with:
+
+```{r}
+app$snapshotInit("mytest", screenshot = FALSE)
+```
+
+If you want to disable screenshots for a single snapshot, you can use:
+
+```{r}
+app$snapshot(screenshot = FALSE)
+```
+
+If you want more targeted tests, you can snapshot specific items with the `items` argument. For example, to capture the value of just the outputs named `"a"` and `"b"`, you would call:
+
+```{r}
+app$snapshot(items = list(output = c("a", "b")))
+```
+
+The value passed to `items` is a named list, where the `output` is a character vector with the names of outputs to snapshot. You could also capture specific inputs or exports:
+
+```{r}
+app$snapshot(items = list(
+  input = "n",
+  output = c("a", "b"),
+  export = c("e1", "e2")
+))
+```
+
+Finally, if you want to snapshot all outputs but no inputs or exports, you can simply set `output` to `TRUE`:
+
+```{r}
+app$snapshot(items = list(output = TRUE))
+```
+
+The same can be used to snapshot all inputs and/or all exports. To capture all outputs and exports, but no inputs:
+
+```{r}
+app$snapshot(items = list(output = TRUE, export = TRUE))
+```
+
+
+### Adding delays
+
+In some cases, you may need to wait for some amount of time between steps. You can do this by adding `Sys.sleep()` in your script. For example:
+
+```{r}
+Sys.sleep(0.5)
+```
+
+
+## Debugging test scripts
+
+If you need to debug a test script, you can run line-by-line from the R console. However, you likely will have modify the first line. It normally will refer to the Shiny application the parent directory (`".."`):
+
+```{r}
+app <- ShinyDriver$new("..")
+```
+
+When the test is run the usual way, with `testApp()`, it will be run with the test directory as the working directory. However, when you run the tests from the command line, you generally will have a different working directory. To run the tests from a different directory, you will have to pass in the path to the application. It can be a relative path, for example:
+
+```{r}
+app <- ShinyDriver$new("path/to/app")
+```
+
+The rest of the test script can be run unchanged.
+
+
+### Screenshots
+
+As you step through the script, you can inspect the state of the application in a few different ways. One is to view a screenshot. You should not to call `app$snapshot()` to get a screenshot, because it will increment the snapshot counter and shift the numbers of snapshots that really are part of the tests (e.g., snapshot 003 would become 004). Instead you can do this:
+
+```{r}
+app$take_screenshot()
+```
+
+This will display the screenshot as if it were a plot. (In RStudio, it will show in the Viewer pane.) You can inspect the screenshot to see the state of the application.
+
+
+### Getting input, output, and export values
+
+It can also be useful to get the current input, output, and export values. As with screenshots, this is something that `app$snapshot()` does, but we don't want to call that function because increments the snapshot counter.
+
+To fetch all values, you can call `app$getAllValues()`. This returns a list, which you can inspect with the `str()` function. It may look something like this:
+
+```{r}
+vals <- app$getAllValues()
+
+str(vals)
+#> List of 3
+#>  $ input :List of 4
+#>   ..$ action    :Classes 'integer', 'shinyActionButtonValue'  int 0
+#>   ..$ checkbox  : logi TRUE
+#>   ..$ checkGroup: chr "1"
+#>   ..$ text      : chr "Enter text..."
+#>  $ output:List of 12
+#>   ..$ actionOut    : chr "[1] 0\nattr(,\"class\")\n[1] \"integer\"                #> \"shinyActionButtonValue\""
+#>   ..$ checkboxOut  : chr "[1] TRUE"
+#>   ..$ checkGroupOut: chr "[1] \"1\""
+#>   ..$ textOut      : chr "[1] \"Enter text...\""
+#>  $ export: Named list()
+```
+
+The same data is returned (invisibly) from each call to `app$setInput()`, so you can also look at the return value from those function calls to get the same result.
+
+The values retrieved this way can be used for expectation-based testing. For example, if you are using the **testthat** package for testing you could do something like:
+
+```{r}
+vals <- app$getAllValues()
+# Another option: save values when setting input values
+# vals <- app$setInputs(checkbox = TRUE)
+
+expect_identical(vals$output$checkboxOut, "[1] TRUE")
+```
+
+
+## Limitations
+
+### Inputs without input bindings
+
+Some components for Shiny can set input values directly in their JavaScript code, without going through something called an *input binding*. Because shinytest sets input values via input bindings, it will not be able to play back inputs for components like these. This is true for some [htmlwidgets](http://www.htmlwidgets.org/), such as [DT](http://rstudio.github.io/DT/). Another case is when plot interactions, such as clicking and brushing, are used with `renderPlot()` -- the clicking and brushing events cannot be played back with shinytest at this time.
+
+If you record a test with components like these, you may see lines like the following in the generated test script.
+
+```{r}
+# Input 'dt_rows_selected' was set, but doesn't have an input binding.
+```
+
+
+## Next
+
+Learn about using shinytest with [continuous integration](ci.html).

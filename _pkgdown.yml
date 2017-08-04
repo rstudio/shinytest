@@ -1,4 +1,15 @@
 url: http://rstudio.github.io/shinytest/
 
-articles:
-  - ci
+navbar:
+  left:
+    - text: "Get started"
+      href: "articles/shinytest.html"
+    - text: "Articles"
+      menu:
+        - text: "Testing in depth"
+          href: "articles/in-depth.html"
+        - text: "Using shinytest with continuous integration"
+          href: "articles/ci.html"
+    - text: "Reference"
+      href: "reference/index.html"
+
