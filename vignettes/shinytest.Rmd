@@ -34,12 +34,10 @@ To create tests, the easiest method is to use the `recordTest()` function. This 
 
 ## Getting started
 
-
-**Shinytest** is in active development:
+**Shinytest** is in active development. To install it, run:
 
 ```{r}
 library(devtools)
-install_github("rstudio/webdriver")
 install_github("rstudio/shinytest")
 ```
 
