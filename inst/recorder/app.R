@@ -326,7 +326,7 @@ shinyApp(
       rownames = TRUE
     )
 
-    observeEvent(input$exit_save, {
+    saveAndExit <- function() {
       stopApp({
         # If no snapshot events occurred, don't write file. However, in load
         # testing mode, we don't expect snapshots (except one at the end).
@@ -355,6 +355,33 @@ shinyApp(
           ))
         }
       })
+    }
+
+
+    observeEvent(input$exit_save, {
+      if (numSnapshots() == 0) {
+        showModal(
+          modalDialog("Must have at least one snapshot to save and exit.")
+        )
+
+      } else if (file.exists(saveFile())) {
+        showModal(
+          modalDialog(
+            paste0("Overwrite ", basename(saveFile()), "?"),
+            footer = tagList(
+              modalButton("Cancel"),
+              actionButton("overwrite_ok", "OK")
+            )
+          )
+        )
+
+      } else {
+        saveAndExit()
+      }
+    })
+
+    observeEvent(input$overwrite_ok, {
+      saveAndExit()
     })
 
     observeEvent(input$exit_nosave, {
