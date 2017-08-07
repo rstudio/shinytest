@@ -12,7 +12,20 @@ window.shinyRecorder = (function() {
     // non-primitive objects like arrays.
     var previousInputValues = {};
 
+    // Some inputs are changed from the server (via updateTextInput and
+    // similar), but we don't want to record these inputs. This keeps track of
+    // inputs that were updated this way.
+    var updatedInputs = {};
+
+
     $(document).on("shiny:inputchanged", function(event) {
+        // If the value has been set via a shiny:updateInput event, ignore it
+        // this time.
+        if (updatedInputs[event.name]) {
+            delete updatedInputs[event.name];
+            return;
+        }
+
         // Check if value has changed from last time.
         var valueJSON = JSON.stringify(event.value);
         if (valueJSON === previousInputValues[event.name])
@@ -31,6 +44,13 @@ window.shinyRecorder = (function() {
         // For now, we only care _that_ outputs have changed, but not what
         // they are.
         sendOutputEventToParentDebounced();
+    });
+
+    // Register input updates here and ignore them in the shiny:inputchanged
+    // listener.
+    $(document).on("shiny:updateinput", function(event) {
+        var inputId = event.binding.getId(event.target);
+        updatedInputs[inputId] = true;
     });
 
     // Ctrl-click or Cmd-click (Mac) to record an output value
