@@ -225,7 +225,9 @@ shinyApp(
     ),
 
     div(id = "app-iframe-container",
-      tags$iframe(id = "app-iframe", src = target_url)
+      # The `data-src` target_url might get rewritten in JS if we're running
+      # in RStudio server, and the result will be the value of `src`.
+      tags$iframe(id = "app-iframe", `data-src` = target_url)
     ),
     div(id = "shiny-recorder",
       div(class = "shiny-recorder-header", "Test event recorder"),
