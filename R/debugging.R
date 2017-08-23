@@ -15,7 +15,9 @@ sd_getDebugLog <- function(self, private, type) {
 
   output <- list()
 
-  if ("shiny_console" %in% type) {
+  # It's possible for there not to be a shinyProcess object, if we're testing
+  # against a remote server (as in shinyloadtest).
+  if (!is.null(private$shinyProcess) && "shiny_console" %in% type) {
     "!DEBUG sd_getDebugLog shiny_console"
     out <- readLines(private$shinyProcess$get_output_file())
     err <- readLines(private$shinyProcess$get_error_file())
