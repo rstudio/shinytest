@@ -361,7 +361,7 @@ shinyApp(
 
 
     observeEvent(input$exit_save, {
-      if (numSnapshots() == 0) {
+      if (!load_mode && numSnapshots() == 0) {
         showModal(
           modalDialog("Must have at least one snapshot to save and exit.")
         )
