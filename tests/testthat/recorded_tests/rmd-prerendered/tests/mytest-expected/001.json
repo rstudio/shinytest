@@ -1,0 +1,39 @@
+{
+  "input": {
+    "bw_adjust": 1,
+    "n_breaks": "20"
+  },
+  "output": {
+    "eruptions": {
+      "src": "[image data sha1: 87a4f61ddd2d880d2d67631985bac379820e7732]",
+      "width": 738,
+      "height": 626,
+      "coordmap": [
+        {
+          "domain": {
+            "left": 1.464,
+            "right": 5.136,
+            "bottom": -0.0340000000000001,
+            "top": 0.884000000000003
+          },
+          "range": {
+            "left": 59.04,
+            "right": 707.76,
+            "bottom": 551.56,
+            "top": 58.04
+          },
+          "log": {
+            "x": null,
+            "y": null
+          },
+          "mapping": {
+
+          }
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
