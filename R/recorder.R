@@ -45,9 +45,10 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
   withr::with_options(
     list(
       shinytest.recorder.url = url,
-      shinytest.app.dir = app$getAppDir(),
-      shinytest.load.mode = load_mode,
-      shinytest.seed = seed
+      shinytest.app.dir      = app$getAppDir(),
+      shinytest.app.filename = app$getAppFilename(),
+      shinytest.load.mode    = load_mode,
+      shinytest.seed         = seed
     ),
     res <- shiny::runApp(system.file("recorder", package = "shinytest"))
   )

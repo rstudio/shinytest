@@ -17,6 +17,17 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
   compareImages = TRUE)
 {
   library(shinytest)
+
+  # appDir could be the path to an .Rmd file. If so, make it point to the actual
+  # directory.
+  if (is_rmd(appDir)) {
+    app_filename <- basename(appDir)
+    appDir       <- dirname(appDir)
+  } else {
+    app_filename <- NULL
+    appDir       <- appDir
+  }
+
   testsDir <- file.path(appDir, "tests")
 
   found_files <- list.files(testsDir, pattern = "\\.[r|R]$")

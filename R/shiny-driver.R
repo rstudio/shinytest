@@ -325,13 +325,19 @@ ShinyDriver <- R6Class(
       sd_snapshotInit(self, private, path, screenshot),
 
     snapshotCompare = function(autoremove = TRUE)
-      sd_snapshotCompare(self, private, autoremove)
+      sd_snapshotCompare(self, private, autoremove),
+
+    isRmd = function()
+      sd_isRmd(self, private),
+
+    getAppFilename = function()
+      sd_getAppFilename(self, private)
   ),
 
   private = list(
 
     state = "stopped",                  # stopped or running
-    path = NULL,                        # Shiny app path
+    path = NULL,                        # Full path to app (including filename if it's a .Rmd)
     shinyUrlProtocol = NULL,            # "http" or "https"
     shinyUrlHost = NULL,                # usually 127.0.0.1
     shinyUrlPort = NULL,
@@ -489,11 +495,16 @@ sd_getTestSnapshotUrl = function(self, private, input, output, export,
 }
 
 sd_getAppDir <- function(self, private) {
-  private$path
+  # private$path can be a directory (for a normal Shiny app) or path to a .Rmd
+  # file.
+  if (self$isRmd())
+    dirname(private$path)
+  else
+    private$path
 }
 
 sd_getSnapshotDir <- function(self, private) {
-  file.path(private$path, "tests", private$snapshotDir)
+  file.path(self$getAppDir(), "tests", private$snapshotDir)
 }
 
 sd_snapshotInit <- function(self, private, path, screenshot) {
@@ -507,4 +518,16 @@ sd_snapshotInit <- function(self, private, path, screenshot) {
   private$snapshotCount <- 0
   private$snapshotDir <- path
   private$snapshotScreenshot <- screenshot
+}
+
+sd_isRmd <- function(self, private) {
+  is_rmd(private$path)
+}
+
+sd_getAppFilename <- function(self, private) {
+  if (!self$isRmd()) {
+    NULL
+  } else {
+    basename(private$path)
+  }
 }

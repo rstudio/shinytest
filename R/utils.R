@@ -97,6 +97,18 @@ parse_url <- function(url) {
   )
 }
 
+# Determine whether a path is to an .Rmd file or a directory. Error for other
+# cases.
+is_rmd <- function(path) {
+  if (utils::file_test('-d', path)) {
+    FALSE
+  } else if (grepl("\\.Rmd", path, ignore.case = TRUE)) {
+    TRUE
+  } else {
+    stop("Unknown whether app is a regular Shiny app or .Rmd: ", path)
+  }
+}
+
 raw_to_utf8 <- function(data) {
   res <- rawToChar(data)
   Encoding(res) <- "UTF-8"

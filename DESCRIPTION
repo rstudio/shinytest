@@ -29,6 +29,9 @@ Imports:
     htmlwidgets,
     jsonlite,
     withr
+Suggests:
+    rmarkdown,
+    flexdashboard
 Remotes:
     gaborcsardi/debugme,
     rstudio/webdriver,

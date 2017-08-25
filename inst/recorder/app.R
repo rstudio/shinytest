@@ -1,7 +1,8 @@
-target_url <- getOption("shinytest.recorder.url")
-app_dir    <- getOption("shinytest.app.dir")
-load_mode  <- getOption("shinytest.load.mode")
-seed       <- getOption("shinytest.seed")
+target_url   <- getOption("shinytest.recorder.url")
+app_dir      <- getOption("shinytest.app.dir")
+app_filename <- getOption("shinytest.app.filename")
+load_mode    <- getOption("shinytest.load.mode")
+seed         <- getOption("shinytest.seed")
 
 if (is.null(target_url) || is.null(app_dir)) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
@@ -202,7 +203,7 @@ generateTestCode <- function(events, name, useTimes = FALSE) {
       'app <- ShinyLoadDriver$new()'
     } else {
       paste0(
-        'app <- ShinyDriver$new(".."',
+        'app <- ShinyDriver$new("', paste("..", app_filename, sep = "/"), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
         ')'
       )
