@@ -235,23 +235,24 @@ window.shinytest = (function() {
 
 
     shinytest.listWidgets = function() {
+        function getids(els) {
+            return els.map(function(){ return $(this).attr("id"); }).get();
+        }
 
-	function getids(els) {
-	    return els.map(function(){ return $(this).attr("id"); }).get();
-	}
+        // This is a trick to find duplicate ids
+        function get(selector) {
+            var els = $(selector);
+            return getids(els)
+                .map(function(x) {
+                    var id = '#' + x + ',' + '#' + x;
+                    return getids($(id));
+                });
+        }
 
-	// This is a trick to find duplicate ids
-	function get(selector) {
-	    var els = $(selector);
-	    return getids(els)
-		.map(function(x) {
-		    var id = '#' + x + ',' + '#' + x;
-		    return getids($(id));
-		});
-	}
-
-	return { 'input':  get('.shiny-bound-input'),
-		 'output': get('.shiny-bound-output') };
+        return {
+            'input':  get('.shiny-bound-input'),
+            'output': get('.shiny-bound-output')
+        };
     };
 
     // Returns values from input or output bindings
