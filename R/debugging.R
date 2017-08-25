@@ -54,14 +54,14 @@ make_shiny_console_log <- function(out, err) {
     stringsAsFactors = FALSE,
     level = if (length(out)) "INFO" else character(),
     timestamp = if (length(out)) as.POSIXct(NA) else as.POSIXct(character()),
-    message = out,
+    message = filter_log_text(out),
     type = if (length(out)) "shiny_console" else character()
   )
   err <- data.frame(
     stringsAsFactors = FALSE,
     level = if (length(err)) "ERROR" else character(),
     timestamp = if (length(err)) as.POSIXct(NA) else as.POSIXct(character()),
-    message = err,
+    message = filter_log_text(err),
     type = if (length(err)) "shiny_console" else character()
   )
   rbind(out, err)
@@ -92,6 +92,13 @@ merge_logs <- function(output) {
   log <- log[order(log$timestamp), ]
   class(log) <- c("shinytest_logs", class(log))
   log
+}
+
+
+# Remove problem characters from log text. Currently just "\f", which clears the
+# console in RStudio.
+filter_log_text <- function(str) {
+  gsub("\f", "", str, fixed = TRUE)
 }
 
 #' @export
