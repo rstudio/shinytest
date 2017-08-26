@@ -37,13 +37,13 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   "!DEBUG inject shiny-tracer.js"
   self$logEvent("Injecting shiny-tracer.js")
   js_file <- system.file("js", "shiny-tracer.js", package = "shinytest")
-  js <- readChar(js_file, file.info(js_file)$size, useBytes = TRUE)
+  js <- read_utf8(js_file)
   private$web$executeScript(js)
 
   "!DEBUG wait until Shiny starts"
   self$logEvent("Waiting until Shiny app starts")
   load_ok <- private$web$waitFor(
-    'window.shinytest && window.shinytest.connected === true',
+    'window.shinytest && window.shinytest.ready === true',
     timeout = loadTimeout
   )
   if (!load_ok) {
