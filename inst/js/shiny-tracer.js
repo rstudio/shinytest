@@ -263,22 +263,47 @@ window.shinytest = (function() {
         };
     };
 
-    // Check if we're already connected and the Shiny session has been
-    // initialized by the time this code executes. If not, set up a callback
-    // for the first shiny:idle event.
-    if (typeof Shiny !== "undefined" && Shiny.shinyapp &&
-        Shiny.shinyapp.config && Shiny.shinyapp.config.sessionId)
-    {
-        shinytest.connected = true;
-        shinytest.log("already connected");
+    // This sets shinytest.ready to true when the Shiny application is ready.
+    function waitForReady() {
+        // Check if we're already connected and the Shiny session has been
+        // initialized by the time this code executes. If not, set up a callback
+        // for the shiny:sessioninitialized event.
+        if (typeof Shiny !== "undefined" && Shiny.shinyapp &&
+            Shiny.shinyapp.config && Shiny.shinyapp.config.sessionId)
+        {
+            shinytest.log("already connected");
+            waitForHtmlOutput();
+        }
+        else {
+            shinytest.log("waiting for shiny session to connect");
+            $(document).one("shiny:sessioninitialized", function(e) {
+                shinytest.log("connected");
+                waitForHtmlOutput();
+            });
+        }
 
-    } else {
-        shinytest.log("waiting for shiny session to connect");
-        $(document).one("shiny:sessioninitialized", function(e) {
-            shinytest.connected = true;
-            shinytest.log("connected");
-        });
+        // If there are any HTML outputs, don't say we're ready until we
+        // receive one message with output values. If there are no HTML
+        // outputs, just say we're ready now.
+        function waitForHtmlOutput() {
+            var htmlOutputBindings = Shiny.outputBindings
+                .bindingNames['shiny.htmlOutput'].binding.find(document);
+
+            if (htmlOutputBindings.length > 0) {
+                shinytest.log("waiting for first output");
+                shinytest.outputValuesWaiter.start(5000);
+                shinytest.outputValuesWaiter.finish(true, function() {
+                    shinytest.ready = true;
+                });
+            }
+            else {
+                shinytest.log("ready");
+                shinytest.ready = true;
+            }
+        }
     }
+    waitForReady();
+
 
     $(document).on("shiny:busy", function(e) {
         shinytest.busy = true;

@@ -17,11 +17,24 @@ window.shinyRecorder = (function() {
     // inputs that were updated this way.
     var updatedInputs = {};
 
+    // When the client receives output values from the server, it's possible
+    // for an html output to contain a Shiny input, with some default value.
+    // In that case, we don't want to record the input event, because it's
+    // automatic. When this happens, it will trigger a shiny:inputchanged
+    // event on the same tick.
+    var waitingForInputChange = false;
 
     $(document).on("shiny:inputchanged", function(event) {
         // If the value has been set via a shiny:updateInput event, ignore it
         // this time.
         if (updatedInputs[event.name]) {
+            delete updatedInputs[event.name];
+            return;
+        }
+
+        // If this input change was triggered by an html output, don't record
+        // it.
+        if (waitingForInputChange) {
             delete updatedInputs[event.name];
             return;
         }
@@ -44,6 +57,11 @@ window.shinyRecorder = (function() {
         // For now, we only care _that_ outputs have changed, but not what
         // they are.
         sendOutputEventToParentDebounced();
+
+        // This is used to detect if any output updates trigger an input
+        // change.
+        waitingForInputChange = true;
+        setTimeout(function() { waitingForInputChange = false; }, 0);
     });
 
     // Register input updates here and ignore them in the shiny:inputchanged
