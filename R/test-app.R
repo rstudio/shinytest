@@ -23,6 +23,9 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
   if (is_rmd(appDir)) {
     app_filename <- basename(appDir)
     appDir       <- dirname(appDir)
+    if (length(dir(appDir, pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
+      stop("For testing, only one .Rmd file is allowed per directory.")
+    }
   } else {
     app_filename <- NULL
     appDir       <- appDir
