@@ -1,17 +1,24 @@
 
-#' Generate a random port number
-#'
-#' Ideally, phantomjs should support a random port, assigned by the OS.
-#' But it does not, so we generate one randomly and hope for the best.
-#'
-#' @param min lower limit
-#' @param max upper limit
-#' @return integer scalar, generated port number
-#'
-#' @keywords internal
+random_open_port <- function(min = 3000, max = 9000) {
+  # Unsafe port list from shiny::runApp()
+  valid_ports <- setdiff(min:max, c(3659, 4045, 6000, 6665:6669, 6697))
 
-random_port <- function(min = 3000, max = 9000) {
-  if (min < max) sample(min:max, 1) else min
+  while (TRUE) {
+    port <- sample(valid_ports, 1)
+    handle <- NULL
+
+    # Keep trying ports until we find an open one
+    tryCatch(
+      handle <- httpuv::startServer("127.0.0.1", port, list()),
+      error = function(e) { }
+    )
+    if (!is.null(handle)) {
+      httpuv::stopServer(handle)
+      break
+    }
+  }
+
+  port
 }
 
 check_external <- function(x) {

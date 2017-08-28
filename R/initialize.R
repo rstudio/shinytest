@@ -98,15 +98,17 @@ sd_startShiny <- function(self, private, path, seed) {
     )
   }
 
+  port <- random_open_port()
   if (is_rmd(path)) {
     # Shiny document
     rcmd <- paste0(rcmd, "; ",
-      sprintf("rmarkdown::run('%s', shiny_args=list(test.mode=TRUE))", path)
+      sprintf("rmarkdown::run('%s', shiny_args=list(test.mode=TRUE, port=%d))",
+        path, port)
     )
   } else {
     # Normal shiny app
     rcmd <- paste0(rcmd, "; ",
-      sprintf("shiny::runApp('%s', test.mode=TRUE)", path)
+      sprintf("shiny::runApp('%s', test.mode=TRUE, port=%d)", path, port)
     )
   }
 
@@ -156,6 +158,7 @@ sd_startShiny <- function(self, private, path, seed) {
   line <- err_lines[grepl("Listening on http", err_lines)]
   m <- re_match(text = line, "https?://(?<host>[^:]+):(?<port>[0-9]+)")
 
+  # m[, 'port'] should be the same as port, but we don't enforce it.
   "!DEBUG shiny up and running, port `m[, 'port']`"
 
   url <- sub(".*(https?://.*)", "\\1", line)
