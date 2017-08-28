@@ -67,6 +67,10 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
     # so that the printed output can print the relative path.
     withr::with_dir(testsDir, {
       withr::with_options(list(shinytest.app.dir = appDir), {
+        # This will kill any existing Shiny processes launched by shinytest,
+        # in case they're using some of the same resources.
+        gc()
+
         env <- new.env(parent = .GlobalEnv)
         if (!quiet) {
           message(file, " ", appendLF = FALSE)
@@ -75,6 +79,8 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
       })
     })
   })
+
+  gc()
 
   if (!quiet) message("")  # New line
 
