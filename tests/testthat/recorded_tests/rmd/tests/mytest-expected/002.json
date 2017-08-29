@@ -5,7 +5,7 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 849e93b9b9cf85418d5f3cd672a2e83fbca22c4a]",
+      "html": "[html data sha1: 9da3f5f4b11368cca889d27baec5cf9e6b850fe5]",
       "deps": [
         {
           "name": "jquery",
@@ -109,22 +109,6 @@
           "meta": null,
           "script": "rmd_perf.js",
           "stylesheet": "rmd_perf.css",
-          "head": null,
-          "attachment": null,
-          "package": null,
-          "all_files": true
-        },
-        {
-          "name": "rstudio-iframe",
-          "version": "1.1",
-          "src": {
-            "href": "rstudio-iframe-1.1"
-          },
-          "meta": {
-            "rstudio_origin": ""
-          },
-          "script": "rsiframe.js",
-          "stylesheet": null,
           "head": null,
           "attachment": null,
           "package": null,

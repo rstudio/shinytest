@@ -61,23 +61,22 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
     message("Running ", appendLF = FALSE)
   }
   lapply(found_files, function(file) {
-    name <- sub("\\.[rR]$", "", file)
-
     # Run in test directory, and pass the (usually relative) path as an option,
     # so that the printed output can print the relative path.
-    withr::with_dir(testsDir, {
-      withr::with_options(list(shinytest.app.dir = appDir), {
-        # This will kill any existing Shiny processes launched by shinytest,
-        # in case they're using some of the same resources.
-        gc()
+    withr::local_dir(testsDir)
+    # Some apps have different behavior if RSTUDIO is present.
+    withr::local_envvar(c(RSTUDIO = ""))
+    withr::local_options(list(shinytest.app.dir = "appdir"))
 
-        env <- new.env(parent = .GlobalEnv)
-        if (!quiet) {
-          message(file, " ", appendLF = FALSE)
-        }
-        source(file, local = env)
-      })
-    })
+    # This will kill any existing Shiny processes launched by shinytest,
+    # in case they're using some of the same resources.
+    gc()
+
+    env <- new.env(parent = .GlobalEnv)
+    if (!quiet) {
+      message(file, " ", appendLF = FALSE)
+    }
+    source(file, local = env)
   })
 
   gc()
