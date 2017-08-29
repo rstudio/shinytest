@@ -2,7 +2,7 @@ target_url   <- getOption("shinytest.recorder.url")
 app_dir      <- getOption("shinytest.app.dir")
 app_filename <- getOption("shinytest.app.filename")
 load_mode    <- getOption("shinytest.load.mode")
-seed         <- getOption("shinytest.seed")
+start_seed   <- getOption("shinytest.seed")
 
 if (is.null(target_url) || is.null(app_dir)) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
@@ -19,6 +19,13 @@ registerInputHandler("shinytest.testevents", function(val, shinysession, name) {
 
 escapeString <- function(s) {
   gsub('"', '\\"', s, fixed = TRUE)
+}
+
+# A modified version of shiny::numericInput but with a placholder
+numericInput <- function(..., placeholder = NULL) {
+  res <- shiny::numericInput(...)
+  res$children[[2]]$attribs$placeholder <- placeholder
+  res
 }
 
 inputProcessors <- list(
@@ -148,7 +155,7 @@ codeGenerators <- list(
   }
 )
 
-generateTestCode <- function(events, name, useTimes = FALSE) {
+generateTestCode <- function(events, name, seed, useTimes = FALSE) {
   if (useTimes) {
     # Convert from absolute to relative times; first event has time 0.
     startTime <- NA
@@ -259,12 +266,25 @@ shinyApp(
         textInput("testname", label = "On exit, save tests as:",
           value = if (load_mode) "myloadtest" else "mytest"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
-        if (!load_mode) checkboxInput("runScript", "Run test script on exit", value = TRUE)
+        if (!load_mode) checkboxInput("runScript", "Run test script on exit", value = TRUE),
+        numericInput("seed",
+          label = tagList("Random seed:",
+            a(href = "#",
+              `data-toggle` = "tooltip",
+              title = "A seed is recommended if your application uses any randomness. This includes all Shiny Rmd documents.",
+              icon("question-sign", lib = "glyphicon")
+            )
+          ),
+          value = start_seed,
+          placeholder = "(None)"
+        )
       ),
       div(class = "shiny-recorder-header", "Recorded events"),
       div(id = "recorded-events",
         tableOutput("recordedEvents")
-      )
+      ),
+      # Enable tooltip
+      tags$script("$('a[data-toggle=\"tooltip\"]').tooltip({ delay: 250 });")
     )
   ),
 
@@ -343,8 +363,12 @@ shinyApp(
 
         } else {
 
+          seed <- as.integer(input$seed)
+          if (is.null(seed) || is.na(seed))
+            seed <- NULL
+
           code <- generateTestCode(input$testevents, input$testname,
-                                   useTimes = load_mode)
+            seed = seed, useTimes = load_mode)
 
           cat(code, file = saveFile())
           message("Saved test code to ", saveFile())
