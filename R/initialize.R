@@ -88,20 +88,29 @@ sd_startShiny <- function(self, private, path, seed) {
   private$path <- normalizePath(path)
 
   libpath <- paste(deparse(.libPaths()), collapse = "")
-  rcmd <- sprintf(
-    paste(
-      # Use collapse and c() so that if seed is NULL, we don't get ";;", which
-      # would cause an error.
-      collapse = ";",
-      c(
-        ".libPaths(c(%s, .libPaths()))",
-        if (!is.null(seed)) sprintf("set.seed(%s)", seed),
-        "shiny::runApp('%s', test.mode=TRUE)"
-      )
-    ),
-    libpath,
-    path
-  )
+
+  rcmd <- sprintf(".libPaths(c(%s, .libPaths()))", libpath)
+
+  if (!is.null(seed)) {
+    # Set the general random seed and Shiny's internal random seed
+    rcmd <- paste0(rcmd, "; ",
+      sprintf("set.seed(%s); shiny:::withPrivateSeed(set.seed(%s))", seed, seed + 11)
+    )
+  }
+
+  port <- random_open_port()
+  if (is_rmd(path)) {
+    # Shiny document
+    rcmd <- paste0(rcmd, "; ",
+      sprintf("rmarkdown::run('%s', shiny_args=list(test.mode=TRUE, port=%d))",
+        path, port)
+    )
+  } else {
+    # Normal shiny app
+    rcmd <- paste0(rcmd, "; ",
+      sprintf("shiny::runApp('%s', test.mode=TRUE, port=%d)", path, port)
+    )
+  }
 
   ## On windows, if is better to use single quotes
   rcmd <- gsub('"', "'", rcmd)
@@ -149,6 +158,7 @@ sd_startShiny <- function(self, private, path, seed) {
   line <- err_lines[grepl("Listening on http", err_lines)]
   m <- re_match(text = line, "https?://(?<host>[^:]+):(?<port>[0-9]+)")
 
+  # m[, 'port'] should be the same as port, but we don't enforce it.
   "!DEBUG shiny up and running, port `m[, 'port']`"
 
   url <- sub(".*(https?://.*)", "\\1", line)

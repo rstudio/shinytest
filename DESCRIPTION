@@ -28,10 +28,15 @@ Imports:
     webdriver (>= 1.0.2.9002),
     htmlwidgets,
     jsonlite,
-    withr
+    withr,
+    httpuv
+Suggests:
+    rmarkdown,
+    flexdashboard
 Remotes:
     gaborcsardi/debugme,
     rstudio/webdriver,
-    r-lib/processx
+    r-lib/processx,
+    rstudio/rmarkdown
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)

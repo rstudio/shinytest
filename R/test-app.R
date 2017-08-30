@@ -17,6 +17,20 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
   compareImages = TRUE)
 {
   library(shinytest)
+
+  # appDir could be the path to an .Rmd file. If so, make it point to the actual
+  # directory.
+  if (is_rmd(appDir)) {
+    app_filename <- basename(appDir)
+    appDir       <- dirname(appDir)
+    if (length(dir(appDir, pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
+      stop("For testing, only one .Rmd file is allowed per directory.")
+    }
+  } else {
+    app_filename <- NULL
+    appDir       <- appDir
+  }
+
   testsDir <- file.path(appDir, "tests")
 
   found_files <- list.files(testsDir, pattern = "\\.[r|R]$")
@@ -47,20 +61,25 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
     message("Running ", appendLF = FALSE)
   }
   lapply(found_files, function(file) {
-    name <- sub("\\.[rR]$", "", file)
-
     # Run in test directory, and pass the (usually relative) path as an option,
     # so that the printed output can print the relative path.
-    withr::with_dir(testsDir, {
-      withr::with_options(list(shinytest.app.dir = appDir), {
-        env <- new.env(parent = .GlobalEnv)
-        if (!quiet) {
-          message(file, " ", appendLF = FALSE)
-        }
-        source(file, local = env)
-      })
-    })
+    withr::local_dir(testsDir)
+    # Some apps have different behavior if RSTUDIO is present.
+    withr::local_envvar(c(RSTUDIO = ""))
+    withr::local_options(list(shinytest.app.dir = "appdir"))
+
+    # This will kill any existing Shiny processes launched by shinytest,
+    # in case they're using some of the same resources.
+    gc()
+
+    env <- new.env(parent = .GlobalEnv)
+    if (!quiet) {
+      message(file, " ", appendLF = FALSE)
+    }
+    source(file, local = env)
   })
+
+  gc()
 
   if (!quiet) message("")  # New line
 
