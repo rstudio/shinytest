@@ -239,8 +239,8 @@ Would you like to view the differences between expected and current results [y/n
 <h2 class="hasAnchor">
 <a href="#interactive-r-markdown-documents" class="anchor"></a>Interactive R markdown documents</h2>
 <p>Shinytest can be used with <a href="http://rmarkdown.rstudio.com/authoring_shiny.html">interactive R markdown documents</a> that use <code>runtime: shiny</code> (sometimes also referred to as Shiny documents). This includes those that use the <a href="http://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a> package.</p>
-<p>For an example of an interactive Rmd with tests, see <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd">this</a>.</p>
-<p>Shiny documents have some differences compared to regular Shiny applications, and so the tests are slightly different.</p>
+<p>Shiny documents have some differences compared to regular Shiny applications, and so the tests are slightly different. For an example of an interactive Rmd with tests, see <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd">here</a>.</p>
+<p>As of this writing testing Shiny documents should be done with a development version of the rmarkdown package, which can be installed using <code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("rstudio/rmarkdown")</a></code>. It will be released in the future as rmarkdown 1.7.</p>
 <div id="randomness" class="section level3">
 <h3 class="hasAnchor">
 <a href="#randomness" class="anchor"></a>Randomness</h3>
