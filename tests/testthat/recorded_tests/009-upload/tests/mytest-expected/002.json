@@ -1,0 +1,28 @@
+{
+  "input": {
+    "disp": "head",
+    "file1": {
+      "name": [
+        "mtcars.csv"
+      ],
+      "size": [
+        1303
+      ],
+      "type": [
+        "text/csv"
+      ],
+      "datapath": [
+        "0.csv"
+      ]
+    },
+    "header": false,
+    "quote": "",
+    "sep": ","
+  },
+  "output": {
+    "contents": "<table  class = 'table shiny-table table- spacing-s' style = 'width:auto;'>\n<thead> <tr> <th style='text-align: left;'> V1 <\/th> <th style='text-align: left;'> V2 <\/th> <th style='text-align: left;'> V3 <\/th> <th style='text-align: left;'> V4 <\/th> <th style='text-align: left;'> V5 <\/th> <th style='text-align: left;'> V6 <\/th> <th style='text-align: left;'> V7 <\/th> <th style='text-align: left;'> V8 <\/th> <th style='text-align: left;'> V9 <\/th> <th style='text-align: left;'> V10 <\/th> <th style='text-align: left;'> V11 <\/th>  <\/tr> <\/thead> <tbody>\n  <tr> <td> \"mpg\" <\/td> <td> \"cyl\" <\/td> <td> \"disp\" <\/td> <td> \"hp\" <\/td> <td> \"drat\" <\/td> <td> \"wt\" <\/td> <td> \"qsec\" <\/td> <td> \"vs\" <\/td> <td> \"am\" <\/td> <td> \"gear\" <\/td> <td> \"carb\" <\/td> <\/tr>\n  <tr> <td> 21 <\/td> <td> 6 <\/td> <td> 160 <\/td> <td> 110 <\/td> <td> 3.9 <\/td> <td> 2.62 <\/td> <td> 16.46 <\/td> <td> 0 <\/td> <td> 1 <\/td> <td> 4 <\/td> <td> 4 <\/td> <\/tr>\n  <tr> <td> 21 <\/td> <td> 6 <\/td> <td> 160 <\/td> <td> 110 <\/td> <td> 3.9 <\/td> <td> 2.875 <\/td> <td> 17.02 <\/td> <td> 0 <\/td> <td> 1 <\/td> <td> 4 <\/td> <td> 4 <\/td> <\/tr>\n  <tr> <td> 22.8 <\/td> <td> 4 <\/td> <td> 108 <\/td> <td> 93 <\/td> <td> 3.85 <\/td> <td> 2.32 <\/td> <td> 18.61 <\/td> <td> 1 <\/td> <td> 1 <\/td> <td> 4 <\/td> <td> 1 <\/td> <\/tr>\n  <tr> <td> 21.4 <\/td> <td> 6 <\/td> <td> 258 <\/td> <td> 110 <\/td> <td> 3.08 <\/td> <td> 3.215 <\/td> <td> 19.44 <\/td> <td> 1 <\/td> <td> 0 <\/td> <td> 3 <\/td> <td> 1 <\/td> <\/tr>\n  <tr> <td> 18.7 <\/td> <td> 8 <\/td> <td> 360 <\/td> <td> 175 <\/td> <td> 3.15 <\/td> <td> 3.44 <\/td> <td> 17.02 <\/td> <td> 0 <\/td> <td> 0 <\/td> <td> 3 <\/td> <td> 2 <\/td> <\/tr>\n   <\/tbody> <\/table>"
+  },
+  "export": {
+
+  }
+}

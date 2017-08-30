@@ -1,5 +1,5 @@
 app <- ShinyDriver$new("../")
-app$snapshotInit("mytest", screenshot = FALSE)
+app$snapshotInit("mytest")
 
 app$snapshot()
 app$setInputs(dynamic = 17)
