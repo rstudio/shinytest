@@ -139,6 +139,22 @@ Sys.sleep(0.5)
 ```
 
 
+### Controlling randomness
+
+If your application uses randomly-generated values (by calling functions like `rnorm`, `runif`, `sample` directly or indirectly), then, in normal operation, it will produce different results on each run. Because Shinytest works by comparing the current state of an application to a previous state, these random changes will cause test failures.
+
+To make such applications exactly repeatable, you can set the random seed. This can be done by specifying a random seed in the recorder. The seed can be any integer value.
+
+![](screenshot-recorder-random-seed.png)
+
+
+If your test script has already been created, you can set the random seed by editing the test script so that the `ShinyDriver$new()` call has a value for `seed`:
+
+```{r}
+app <- ShinyDriver$new("../", seed = 4323)
+```
+
+
 ## Widgets
 
 ### Uploading files

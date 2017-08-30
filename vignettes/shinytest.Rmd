@@ -223,6 +223,38 @@ In the example above, we had a single test script, named `mytest.R`. If you want
 
 When you run `testApp("path/to/app")`, it will run all the tests scripts in the application's `tests/` directory.
 
+
+## Interactive R markdown documents
+
+Shinytest can be used with [interactive R markdown documents](http://rmarkdown.rstudio.com/authoring_shiny.html) that use `runtime: shiny` (sometimes also referred to as Shiny documents). This includes those that use the [flexdashboard](http://rmarkdown.rstudio.com/flexdashboard/) package.
+
+For an example of an interactive Rmd with tests, see [this](https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd).
+
+Shiny documents have some differences compared to regular Shiny applications, and so the tests are slightly different.
+
+### Randomness
+
+In a Shiny Rmd application, the UI of the application is created dynamically, using some randomly generated IDs. To make the results repeatable, you must set a random seed; otherwise the output will have slight differences in each run. See the section on [controlling randomness](in-depth.html#controlling-randomness) for more information.
+
+### One .Rmd file per directory
+
+For testing Shiny documents, only one .Rmd file is allowed per directory. This is because of the way that the test directory is structure. (Note that if you name your Shiny document index.Rmd, then when deployed on Shiny Server, the URL can be use the directory name, like http://mydomain.com/dirname, instead of http://mydomain.com/dirname/index.Rmd. When deployed on RStudio Connect or Shinyapps.io, the filename is automatically not used in the URL.)
+
+### Prerendered Shiny documents
+
+Some Shiny documents use [`runtime: shiny_prerendered`](http://rmarkdown.rstudio.com/authoring_shiny_prerendered.html), which helps speed up page loading time. Normally, the first time these applications are run, they will leave behind a generated .html file as well as a cache directory named myfile_data/.
+
+You can remove these files by adding this to the end of your test script (assuming the name of your document is doc.Rmd):
+
+```{r}
+rmarkdown::shiny_prerendered_clean("../doc.Rmd")
+```
+
+Alternatively, you can save the generated files, but then the tests will be run with the generated files, so the prerendering step will not be run for future tests.
+
+For an example of a prerendered .Rmd and tests, see [here](https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd-prerendered).
+
+
 ## Next
 
 Learn more about shinytest with the [testing in depth](in-depth.html) article.
