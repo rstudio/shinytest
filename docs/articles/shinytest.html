@@ -235,6 +235,32 @@ Would you like to view the differences between expected and current results [y/n
 <p>When you run <code><a href="../reference/testApp.html">testApp("path/to/app")</a></code>, it will run all the tests scripts in the application’s <code>tests/</code> directory.</p>
 </div>
 </div>
+<div id="interactive-r-markdown-documents" class="section level2">
+<h2 class="hasAnchor">
+<a href="#interactive-r-markdown-documents" class="anchor"></a>Interactive R markdown documents</h2>
+<p>Shinytest can be used with <a href="http://rmarkdown.rstudio.com/authoring_shiny.html">interactive R markdown documents</a> that use <code>runtime: shiny</code> (sometimes also referred to as Shiny documents). This includes those that use the <a href="http://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a> package.</p>
+<p>For an example of an interactive Rmd with tests, see <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd">this</a>.</p>
+<p>Shiny documents have some differences compared to regular Shiny applications, and so the tests are slightly different.</p>
+<div id="randomness" class="section level3">
+<h3 class="hasAnchor">
+<a href="#randomness" class="anchor"></a>Randomness</h3>
+<p>In a Shiny Rmd application, the UI of the application is created dynamically, using some randomly generated IDs. To make the results repeatable, you must set a random seed; otherwise the output will have slight differences in each run. See the section on <a href="in-depth.html#controlling-randomness">controlling randomness</a> for more information.</p>
+</div>
+<div id="one--rmd-file-per-directory" class="section level3">
+<h3 class="hasAnchor">
+<a href="#one--rmd-file-per-directory" class="anchor"></a>One .Rmd file per directory</h3>
+<p>For testing Shiny documents, only one .Rmd file is allowed per directory. This is because of the way that the test directory is structure. (Note that if you name your Shiny document index.Rmd, then when deployed on Shiny Server, the URL can be use the directory name, like <a href="http://mydomain.com/dirname" class="uri">http://mydomain.com/dirname</a>, instead of <a href="http://mydomain.com/dirname/index.Rmd" class="uri">http://mydomain.com/dirname/index.Rmd</a>. When deployed on RStudio Connect or Shinyapps.io, the filename is automatically not used in the URL.)</p>
+</div>
+<div id="prerendered-shiny-documents" class="section level3">
+<h3 class="hasAnchor">
+<a href="#prerendered-shiny-documents" class="anchor"></a>Prerendered Shiny documents</h3>
+<p>Some Shiny documents use <a href="http://rmarkdown.rstudio.com/authoring_shiny_prerendered.html"><code>runtime: shiny_prerendered</code></a>, which helps speed up page loading time. Normally, the first time these applications are run, they will leave behind a generated .html file as well as a cache directory named myfile_data/.</p>
+<p>You can remove these files by adding this to the end of your test script (assuming the name of your document is doc.Rmd):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmarkdown<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rmarkdown/topics/shiny_prerendered_clean">shiny_prerendered_clean</a></span>(<span class="st">"../doc.Rmd"</span>)</code></pre></div>
+<p>Alternatively, you can save the generated files, but then the tests will be run with the generated files, so the prerendering step will not be run for future tests.</p>
+<p>For an example of a prerendered .Rmd and tests, see <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd-prerendered">here</a>.</p>
+</div>
+</div>
 <div id="next" class="section level2">
 <h2 class="hasAnchor">
 <a href="#next" class="anchor"></a>Next</h2>
@@ -251,6 +277,7 @@ Would you like to view the differences between expected and current results [y/n
 <li><a href="#why-test-shiny-applications">Why test Shiny applications?</a></li>
       <li><a href="#how-testing-works-with-shinytest">How testing works with shinytest</a></li>
       <li><a href="#getting-started">Getting started</a></li>
+      <li><a href="#interactive-r-markdown-documents">Interactive R markdown documents</a></li>
       <li><a href="#next">Next</a></li>
       </ul>
 </div>

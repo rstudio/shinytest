@@ -116,7 +116,7 @@ app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">a
 <p>This is because, when <code>app$setInputs()</code> is called, it normally returns control and moves on to the next step only after the server sends a response to the client.</p>
 <p>The reason it waits for a response is so that a subsequent call to <code>app$snapshot()</code> will be sure to capture the updated output values. If <code>app$setInputs()</code> did not wait for a update, then, if the output update did not happen very quickly, a snapshot might capture the state of the application before the outputs are updated.</p>
 <p>Because <code>app$setInputs()</code> waits for an update each time, it is faster to set multiple inputs in a single call to <code>app$setInputs()</code> than it is to have multiple calls to <code>app$setInputs()</code>.</p>
-<p>Note: In versions of Shiny before 1.0.3.9000, calls to <code>app$setInputs()</code> which did not result in an output value change would timeout, and print a message about setting a longer timeout or calling <code>setInputs(wait_ = FALSE, values_ = FALSE)</code>. This is because those versions of Shiny did not send a response when no output values changed. As of Shiny 1.0.3.9000, when in testing mode, Shiny always sends a response to input changes, even if no output values have changed, so this message should no longer appear.</p>
+<p>Note: In versions of Shiny before 1.0.4, calls to <code>app$setInputs()</code> which did not result in an output value change would timeout, and print a message about setting a longer timeout or calling <code>setInputs(wait_ = FALSE, values_ = FALSE)</code>. This is because those versions of Shiny did not send a response when no output values changed. As of Shiny 1.0.4, when in testing mode, Shiny always sends a response to input changes, even if no output values have changed, so this message should no longer appear.</p>
 </div>
 <div id="taking-snapshots-with-appsnapshot" class="section level3">
 <h3 class="hasAnchor">
@@ -147,6 +147,30 @@ app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">a
 <a href="#adding-delays" class="anchor"></a>Adding delays</h3>
 <p>In some cases, you may need to wait for some amount of time between steps. You can do this by adding <code>Sys.sleep()</code> in your script. For example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Sys.sleep</span>(<span class="fl">0.5</span>)</code></pre></div>
+</div>
+<div id="controlling-randomness" class="section level3">
+<h3 class="hasAnchor">
+<a href="#controlling-randomness" class="anchor"></a>Controlling randomness</h3>
+<p>If your application uses randomly-generated values (by calling functions like <code>rnorm</code>, <code>runif</code>, <code>sample</code> directly or indirectly), then, in normal operation, it will produce different results on each run. Because Shinytest works by comparing the current state of an application to a previous state, these random changes will cause test failures.</p>
+<p>To make such applications exactly repeatable, you can set the random seed. This can be done by specifying a random seed in the recorder. The seed can be any integer value.</p>
+<div class="figure">
+<img src="screenshot-recorder-random-seed.png">
+</div>
+<p>If your test script has already been created, you can set the random seed by editing the test script so that the <code>ShinyDriver$new()</code> call has a value for <code>seed</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">"../"</span>, <span class="dt">seed =</span> <span class="dv">4323</span>)</code></pre></div>
+</div>
+</div>
+<div id="widgets" class="section level2">
+<h2 class="hasAnchor">
+<a href="#widgets" class="anchor"></a>Widgets</h2>
+<div id="uploading-files" class="section level3">
+<h3 class="hasAnchor">
+<a href="#uploading-files" class="anchor"></a>Uploading files</h3>
+<p>If you record a file upload event to a <code>fileInput</code>, you should uncheck <strong>Run test script on exit</strong> in the recorder, for reasons explained below. The test script will have a line like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">app<span class="op">$</span><span class="kw">uploadFile</span>(<span class="dt">file1 =</span> <span class="st">"mtcars.csv"</span>)</code></pre></div>
+<p>Notice that the filename mtcars.csv appears in the script without a path. This is because the test recorder does not know where the file came from; it only knows the name of the file.</p>
+<p>Before you run the test script, you must copy the file to the tests/ directory. See the tests/ subdirectory of <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/009-upload">this app</a> for an example.</p>
+<p>After copying the file to that directory, run <code><a href="../reference/testApp.html">testApp()</a></code> as usual.</p>
 </div>
 </div>
 <div id="debugging-test-scripts" class="section level2">
@@ -218,6 +242,7 @@ app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">a
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#customizing-test-scripts">Customizing test scripts</a></li>
+      <li><a href="#widgets">Widgets</a></li>
       <li><a href="#debugging-test-scripts">Debugging test scripts</a></li>
       <li><a href="#limitations">Limitations</a></li>
       <li><a href="#next">Next</a></li>
