@@ -4,7 +4,7 @@
 \alias{recordTest}
 \title{Launch test event recorder for a Shiny app}
 \usage{
-recordTest(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL)
+recordTest(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL,loadTimeout=10000)
 }
 \arguments{
 \item{app}{A \code{\link{ShinyDriver}} object, or path to a Shiny
