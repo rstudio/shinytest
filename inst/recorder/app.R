@@ -302,10 +302,10 @@ shinyApp(
 
     # Number of snapshot or fileDownload events in input$testevents
     numSnapshots <- reactive({
-        snapshots <- vapply(input$testevents, function(event) {
-          return(event$type %in% c("snapshot", "fileDownload"))
-        }, logical(1))
-        sum(snapshots)
+      snapshots <- vapply(input$testevents, function(event) {
+        return(event$type %in% c("snapshot", "outputValue", "fileDownload"))
+      }, logical(1))
+      sum(snapshots)
     })
 
     output$recordedEvents <- renderTable(
