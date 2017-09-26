@@ -130,6 +130,10 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
   # in.
   relativeAppDir <- getOption("shinytest.app.dir", default = appDir)
 
+  if (!quiet) {
+    message("====== Comparing ", name, "... ", appendLF = FALSE)
+  }
+
   if (dir_exists(expected_dir)) {
 
     if (images) {
@@ -152,7 +156,7 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
       snapshot_pass <- FALSE
       snapshot_status <- "different"
 
-      message("  Differences detected between ", basename(current_dir),
+      message("\n  Differences detected between ", basename(current_dir),
               "/ and ", basename(expected_dir), "/:\n")
 
       # A data frame that shows the differences, just for printed output.
@@ -201,6 +205,9 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
       }
 
     } else {
+      if (!quiet) {
+        message("Passed.")
+      }
       snapshot_pass <- TRUE
       snapshot_status <- "same"
     }
@@ -212,7 +219,7 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
 
   } else {
     if (!quiet) {
-      message("  No existing snapshots at ", basename(expected_dir), "/.",
+      message("\n  No existing snapshots at ", basename(expected_dir), "/.",
               " This is a first run of tests.\n")
     }
 

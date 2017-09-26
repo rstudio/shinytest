@@ -86,9 +86,6 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
   # Compare all results
   results <- lapply(found_files, function(file) {
     name <- sub("\\.[rR]$", "", file)
-    if (!quiet) {
-      message("====== Comparing ", name, " ======")
-    }
     snapshotCompare(appDir, name, quiet = quiet, images = compareImages)
   })
 
