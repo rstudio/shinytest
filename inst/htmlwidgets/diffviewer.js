@@ -161,9 +161,11 @@ diffviewer = (function() {
     var $wrapper = $(
       '<div class="image-diff">' +
         '<div class="image-diff-header">' +
-          '<span class="diff-expand-button"></span>' +
-          '<span class="image-diff-filename"></span>' +
-          '<span class="diff-tag"></span>' +
+          '<span class="image-diff-filename-wrapper">' +
+            '<span class="diff-expand-button"></span>' +
+            '<span class="image-diff-filename"></span>' +
+            '<span class="diff-tag"></span>' +
+          '</span>' +
         '</div>' +
         '<div class="image-diff-controls"></div>' +
         '<div class="image-diff-container">' +

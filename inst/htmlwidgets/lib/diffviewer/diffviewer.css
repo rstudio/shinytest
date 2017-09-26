@@ -19,8 +19,13 @@
     width: 15px;
     height: 15px;
     color: #fff;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inlineflexbox;
     display: inline-flex;
+    -webkit-justify-content: center;
     justify-content: center;
+    -webkit-align-items: center;
     align-items: center;
     font-size: 12px;
     border-radius: 1px;
@@ -62,8 +67,12 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 2px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-justify-content: center;
     justify-content: center;
+    -webkit-align-items: center;
     align-items: center;
     cursor: pointer;
 }
@@ -110,12 +119,25 @@
 
 .diffviewer .image-diff .image-diff-header {
     padding: 5px 10px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
     align-items: center;
 }
 
-.diffviewer .diff-tag{
+.diffviewer .image-diff .image-diff-header .image-diff-filename-wrapper {
     display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    font-size: 15px;
+}
+
+.diffviewer .diff-tag{
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     font-size: 10px;

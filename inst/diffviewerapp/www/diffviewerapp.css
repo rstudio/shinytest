@@ -4,7 +4,10 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-flow: column;
   flex-flow: column;
 }
 
@@ -12,6 +15,9 @@ body {
   background: #f6f7f9;
   padding: 0;
   border-bottom: 1px solid #d6dadd;
+  /* min-height needed on QT-webkit because it doesn't seem to size header to
+     contents. */
+  min-height: 62px;
 }
 
 .header > .title {
@@ -35,6 +41,7 @@ body {
 
 
 .content {
+  -webkit-flex-grow: 1;
   flex-grow: 1;
   overflow-y: scroll;
   padding: 0 10px;
