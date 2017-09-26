@@ -1,0 +1,72 @@
+{
+  "input": {
+
+  },
+  "output": {
+    "image": {
+      "html": "<img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAJ0lEQVQoU2Ps6Oj4z4AGXFxc0IUYGIeCwjNnzmB4Zs+ePZieGQIKAZKhLO1oE8Z/AAAAAElFTkSuQmCC\"/>",
+      "deps": [
+
+      ]
+    },
+    "plot1": {
+      "src": "[image data sha1: cdb50473e608af8ba71c294753179b1281561d8e]",
+      "width": 30,
+      "height": 30,
+      "coordmap": [
+        {
+          "domain": {
+            "left": 0.84,
+            "right": 5.16,
+            "bottom": 0.84,
+            "top": 5.16
+          },
+          "range": {
+            "left": 0,
+            "right": 30,
+            "bottom": 29,
+            "top": -1
+          },
+          "log": {
+            "x": null,
+            "y": null
+          },
+          "mapping": {
+
+          }
+        }
+      ]
+    },
+    "plot2": {
+      "src": "[image data sha1: 821d3178f367c78b1705060acfb89bdd59ff92cc]",
+      "width": 30,
+      "height": 30,
+      "coordmap": [
+        {
+          "domain": {
+            "left": 0.84,
+            "right": 5.16,
+            "bottom": 0.84,
+            "top": 5.16
+          },
+          "range": {
+            "left": 0,
+            "right": 30,
+            "bottom": 29,
+            "top": -1
+          },
+          "log": {
+            "x": null,
+            "y": null
+          },
+          "mapping": {
+
+          }
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

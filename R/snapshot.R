@@ -273,8 +273,16 @@ snapshotUpdate <- function(appDir = ".", name, quiet = FALSE) {
 # then hashed with SHA1. The resulting hash value is the same as if the image
 # were saved to a file on disk and then hashed.
 hash_snapshot_image_data <- function(data) {
+
+  # Search for base64-encoded image data. There are two named groups:
+  # - data_url is the entire data URL, including the leading quote,
+  #   "data:image/png;base64,", the base64-encoded data, and the trailing quote.
+  # - img_data is just the base64-encoded data.
   image_offsets <- gregexpr(
-    '"data:image/[^;]+;base64,([^"]+)"', data, useBytes = TRUE, perl = TRUE
+    '\\n\\s*"[^"]*"\\s*:\\s*(?<data_url>"data:image/[^;]+;base64,(?<img_data>[^"]+)")',
+    data,
+    useBytes = TRUE,
+    perl = TRUE
   )[[1]]
 
   # No image data found
@@ -282,18 +290,23 @@ hash_snapshot_image_data <- function(data) {
     return(data)
   }
 
+  attr2 <- function(x, name) {
+    attr(x, name, exact = TRUE)
+  }
+
   # Image data indices
-  image_start_idx <- as.integer(attr(image_offsets, "capture.start", exact = TRUE))
+  image_start_idx <- as.integer(attr2(image_offsets, "capture.start")[,"img_data"])
   image_stop_idx <- image_start_idx +
-    as.integer(attr(image_offsets, "capture.length", exact = TRUE)) - 1
+    as.integer(attr2(image_offsets, "capture.length")[,"img_data"]) - 1
 
   # Text (non-image) data indices
   text_start_idx <- c(
     0,
-    image_offsets + attr(image_offsets, "match.length", exact = TRUE)
+    attr2(image_offsets, "capture.start")[,"data_url"] +
+      attr2(image_offsets, "capture.length")[,"data_url"]
   )
   text_stop_idx <- c(
-    image_offsets - 1,
+    attr(image_offsets, "capture.start")[,"data_url"] - 1,
     nchar(data, type = "bytes")
   )
 
@@ -303,10 +316,15 @@ hash_snapshot_image_data <- function(data) {
 
   # Hash the images
   image_hashes <- vapply(image_data, FUN.VALUE = "", function(dat) {
-    digest::digest(
-      jsonlite::base64_dec(dat),
-      algo = "sha1", serialize = FALSE
-    )
+    tryCatch({
+      image_data <- jsonlite::base64_dec(dat)
+      digest::digest(
+        image_data,
+        algo = "sha1", serialize = FALSE
+      )
+    }, error = function(e) {
+      "Error hashing image data"
+    })
   })
 
   image_hashes <- paste0('"[image data sha1: ', image_hashes, ']"')
