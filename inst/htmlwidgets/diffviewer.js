@@ -355,6 +355,7 @@ diffviewer = (function() {
       var $img = $wrapper.find("img").on("dragstart", function() { return false; });
 
       resemble.outputSettings({
+        useCrossOrigin: false,   // Needed for data URIs
         errorColor: {
           red: 200,
           green: 0,
