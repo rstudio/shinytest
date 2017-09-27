@@ -143,8 +143,9 @@ window.shinyRecorder = (function() {
 
         // Save initial values so we can check for changes.
         for (var name in Shiny.shinyapp.$inputValues) {
-            if (Shiny.shinyapp.$inputValues.hasOwnProperty("name"))
+            if (Shiny.shinyapp.$inputValues.hasOwnProperty(name)) {
                 previousInputValues[name] = JSON.stringify(Shiny.shinyapp.$inputValues[name]);
+            }
         }
 
         shinyrecorder.initialized = true;
