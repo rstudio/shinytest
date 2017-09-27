@@ -28,11 +28,15 @@ html,body {
   top: 0;
   bottom: 0;
   right: 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-flow: column;
   flex-flow: column;
 }
 
 #shiny-recorder .shiny-recorder-header {
+  -webkit-flex: 0 0 auto; /* Needed for QT webkit and old versions of Safari */
   font-size: 11px;
   color: #000;
   background: #d6dadd;
@@ -41,6 +45,7 @@ html,body {
 }
 
 #shiny-recorder .shiny-recorder-controls {
+  -webkit-flex: 0 0 auto; /* Needed for QT webkit and old versions of Safari */
   padding: 10px;
   background: #f6f7f9;
 }
@@ -104,6 +109,7 @@ html,body {
 
 
 #recorded-events {
+  -webkit-flex-grow: 1;
   flex-grow: 1;
   overflow-y: scroll;
 }
