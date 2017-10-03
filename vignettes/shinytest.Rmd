@@ -109,7 +109,7 @@ When you exit the test recorder, it will by default automatically run the test s
 ```
 Saved test code to /path/to/app/tests/mytest.R
 Running mytest.R 
-====== Comparing mytest.R ======
+====== Comparing mytest ...
   No existing snapshots at mytest-expected/. This is a first run of tests.
 
 Updating baseline snapshot at tests/mytest-expected
@@ -180,7 +180,7 @@ After the initial test run, you can run the tests again in the future to check f
 ```
 > testApp("path/to/app")
 Running mytest.R 
-====== Comparing mytest ======
+====== Comparing mytest ... Passed.
 ```
 
 The results are saved to `tests/mytest-current`, and compared against the saved results in `tests/mytest-expected`. If the results are exactly the same, then the test is considered successful. It will return to the console with no additional output, and delete the `tests/mytest-current` directory.
@@ -190,7 +190,7 @@ If there are any differences between the current and expected results, you'll se
 
 ```
 Running mytest.R 
-====== Comparing mytest ======
+====== Comparing mytest ...
   Differences detected between mytest-current/ and mytest-expected/:
 
     Name         Status      

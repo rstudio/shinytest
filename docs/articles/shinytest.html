@@ -152,7 +152,7 @@ app<span class="op">$</span><span class="kw">snapshot</span>()</code></pre></div
 <p>When you exit the test recorder, it will by default automatically run the test script, and will print something like this:</p>
 <pre><code>Saved test code to /path/to/app/tests/mytest.R
 Running mytest.R 
-====== Comparing mytest.R ======
+====== Comparing mytest ...
   No existing snapshots at mytest-expected/. This is a first run of tests.
 
 Updating baseline snapshot at tests/mytest-expected
@@ -205,11 +205,11 @@ Renaming tests/mytest-current
 <p>After the initial test run, you can run the tests again in the future to check for changes in your application’s behavior. If there are no changes to the snapshots, you will just see something like this, with no additional output:</p>
 <pre><code>&gt; testApp("path/to/app")
 Running mytest.R 
-====== Comparing mytest ======</code></pre>
+====== Comparing mytest ... Passed.</code></pre>
 <p>The results are saved to <code>tests/mytest-current</code>, and compared against the saved results in <code>tests/mytest-expected</code>. If the results are exactly the same, then the test is considered successful. It will return to the console with no additional output, and delete the <code>tests/mytest-current</code> directory.</p>
 <p>If there are any differences between the current and expected results, you’ll see output like this:</p>
 <pre><code>Running mytest.R 
-====== Comparing mytest ======
+====== Comparing mytest ...
   Differences detected between mytest-current/ and mytest-expected/:
 
     Name         Status      
