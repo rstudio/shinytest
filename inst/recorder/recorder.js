@@ -25,9 +25,13 @@ window.shinyRecorder = (function() {
     var waitingForInputChange = false;
 
     $(document).on("shiny:inputchanged", function(event) {
-        // If the value has been set via a shiny:updateInput event, ignore it
-        // this time.
+        // If the value has been set via a shiny:updateInput event, we want to
+        // ignore it. To do this, we'll add it to the previous values list.
+        // For some inputs (like sliders), when a value is updated, it can
+        // result in  shiny:inputchanged getting triggered more than once, so
+        // we need to make sure that we ignore it this time and future times.
         if (updatedInputs[event.name]) {
+            previousInputValues[event.name] = JSON.stringify(event.value);
             delete updatedInputs[event.name];
             return;
         }
