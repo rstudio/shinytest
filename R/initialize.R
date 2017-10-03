@@ -101,14 +101,17 @@ sd_startShiny <- function(self, private, path, seed) {
   port <- random_open_port()
   if (is_rmd(path)) {
     # Shiny document
-    rcmd <- paste0(rcmd, "; ",
-      sprintf("rmarkdown::run('%s', shiny_args=list(test.mode=TRUE, port=%d))",
-        path, port)
+    rcmd <- paste0(
+      rcmd,
+      "; options(shiny.testmode = TRUE); ",
+      sprintf("rmarkdown::run('%s', shiny_args=list(port=%d))", path, port)
     )
   } else {
     # Normal shiny app
-    rcmd <- paste0(rcmd, "; ",
-      sprintf("shiny::runApp('%s', test.mode=TRUE, port=%d)", path, port)
+    rcmd <- paste0(
+      rcmd,
+      "; options(shiny.testmode = TRUE); ",
+      sprintf("shiny::runApp('%s', port=%d)", path, port)
     )
   }
 
