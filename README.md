@@ -14,7 +14,7 @@
 
 
 ```r
-source("https://install-github.me/rstudio/shinytest")
+devtools::install_github("rstudio/shinytest")
 ```
 
 ## Usage
