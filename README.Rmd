@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 ## Installation
 
 ```{r eval = FALSE}
-source("https://install-github.me/rstudio/shinytest")
+devtools::install_github("rstudio/shinytest")
 ```
 
 ## Usage

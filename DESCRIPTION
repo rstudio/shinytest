@@ -2,8 +2,8 @@ Package: shinytest
 Title: Test Shiny Apps
 Version: 1.2.0.9000
 Authors@R: c(
-    person("Winston", "Chang", role = c("aut", "cre")"aut", email = "winston@rstudio.com"),
-    person("Gábor", "Csárdi", role = "cre", email = "gabor@rstudio.com")
+    person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"),
+    person("Gábor", "Csárdi", role = "aut", email = "gabor@rstudio.com")
     )
 Description: Uses a headless browser, driven through 'WebDriver'.
 License: MIT + file LICENSE
