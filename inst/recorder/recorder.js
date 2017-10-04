@@ -81,10 +81,11 @@ window.shinyRecorder = (function() {
         if (!(e.ctrlKey || e.metaKey))
             return;
 
-        var id = e.target.id;
-        var value = Shiny.shinyapp.$values[id];
+        var $el = $(e.target).closest(".shiny-bound-output");
+        if ($el.length == 0)
+            return;
 
-        sendOutputValueToParent(id, value);
+        sendOutputSnapshotToParent($el[0].id);
     });
 
 
@@ -131,10 +132,10 @@ window.shinyRecorder = (function() {
     // will collapse them into a single call to sendOutputEventToParent().
     var sendOutputEventToParentDebounced = debounce(sendOutputEventToParent, 10);
 
-    function sendOutputValueToParent(name, value) {
+    function sendOutputSnapshotToParent(name) {
         parent.postMessage({
             token: shinyrecorder.token,
-            outputValue: { name: name, value: value }
+            outputSnapshot: { name: name }
         }, "*");
     }
 

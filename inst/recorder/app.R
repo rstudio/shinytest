@@ -146,7 +146,7 @@ codeGenerators <- list(
      NA_character_
   },
 
-  outputValue = function(event, nextEvent = NULL, useTimes = FALSE) {
+  outputSnapshot = function(event, nextEvent = NULL, useTimes = FALSE) {
     paste0('app$snapshot(list(output = "', event$name, '"))')
   },
 
@@ -303,7 +303,7 @@ shinyApp(
     # Number of snapshot or fileDownload events in input$testevents
     numSnapshots <- reactive({
       snapshots <- vapply(input$testevents, function(event) {
-        return(event$type %in% c("snapshot", "outputValue", "fileDownload"))
+        return(event$type %in% c("snapshot", "outputSnapshot", "fileDownload"))
       }, logical(1))
       sum(snapshots)
     })
@@ -317,7 +317,7 @@ shinyApp(
 
           if (type == "initialize") {
             NULL
-          } else if (type == "outputValue") {
+          } else if (type == "outputSnapshot") {
             list(type = "snapshot-output", name = event$name)
           } else if (type == "snapshot") {
             list(type = "snapshot", name = "<all>")

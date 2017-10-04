@@ -170,13 +170,12 @@ window.recorder = (function() {
                 Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
 
-            if (message.outputValue) {
-                evt = message.outputValue;
+            if (message.outputSnapshot) {
+                evt = message.outputSnapshot;
 
                 recorder.testEvents.push({
-                    type: "outputValue",
+                    type: "outputSnapshot",
                     name: evt.name,
-                    value: evt.value,
                     time: Date.now()
                 });
 
