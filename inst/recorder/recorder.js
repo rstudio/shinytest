@@ -39,6 +39,7 @@ window.shinyRecorder = (function() {
         // If this input change was triggered by an html output, don't record
         // it.
         if (waitingForInputChange) {
+            previousInputValues[event.name] = JSON.stringify(event.value);
             delete updatedInputs[event.name];
             return;
         }
