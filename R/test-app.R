@@ -96,8 +96,35 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
   invisible(structure(
     list(
       appDir = appDir,
-      results = results
+      results = results,
+      images = compareImages
     ),
     class = "shinytest.results"
   ))
+}
+
+
+all_testnames <- function(appDir, suffixes = c("-expected", "-current")) {
+  # Create a regex string like "(-expected|-current)$"
+  pattern <- paste0(
+    "(",
+    paste0(suffixes, collapse = "|"),
+    ")$"
+  )
+
+  testnames <- dir(file.path(appDir, "tests"), pattern = pattern)
+  testnames <- sub(pattern, "", testnames)
+  unique(testnames)
+}
+
+
+validate_testname <- function(appDir, testname) {
+  valid_testnames <- all_testnames(appDir)
+
+  if (is.null(testname) || !(testname %in% valid_testnames)) {
+    stop('"', testname, '" ',
+      'is not a valid testname for the app. Valid names are: "',
+      paste(valid_testnames, collapse = '", "'), '".'
+    )
+  }
 }

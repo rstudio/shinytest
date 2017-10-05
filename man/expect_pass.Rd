@@ -9,7 +9,8 @@ expect_pass(object, info = NULL)
 \arguments{
 \item{object}{The results returned by \code{\link{testApp}}.}
 
-\item{info}{Extra information to be included in the message  (useful when writing tests in loops).}
+\item{info}{Extra information to be included in the message (useful when
+writing tests in loops).}
 }
 \description{
 This returns an testthat expectation object.
