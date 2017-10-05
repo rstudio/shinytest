@@ -93,8 +93,11 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
       interactive = interactive)
   })
 
-  invisible(list(
-    appDir = appDir,
-    results = results
+  invisible(structure(
+    list(
+      appDir = appDir,
+      results = results
+    ),
+    class = "shinytest.results"
   ))
 }

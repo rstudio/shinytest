@@ -12,6 +12,13 @@
 #'
 #' @export
 expect_pass <- function(object, info = NULL) {
+  if (!inherits(object, "shinytest.results")) {
+    testthat::expect(
+      FALSE,
+      "expect_pass requires results from shinytest::testApp()."
+    )
+  }
+
   pass_idx <- vapply(object$results, `[[`, "pass", FUN.VALUE = FALSE)
   fail_names <- vapply(object$results[!pass_idx], `[[`, "name", FUN.VALUE = "")
 
