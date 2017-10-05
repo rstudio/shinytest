@@ -98,10 +98,10 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 
 #' Compare current and expected snapshots
 #'
-#' This compares a current and expected snapshot for a test set, and prints any
+#' This compares current and expected snapshots for a test set, and prints any
 #' differences to the console.
 #'
-#' @param name Name of a snapshot.
+#' @param testnames Name or names of a test. If NULL, compare all test results.
 #' @param appDir Directory that holds the tests for an application. This is the
 #'   parent directory for the expected and current snapshot directories.
 #' @param autoremove If the current results match the expected results, should
@@ -116,11 +116,47 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #'   different platform from the current results.
 #'
 #' @export
-snapshotCompare <- function(appDir, name, autoremove = TRUE,
+snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
+  images = TRUE, quiet = FALSE, interactive = base::interactive()) {
+
+  if (is.null(testnames)) {
+    testnames <- all_testnames(appDir, "-current")
+  }
+
+  results <- lapply(
+    testnames,
+    function(testname) {
+      snapshotCompareSingle(appDir, testname, autoremove, quiet, images, interactive)
+    }
+  )
+
+  if (!interactive && !quiet) {
+    pass_idx <- vapply(results, `[[`, "pass", FUN.VALUE = FALSE)
+    all_pass <- all(pass_idx)
+
+    relativeAppDir <- getOption("shinytest.app.dir", default = appDir)
+
+    if (!all_pass) {
+      message('\nTo view a textual diff, run:\n  viewTestDiff("', relativeAppDir, '", interactive = FALSE)')
+    }
+  }
+
+  invisible(structure(
+    list(
+      appDir = appDir,
+      results = results,
+      images = images
+    ),
+    class = "shinytest.results"
+  ))
+}
+
+
+snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
   quiet = FALSE, images = TRUE, interactive = base::interactive())
 {
-  current_dir  <- file.path(appDir, "tests", paste0(name, "-current"))
-  expected_dir <- file.path(appDir, "tests", paste0(name, "-expected"))
+  current_dir  <- file.path(appDir, "tests", paste0(testname, "-current"))
+  expected_dir <- file.path(appDir, "tests", paste0(testname, "-expected"))
 
   # When this function is called from testApp(), this is the way that we get
   # the relative path from the current working dir when testApp() is called.
@@ -131,7 +167,7 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
   relativeAppDir <- getOption("shinytest.app.dir", default = appDir)
 
   if (!quiet) {
-    message("====== Comparing ", name, "... ", appendLF = FALSE)
+    message("==== Comparing ", testname, "... ", appendLF = FALSE)
   }
 
   if (dir_exists(expected_dir)) {
@@ -156,39 +192,42 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
       snapshot_pass <- FALSE
       snapshot_status <- "different"
 
-      message("\n  Differences detected between ", basename(current_dir),
-              "/ and ", basename(expected_dir), "/:\n")
+      if (!quiet) {
+        message("\n  Differences detected between ", basename(current_dir),
+                "/ and ", basename(expected_dir), "/:\n")
 
-      # A data frame that shows the differences, just for printed output.
-      status <- data.frame(
-        Name = res$name,
-        " " = "",
-        Status = "No change",
-        stringsAsFactors = FALSE, check.names = FALSE
-      )
+        # A data frame that shows the differences, just for printed output.
+        status <- data.frame(
+          Name = res$name,
+          " " = "",
+          Status = "No change",
+          stringsAsFactors = FALSE, check.names = FALSE
+        )
 
-      status[[" "]]     [!res$current]  <- "-"
-      status[["Status"]][!res$current]  <- "Missing in -current/"
+        status[[" "]]     [!res$current]  <- "-"
+        status[["Status"]][!res$current]  <- "Missing in -current/"
 
-      status[[" "]]     [!res$expected] <- "+"
-      status[["Status"]][!res$expected] <- "Missing in -expected/"
+        status[[" "]]     [!res$expected] <- "+"
+        status[["Status"]][!res$expected] <- "Missing in -expected/"
 
-      # Use which() to ignore NA's
-      status[[" "]][which(!res$identical)]      <- "!="
-      status[["Status"]][which(!res$identical)] <- "Files differ"
+        # Use which() to ignore NA's
+        status[[" "]][which(!res$identical)]      <- "!="
+        status[["Status"]][which(!res$identical)] <- "Files differ"
 
-      # Add spaces for nicer printed output
-      names(status)[names(status) == "Name"] <- "Name     "
+        # Add spaces for nicer printed output
+        names(status)[names(status) == "Name"] <- "Name     "
 
-      status_table <- utils::capture.output(print(status, row.names = FALSE, right = FALSE))
-      status_table <- sub("^", "   ", status_table)
-      message(paste(status_table, collapse = "\n"))
+        status_table <- utils::capture.output(print(status, row.names = FALSE, right = FALSE))
+        status_table <- sub("^", "   ", status_table)
+
+        message(paste(status_table, collapse = "\n"))
+      }
 
       if (interactive) {
         response <- readline("Would you like to view the differences between expected and current results [y/n]? ")
         if (tolower(response) == "y") {
           quiet <- TRUE
-          result <- viewTestDiff(appDir, name, interactive)
+          result <- viewTestDiff(appDir, testname, interactive)
 
           if (result == "accept") {
             snapshot_pass <- TRUE
@@ -197,16 +236,16 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
         }
       }
 
-      if (!quiet) {
+      if (!quiet && interactive) {
         message('\n  To view differences between expected and current results, run:\n',
-                '    viewTestDiff("', relativeAppDir, '", "', name, '")\n',
+                '    viewTestDiff("', relativeAppDir, '", "', testname, '")\n',
                 '  To save current results as expected results, run:\n',
-                '    snapshotUpdate("', relativeAppDir, '", "', name, '")\n')
+                '    snapshotUpdate("', relativeAppDir, '", "', testname, '")\n')
       }
 
     } else {
       if (!quiet) {
-        message("Passed.")
+        message("No changes.")
       }
       snapshot_pass <- TRUE
       snapshot_status <- "same"
@@ -223,7 +262,7 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
               " This is a first run of tests.\n")
     }
 
-    snapshotUpdate(appDir, name, quiet = quiet)
+    snapshotUpdate(appDir, testname, quiet = quiet)
 
     snapshot_pass <- TRUE
     snapshot_status <- "new"
@@ -231,7 +270,7 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
 
   invisible(list(
     appDir = appDir,
-    name = name,
+    name = testname,
     pass = snapshot_pass,
     status = snapshot_status,
     images = images
@@ -244,11 +283,22 @@ snapshotCompare <- function(appDir, name, autoremove = TRUE,
 #' @rdname snapshotCompare
 #' @inheritParams snapshotCompare
 #' @export
-snapshotUpdate <- function(appDir = ".", name, quiet = FALSE) {
-  # Strip off trailing slash if present
-  name <- sub("/$", "", name)
+snapshotUpdate <- function(appDir = ".", testnames = NULL, quiet = FALSE) {
+  if (is.null(testnames)) {
+    testnames <- all_testnames(appDir, "-current")
+  }
 
-  base_path <- file.path(appDir, "tests", name)
+  for (testname in testnames) {
+    snapshotUpdateSingle(appDir, testname, quiet)
+  }
+}
+
+
+snapshotUpdateSingle <- function(appDir = ".", testname, quiet = FALSE) {
+  # Strip off trailing slash if present
+  testname <- sub("/$", "", testname)
+
+  base_path <- file.path(appDir, "tests", testname)
   current_dir  <- paste0(base_path, "-current")
   expected_dir <- paste0(base_path, "-expected")
 

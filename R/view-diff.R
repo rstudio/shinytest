@@ -107,7 +107,7 @@ viewTestDiff <- function(appDir = ".", testnames = NULL,
   interactive = base::interactive(), images = TRUE)
 {
   if (interactive) {
-    if (length(testnames) == 0) {
+    if (is.null(testnames)) {
       # Only try to view diffs if there's a -current dir
       testnames <- all_testnames(appDir, "-current")
     }
@@ -148,7 +148,7 @@ viewTestDiffSingle <- function(appDir = ".", testname = NULL) {
 #' @seealso \code{\link{viewTestDiff}} for interactive diff viewer.
 #' @export
 textTestDiff <- function(appDir = ".", testnames = NULL, images = TRUE) {
-  if (length(testnames) == 0) {
+  if (is.null(testnames)) {
     testnames <- all_testnames(appDir)
   }
 

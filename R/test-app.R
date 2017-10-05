@@ -87,20 +87,10 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
   if (!quiet) message("")  # New line
 
   # Compare all results
-  results <- lapply(found_files, function(file) {
-    name <- sub("\\.[rR]$", "", file)
-    snapshotCompare(appDir, name, quiet = quiet, images = compareImages,
+  return(
+    snapshotCompare(appDir, quiet = quiet, images = compareImages,
       interactive = interactive)
-  })
-
-  invisible(structure(
-    list(
-      appDir = appDir,
-      results = results,
-      images = compareImages
-    ),
-    class = "shinytest.results"
-  ))
+  )
 }
 
 
