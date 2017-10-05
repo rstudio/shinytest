@@ -4,7 +4,8 @@
 \alias{testApp}
 \title{Run tests for a Shiny application}
 \usage{
-testApp(appDir = ".", files = NULL, quiet = FALSE, compareImages = TRUE)
+testApp(appDir = ".", files = NULL, quiet = FALSE, compareImages = TRUE,
+  interactive = base::interactive())
 }
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
@@ -21,6 +22,10 @@ testing.}
 set this to \code{FALSE} when the expected results were taken on a
 different platform from the one currently being used to test the
 application.}
+
+\item{interactive}{If there are any differences between current results and
+expected results, provide an interactive graphical viewer that shows the
+changes and allows the user to accept or reject the changes.}
 }
 \description{
 Run tests for a Shiny application

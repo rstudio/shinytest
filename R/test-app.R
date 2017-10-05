@@ -11,10 +11,13 @@
 #'   set this to \code{FALSE} when the expected results were taken on a
 #'   different platform from the one currently being used to test the
 #'   application.
+#' @param interactive If there are any differences between current results and
+#'   expected results, provide an interactive graphical viewer that shows the
+#'   changes and allows the user to accept or reject the changes.
 #'
 #' @export
 testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
-  compareImages = TRUE)
+  compareImages = TRUE, interactive = base::interactive())
 {
   library(shinytest)
 
@@ -86,7 +89,8 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
   # Compare all results
   results <- lapply(found_files, function(file) {
     name <- sub("\\.[rR]$", "", file)
-    snapshotCompare(appDir, name, quiet = quiet, images = compareImages)
+    snapshotCompare(appDir, name, quiet = quiet, images = compareImages,
+      interactive = interactive)
   })
 
   invisible(list(

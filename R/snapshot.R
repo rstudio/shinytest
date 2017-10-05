@@ -117,7 +117,7 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #'
 #' @export
 snapshotCompare <- function(appDir, name, autoremove = TRUE,
-  interactive = base::interactive(), quiet = FALSE, images = TRUE)
+  quiet = FALSE, images = TRUE, interactive = base::interactive())
 {
   current_dir  <- file.path(appDir, "tests", paste0(name, "-current"))
   expected_dir <- file.path(appDir, "tests", paste0(name, "-expected"))
