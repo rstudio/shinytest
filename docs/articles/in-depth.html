@@ -142,6 +142,52 @@ app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">a
 <p>The same can be used to snapshot all inputs and/or all exports. To capture all outputs and exports, but no inputs:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">app<span class="op">$</span><span class="kw">snapshot</span>(<span class="dt">items =</span> <span class="kw">list</span>(<span class="dt">output =</span> <span class="ot">TRUE</span>, <span class="dt">export =</span> <span class="ot">TRUE</span>))</code></pre></div>
 </div>
+<div id="exported-values" class="section level3">
+<h3 class="hasAnchor">
+<a href="#exported-values" class="anchor"></a>Exported values</h3>
+<p>In some cases, it’s useful to snapshot some bits of internal state of an application – state that’s not reflected directly in the inputs or outputs. This can be done by <em>exporting</em> values.</p>
+<p>Consider this toy example where an application displays a cumulative sum, and also internally keeps track of all numbers that have been added, in a numeric vector named <code>nums</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shinyApp</span>(
+  <span class="kw">fluidPage</span>(
+    <span class="kw">numericInput</span>(<span class="st">"n"</span>, <span class="st">"Number to add"</span>, <span class="dv">4</span>),
+    <span class="kw">actionButton</span>(<span class="st">"add"</span>, <span class="st">"Add"</span>),
+    <span class="kw">verbatimTextOutput</span>(<span class="st">"sum"</span>, <span class="dt">placeholder =</span> <span class="ot">TRUE</span>)
+  ),
+  <span class="cf">function</span>(input, output, session) {
+    nums &lt;-<span class="st"> </span><span class="kw">numeric</span>()
+
+    c_sum &lt;-<span class="st"> </span><span class="kw">eventReactive</span>(input<span class="op">$</span>add, {
+      nums &lt;&lt;-<span class="st"> </span><span class="kw">c</span>(nums, input<span class="op">$</span>n)
+      <span class="kw">sum</span>(nums)
+    })
+
+    output<span class="op">$</span>sum &lt;-<span class="st"> </span><span class="kw">renderText</span>({
+      <span class="kw">c_sum</span>()
+    })
+
+    <span class="kw">exportTestValues</span>(<span class="dt">nums =</span> { nums })
+  }
+)</code></pre></div>
+<div class="figure">
+<img src="screenshot-exports-app.png">
+</div>
+<p>Notice this line:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">exportTestValues</span>(<span class="dt">nums =</span> { nums })</code></pre></div>
+<p>This creates an export value named <code>nums</code>. When a test snapshot is taken, it evaluates the expression <code>{ nums }</code>, and the returned value is included in the snapshot. Here’s what the snapshot would look like if we add a few numbers and then take the snapshot:</p>
+<div class="sourceCode"><pre class="sourceCode json"><code class="sourceCode json"><span class="fu">{</span>
+  <span class="dt">"input"</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">"add"</span><span class="fu">:</span> <span class="dv">4</span><span class="fu">,</span>
+    <span class="dt">"n"</span><span class="fu">:</span> <span class="dv">0</span>
+  <span class="fu">},</span>
+  <span class="dt">"output"</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">"sum"</span><span class="fu">:</span> <span class="st">"14"</span>
+  <span class="fu">},</span>
+  <span class="dt">"export"</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">"nums"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">4</span><span class="ot">,</span> <span class="dv">7</span><span class="ot">,</span> <span class="dv">3</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">]</span>
+  <span class="fu">}</span>
+<span class="fu">}</span></code></pre></div>
+<p>The curly braces around <code>{ nums }</code> are not strictly necessary, but they are in this example to make it clear that, when <code>exportTestValues()</code> is called, it is the expression that is stored for later use, not the value. If the value of <code>nums</code> were saved immediately, then it would be an empty vector, and every time a snapshot is taken, it would simply return that empty vector.</p>
+</div>
 <div id="adding-delays" class="section level3">
 <h3 class="hasAnchor">
 <a href="#adding-delays" class="anchor"></a>Adding delays</h3>

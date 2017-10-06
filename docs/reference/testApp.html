@@ -99,7 +99,8 @@
     <p>Run tests for a Shiny application</p>
     
 
-    <pre class="usage"><span class='fu'>testApp</span>(<span class='kw'>appDir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>files</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>compareImages</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>testApp</span>(<span class='kw'>appDir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>files</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>compareImages</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -126,6 +127,12 @@ testing.</p></td>
 set this to <code>FALSE</code> when the expected results were taken on a
 different platform from the one currently being used to test the
 application.</p></td>
+    </tr>
+    <tr>
+      <th>interactive</th>
+      <td><p>If there are any differences between current results and
+expected results, provide an interactive graphical viewer that shows the
+changes and allows the user to accept or reject the changes.</p></td>
     </tr>
     </table>
     

@@ -130,6 +130,65 @@ app$snapshot(items = list(output = TRUE, export = TRUE))
 ```
 
 
+### Exported values
+
+In some cases, it's useful to snapshot some bits of internal state of an application -- state that's not reflected directly in the inputs or outputs. This can be done by *exporting* values.
+
+Consider this toy example where an application displays a cumulative sum, and also internally keeps track of all numbers that have been added, in a numeric vector named `nums`.
+
+
+```{r}
+shinyApp(
+  fluidPage(
+    numericInput("n", "Number to add", 4),
+    actionButton("add", "Add"),
+    verbatimTextOutput("sum", placeholder = TRUE)
+  ),
+  function(input, output, session) {
+    nums <- numeric()
+
+    c_sum <- eventReactive(input$add, {
+      nums <<- c(nums, input$n)
+      sum(nums)
+    })
+
+    output$sum <- renderText({
+      c_sum()
+    })
+
+    exportTestValues(nums = { nums })
+  }
+)
+```
+
+![](screenshot-exports-app.png)
+
+Notice this line:
+
+```{r}
+    exportTestValues(nums = { nums })
+```
+
+This creates an export value named `nums`. When a test snapshot is taken, it evaluates the expression `{ nums }`, and the returned value is included in the snapshot. Here's what the snapshot would look like if we add a few numbers and then take the snapshot:
+
+```json
+{
+  "input": {
+    "add": 4,
+    "n": 0
+  },
+  "output": {
+    "sum": "14"
+  },
+  "export": {
+    "nums": [4, 7, 3, 0]
+  }
+}
+```
+
+The curly braces around `{ nums }` are not strictly necessary, but they are in this example to make it clear that, when `exportTestValues()` is called, it is the expression that is stored for later use, not the value. If the value of `nums` were saved immediately, then it would be an empty vector, and every time a snapshot is taken, it would simply return that empty vector.
+
+
 ### Adding delays
 
 In some cases, you may need to wait for some amount of time between steps. You can do this by adding `Sys.sleep()` in your script. For example:

@@ -96,15 +96,15 @@
     </div>
 
     
-    <p>This compares a current and expected snapshot for a test set, and prints any
+    <p>This compares current and expected snapshots for a test set, and prints any
 differences to the console.</p>
 <p>Update expected snapshot with current snapshot</p>
     
 
-    <pre class="usage"><span class='fu'>snapshotCompare</span>(<span class='no'>appDir</span>, <span class='no'>name</span>, <span class='kw'>autoremove</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>images</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>snapshotCompare</span>(<span class='no'>appDir</span>, <span class='kw'>testnames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>autoremove</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>images</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())
 
-<span class='fu'>snapshotUpdate</span>(<span class='kw'>appDir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='no'>name</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>snapshotUpdate</span>(<span class='kw'>appDir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>testnames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -115,8 +115,8 @@ differences to the console.</p>
 parent directory for the expected and current snapshot directories.</p></td>
     </tr>
     <tr>
-      <th>name</th>
-      <td><p>Name of a snapshot.</p></td>
+      <th>testnames</th>
+      <td><p>Name or names of a test. If NULL, compare all test results.</p></td>
     </tr>
     <tr>
       <th>autoremove</th>
@@ -124,10 +124,10 @@ parent directory for the expected and current snapshot directories.</p></td>
 the current results be removed automatically? Defaults to TRUE.</p></td>
     </tr>
     <tr>
-      <th>interactive</th>
-      <td><p>If there are any differences between current results and
-expected results, provide an interactive graphical viewer that shows the
-changes and allows the user to accept or reject the changes.</p></td>
+      <th>images</th>
+      <td><p>Should screenshots and PNG images be compared? It can be useful
+to set this to <code>FALSE</code> when the expected results were taken on a
+different platform from the current results.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
@@ -135,10 +135,10 @@ changes and allows the user to accept or reject the changes.</p></td>
 testing.</p></td>
     </tr>
     <tr>
-      <th>images</th>
-      <td><p>Should screenshots and PNG images be compared? It can be useful
-to set this to <code>FALSE</code> when the expected results were taken on a
-different platform from the current results.</p></td>
+      <th>interactive</th>
+      <td><p>If there are any differences between current results and
+expected results, provide an interactive graphical viewer that shows the
+changes and allows the user to accept or reject the changes.</p></td>
     </tr>
     </table>
     
