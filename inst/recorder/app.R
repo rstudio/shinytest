@@ -28,6 +28,21 @@ numericInput <- function(..., placeholder = NULL) {
   res
 }
 
+# Create a question mark icon that displays a tooltip when hovered over.
+tooltip <- function(text, placement = "top") {
+  a(href = "#",
+    `data-toggle` = "tooltip",
+    title = text,
+    icon("question-sign", lib = "glyphicon"),
+    `data-placement` = placement
+  )
+}
+
+enable_tooltip_script <- function() {
+  tags$script("$('a[data-toggle=\"tooltip\"]').tooltip({ delay: 250 });")
+}
+
+
 inputProcessors <- list(
   default = function(value) {
     # This function is designed to operate on atomic vectors (not lists), so if
@@ -241,12 +256,17 @@ shinyApp(
       div(class = "shiny-recorder-header", "Test event recorder"),
       div(class = "shiny-recorder-controls",
         if (!load_mode) {
-          tagList(
+          span(
             actionLink("snapshot",
               span(
                 img(src = "snapshot.png", class = "shiny-recorder-icon"),
                 "Take snapshot"
-              )
+              ),
+              style = "display: inline;"
+            ),
+            tooltip(
+              "You can also Ctrl-click or ⌘-click on an output to snapshot just that one output.",
+              placement = "bottom"
             ),
             hr()
           )
@@ -263,17 +283,13 @@ shinyApp(
             "Quit without saving"
           )
         ),
-        textInput("testname", label = "On exit, save tests as:",
+        textInput("testname", label = "On exit, save test script as:",
           value = if (load_mode) "myloadtest" else "mytest"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
         if (!load_mode) checkboxInput("runScript", "Run test script on exit", value = TRUE),
         numericInput("seed",
           label = tagList("Random seed:",
-            a(href = "#",
-              `data-toggle` = "tooltip",
-              title = "A seed is recommended if your application uses any randomness. This includes all Shiny Rmd documents.",
-              icon("question-sign", lib = "glyphicon")
-            )
+            tooltip("A seed is recommended if your application uses any randomness. This includes all Shiny Rmd documents.")
           ),
           value = start_seed,
           placeholder = "(None)"
@@ -283,8 +299,7 @@ shinyApp(
       div(id = "recorded-events",
         tableOutput("recordedEvents")
       ),
-      # Enable tooltip
-      tags$script("$('a[data-toggle=\"tooltip\"]').tooltip({ delay: 250 });")
+      enable_tooltip_script()
     )
   ),
 
