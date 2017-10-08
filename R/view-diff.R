@@ -99,6 +99,9 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
 #' @param images Compare screenshot images (only used when \code{interactive} is
 #'   FALSE).
 #'
+#' @return Result of test: "accept" if differences are acceptable, otherwise 
+#' "reject".
+#' 
 #' @seealso \code{\link{textTestDiff}} to get a text diff as a string.
 #'
 #' @import shiny
@@ -114,14 +117,20 @@ viewTestDiff <- function(appDir = ".", testnames = NULL,
 
     message("Differences in current results found for: ", paste(testnames, collapse = " "))
 
+    testResult <- "accept"
+
     for (testname in testnames) {
       message("Viewing diff for ", testname)
-      viewTestDiffSingle(appDir, testname)
+      testResultSingle <- viewTestDiffSingle(appDir, testname)
+      if(testResultSingle == "reject")
+        testResult <- "reject"
     }
 
   } else {
     cat(textTestDiff(appDir, testnames, images))
+    testResult <- "reject"
   }
+  return(testResult)
 }
 
 
