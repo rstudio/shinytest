@@ -99,8 +99,8 @@
     <p>Run tests for a Shiny application</p>
     
 
-    <pre class="usage"><span class='fu'>testApp</span>(<span class='kw'>appDir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>files</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>compareImages</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())</pre>
+    <pre class="usage"><span class='fu'>testApp</span>(<span class='kw'>appDir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>testnames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>compareImages</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -110,7 +110,7 @@
       <td><p>Path to the Shiny application to be tested.</p></td>
     </tr>
     <tr>
-      <th>files</th>
+      <th>testnames</th>
       <td><p>Test script(s) to run. The .R extension of the filename is
 optional. For example, <code>"mytest"</code> or <code>c("mytest", "mytest2.R")</code>.
 If <code>NULL</code> (the default), all scripts in the tests/ directory will be
@@ -123,10 +123,9 @@ testing.</p></td>
     </tr>
     <tr>
       <th>compareImages</th>
-      <td><p>Should screenshots be compared? It can be useful to
-set this to <code>FALSE</code> when the expected results were taken on a
-different platform from the one currently being used to test the
-application.</p></td>
+      <td><p>Should screenshots be compared? It can be useful to set
+this to <code>FALSE</code> when the expected results were taken on a different
+platform from the one currently being used to test the application.</p></td>
     </tr>
     <tr>
       <th>interactive</th>
