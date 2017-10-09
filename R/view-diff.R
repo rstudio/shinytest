@@ -99,6 +99,9 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
 #' @param images Compare screenshot images (only used when \code{interactive} is
 #'   FALSE).
 #'
+#' @return A character vector the same length as \code{testnames}, with
+#'   \code{"accept"} or \code{"reject"} for each test.
+#'
 #' @seealso \code{\link{textTestDiff}} to get a text diff as a string.
 #'
 #' @import shiny
@@ -114,13 +117,19 @@ viewTestDiff <- function(appDir = ".", testnames = NULL,
 
     message("Differences in current results found for: ", paste(testnames, collapse = " "))
 
-    for (testname in testnames) {
+    results <- lapply(testnames, function(testname) {
       message("Viewing diff for ", testname)
       viewTestDiffSingle(appDir, testname)
-    }
+    })
+
+    names(results) <- testnames
+    invisible(results)
 
   } else {
-    cat(textTestDiff(appDir, testnames, images))
+    # textTestDiff returns a string with a "status" attribute
+    result <- textTestDiff(appDir, testnames, images)
+    cat(result)
+    invisible(attr(result, "status", exact = TRUE))
   }
 }
 
@@ -137,7 +146,6 @@ viewTestDiffSingle <- function(appDir = ".", testname = NULL) {
       shiny::runApp(system.file("diffviewerapp", package = "shinytest"))
     )
   )
-
 }
 
 
@@ -152,17 +160,30 @@ textTestDiff <- function(appDir = ".", testnames = NULL, images = TRUE) {
     testnames <- all_testnames(appDir)
   }
 
-  diff_txt <- lapply(
+  diff_results <- lapply(
     testnames,
     function(testname) {
-      paste0(
-        "==== ", testname, " ====\n",
-        textTestDiffSingle(appDir, testname, images)
+      result <- textTestDiffSingle(appDir, testname, images)
+
+      # Need to pass along status attribute
+      structure(
+        paste0(
+          "==== ", testname, " ====\n",
+          result
+        ),
+        status = attr(result, "status", exact = TRUE)
       )
     }
   )
 
-  paste(diff_txt, collapse = "\n")
+  # Each result object will have a "status" attribute, which is "accept" or "reject"
+  status <- vapply(diff_results, function(result) attr(result, "status", exact = TRUE), "")
+  names(status) <- testnames
+
+  structure(
+    paste(diff_results, collapse = "\n"),
+    status = status
+  )
 }
 
 
@@ -173,7 +194,9 @@ textTestDiffSingle <- function(appDir = ".", testname = NULL, images = TRUE) {
   expected_dir <- file.path(appDir, "tests", paste0(testname, "-expected"))
 
   if (dir_exists(expected_dir) && !dir_exists(current_dir)) {
-    return("No differences between expected and current results")
+    return(
+      structure("No differences between expected and current results", status = "accept")
+    )
   }
 
   if (images) {

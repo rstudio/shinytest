@@ -227,7 +227,7 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
         response <- readline("Would you like to view the differences between expected and current results [y/n]? ")
         if (tolower(response) == "y") {
           quiet <- TRUE
-          result <- viewTestDiff(appDir, testname, interactive)
+          result <- viewTestDiff(appDir, testname, interactive)[[1]]
 
           if (result == "accept") {
             snapshot_pass <- TRUE

@@ -4,13 +4,13 @@
 \alias{testApp}
 \title{Run tests for a Shiny application}
 \usage{
-testApp(appDir = ".", files = NULL, quiet = FALSE, compareImages = TRUE,
-  interactive = base::interactive())
+testApp(appDir = ".", testnames = NULL, quiet = FALSE,
+  compareImages = TRUE, interactive = base::interactive())
 }
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
 
-\item{files}{Test script(s) to run. The .R extension of the filename is
+\item{testnames}{Test script(s) to run. The .R extension of the filename is
 optional. For example, \code{"mytest"} or \code{c("mytest", "mytest2.R")}.
 If \code{NULL} (the default), all scripts in the tests/ directory will be
 run.}
@@ -18,10 +18,9 @@ run.}
 \item{quiet}{Should output be suppressed? This is useful for automated
 testing.}
 
-\item{compareImages}{Should screenshots be compared? It can be useful to
-set this to \code{FALSE} when the expected results were taken on a
-different platform from the one currently being used to test the
-application.}
+\item{compareImages}{Should screenshots be compared? It can be useful to set
+this to \code{FALSE} when the expected results were taken on a different
+platform from the one currently being used to test the application.}
 
 \item{interactive}{If there are any differences between current results and
 expected results, provide an interactive graphical viewer that shows the

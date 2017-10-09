@@ -1,22 +1,21 @@
 #' Run tests for a Shiny application
 #'
 #' @param appDir Path to the Shiny application to be tested.
-#' @param files Test script(s) to run. The .R extension of the filename is
+#' @param testnames Test script(s) to run. The .R extension of the filename is
 #'   optional. For example, \code{"mytest"} or \code{c("mytest", "mytest2.R")}.
 #'   If \code{NULL} (the default), all scripts in the tests/ directory will be
 #'   run.
 #' @param quiet Should output be suppressed? This is useful for automated
 #'   testing.
-#' @param compareImages Should screenshots be compared? It can be useful to
-#'   set this to \code{FALSE} when the expected results were taken on a
-#'   different platform from the one currently being used to test the
-#'   application.
+#' @param compareImages Should screenshots be compared? It can be useful to set
+#'   this to \code{FALSE} when the expected results were taken on a different
+#'   platform from the one currently being used to test the application.
 #' @param interactive If there are any differences between current results and
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
 #'
 #' @export
-testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
+testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
   compareImages = TRUE, interactive = base::interactive())
 {
   library(shinytest)
@@ -36,26 +35,26 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
 
   testsDir <- file.path(appDir, "tests")
 
-  found_files <- list.files(testsDir, pattern = "\\.[r|R]$")
-  if (!is.null(files)) {
+  found_testnames <- list.files(testsDir, pattern = "\\.[r|R]$")
+  if (!is.null(testnames)) {
     # Strip .R extension from supplied filenames and found filenames
-    files_no_ext <- sub("\\.[rR]$", "", files)
-    found_files_no_ext <- sub("\\.[rR]$", "", found_files)
+    testnames_no_ext <- sub("\\.[rR]$", "", testnames)
+    found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
 
     # Keep only specified files
-    idx <- match(files_no_ext, found_files_no_ext)
+    idx <- match(testnames_no_ext, found_testnames_no_ext)
 
     if (any(is.na(idx))) {
-      stop("Test files do not exist: ",
-        paste0(files[is.na(idx)], collapse =", ")
+      stop("Test scripts do not exist: ",
+        paste0(testnames[is.na(idx)], collapse =", ")
       )
     }
 
     # Keep only specified files
-    found_files <- found_files[idx]
+    found_testnames <- found_testnames[idx]
   }
 
-  if (length(found_files) == 0) {
+  if (length(found_testnames) == 0) {
     stop("No test scripts found in ", testsDir)
   }
 
@@ -63,7 +62,7 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
   if (!quiet) {
     message("Running ", appendLF = FALSE)
   }
-  lapply(found_files, function(file) {
+  lapply(found_testnames, function(testname) {
     # Run in test directory, and pass the (usually relative) path as an option,
     # so that the printed output can print the relative path.
     withr::local_dir(testsDir)
@@ -77,9 +76,9 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
 
     env <- new.env(parent = .GlobalEnv)
     if (!quiet) {
-      message(file, " ", appendLF = FALSE)
+      message(testname, " ", appendLF = FALSE)
     }
-    source(file, local = env)
+    source(testname, local = env)
   })
 
   gc()
@@ -88,8 +87,8 @@ testApp <- function(appDir = ".", files = NULL, quiet = FALSE,
 
   # Compare all results
   return(
-    snapshotCompare(appDir, quiet = quiet, images = compareImages,
-      interactive = interactive)
+    snapshotCompare(appDir, testnames = testnames, quiet = quiet,
+      images = compareImages, interactive = interactive)
   )
 }
 
