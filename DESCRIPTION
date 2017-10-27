@@ -1,6 +1,6 @@
 Package: shinytest
 Title: Test Shiny Apps
-Version: 1.2.0.9000
+Version: 1.2.0.9001
 Authors@R: c(
     person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"),
     person("Gábor", "Csárdi", role = "aut", email = "gabor@rstudio.com")
