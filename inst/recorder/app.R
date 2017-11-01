@@ -392,7 +392,7 @@ shinyApp(
 
           invisible(list(
             appDir = app_dir,
-            file = paste0(input$testname, ".R"),
+            file = input$testname,
             run = input$runScript
           ))
         }
