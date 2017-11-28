@@ -14,6 +14,12 @@
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
 #'
+#'
+#' @seealso \code{\link{snapshotCompare}} and \code{\link{snapshotUpdate}} if
+#'   you want to compare or update snapshots after testing. In most cases, the
+#'   user is prompted to do these tasks interactively, but there are also times
+#'   where it is useful to call these functions from the console.
+#'
 #' @export
 testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
   compareImages = TRUE, interactive = base::interactive())

@@ -115,6 +115,8 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #'   to set this to \code{FALSE} when the expected results were taken on a
 #'   different platform from the current results.
 #'
+#' @seealso \code{\link{testApp}}
+#'
 #' @export
 snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
   images = TRUE, quiet = FALSE, interactive = base::interactive()) {
@@ -278,8 +280,6 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
 }
 
 
-#' Update expected snapshot with current snapshot
-#'
 #' @rdname snapshotCompare
 #' @inheritParams snapshotCompare
 #' @export

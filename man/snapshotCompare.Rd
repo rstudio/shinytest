@@ -33,6 +33,7 @@ changes and allows the user to accept or reject the changes.}
 \description{
 This compares current and expected snapshots for a test set, and prints any
 differences to the console.
-
-Update expected snapshot with current snapshot
+}
+\seealso{
+\code{\link{testApp}}
 }
