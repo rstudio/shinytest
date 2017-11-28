@@ -288,6 +288,12 @@ ShinyDriver <- R6Class(
     checkUniqueWidgetNames = function()
       sd_checkUniqueWidgetNames(self, private),
 
+    executeScript = function(script, ...)
+      sd_executeScript(self, private, script, ...),
+
+    executeScriptAsync = function(script, ...)
+      sd_executeScriptAsync(self, private, script, ...),
+
     ## Main methods
 
     findWidget = function(name, iotype = c("auto", "input", "output"))
@@ -473,6 +479,15 @@ sd_checkUniqueWidgetNames <- function(self, private) {
   if (length(outputs) > 0) check("output", outputs)
 }
 
+sd_executeScript <- function(self, private, script, ...) {
+  "!DEBUG sd_executeScript"
+  private$web$executeScript(script, ...)
+}
+
+sd_executeScriptAsync <- function(self, private, script, ...) {
+  "!DEBUG sd_executeScriptAsync"
+  private$web$executeScriptAsync(script, ...)
+}
 
 sd_getTestSnapshotUrl = function(self, private, input, output, export,
                                  format) {
