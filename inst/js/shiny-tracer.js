@@ -41,7 +41,7 @@ window.shinytest = (function() {
                 var binding = findInputBinding(item.name);
                 var value = preprocess(item.name, item.value);
 
-                var $el = $("#" + item.name);
+                var $el = $("#" + escapeSelector(item.name));
                 binding.setValue($el[0], value);
                 $el.trigger("change");
             }
@@ -88,7 +88,7 @@ window.shinytest = (function() {
         // Given a DOM ID, return the input binding for that element; if not
         // found, throw an error.
         function findInputBinding(id) {
-            var $el = $("#" + id);
+            var $el = $("#" + escapeSelector(id));
             if ($el.length === 0 || !$el.data("shinyInputBinding")) {
                 var msg = "Unable to find input binding for element with id " + id;
                 shinytest.log("  " + msg);
@@ -103,7 +103,7 @@ window.shinytest = (function() {
         // preprocessor, simply return the value.
         function preprocess(id, value) {
             var binding = findInputBinding(id);
-            var $el = $("#" + id);
+            var $el = $("#" + escapeSelector(id));
 
             if (inputqueue.preprocessors[binding.name])
                 return inputqueue.preprocessors[binding.name]($el[0], value);
@@ -241,11 +241,11 @@ window.shinytest = (function() {
 
         // This is a trick to find duplicate ids
         function get(selector) {
-            var els = $(selector);
+            var els = $(escapeSelector(selector));
             return getids(els)
                 .map(function(x) {
                     var id = '#' + x + ',' + '#' + x;
-                    return getids($(id));
+                    return getids($(escapeSelector(id)));
                 });
         }
 
@@ -330,6 +330,12 @@ window.shinytest = (function() {
             shinytest.updating.splice(idx, 1);
         }
     });
+
+
+    // Escape meta characters in jQuery selectors: !"#$%&'()*+,-./:;<=>?@[\]^`{|}~
+    function escapeSelector(s) {
+        return s.replace(/([!"#$%&'()*+,-./:;<=>?@\[\\\]^`{|}~])/g, "\\$1");
+    }
 
     return shinytest;
 })();
