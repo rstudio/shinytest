@@ -241,11 +241,11 @@ window.shinytest = (function() {
 
         // This is a trick to find duplicate ids
         function get(selector) {
-            var els = $(escapeSelector(selector));
+            var els = $(selector);
             return getids(els)
                 .map(function(x) {
-                    var id = '#' + x + ',' + '#' + x;
-                    return getids($(escapeSelector(id)));
+                    var id = '#' + escapeSelector(x) + ',' + '#' + escapeSelector(x);
+                    return getids($(id));
                 });
         }
 
