@@ -58,6 +58,7 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 
     # Keep only specified files
     found_testnames <- found_testnames[idx]
+    found_testnames_no_ext <- found_testnames_no_ext[idx]
   }
 
   if (length(found_testnames) == 0) {
@@ -93,7 +94,7 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 
   # Compare all results
   return(
-    snapshotCompare(appDir, testnames = testnames, quiet = quiet,
+    snapshotCompare(appDir, testnames = found_testnames_no_ext, quiet = quiet,
       images = compareImages, interactive = interactive)
   )
 }
