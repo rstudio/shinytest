@@ -1,24 +1,24 @@
 
-random_open_port <- function(min = 3000, max = 9000) {
+random_open_port <- function(min = 3000, max = 9000, n = 20) {
   # Unsafe port list from shiny::runApp()
   valid_ports <- setdiff(min:max, c(3659, 4045, 6000, 6665:6669, 6697))
 
-  while (TRUE) {
-    port <- sample(valid_ports, 1)
+  # Try up to n ports
+  for (port in sample(valid_ports, n)) {
     handle <- NULL
 
-    # Keep trying ports until we find an open one
+    # Check if port is open
     tryCatch(
       handle <- httpuv::startServer("127.0.0.1", port, list()),
       error = function(e) { }
     )
     if (!is.null(handle)) {
       httpuv::stopServer(handle)
-      break
+      return(port)
     }
   }
 
-  port
+  stop("Cannot find an available port")
 }
 
 check_external <- function(x) {
