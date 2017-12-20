@@ -61,6 +61,10 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
     found_testnames_no_ext <- found_testnames_no_ext[idx]
   }
 
+  if (is.null(testnames)) {
+    found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
+  }
+
   if (length(found_testnames) == 0) {
     stop("No test scripts found in ", testsDir)
   }
@@ -69,7 +73,6 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
   if (!quiet) {
     message("Running ", appendLF = FALSE)
   }
-  found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
   lapply(found_testnames, function(testname) {
     # Run in test directory, and pass the (usually relative) path as an option,
     # so that the printed output can print the relative path.
