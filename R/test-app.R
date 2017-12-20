@@ -61,6 +61,10 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
     found_testnames_no_ext <- found_testnames_no_ext[idx]
   }
 
+  if (is.null(testnames)) {
+    found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
+  }
+
   if (length(found_testnames) == 0) {
     stop("No test scripts found in ", testsDir)
   }
