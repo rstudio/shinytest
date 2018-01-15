@@ -115,9 +115,6 @@ sd_startShiny <- function(self, private, path, seed) {
     )
   }
 
-  ## On windows, if is better to use single quotes
-  rcmd <- gsub('"', "'", rcmd)
-
   Rexe <- if (is_windows()) "R.exe" else "R"
   Rbin <- file.path(R.home("bin"), Rexe)
   args <- c("-q", "-e", rcmd)
