@@ -42,10 +42,10 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
   testsDir <- file.path(appDir, "tests")
 
   found_testnames <- list.files(testsDir, pattern = "\\.[r|R]$")
+  found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
   if (!is.null(testnames)) {
-    # Strip .R extension from supplied filenames and found filenames
+    # Strip .R extension from supplied filenames
     testnames_no_ext <- sub("\\.[rR]$", "", testnames)
-    found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
 
     # Keep only specified files
     idx <- match(testnames_no_ext, found_testnames_no_ext)
