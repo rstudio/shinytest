@@ -430,6 +430,11 @@ sd_stop <- function(self, private) {
   # If the app is being hosted locally, kill the process.
   if (!is.null(private$shinyProcess)) {
     self$logEvent("Killing Shiny process")
+
+    # Attempt soft-kill before hard-kill. This is a workaround for
+    # https://github.com/r-lib/processx/issues/95
+    private$shinyProcess$signal(tools::SIGTERM)
+    private$shinyProcess$wait(500)
     private$shinyProcess$kill()
   }
 
