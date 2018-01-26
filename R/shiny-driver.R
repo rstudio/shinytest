@@ -429,12 +429,17 @@ sd_stop <- function(self, private) {
 
   # If the app is being hosted locally, kill the process.
   if (!is.null(private$shinyProcess)) {
-    self$logEvent("Killing Shiny process")
+    self$logEvent("Ending Shiny process")
 
     # Attempt soft-kill before hard-kill. This is a workaround for
     # https://github.com/r-lib/processx/issues/95
-    private$shinyProcess$signal(tools::SIGTERM)
+    # SIGINT quits the Shiny application, SIGTERM tells R to quit.
+    # Unfortunately, SIGTERM isn't quite the same as `q()`, because
+    # finalizers with onexit=TRUE don't seem to run.
+    private$shinyProcess$signal(tools::SIGINT)
     private$shinyProcess$wait(500)
+    private$shinyProcess$signal(tools::SIGTERM)
+    private$shinyProcess$wait(250)
     private$shinyProcess$kill()
   }
 
