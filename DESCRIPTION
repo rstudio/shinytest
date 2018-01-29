@@ -10,7 +10,7 @@ License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/rstudio/shinytest
 BugReports: https://github.com/rstudio/shinytest/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 Imports:
     assertthat,
     digest,
@@ -18,7 +18,7 @@ Imports:
     debugme,
     parsedate,
     pingr,
-    processx (>= 2.0.1.9001),
+    callr (>= 2.0.0),
     R6,
     rematch,
     httr,
@@ -36,7 +36,6 @@ Suggests:
 Remotes:
     gaborcsardi/debugme,
     rstudio/webdriver,
-    r-lib/processx,
     rstudio/rmarkdown
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)

@@ -1,5 +1,5 @@
 
-#' @importFrom processx process
+#' @importFrom callr process
 #' @importFrom webdriver Session
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
