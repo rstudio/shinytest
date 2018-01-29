@@ -5,7 +5,7 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 9da3f5f4b11368cca889d27baec5cf9e6b850fe5]",
+      "html": "[html data sha1: 42fb57ba429254725e5ed9413c47edb676769d53]",
       "deps": [
         {
           "name": "jquery",
@@ -117,7 +117,7 @@
       ]
     },
     "outd7d6c1f84a304cb0": {
-      "src": "[image data sha1: 62738af9321a48f0f11e20df350c0000be44c69e]",
+      "src": "[image data sha1: 22a3902d264c305c16fc20447292d3e7da130c61]",
       "width": 738,
       "height": 626,
       "coordmap": [
