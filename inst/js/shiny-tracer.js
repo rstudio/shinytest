@@ -82,6 +82,17 @@ window.shinytest = (function() {
 
             "shiny.fileInputBinding": function(el, value) {
                 throw "Setting value of fileInput is not supported. Use app$uploadFile() instead";
+            },
+
+            "shiny.sliderInput": function(el, value) {
+                if (typeof(value) === "string" &&
+                    /\d\d\d\d-\d\d-\d\d/.test(value))
+                {
+                    shinytest.log(new Date(value).getTime() );
+                    return new Date(value).getTime();
+                } else {
+                    return value;
+                }
             }
         };
 
