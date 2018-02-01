@@ -213,7 +213,6 @@ If your test script has already been created, you can set the random seed by edi
 app <- ShinyDriver$new("../", seed = 4323)
 ```
 
-
 ## Widgets
 
 ### Uploading files
@@ -293,6 +292,21 @@ vals <- app$getAllValues()
 # vals <- app$setInputs(checkbox = TRUE)
 
 expect_identical(vals$output$checkboxOut, "[1] TRUE")
+```
+
+
+## Dealing with dynamic data
+
+If your application uses a data source that changes over time, then a snapshot taken yesterday may not match a snapshot taken today, even if the app itself hasn't changed. Dynamic data inherently poses a challenge for snapshot-based testing.
+
+This problem can be avoided by detecting when the application is being tested, and in that case use a static data set instead. To do the detection, you can do something like the following:
+
+```{r}
+if (isTRUE(getOption("shiny.testmode"))) {
+  # Load static/dummy data here
+} else {
+  # Load normal dynamic data here
+}
 ```
 
 
