@@ -263,6 +263,17 @@ app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">a
 <span class="kw">expect_identical</span>(vals<span class="op">$</span>output<span class="op">$</span>checkboxOut, <span class="st">"[1] TRUE"</span>)</code></pre></div>
 </div>
 </div>
+<div id="dealing-with-dynamic-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dealing-with-dynamic-data" class="anchor"></a>Dealing with dynamic data</h2>
+<p>If your application uses a data source that changes over time, then a snapshot taken yesterday may not match a snapshot taken today, even if the app itself hasn’t changed. Dynamic data inherently poses a challenge for snapshot-based testing.</p>
+<p>This problem can be avoided by detecting when the application is being tested, and in that case use a static data set instead. To do the detection, you can do something like the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="kw">isTRUE</span>(<span class="kw">getOption</span>(<span class="st">"shiny.testmode"</span>))) {
+  <span class="co"># Load static/dummy data here</span>
+} <span class="cf">else</span> {
+  <span class="co"># Load normal dynamic data here</span>
+}</code></pre></div>
+</div>
 <div id="limitations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#limitations" class="anchor"></a>Limitations</h2>
@@ -290,6 +301,7 @@ app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">a
 <li><a href="#customizing-test-scripts">Customizing test scripts</a></li>
       <li><a href="#widgets">Widgets</a></li>
       <li><a href="#debugging-test-scripts">Debugging test scripts</a></li>
+      <li><a href="#dealing-with-dynamic-data">Dealing with dynamic data</a></li>
       <li><a href="#limitations">Limitations</a></li>
       <li><a href="#next">Next</a></li>
       </ul>
