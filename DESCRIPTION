@@ -25,7 +25,7 @@ Imports:
     shiny (>= 1.0.4),
     testthat (>= 1.0.0),
     utils,
-    webdriver (>= 1.0.2.9002),
+    webdriver (>= 1.0.4.9000),
     htmlwidgets,
     jsonlite,
     withr,
