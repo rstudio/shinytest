@@ -1,3 +1,5 @@
+library(shinytest)
+
 app_dir   <- getOption("shinytest.app.dir")
 test_name <- getOption("shinytest.test.name")
 
