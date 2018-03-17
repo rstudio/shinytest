@@ -1,5 +1,3 @@
-library(shinytest)
-
 app_dir   <- getOption("shinytest.app.dir")
 test_name <- getOption("shinytest.test.name")
 
@@ -33,13 +31,13 @@ shinyApp(
     ),
     div(
       class = "content",
-      viewTestDiffWidget(app_dir, test_name)
+      shinytest::viewTestDiffWidget(app_dir, test_name)
     )
   ),
 
   server = function(input, output) {
     observeEvent(input$accept, {
-      snapshotUpdate(app_dir, test_name)
+      shinytest::snapshotUpdate(app_dir, test_name)
       stopApp("accept")
     })
 
