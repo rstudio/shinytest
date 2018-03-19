@@ -11,7 +11,7 @@
 #'
 #' @export
 dependenciesInstalled <- function() {
-  is.null(shinytest:::find_phantom())
+  !is.null(shinytest:::find_phantom())
 }
 
 #' Installs missing dependencies
