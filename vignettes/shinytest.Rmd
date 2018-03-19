@@ -78,7 +78,7 @@ After modifying some inputs and taking a snapshot, it will look something like t
 
 ![](screenshot-recorder-2.png)
 
-It is also possible to take a *target* snapshot. This is a snapshot of on or more specified output (instead of the default, which is to snapshot the entire application). To do this, hold down the Control (or Command) button on your keyboard and click on an output; it will snapshot just that one output.
+It is also possible to take a *target* snapshot. This is a snapshot of one or more specified output (instead of the default, which is to snapshot the entire application). To do this, hold down the Control (or Command) button on your keyboard and click on an output; it will snapshot just that one output.
 
 
 When you are done recording a sequence of events, click on the "Save script and exit test event recorder" button. If you are in the RStudio IDE, it will open the test script in the `tests/` subdirectory of the application. In this case, the name of the script is `mytest.R`:
