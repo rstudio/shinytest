@@ -36,6 +36,7 @@ Suggests:
 Remotes:
     gaborcsardi/debugme,
     rstudio/webdriver,
-    rstudio/rmarkdown
+    rstudio/rmarkdown,
+    r-lib/callr
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
