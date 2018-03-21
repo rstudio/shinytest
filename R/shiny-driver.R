@@ -424,6 +424,9 @@ sd_setWindowSize <- function(self, private, width, height) {
 sd_stop <- function(self, private) {
   "!DEBUG sd_stop"
 
+  if (private$state == "stopped")
+    return(invisible(self))
+
   self$logEvent("Closing PhantomJS session")
   private$web$delete()
 
