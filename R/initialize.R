@@ -87,10 +87,6 @@ sd_startShiny <- function(self, private, path, seed) {
 
   private$path <- normalizePath(path)
 
-  libpath <- paste(deparse(.libPaths()), collapse = "")
-
-  rcmd <- sprintf(".libPaths(c(%s, .libPaths()))", libpath)
-
   if (!is.null(seed)) {
     # Set the general random seed and Shiny's internal random seed
     rcmd <- paste0(rcmd, "; ",
@@ -98,42 +94,38 @@ sd_startShiny <- function(self, private, path, seed) {
     )
   }
 
+  rmd <- is_rmd(path)
   port <- random_open_port()
-  if (is_rmd(path)) {
-    # Shiny document
-    rcmd <- paste0(
-      rcmd,
-      "; options(shiny.testmode = TRUE); ",
-      sprintf("rmarkdown::run('%s', shiny_args=list(port=%d))", path, port)
-    )
-  } else {
-    # Normal shiny app
-    rcmd <- paste0(
-      rcmd,
-      "; options(shiny.testmode = TRUE); ",
-      sprintf("shiny::runApp('%s', port=%d)", path, port)
-    )
-  }
-
-  ## On windows, if is better to use single quotes
-  rcmd <- gsub('"', "'", rcmd)
-
-  Rexe <- if (is_windows()) "R.exe" else "R"
-  Rbin <- file.path(R.home("bin"), Rexe)
-  args <- c("-q", "-e", rcmd)
 
   tempfile_format <- tempfile("%s-", fileext = ".log")
+
   p <- with_envvar(
     c("R_TESTS" = NA),
-    process$new(
-      command = Rbin,
-      args = args,
+    callr::r_bg(
+      function(path, port, rmd, seed) {
+
+        if (!is.null(seed)) {
+          set.seed(seed);
+          shiny:::withPrivateSeed(set.seed(seed + 11))
+        }
+
+        options(shiny.testmode = TRUE)
+
+        if (rmd) {
+          # Shiny document
+          rmarkdown::run(path, shiny_args = list(port = port))
+        } else {
+          # Normal shiny app
+          shiny::runApp(path, port = port)
+        }
+      },
+      args = list(path, port, rmd, seed),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
-      stderr = sprintf(tempfile_format, "shiny-stderr"),
-      supervise = TRUE
+      stderr = sprintf(tempfile_format, "shiny-stderr")
+      # r_bg does not yet support supervise option
+      # supervise = TRUE
     )
   )
-
   "!DEBUG waiting for shiny to start"
   if (! p$is_alive()) {
     stop(
