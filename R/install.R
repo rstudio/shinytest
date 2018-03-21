@@ -11,7 +11,7 @@
 #'
 #' @export
 dependenciesInstalled <- function() {
-  !is.null(shinytest::find_phantom())
+  !is.null(find_phantom())
 }
 
 #' Installs missing dependencies
@@ -34,7 +34,7 @@ dependenciesInstalled <- function() {
 #'
 #' @export
 installDependencies <- function() {
-  if (!is.null(shinytest::find_phantom())) {
+  if (!is.null(find_phantom())) {
     webdriver::install_phantomjs()
   }
 }
