@@ -71,6 +71,18 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
   # Run the test script
   if (isTRUE(res$run)) {
     testApp(rel_path(res$appDir), res$file)
+  } else {
+    if (length(res$dont_run_reasons) > 0) {
+      message(
+        "Not running test script because:\n  ",
+        paste(res$dont_run_reasons, collapse = "\n  "), "\n"
+      )
+    }
+
+    message(sprintf(
+      'After making changes to the test script, run it with:\n  testApp("%s", "%s")',
+      rel_path(res$appDir), res$file
+    ))
   }
 
   invisible(res$file)

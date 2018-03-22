@@ -4,6 +4,13 @@ app_filename <- getOption("shinytest.app.filename")
 load_mode    <- getOption("shinytest.load.mode")
 start_seed   <- getOption("shinytest.seed")
 
+# If there are any reasons to not run a test, a message should be appended to
+# this vector.
+dont_run_reasons <- character(0)
+add_dont_run_reason <- function(reason) {
+  dont_run_reasons <<- c(dont_run_reasons, reason)
+}
+
 if (is.null(target_url) || is.null(app_dir)) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
     "'shinytest.app.dir' options to be set.")
@@ -133,14 +140,29 @@ codeGenerators <- list(
     }
 
     if (event$inputType == "shiny.fileupload") {
-      # Special case for file uploads
-      paste0(
+      filename <- processInputValue(event$value, event$inputType)
+
+      code <- paste0(
         "app$uploadFile(",
-        quoteName(event$name), " = ",
-        processInputValue(event$value, event$inputType),
+        quoteName(event$name), " = ", filename,
         args,
         ")"
       )
+
+      # Get unescaped filenames in a char vector, with full path
+      filepaths <- vapply(event$value, `[[`, "name", FUN.VALUE = "")
+      filepaths <- file.path(app_dir, "tests", filepaths)
+
+      # Check that all files exist. If not, add a message and don't run test
+      # automatically on exit.
+      if (!all(file.exists(filepaths))) {
+        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/ directory, or copy the file to the app's tests/ directory.")
+        code <- paste0(code,
+          " # <-- This should be the path to the file, relative to the app's tests/ directory"
+        )
+      }
+
+      code
 
     } else {
       paste0(
@@ -393,7 +415,8 @@ shinyApp(
           invisible(list(
             appDir = app_dir,
             file = paste0(input$testname, ".R"),
-            run = input$runScript
+            run = input$runScript && (length(dont_run_reasons) == 0),
+            dont_run_reasons = dont_run_reasons
           ))
         }
       })
