@@ -1,6 +1,6 @@
 Package: shinytest
 Title: Test Shiny Apps
-Version: 1.2.0.9001
+Version: 1.2.0.9002
 Authors@R: c(
     person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"),
     person("Gábor", "Csárdi", role = "aut", email = "gabor@rstudio.com")
@@ -18,7 +18,7 @@ Imports:
     debugme,
     parsedate,
     pingr,
-    callr (>= 2.0.0),
+    callr (>= 2.0.2.9002),
     R6,
     rematch,
     httr,
@@ -34,9 +34,7 @@ Suggests:
     rmarkdown,
     flexdashboard
 Remotes:
-    gaborcsardi/debugme,
     rstudio/webdriver,
-    rstudio/rmarkdown,
     r-lib/callr
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)

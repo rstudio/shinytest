@@ -113,9 +113,8 @@ sd_startShiny <- function(self, private, path, seed) {
       },
       args = list(path, port, is_rmd(path), seed),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
-      stderr = sprintf(tempfile_format, "shiny-stderr")
-      # r_bg does not yet support supervise option
-      # supervise = TRUE
+      stderr = sprintf(tempfile_format, "shiny-stderr"),
+      supervise = TRUE
     )
   )
   "!DEBUG waiting for shiny to start"
