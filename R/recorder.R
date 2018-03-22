@@ -18,11 +18,19 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     if (grepl("^http(s?)://", app)) {
       stop("Recording tests for remote apps is not yet supported.")
     } else {
-      # If it's an Rmd file, make sure there aren't multiple Rmds in that
-      # directory.
-      if (is_rmd(app) &&
-          length(dir(dirname(app), pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
-        stop("For testing, only one .Rmd file is allowed per directory.")
+      app <- app_path(app)
+
+      if (is_rmd(app)) {
+        # If it's an Rmd file, make sure there aren't multiple Rmds in that
+        # directory.
+        if (length(dir(dirname(app), pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
+          stop("For testing, only one .Rmd file is allowed per directory.")
+        }
+
+        # Rmds need a random seed. Automatically create one if needed.
+        if (is.null(seed)) {
+          seed <- floor(runif(1, min = 0, max = 1e5))
+        }
       }
 
       # It's a path to an app; start the app

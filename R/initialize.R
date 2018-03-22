@@ -87,7 +87,6 @@ sd_startShiny <- function(self, private, path, seed) {
 
   private$path <- normalizePath(path)
 
-  rmd <- is_rmd(path)
   port <- random_open_port()
 
   tempfile_format <- tempfile("%s-", fileext = ".log")
@@ -112,7 +111,7 @@ sd_startShiny <- function(self, private, path, seed) {
           shiny::runApp(path, port = port)
         }
       },
-      args = list(path, port, rmd, seed),
+      args = list(path, port, is_rmd(path), seed),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
       stderr = sprintf(tempfile_format, "shiny-stderr")
       # r_bg does not yet support supervise option
