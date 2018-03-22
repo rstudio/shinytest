@@ -87,13 +87,6 @@ sd_startShiny <- function(self, private, path, seed) {
 
   private$path <- normalizePath(path)
 
-  if (!is.null(seed)) {
-    # Set the general random seed and Shiny's internal random seed
-    rcmd <- paste0(rcmd, "; ",
-      sprintf("set.seed(%s); shiny:::withPrivateSeed(set.seed(%s))", seed, seed + 11)
-    )
-  }
-
   rmd <- is_rmd(path)
   port <- random_open_port()
 
