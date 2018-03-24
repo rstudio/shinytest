@@ -4,7 +4,8 @@
 \alias{recordTest}
 \title{Launch test event recorder for a Shiny app}
 \usage{
-recordTest(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL)
+recordTest(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL,
+  load_timeout = 10000)
 }
 \arguments{
 \item{app}{A \code{\link{ShinyDriver}} object, or path to a Shiny
@@ -17,6 +18,10 @@ script should be appropriate for load testing.}
 
 \item{seed}{A random seed to set before running the app. This seed will also
 be used in the test script.}
+
+\item{load_timeout}{A timeout period to allow the app to load. When using
+global.R the load time of an app can increase causing an error message
+"Cannot find shiny port number. Error: ..."}
 }
 \description{
 Launch test event recorder for a Shiny app

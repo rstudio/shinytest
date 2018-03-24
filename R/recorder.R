@@ -7,8 +7,12 @@
 #'   script should be appropriate for load testing.
 #' @param seed A random seed to set before running the app. This seed will also
 #'   be used in the test script.
+#' @param load_timeout A timeout period to allow the app to load. When using
+#'   global.R the load time of an app can increase causing an error message
+#'   "Cannot find shiny port number. Error: ..."
 #' @export
-recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL) {
+recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE,
+                       seed = NULL, load_timeout = 10000) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
@@ -34,7 +38,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
       }
 
       # It's a path to an app; start the app
-      app <- ShinyDriver$new(app, seed = seed, loadTimeout = 10000)
+      app <- ShinyDriver$new(app, seed = seed, loadTimeout = load_timeout)
       on.exit({
         rm(app)
         gc()
