@@ -68,9 +68,13 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     res <- shiny::runApp(system.file("recorder", package = "shinytest"))
   )
 
-  # Run the test script
-  if (isTRUE(res$run)) {
+  if (is.null(res$appDir)) {
+    # Quit without saving
+
+  } else if (isTRUE(res$run)) {
+    # Run the test script
     testApp(rel_path(res$appDir), res$file)
+
   } else {
     if (length(res$dont_run_reasons) > 0) {
       message(
