@@ -3,6 +3,7 @@ app_dir      <- getOption("shinytest.app.dir")
 app_filename <- getOption("shinytest.app.filename")
 load_mode    <- getOption("shinytest.load.mode")
 start_seed   <- getOption("shinytest.seed")
+shiny_options<- getOption("shinytest.shiny.options")
 
 # If there are any reasons to not run a test, a message should be appended to
 # this vector.
@@ -27,6 +28,23 @@ registerInputHandler("shinytest.testevents", function(val, shinysession, name) {
 escapeString <- function(s) {
   gsub('"', '\\"', s, fixed = TRUE)
 }
+
+# A replacement for deparse() that's a little less verbose for named lists.
+deparse2 <- function(x) {
+  expr <- deparse(x)
+  expr <- paste(expr, collapse = "")
+
+  # If the deparsed expression is something like:
+  #   "structure(list(a = 1, b = 2), .Names = c(\"a\", \"b\"))"
+  # simplify it to "list(a = 1, b = 2)".
+  expr <- sub("^structure\\((list.*), \\.Names = c\\([^(]+\\)\\)$", "\\1", expr)
+  # Same as above, but for single item in .Names, like:
+  #  "structure(list(a = 1), .Names = \"a\")"
+  expr <- sub('^structure\\((list.*), \\.Names = \\"[^\\"]*\\"\\)$', "\\1", expr)
+
+  expr
+}
+
 
 # A modified version of shiny::numericInput but with a placholder
 numericInput <- function(..., placeholder = NULL) {
@@ -246,9 +264,11 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE) {
     if (load_mode) {
       'app <- ShinyLoadDriver$new()'
     } else {
+
       paste0(
         'app <- ShinyDriver$new("', paste("..", app_filename, sep = "/"), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
+        if (length(shiny_options) > 0) paste0(", shinyOptions = ", deparse2(shiny_options)),
         ')'
       )
     },

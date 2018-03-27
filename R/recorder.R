@@ -7,8 +7,10 @@
 #'   script should be appropriate for load testing.
 #' @param seed A random seed to set before running the app. This seed will also
 #'   be used in the test script.
+#' @param shinyOptions A list of options to pass to \code{runApp()}.
 #' @export
-recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL) {
+recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL,
+  shinyOptions = list()) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
@@ -34,7 +36,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
       }
 
       # It's a path to an app; start the app
-      app <- ShinyDriver$new(app, seed = seed, loadTimeout = 10000)
+      app <- ShinyDriver$new(app, seed = seed, loadTimeout = 10000, shinyOptions = shinyOptions)
       on.exit({
         rm(app)
         gc()
@@ -59,11 +61,12 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
   # Use options to pass value to recorder app
   withr::with_options(
     list(
-      shinytest.recorder.url = url,
-      shinytest.app.dir      = app$getAppDir(),
-      shinytest.app.filename = app$getAppFilename(),
-      shinytest.load.mode    = load_mode,
-      shinytest.seed         = seed
+      shinytest.recorder.url  = url,
+      shinytest.app.dir       = app$getAppDir(),
+      shinytest.app.filename  = app$getAppFilename(),
+      shinytest.load.mode     = load_mode,
+      shinytest.seed          = seed,
+      shinytest.shiny.options = shinyOptions
     ),
     res <- shiny::runApp(system.file("recorder", package = "shinytest"))
   )

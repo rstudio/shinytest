@@ -3,7 +3,8 @@
 #' @importFrom webdriver Session
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
-                          debug, phantomTimeout, seed, cleanLogs) {
+                          debug, phantomTimeout, seed, cleanLogs,
+                          shinyOptions) {
 
   private$cleanLogs <- cleanLogs
 
@@ -19,7 +20,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   } else {
     "!DEBUG starting shiny app from path"
     self$logEvent("Starting Shiny app")
-    private$startShiny(path, seed)
+    private$startShiny(path, seed, shinyOptions)
   }
 
   "!DEBUG create new phantomjs session"
@@ -81,20 +82,22 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path, seed) {
+sd_startShiny <- function(self, private, path, seed, shinyOptions) {
 
   assert_that(is_string(path))
 
   private$path <- normalizePath(path)
 
-  port <- random_open_port()
+  if (is.null(shinyOptions$port)) {
+    shinyOptions$port <- random_open_port()
+  }
 
   tempfile_format <- tempfile("%s-", fileext = ".log")
 
   p <- with_envvar(
     c("R_TESTS" = NA),
     callr::r_bg(
-      function(path, port, rmd, seed) {
+      function(path, shinyOptions, rmd, seed) {
 
         if (!is.null(seed)) {
           set.seed(seed);
@@ -105,13 +108,13 @@ sd_startShiny <- function(self, private, path, seed) {
 
         if (rmd) {
           # Shiny document
-          rmarkdown::run(path, shiny_args = list(port = port))
+          rmarkdown::run(path, shiny_args = shinyOptions)
         } else {
           # Normal shiny app
-          shiny::runApp(path, port = port)
+          do.call(shiny::runApp, c(path, shinyOptions))
         }
       },
-      args = list(path, port, is_rmd(path), seed),
+      args = list(path, shinyOptions, is_rmd(path), seed),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
       stderr = sprintf(tempfile_format, "shiny-stderr"),
       supervise = TRUE
