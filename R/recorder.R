@@ -34,7 +34,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 
         # Rmds need a random seed. Automatically create one if needed.
         if (is.null(seed)) {
-          seed <- floor(runif(1, min = 0, max = 1e5))
+          seed <- floor(stats::runif(1, min = 0, max = 1e5))
         }
       }
 
