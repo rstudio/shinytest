@@ -11,16 +11,18 @@
 #'
 #' @export
 dependenciesInstalled <- function() {
-  !is.null(find_phantom())
+  !is.null(find_phantom(quiet = TRUE))
 }
 
 #' Installs missing dependencies
 #'
-#' Installs all the required system depencies to record and run tests.
+#' Installs all the required system depencies to record and run tests. This will
+#' install a headless web browser, PhantomJS.
 #'
 #'
 #' @seealso \code{\link{dependenciesInstalled}} to check if dependencies are
-#'   missing.
+#'   missing. For more information about where PhantomJS will be installed, see
+#'   \code{\link[webdriver]{install_phantomjs}}.
 #'
 #' @examples
 #' \dontrun{
@@ -34,7 +36,7 @@ dependenciesInstalled <- function() {
 #'
 #' @export
 installDependencies <- function() {
-  if (!is.null(find_phantom())) {
+  if (is.null(find_phantom(quiet = TRUE))) {
     webdriver::install_phantomjs()
   }
 }

@@ -4,7 +4,8 @@
 \alias{recordTest}
 \title{Launch test event recorder for a Shiny app}
 \usage{
-recordTest(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL)
+recordTest(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL,
+  shinyOptions = list())
 }
 \arguments{
 \item{app}{A \code{\link{ShinyDriver}} object, or path to a Shiny
@@ -17,6 +18,8 @@ script should be appropriate for load testing.}
 
 \item{seed}{A random seed to set before running the app. This seed will also
 be used in the test script.}
+
+\item{shinyOptions}{A list of options to pass to \code{runApp()}.}
 }
 \description{
 Launch test event recorder for a Shiny app
