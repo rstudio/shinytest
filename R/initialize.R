@@ -10,6 +10,10 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 
   self$logEvent("Start ShinyDriver initialization")
 
+  if (is.null(shinytest:::find_phantom())) {
+    stop("PhantomJS not found.")
+  }
+
   "!DEBUG get phantom port (starts phantom if not running)"
   self$logEvent("Getting PhantomJS port")
   private$phantomPort <- get_phantomPort(timeout = phantomTimeout)
