@@ -7,7 +7,7 @@
     "dynamic_value": " int 17",
     "input_type_text": "slider",
     "ui": {
-      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"dynamic\">Dynamic<\/label>\n  <input class=\"js-range-slider\" id=\"dynamic\" data-min=\"1\" data-max=\"20\" data-from=\"10\" data-step=\"1\" data-grid=\"true\" data-grid-num=\"9.5\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-keyboard-step=\"5.26315789473684\" data-data-type=\"number\"/>\n<\/div>",
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"dynamic\">Dynamic<\/label>\n  <input class=\"js-range-slider\" id=\"dynamic\" data-min=\"1\" data-max=\"20\" data-from=\"10\" data-step=\"1\" data-grid=\"true\" data-grid-num=\"9.5\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"number\"/>\n<\/div>",
       "deps": [
         {
           "name": "ionrangeslider",

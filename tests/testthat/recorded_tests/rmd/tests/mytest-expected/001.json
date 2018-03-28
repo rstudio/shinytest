@@ -5,7 +5,7 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 42fb57ba429254725e5ed9413c47edb676769d53]",
+      "html": "[html data sha1: 65a0afabe07dd2d0fa9755aac7d7c5f41895f940]",
       "deps": [
         {
           "name": "jquery",
@@ -142,7 +142,8 @@
 
           }
         }
-      ]
+      ],
+      "error": null
     }
   },
   "export": {
