@@ -20,7 +20,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   } else {
     "!DEBUG starting shiny app from path"
     self$logEvent("Starting Shiny app")
-    private$startShiny(path, seed, shinyOptions)
+    private$startShiny(path, seed, loadTimeout, shinyOptions)
   }
 
   "!DEBUG create new phantomjs session"
@@ -82,7 +82,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path, seed, shinyOptions) {
+sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) {
 
   assert_that(is_string(path))
 
@@ -129,8 +129,9 @@ sd_startShiny <- function(self, private, path, seed, shinyOptions) {
   }
 
   "!DEBUG finding shiny port"
-  ## Try to read out the port, keep trying for 10 seconds
-  for (i in 1:50) {
+  ## Try to read out the port. Try 5 times/sec, until timeout.
+  max_i <- loadTimeout / 1000 * 5
+  for (i in seq_len(max_i)) {
     err_lines <- readLines(p$get_error_file())
 
     if (!p$is_alive()) {
@@ -140,7 +141,7 @@ sd_startShiny <- function(self, private, path, seed, shinyOptions) {
 
     Sys.sleep(0.2)
   }
-  if (i == 50) {
+  if (i == max_i) {
     stop("Cannot find shiny port number. Error:\n", paste(err_lines, collapse = "\n"))
   }
 

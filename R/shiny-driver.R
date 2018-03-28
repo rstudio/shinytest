@@ -363,8 +363,9 @@ ShinyDriver <- R6Class(
     eventLog = list(),
     cleanLogs = TRUE,                  # Whether to clean logs when GC'd
 
-    startShiny = function(path, seed = NULL, shinyOptions = list())
-      sd_startShiny(self, private, path, seed, shinyOptions),
+    startShiny = function(path, seed = NULL, loadTimeout = 10000,
+                          shinyOptions = list())
+      sd_startShiny(self, private, path, seed, loadTimeout, shinyOptions),
 
     getShinyUrl = function()
       sd_getShinyUrl(self, private),

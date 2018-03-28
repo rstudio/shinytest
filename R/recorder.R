@@ -7,10 +7,13 @@
 #'   script should be appropriate for load testing.
 #' @param seed A random seed to set before running the app. This seed will also
 #'   be used in the test script.
-#' @param shinyOptions A list of options to pass to \code{runApp()}.
+#' @param loadTimeout Maximum time to wait for the Shiny application to load, in
+#'   milliseconds. If a value is provided, it will be saved in the test script.
+#' @param shinyOptions A list of options to pass to \code{runApp()}. If a value
+#'   is provided, it will be saved in the test script.
 #' @export
 recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL,
-  shinyOptions = list()) {
+  loadTimeout = 10000, shinyOptions = list()) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
@@ -36,7 +39,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
       }
 
       # It's a path to an app; start the app
-      app <- ShinyDriver$new(app, seed = seed, loadTimeout = 10000, shinyOptions = shinyOptions)
+      app <- ShinyDriver$new(app, seed = seed, loadTimeout = loadTimeout, shinyOptions = shinyOptions)
       on.exit({
         rm(app)
         gc()
@@ -65,6 +68,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
       shinytest.app.dir       = app$getAppDir(),
       shinytest.app.filename  = app$getAppFilename(),
       shinytest.load.mode     = load_mode,
+      shinytest.load.timeout  = if (!missing(loadTimeout)) loadTimeout,
       shinytest.seed          = seed,
       shinytest.shiny.options = shinyOptions
     ),

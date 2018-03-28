@@ -2,6 +2,7 @@ target_url   <- getOption("shinytest.recorder.url")
 app_dir      <- getOption("shinytest.app.dir")
 app_filename <- getOption("shinytest.app.filename")
 load_mode    <- getOption("shinytest.load.mode")
+load_timeout <- getOption("shinytest.load.timeout")
 start_seed   <- getOption("shinytest.seed")
 shiny_options<- getOption("shinytest.shiny.options")
 
@@ -268,6 +269,7 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE) {
       paste0(
         'app <- ShinyDriver$new("', paste("..", app_filename, sep = "/"), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
+        if (!is.null(load_timeout)) paste0(", loadTimeout = ", load_timeout),
         if (length(shiny_options) > 0) paste0(", shinyOptions = ", deparse2(shiny_options)),
         ')'
       )
