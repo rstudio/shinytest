@@ -75,6 +75,12 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     # Quit without saving
 
   } else if (isTRUE(res$run)) {
+
+    # Before running the test, sometimes we need to make sure the previous run
+    # of the app is shut down. For example, if a port is specified in
+    # shinyOptions, it needs to be freed up before starting the app again.
+    gc()
+
     # Run the test script
     testApp(rel_path(res$appDir), res$file)
 
