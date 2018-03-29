@@ -1,8 +1,9 @@
-urls:
-  reference: http://rstudio.github.io/shinytest//reference
-  article: http://rstudio.github.io/shinytest//articles
+pandoc: 2.1.3
+pkgdown: 0.1.0.9000
+pkgdown_sha: ~
 articles:
   ci: ci.html
   in-depth: in-depth.html
+  package: package.html
   shinytest: shinytest.html
 

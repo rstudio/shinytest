@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><code>testthat</code> expectation for a Shiny update — expectUpdate • shinytest</title>
+<title>Checks all dependencies are installed — dependenciesInstalled • shinytest</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,9 +25,11 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="<code>testthat</code> expectation for a Shiny update — expectUpdate" />
+<meta property="og:title" content="Checks all dependencies are installed — dependenciesInstalled" />
 
-<meta property="og:description" content="testthat expectation for a Shiny update" />
+<meta property="og:description" content="Checks that all the required system dependencies are installed properly,
+returns. If dependencie are missing, consider running
+installDependencies." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,62 +119,37 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><code>testthat</code> expectation for a Shiny update</h1>
-    <small>Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/expect.R'><code>R/expect.R</code></a></small>
+    <h1>Checks all dependencies are installed</h1>
+    <small>Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/install.R'><code>R/install.R</code></a></small>
     </div>
 
     
-    <p><code>testthat</code> expectation for a Shiny update</p>
+    <p>Checks that all the required system dependencies are installed properly,
+returns. If dependencie are missing, consider running
+<a href='installDependencies.html'>installDependencies</a>.</p>
     
 
-    <pre class="usage"><span class='fu'>expectUpdate</span>(<span class='no'>app</span>, <span class='no'>output</span>, <span class='no'>...</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>3000</span>, <span class='kw'>iotype</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auto"</span>, <span class='st'>"input"</span>,
-  <span class='st'>"output"</span>))</pre>
+    <pre class="usage"><span class='fu'>dependenciesInstalled</span>()</pre>
+        
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>TRUE</code> when all dependencies are fullfilled; otherwise,
+  <code>FALSE</code>.</p>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>app</th>
-      <td><p>A <code><a href='ShinyDriver.html'>ShinyDriver</a></code> object.</p></td>
-    </tr>
-    <tr>
-      <th>output</th>
-      <td><p>Character vector, the name(s) of the output widgets
-that are required to update for the test to succeed.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Named arguments specifying updates for Shiny input
-widgets.</p></td>
-    </tr>
-    <tr>
-      <th>timeout</th>
-      <td><p>Timeout for the update to happen, in milliseconds.</p></td>
-    </tr>
-    <tr>
-      <th>iotype</th>
-      <td><p>Type of the widget(s) to change. These are normally
-input widgets.</p></td>
-    </tr>
-    </table>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='installDependencies.html'>installDependencies</a></code> to install missing dependencies.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example</span>
-<span class='no'>app</span> <span class='kw'>&lt;-</span> <span class='no'>ShinyDriver</span>$<span class='fu'>new</span>(<span class='st'>"050-kmeans-example"</span>)
-<span class='fu'>expectUpdate</span>(<span class='no'>app</span>, <span class='kw'>xcol</span> <span class='kw'>=</span> <span class='st'>"Sepal.Width"</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot1"</span>)
-<span class='fu'>expectUpdate</span>(<span class='no'>app</span>, <span class='kw'>ycol</span> <span class='kw'>=</span> <span class='st'>"Petal.Width"</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot1"</span>)
-<span class='fu'>expectUpdate</span>(<span class='no'>app</span>, <span class='kw'>clusters</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot1"</span>)
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

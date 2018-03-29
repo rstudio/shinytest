@@ -18,13 +18,16 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Function reference" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +35,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,12 +52,25 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">shinytest</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">shinytest</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.2.0.9003</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/shinytest.html">Get started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -62,15 +80,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+    </li>
+    <li>
       <a href="../articles/in-depth.html">Testing in depth</a>
     </li>
     <li>
-      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+      <a href="../articles/package.html">Using shinytest with R packages</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -82,6 +103,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -92,10 +114,7 @@
       <div class="row">
   <div class="col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;1.2.0.9000</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
     <div class="contents">
@@ -116,75 +135,87 @@
         <tr>
           <!--  -->
           <td>
-            <p><code><a href="diffviewer_widget.html">diffviewer_widget</a></code> </p>
-          </td>
-          <td><p>Creat an htmlwidget that shows differences between files or directories</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="expect_pass.html">expect_pass</a></code> </p>
-          </td>
-          <td><p>Expectation: shinytest object passed snapshot tests</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="expectUpdate.html">expectUpdate</a></code> </p>
-          </td>
-          <td><p><code>testthat</code> expectation for a Shiny update</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="recordTest.html">recordTest</a></code> </p>
-          </td>
-          <td><p>Launch test event recorder for a Shiny app</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p></p>
+            <p><code><a href="ShinyDriver.html">ShinyDriver</a></code> </p>
           </td>
           <td><p>Class to manage a shiny app and a phantom.js headless browser</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p></p>
+            <p><code><a href="Widget.html">Widget</a></code> </p>
+          </td>
+          <td><p>Class for a Shiny widget</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="dependenciesInstalled.html">dependenciesInstalled()</a></code> </p>
+          </td>
+          <td><p>Checks all dependencies are installed</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="diffviewer_widget.html">diffviewer_widget()</a></code> </p>
+          </td>
+          <td><p>Creat an htmlwidget that shows differences between files or directories</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="expectUpdate.html">expectUpdate()</a></code> </p>
+          </td>
+          <td><p><code>testthat</code> expectation for a Shiny update</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="expect_pass.html">expect_pass()</a></code> </p>
+          </td>
+          <td><p>Expectation: shinytest object passed snapshot tests</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="installDependencies.html">installDependencies()</a></code> </p>
+          </td>
+          <td><p>Installs missing dependencies</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="recordTest.html">recordTest()</a></code> </p>
+          </td>
+          <td><p>Launch test event recorder for a Shiny app</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="shinytest.html">shinytest</a></code> </p>
           </td>
           <td><p>Test Shiny Apps</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="snapshotCompare.html">snapshotCompare</a></code> <code><a href="snapshotCompare.html">snapshotUpdate</a></code> </p>
+            <p><code><a href="snapshotCompare.html">snapshotCompare()</a></code> <code><a href="snapshotCompare.html">snapshotUpdate()</a></code> </p>
           </td>
           <td><p>Compare current and expected snapshots</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="testApp.html">testApp</a></code> </p>
+            <p><code><a href="testApp.html">testApp()</a></code> </p>
           </td>
           <td><p>Run tests for a Shiny application</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="textTestDiff.html">textTestDiff</a></code> </p>
+            <p><code><a href="textTestDiff.html">textTestDiff()</a></code> </p>
           </td>
           <td><p>Get textual diff of test results</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="viewTestDiff.html">viewTestDiff</a></code> </p>
+            <p><code><a href="viewTestDiff.html">viewTestDiff()</a></code> </p>
           </td>
           <td><p>View differences in test results</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="viewTestDiffWidget.html">viewTestDiffWidget</a></code> </p>
+            <p><code><a href="viewTestDiffWidget.html">viewTestDiffWidget()</a></code> </p>
           </td>
           <td><p>Interactive viewer widget for changes in test results</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p></p>
-          </td>
-          <td><p>Class for a Shiny widget</p></td>
         </tr>
       </tbody>
       </table>
@@ -205,11 +236,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
