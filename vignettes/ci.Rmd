@@ -215,10 +215,10 @@ test_that("Application works", {
 ```
 
 
-
 ## Testing applications in a package
 
-This section coming soon.
+See the [Using shinytest with R packages](packages.html) article.
+
 
 ## RStudio Connect
 
