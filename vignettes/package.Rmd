@@ -22,7 +22,6 @@ An application could live in a subdirectory of inst/, as shown below:
 
 ```
 /
-├── .Rbuildignore
 ├── DESCRIPTION
 ├── NAMESPACE
 ├── R
@@ -40,13 +39,7 @@ An application could live in a subdirectory of inst/, as shown below:
     └── testthat.R
 ```
 
-In this case, you can run `recordTest()` and `testApp()` as normal. After you create and run the tests, there will be a tests/ subdirectory in the application directory that stores the test scripts and results. That directory should be added to .Rbuildignore, so that the tests are not included as part of a built package.
-
-The .Rbuildignore file should include a line like this:
-
-```
-^inst/appdir/tests$
-```
+In this case, you can run `recordTest()` and `testApp()` as normal. After you create and run the tests, there will be a tests/ subdirectory in the application directory that stores the test scripts and results.
 
 Assuming you are using testthat for automated tests, you would create a test driver script in tests/testthat/. In this example, it's named test-app-file.R and contains the following:
 
