@@ -34,7 +34,7 @@ Suggests:
     rmarkdown,
     flexdashboard
 Remotes:
-    rstudio/webdriver,
-    r-lib/callr
+    r-lib/callr,
+    rstudio/webdriver
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
