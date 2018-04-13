@@ -338,7 +338,6 @@ hash_snapshot_image_data <- function(data) {
   image_offsets <- gregexpr(
     '\\n\\s*"[^"]*"\\s*:\\s*(?<data_url>"data:image/[^;]+;base64,(?<img_data>[^"]+)")',
     data,
-    useBytes = TRUE,
     perl = TRUE
   )[[1]]
 
@@ -364,7 +363,7 @@ hash_snapshot_image_data <- function(data) {
   )
   text_stop_idx <- c(
     attr(image_offsets, "capture.start")[,"data_url"] - 1,
-    nchar(data, type = "bytes")
+    nchar(data)
   )
 
   # Get the strings representing image data, and all the other stuff
