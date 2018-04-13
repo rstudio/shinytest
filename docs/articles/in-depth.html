@@ -227,11 +227,19 @@
 <div id="widgets" class="section level2">
 <h2 class="hasAnchor">
 <a href="#widgets" class="anchor"></a>Widgets</h2>
+<div id="tabs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#tabs" class="anchor"></a>Tabs</h3>
+<p>With tabbed views, such as <code>tabPanel()</code> and <code>navbarPage()</code>, in order for shinytest to keep track of which tab is currently selected, they must have an <code>id</code>. For example:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">tabPanel</span>(<span class="dt">id =</span> <span class="st">"tabs"</span>, ....)</a></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">navbarPage</span>(<span class="dt">id =</span> <span class="st">"tabs"</span>, ....)</a></code></pre></div>
+</div>
 <div id="uploading-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#uploading-files" class="anchor"></a>Uploading files</h3>
 <p>If you record a file upload event to a <code>fileInput</code>, you should uncheck <strong>Run test script on exit</strong> in the recorder, for reasons explained below. The test script will have a line like this:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">app<span class="op">$</span><span class="kw">uploadFile</span>(<span class="dt">file1 =</span> <span class="st">"mtcars.csv"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">app<span class="op">$</span><span class="kw">uploadFile</span>(<span class="dt">file1 =</span> <span class="st">"mtcars.csv"</span>)</a></code></pre></div>
 <p>Notice that the filename mtcars.csv appears in the script without a path. This is because the test recorder does not know where the file came from; it only knows the name of the file.</p>
 <p>Before you run the test script, you must copy the file to the tests/ directory. See the tests/ subdirectory of <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/009-upload">this app</a> for an example.</p>
 <p>After copying the file to that directory, run <code><a href="../reference/testApp.html">testApp()</a></code> as usual.</p>
@@ -241,15 +249,15 @@
 <h2 class="hasAnchor">
 <a href="#debugging-test-scripts" class="anchor"></a>Debugging test scripts</h2>
 <p>If you need to debug a test script, you can run line-by-line from the R console. However, you likely will have modify the first line. It normally will refer to the Shiny application the parent directory (<code>".."</code>):</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">".."</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">".."</span>)</a></code></pre></div>
 <p>When the test is run the usual way, with <code><a href="../reference/testApp.html">testApp()</a></code>, it will be run with the test directory as the working directory. However, when you run the tests from the command line, you generally will have a different working directory. To run the tests from a different directory, you will have to pass in the path to the application. It can be a relative path, for example:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">"path/to/app"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">"path/to/app"</span>)</a></code></pre></div>
 <p>The rest of the test script can be run unchanged.</p>
 <div id="screenshots" class="section level3">
 <h3 class="hasAnchor">
 <a href="#screenshots" class="anchor"></a>Screenshots</h3>
 <p>As you step through the script, you can inspect the state of the application in a few different ways. One is to view a screenshot. You should not to call <code>app$snapshot()</code> to get a screenshot, because it will increment the snapshot counter and shift the numbers of snapshots that really are part of the tests (e.g., snapshot 003 would become 004). Instead you can do this:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">app<span class="op">$</span><span class="kw">take_screenshot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">app<span class="op">$</span><span class="kw">take_screenshot</span>()</a></code></pre></div>
 <p>This will display the screenshot as if it were a plot. (In RStudio, it will show in the Viewer pane.) You can inspect the screenshot to see the state of the application.</p>
 </div>
 <div id="getting-input-output-and-export-values" class="section level3">
@@ -257,28 +265,28 @@
 <a href="#getting-input-output-and-export-values" class="anchor"></a>Getting input, output, and export values</h3>
 <p>It can also be useful to get the current input, output, and export values. As with screenshots, this is something that <code>app$snapshot()</code> does, but we don’t want to call that function because increments the snapshot counter.</p>
 <p>To fetch all values, you can call <code>app$getAllValues()</code>. This returns a list, which you can inspect with the <code>str()</code> function. It may look something like this:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">vals &lt;-<span class="st"> </span>app<span class="op">$</span><span class="kw">getAllValues</span>()</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">str</span>(vals)</a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt; List of 3</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt;  $ input :List of 4</span></a>
-<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co">#&gt;   ..$ action    :Classes 'integer', 'shinyActionButtonValue'  int 0</span></a>
-<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="co">#&gt;   ..$ checkbox  : logi TRUE</span></a>
-<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="co">#&gt;   ..$ checkGroup: chr "1"</span></a>
-<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="co">#&gt;   ..$ text      : chr "Enter text..."</span></a>
-<a class="sourceLine" id="cb22-10" data-line-number="10"><span class="co">#&gt;  $ output:List of 12</span></a>
-<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="co">#&gt;   ..$ actionOut    : chr "[1] 0\nattr(,\"class\")\n[1] \"integer\"                #&gt; \"shinyActionButtonValue\""</span></a>
-<a class="sourceLine" id="cb22-12" data-line-number="12"><span class="co">#&gt;   ..$ checkboxOut  : chr "[1] TRUE"</span></a>
-<a class="sourceLine" id="cb22-13" data-line-number="13"><span class="co">#&gt;   ..$ checkGroupOut: chr "[1] \"1\""</span></a>
-<a class="sourceLine" id="cb22-14" data-line-number="14"><span class="co">#&gt;   ..$ textOut      : chr "[1] \"Enter text...\""</span></a>
-<a class="sourceLine" id="cb22-15" data-line-number="15"><span class="co">#&gt;  $ export: Named list()</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">vals &lt;-<span class="st"> </span>app<span class="op">$</span><span class="kw">getAllValues</span>()</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw">str</span>(vals)</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co">#&gt; List of 3</span></a>
+<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co">#&gt;  $ input :List of 4</span></a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="co">#&gt;   ..$ action    :Classes 'integer', 'shinyActionButtonValue'  int 0</span></a>
+<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#&gt;   ..$ checkbox  : logi TRUE</span></a>
+<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co">#&gt;   ..$ checkGroup: chr "1"</span></a>
+<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="co">#&gt;   ..$ text      : chr "Enter text..."</span></a>
+<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="co">#&gt;  $ output:List of 12</span></a>
+<a class="sourceLine" id="cb24-11" data-line-number="11"><span class="co">#&gt;   ..$ actionOut    : chr "[1] 0\nattr(,\"class\")\n[1] \"integer\"                #&gt; \"shinyActionButtonValue\""</span></a>
+<a class="sourceLine" id="cb24-12" data-line-number="12"><span class="co">#&gt;   ..$ checkboxOut  : chr "[1] TRUE"</span></a>
+<a class="sourceLine" id="cb24-13" data-line-number="13"><span class="co">#&gt;   ..$ checkGroupOut: chr "[1] \"1\""</span></a>
+<a class="sourceLine" id="cb24-14" data-line-number="14"><span class="co">#&gt;   ..$ textOut      : chr "[1] \"Enter text...\""</span></a>
+<a class="sourceLine" id="cb24-15" data-line-number="15"><span class="co">#&gt;  $ export: Named list()</span></a></code></pre></div>
 <p>The same data is returned (invisibly) from each call to <code>app$setInput()</code>, so you can also look at the return value from those function calls to get the same result.</p>
 <p>The values retrieved this way can be used for expectation-based testing. For example, if you are using the <strong>testthat</strong> package for testing you could do something like:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">vals &lt;-<span class="st"> </span>app<span class="op">$</span><span class="kw">getAllValues</span>()</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="co"># Another option: save values when setting input values</span></a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co"># vals &lt;- app$setInputs(checkbox = TRUE)</span></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="kw">expect_identical</span>(vals<span class="op">$</span>output<span class="op">$</span>checkboxOut, <span class="st">"[1] TRUE"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">vals &lt;-<span class="st"> </span>app<span class="op">$</span><span class="kw">getAllValues</span>()</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co"># Another option: save values when setting input values</span></a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co"># vals &lt;- app$setInputs(checkbox = TRUE)</span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="kw">expect_identical</span>(vals<span class="op">$</span>output<span class="op">$</span>checkboxOut, <span class="st">"[1] TRUE"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="dealing-with-dynamic-data" class="section level2">
@@ -286,11 +294,11 @@
 <a href="#dealing-with-dynamic-data" class="anchor"></a>Dealing with dynamic data</h2>
 <p>If your application uses a data source that changes over time, then a snapshot taken yesterday may not match a snapshot taken today, even if the app itself hasn’t changed. Dynamic data inherently poses a challenge for snapshot-based testing.</p>
 <p>This problem can be avoided by detecting when the application is being tested, and in that case use a static data set instead. To do the detection, you can do something like the following:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">isTRUE</span>(<span class="kw">getOption</span>(<span class="st">"shiny.testmode"</span>))) {</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">  <span class="co"># Load static/dummy data here</span></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">} <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="co"># Load normal dynamic data here</span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">isTRUE</span>(<span class="kw">getOption</span>(<span class="st">"shiny.testmode"</span>))) {</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">  <span class="co"># Load static/dummy data here</span></a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">} <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="co"># Load normal dynamic data here</span></a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">}</a></code></pre></div>
 </div>
 <div id="limitations" class="section level2">
 <h2 class="hasAnchor">
@@ -300,7 +308,7 @@
 <a href="#inputs-without-input-bindings" class="anchor"></a>Inputs without input bindings</h3>
 <p>Some components for Shiny can set input values directly in their JavaScript code, without going through something called an <em>input binding</em>. Because shinytest sets input values via input bindings, it will not be able to play back inputs for components like these. This is true for some <a href="http://www.htmlwidgets.org/">htmlwidgets</a>, such as <a href="http://rstudio.github.io/DT/">DT</a>. Another case is when plot interactions, such as clicking and brushing, are used with <code>renderPlot()</code> – the clicking and brushing events cannot be played back with shinytest at this time.</p>
 <p>If you record a test with components like these, you may see lines like the following in the generated test script.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># Input 'dt_rows_selected' was set, but doesn't have an input binding.</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Input 'dt_rows_selected' was set, but doesn't have an input binding.</span></a></code></pre></div>
 </div>
 </div>
 <div id="next" class="section level2">
