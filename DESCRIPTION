@@ -1,11 +1,12 @@
 Package: shinytest
 Title: Test Shiny Apps
-Version: 1.2.0.9003
+Version: 1.3.0
 Authors@R: c(
     person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"),
     person("Gábor", "Csárdi", role = "aut", email = "gabor@rstudio.com")
     )
-Description: Uses a headless browser, driven through 'WebDriver'.
+Description: For automated testing of Shiny applications, using a headless
+    browser, driven through 'WebDriver'.
 License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/rstudio/shinytest

@@ -19,6 +19,15 @@ knitr::opts_chunk$set(
 
 ## Installation
 
+To install the current release version:
+
+```{r eval = FALSE}
+install.packages("shinytest")
+```
+
+
+To install the development version:
+
 ```{r eval = FALSE}
 devtools::install_github("rstudio/shinytest")
 ```

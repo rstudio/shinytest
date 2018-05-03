@@ -12,6 +12,16 @@
 
 ## Installation
 
+To install the current release version:
+
+
+```r
+install.packages("shinytest")
+```
+
+
+To install the development version:
+
 
 ```r
 devtools::install_github("rstudio/shinytest")
