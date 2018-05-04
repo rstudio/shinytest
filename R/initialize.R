@@ -3,11 +3,16 @@
 #' @importFrom webdriver Session
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
-                          debug, phantomTimeout, seed, cleanLogs) {
+                          debug, phantomTimeout, seed, cleanLogs,
+                          shinyOptions) {
 
   private$cleanLogs <- cleanLogs
 
   self$logEvent("Start ShinyDriver initialization")
+
+  if (is.null(find_phantom())) {
+    stop("PhantomJS not found.")
+  }
 
   "!DEBUG get phantom port (starts phantom if not running)"
   self$logEvent("Getting PhantomJS port")
@@ -19,7 +24,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   } else {
     "!DEBUG starting shiny app from path"
     self$logEvent("Starting Shiny app")
-    private$startShiny(path, seed)
+    private$startShiny(path, seed, loadTimeout, shinyOptions)
   }
 
   "!DEBUG create new phantomjs session"
@@ -81,59 +86,44 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path, seed) {
+sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) {
 
   assert_that(is_string(path))
 
   private$path <- normalizePath(path)
 
-  libpath <- paste(deparse(.libPaths()), collapse = "")
-
-  rcmd <- sprintf(".libPaths(c(%s, .libPaths()))", libpath)
-
-  if (!is.null(seed)) {
-    # Set the general random seed and Shiny's internal random seed
-    rcmd <- paste0(rcmd, "; ",
-      sprintf("set.seed(%s); shiny:::withPrivateSeed(set.seed(%s))", seed, seed + 11)
-    )
+  if (is.null(shinyOptions$port)) {
+    shinyOptions$port <- random_open_port()
   }
-
-  port <- random_open_port()
-  if (is_rmd(path)) {
-    # Shiny document
-    rcmd <- paste0(
-      rcmd,
-      "; options(shiny.testmode = TRUE); ",
-      sprintf("rmarkdown::run('%s', shiny_args=list(port=%d))", path, port)
-    )
-  } else {
-    # Normal shiny app
-    rcmd <- paste0(
-      rcmd,
-      "; options(shiny.testmode = TRUE); ",
-      sprintf("shiny::runApp('%s', port=%d)", path, port)
-    )
-  }
-
-  ## On windows, if is better to use single quotes
-  rcmd <- gsub('"', "'", rcmd)
-
-  Rexe <- if (is_windows()) "R.exe" else "R"
-  Rbin <- file.path(R.home("bin"), Rexe)
-  args <- c("-q", "-e", rcmd)
 
   tempfile_format <- tempfile("%s-", fileext = ".log")
+
   p <- with_envvar(
     c("R_TESTS" = NA),
-    process$new(
-      command = Rbin,
-      args = args,
+    callr::r_bg(
+      function(path, shinyOptions, rmd, seed) {
+
+        if (!is.null(seed)) {
+          set.seed(seed);
+          shiny:::withPrivateSeed(set.seed(seed + 11))
+        }
+
+        options(shiny.testmode = TRUE)
+
+        if (rmd) {
+          # Shiny document
+          rmarkdown::run(path, shiny_args = shinyOptions)
+        } else {
+          # Normal shiny app
+          do.call(shiny::runApp, c(path, shinyOptions))
+        }
+      },
+      args = list(path, shinyOptions, is_rmd(path), seed),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
       stderr = sprintf(tempfile_format, "shiny-stderr"),
       supervise = TRUE
     )
   )
-
   "!DEBUG waiting for shiny to start"
   if (! p$is_alive()) {
     stop(
@@ -143,8 +133,9 @@ sd_startShiny <- function(self, private, path, seed) {
   }
 
   "!DEBUG finding shiny port"
-  ## Try to read out the port, keep trying for 10 seconds
-  for (i in 1:50) {
+  ## Try to read out the port. Try 5 times/sec, until timeout.
+  max_i <- loadTimeout / 1000 * 5
+  for (i in seq_len(max_i)) {
     err_lines <- readLines(p$get_error_file())
 
     if (!p$is_alive()) {
@@ -154,7 +145,7 @@ sd_startShiny <- function(self, private, path, seed) {
 
     Sys.sleep(0.2)
   }
-  if (i == 50) {
+  if (i == max_i) {
     stop("Cannot find shiny port number. Error:\n", paste(err_lines, collapse = "\n"))
   }
 
@@ -215,7 +206,7 @@ phantom_paths <- function() {
 }
 
 # Find PhantomJS from PATH, APPDATA, system.file('webdriver'), ~/bin, etc
-find_phantom <- function() {
+find_phantom <- function(quiet = FALSE) {
   path <- Sys.which( "phantomjs" )
   if (path != "") return(path)
 
@@ -226,16 +217,19 @@ find_phantom <- function() {
   }
 
   if (path == "") {
-    # It would make the most sense to throw an error here. However, that would
-    # cause problems with CRAN. The CRAN checking systems may not have phantomjs
-    # and may not be capable of installing phantomjs (like on Solaris), and any
-    # packages which use webdriver in their R CMD check (in examples or vignettes)
-    # will get an ERROR. We'll issue a message and return NULL; other
-    message(
-      "PhantomJS not found. You can install it with webdriver::install_phantomjs(). ",
-      "If it is installed, please make sure the phantomjs executable ",
-      "can be found via the PATH variable."
-    )
+    if (!quiet) {
+      # It would make the most sense to throw an error here. However, that would
+      # cause problems with CRAN. The CRAN checking systems may not have phantomjs
+      # and may not be capable of installing phantomjs (like on Solaris), and any
+      # packages which use webdriver in their R CMD check (in examples or vignettes)
+      # will get an ERROR. We'll issue a message and return NULL; other
+      message(
+        "shinytest requires a headless web browser (PhantomJS) to record and run tests.\n",
+        "To install it, run shinytest::installDependencies()\n",
+        "If it is installed, please make sure the phantomjs executable ",
+        "can be found via the PATH variable."
+      )
+    }
     return(NULL)
   }
   path.expand(path)
@@ -243,6 +237,8 @@ find_phantom <- function() {
 
 
 sd_finalize <- function(self, private) {
+  self$stop()
+
   if (isTRUE(private$cleanLogs)) {
     unlink(private$shinyProcess$get_output_file())
     unlink(private$shinyProcess$get_error_file())

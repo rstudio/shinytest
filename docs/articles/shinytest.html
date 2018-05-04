@@ -8,8 +8,11 @@
 <title>Getting started with shinytest • shinytest</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Getting started with shinytest">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
@@ -24,12 +27,25 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">shinytest</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">shinytest</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.2.0.9003</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/shinytest.html">Get started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -39,15 +55,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+    </li>
+    <li>
+      <a href="../articles/faq.html">Frequently Asked Questions</a>
+    </li>
+    <li>
       <a href="../articles/in-depth.html">Testing in depth</a>
     </li>
     <li>
-      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+      <a href="../articles/package.html">Using shinytest with R packages</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -71,7 +93,10 @@
     <div class="page-header toc-ignore">
       <h1>Getting started with shinytest</h1>
             
-          </div>
+      
+      <small>Source: <a href="https://github.com/rstudio/shinytest/blob/master/vignettes/shinytest.Rmd"><code>vignettes/shinytest.Rmd</code></a></small>
+
+    </div>
 
     
     
@@ -98,8 +123,8 @@
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
 <p><strong>Shinytest</strong> is in active development. To install it, run:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
-<span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"rstudio/shinytest"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"rstudio/shinytest"</span>)</a></code></pre></div>
 <div id="recording-tests" class="section level3">
 <h3 class="hasAnchor">
 <a href="#recording-tests" class="anchor"></a>Recording tests</h3>
@@ -107,38 +132,37 @@
 <ul>
 <li>Run <code><a href="../reference/recordTest.html">recordTest()</a></code> to launch the app in a test recorder.</li>
 <li>Create the tests by interacting with the application and telling the recorder to snapshot the state at various points.</li>
-<li>Quit the test recorder. When you do this, three things will happen:</li>
+<li>Quit the test recorder. When you do this, three things will happen:
+<ul>
 <li>The test script will be saved in a .R file in a subdirectory of the application named <code>tests/</code>.</li>
 <li>If you are running in the RStudio IDE, it will automatically open this file in the editor.</li>
 <li>The test script will be run, and the snapshots will be saved in a subdirectory of the <code>tests/</code> directory.</li>
 </ul>
+</li>
+</ul>
 <p>To record tests, run the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shinytest)
-
-<span class="co"># Launch the target app (replace with the correct path)</span>
-<span class="kw"><a href="../reference/recordTest.html">recordTest</a></span>(<span class="st">"path/to/app"</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(shinytest)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Launch the target app (replace with the correct path)</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="../reference/recordTest.html">recordTest</a></span>(<span class="st">"path/to/app"</span>)</a></code></pre></div>
 <p>In a separate R process, this launches the Shiny application to be tested. We’ll refer to this as the <strong>target app</strong>. This also launches a special Shiny application in the current R process which displays the target app in an iframe and has some controls outside the iframe. We’ll refer to this as the <strong>recorder app</strong>. You will see something like this:</p>
-<div class="figure">
-<img src="screenshot-recorder-1.png">
-</div>
+<p><img src="screenshot-recorder-1.png"></p>
 <p>On the left is the target app (in this case, the “Shiny Widgets Gallery”), and on the right is the recorder app (titled “Test event recorder”). Note that you may need to make the browser window wider because the recorder panel occupies some space.</p>
 <p>The panel on the right displays some controls for the test recorder, as well as a list of <strong>Recorded events</strong>. As you interact with the target app – in other words, when you set inputs on the app – you will see those interactions recorded in the Recorded events list.</p>
 <p>For testing a Shiny application, setting inputs is only one part. It’s also necessary to check that the application produces the correct outputs. This is accomplished by taking snapshots of the application’s state.</p>
 <p>There are two ways to record output values. One way is to take a <strong>snapshot</strong> of the application’s state. This will record all input values, output values, and <em>exported</em> values (more on exported values later). To do this, click the “Take snapshot” button on the recorder app.</p>
 <p>After modifying some inputs and taking a snapshot, it will look something like this:</p>
-<div class="figure">
-<img src="screenshot-recorder-2.png">
-</div>
-<p>It is also possible to take a <em>target</em> snapshot. This is a snapshot of on or more specified output (instead of the default, which is to snapshot the entire application). To do this, hold down the Control (or Command) button on your keyboard and click on an output; it will snapshot just that one output.</p>
+<p><img src="screenshot-recorder-2.png"></p>
+<p>It is also possible to take a <em>target</em> snapshot. This is a snapshot of one or more specified output (instead of the default, which is to snapshot the entire application). To do this, hold down the Control (or Command) button on your keyboard and click on an output; it will snapshot just that one output.</p>
 <p>When you are done recording a sequence of events, click on the “Save script and exit test event recorder” button. If you are in the RStudio IDE, it will open the test script in the <code>tests/</code> subdirectory of the application. In this case, the name of the script is <code>mytest.R</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">".."</span>)
-app<span class="op">$</span><span class="kw">snapshotInit</span>(<span class="st">"mytest"</span>)
-
-app<span class="op">$</span><span class="kw">snapshot</span>()
-app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>))
-app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))
-app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">action =</span> <span class="st">"click"</span>)
-app<span class="op">$</span><span class="kw">snapshot</span>()</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">".."</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">app<span class="op">$</span><span class="kw">snapshotInit</span>(<span class="st">"mytest"</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">app<span class="op">$</span><span class="kw">snapshot</span>()</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>))</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">action =</span> <span class="st">"click"</span>)</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">app<span class="op">$</span><span class="kw">snapshot</span>()</a></code></pre></div>
 </div>
 <div id="running-tests" class="section level3">
 <h3 class="hasAnchor">
@@ -159,44 +183,44 @@ Updating baseline snapshot at tests/mytest-expected
 Renaming tests/mytest-current
       =&gt; tests/mytest-expected.</code></pre>
 <p>Behind the scenes, it runs <code><a href="../reference/testApp.html">testApp()</a></code>. You can manually run the tests with this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"myshinyapp"</span>, <span class="st">"mytest"</span>)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"myshinyapp"</span>, <span class="st">"mytest"</span>)</a></code></pre></div>
 <p>This will play back the interactions and record snapshots, as specified in the test script. The very first time the tests are run, they will be saved in a subdirectory of the app called <code>tests/mytest-expected</code>. These are the expected results, and future test runs will be compared against them.</p>
 <p>The directory will contain two files for each snapshot. For exmaple:</p>
 <pre><code>001.json
 001.png</code></pre>
 <p>The .json file is a JSON representation of the state of the application when <code>app$snapshot()</code> was called. The .png file is a screenshot of the application, which you can look at to inspect the state of the application.</p>
 <p>The JSON file stores the state of all the input, output, and export values at the time of the snapshot:</p>
-<div class="sourceCode"><pre class="sourceCode json"><code class="sourceCode json"><span class="fu">{</span>
-  <span class="dt">"input"</span><span class="fu">:</span> <span class="fu">{</span>
-    <span class="dt">"action"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span>
-    <span class="dt">"checkbox"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span>
-    <span class="dt">"checkGroup"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"1"</span><span class="ot">,</span> <span class="st">"2"</span><span class="ot">,</span> <span class="st">"3"</span><span class="ot">]</span><span class="fu">,</span>
-    <span class="dt">"date"</span><span class="fu">:</span> <span class="st">"2014-01-01"</span><span class="fu">,</span>
-    <span class="dt">"dates"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"2014-01-01"</span><span class="ot">,</span> <span class="st">"2015-01-01"</span><span class="ot">]</span><span class="fu">,</span>
-    <span class="dt">"file"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span>
-    <span class="dt">"num"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span>
-    <span class="dt">"radio"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span>
-    <span class="dt">"select"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span>
-    <span class="dt">"slider1"</span><span class="fu">:</span> <span class="dv">50</span><span class="fu">,</span>
-    <span class="dt">"slider2"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">25</span><span class="ot">,</span> <span class="dv">75</span><span class="ot">]</span><span class="fu">,</span>
-    <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"Enter text..."</span>
-  <span class="fu">},</span>
-  <span class="dt">"output"</span><span class="fu">:</span> <span class="fu">{</span>
-    <span class="dt">"actionOut"</span><span class="fu">:</span> <span class="st">"[1] 1</span><span class="ch">\n</span><span class="st">attr(,</span><span class="ch">\"</span><span class="st">class</span><span class="ch">\"</span><span class="st">)</span><span class="ch">\n</span><span class="st">[1] </span><span class="ch">\"</span><span class="st">integer</span><span class="ch">\"</span><span class="st">                </span><span class="ch">\"</span><span class="st">shinyActionButtonValue</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span>
-    <span class="dt">"checkboxOut"</span><span class="fu">:</span> <span class="st">"[1] TRUE"</span><span class="fu">,</span>
-    <span class="dt">"checkGroupOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">2</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">3</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span>
-    <span class="dt">"dateOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">2014-01-01</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span>
-    <span class="dt">"datesOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">2014-01-01</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">2015-01-01</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span>
-    <span class="dt">"fileOut"</span><span class="fu">:</span> <span class="st">"NULL"</span><span class="fu">,</span>
-    <span class="dt">"numOut"</span><span class="fu">:</span> <span class="st">"[1] 1"</span><span class="fu">,</span>
-    <span class="dt">"radioOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span>
-    <span class="dt">"selectOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span>
-    <span class="dt">"slider1Out"</span><span class="fu">:</span> <span class="st">"[1] 50"</span><span class="fu">,</span>
-    <span class="dt">"slider2Out"</span><span class="fu">:</span> <span class="st">"[1] 25 75"</span><span class="fu">,</span>
-    <span class="dt">"textOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">Enter text...</span><span class="ch">\"</span><span class="st">"</span>
-  <span class="fu">},</span>
-  <span class="dt">"export"</span><span class="fu">:</span> <span class="fu">{}</span>
-<span class="fu">}</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode json"><code class="sourceCode json"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fu">{</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="dt">"input"</span><span class="fu">:</span> <span class="fu">{</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="dt">"action"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="dt">"checkbox"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">    <span class="dt">"checkGroup"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"1"</span><span class="ot">,</span> <span class="st">"2"</span><span class="ot">,</span> <span class="st">"3"</span><span class="ot">]</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">    <span class="dt">"date"</span><span class="fu">:</span> <span class="st">"2014-01-01"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">    <span class="dt">"dates"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"2014-01-01"</span><span class="ot">,</span> <span class="st">"2015-01-01"</span><span class="ot">]</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">    <span class="dt">"file"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">    <span class="dt">"num"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">    <span class="dt">"radio"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">    <span class="dt">"select"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">    <span class="dt">"slider1"</span><span class="fu">:</span> <span class="dv">50</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">    <span class="dt">"slider2"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">25</span><span class="ot">,</span> <span class="dv">75</span><span class="ot">]</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">    <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"Enter text..."</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">  <span class="fu">},</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16">  <span class="dt">"output"</span><span class="fu">:</span> <span class="fu">{</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17">    <span class="dt">"actionOut"</span><span class="fu">:</span> <span class="st">"[1] 1</span><span class="ch">\n</span><span class="st">attr(,</span><span class="ch">\"</span><span class="st">class</span><span class="ch">\"</span><span class="st">)</span><span class="ch">\n</span><span class="st">[1] </span><span class="ch">\"</span><span class="st">integer</span><span class="ch">\"</span><span class="st">                </span><span class="ch">\"</span><span class="st">shinyActionButtonValue</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18">    <span class="dt">"checkboxOut"</span><span class="fu">:</span> <span class="st">"[1] TRUE"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">    <span class="dt">"checkGroupOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">2</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">3</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">    <span class="dt">"dateOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">2014-01-01</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">    <span class="dt">"datesOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">2014-01-01</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">2015-01-01</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22">    <span class="dt">"fileOut"</span><span class="fu">:</span> <span class="st">"NULL"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23">    <span class="dt">"numOut"</span><span class="fu">:</span> <span class="st">"[1] 1"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24">    <span class="dt">"radioOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25">    <span class="dt">"selectOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">    <span class="dt">"slider1Out"</span><span class="fu">:</span> <span class="st">"[1] 50"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-27" data-line-number="27">    <span class="dt">"slider2Out"</span><span class="fu">:</span> <span class="st">"[1] 25 75"</span><span class="fu">,</span></a>
+<a class="sourceLine" id="cb7-28" data-line-number="28">    <span class="dt">"textOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">Enter text...</span><span class="ch">\"</span><span class="st">"</span></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29">  <span class="fu">},</span></a>
+<a class="sourceLine" id="cb7-30" data-line-number="30">  <span class="dt">"export"</span><span class="fu">:</span> <span class="fu">{}</span></a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="fu">}</span></a></code></pre></div>
 <p>If you are using a source control system (like git), you should check in the expected results.</p>
 </div>
 <div id="subsequent-test-runs" class="section level3">
@@ -217,21 +241,17 @@ Running mytest.R
     001.png   != Files differ
 Would you like to view the differences between expected and current results [y/n]? </code></pre>
 <p>If you press <code>y</code> and then Enter, it will open a Shiny application which shows the differences between the expected and current results. For screenshots, the differences will be highlighted in red. You can also choose different ways of viewing the differences in screenshots. It will look something like this:</p>
-<div class="figure">
-<img src="diffviewer.png">
-</div>
+<p><img src="diffviewer.png"></p>
 <p>After inspecting the changes, you can choose to update the expected results (that is, replace the old expected results with the new current results), or to just quit without updating.</p>
 <p>You should update the results if the changes are expected. You should quit without updating if the changes are unexpected.</p>
 <p>If you want to compare the results again in the future, without running <code><a href="../reference/testApp.html">testApp()</a></code>, you can run the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/snapshotCompare.html">snapshotCompare</a></span>(<span class="st">"path/to/app/"</span>, <span class="st">"mytest"</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/snapshotCompare.html">snapshotCompare</a></span>(<span class="st">"path/to/app/"</span>, <span class="st">"mytest"</span>)</a></code></pre></div>
 </div>
 <div id="multiple-test-scripts" class="section level3">
 <h3 class="hasAnchor">
 <a href="#multiple-test-scripts" class="anchor"></a>Multiple test scripts</h3>
 <p>In the example above, we had a single test script, named <code>mytest.R</code>. If you want to have more than one set of tests for an application, you can record new tests, each with a different name. You can enter the name when recording your tests:</p>
-<div class="figure">
-<img src="screenshot-recorder-name.png">
-</div>
+<p><img src="screenshot-recorder-name.png"></p>
 <p>When you run <code><a href="../reference/testApp.html">testApp("path/to/app")</a></code>, it will run all the tests scripts in the application’s <code>tests/</code> directory.</p>
 </div>
 </div>
@@ -256,7 +276,7 @@ Would you like to view the differences between expected and current results [y/n
 <a href="#prerendered-shiny-documents" class="anchor"></a>Prerendered Shiny documents</h3>
 <p>Some Shiny documents use <a href="http://rmarkdown.rstudio.com/authoring_shiny_prerendered.html"><code>runtime: shiny_prerendered</code></a>, which helps speed up page loading time. Normally, the first time these applications are run, they will leave behind a generated .html file as well as a cache directory named myfile_data/.</p>
 <p>You can remove these files by adding this to the end of your test script (assuming the name of your document is doc.Rmd):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmarkdown<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rmarkdown/topics/shiny_prerendered_clean">shiny_prerendered_clean</a></span>(<span class="st">"../doc.Rmd"</span>)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">rmarkdown<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rmarkdown/topics/shiny_prerendered_clean">shiny_prerendered_clean</a></span>(<span class="st">"../doc.Rmd"</span>)</a></code></pre></div>
 <p>Alternatively, you can save the generated files, but then the tests will be run with the generated files, so the prerendering step will not be run for future tests.</p>
 <p>For an example of a prerendered .Rmd and tests, see <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd-prerendered">here</a>.</p>
 </div>
@@ -291,11 +311,13 @@ Would you like to view the differences between expected and current results [y/n
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>

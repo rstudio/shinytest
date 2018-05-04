@@ -7,8 +7,13 @@
 #'   script should be appropriate for load testing.
 #' @param seed A random seed to set before running the app. This seed will also
 #'   be used in the test script.
+#' @param loadTimeout Maximum time to wait for the Shiny application to load, in
+#'   milliseconds. If a value is provided, it will be saved in the test script.
+#' @param shinyOptions A list of options to pass to \code{runApp()}. If a value
+#'   is provided, it will be saved in the test script.
 #' @export
-recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL) {
+recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL,
+  loadTimeout = 10000, shinyOptions = list()) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
@@ -18,15 +23,23 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     if (grepl("^http(s?)://", app)) {
       stop("Recording tests for remote apps is not yet supported.")
     } else {
-      # If it's an Rmd file, make sure there aren't multiple Rmds in that
-      # directory.
-      if (is_rmd(app) &&
-          length(dir(dirname(app), pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
-        stop("For testing, only one .Rmd file is allowed per directory.")
+      app <- app_path(app)
+
+      if (is_rmd(app)) {
+        # If it's an Rmd file, make sure there aren't multiple Rmds in that
+        # directory.
+        if (length(dir(dirname(app), pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
+          stop("For testing, only one .Rmd file is allowed per directory.")
+        }
+
+        # Rmds need a random seed. Automatically create one if needed.
+        if (is.null(seed)) {
+          seed <- floor(stats::runif(1, min = 0, max = 1e5))
+        }
       }
 
       # It's a path to an app; start the app
-      app <- ShinyDriver$new(app, seed = seed, loadTimeout = 10000)
+      app <- ShinyDriver$new(app, seed = seed, loadTimeout = loadTimeout, shinyOptions = shinyOptions)
       on.exit({
         rm(app)
         gc()
@@ -51,18 +64,42 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
   # Use options to pass value to recorder app
   withr::with_options(
     list(
-      shinytest.recorder.url = url,
-      shinytest.app.dir      = app$getAppDir(),
-      shinytest.app.filename = app$getAppFilename(),
-      shinytest.load.mode    = load_mode,
-      shinytest.seed         = seed
+      shinytest.recorder.url  = url,
+      shinytest.app.dir       = app$getAppDir(),
+      shinytest.app.filename  = app$getAppFilename(),
+      shinytest.load.mode     = load_mode,
+      shinytest.load.timeout  = if (!missing(loadTimeout)) loadTimeout,
+      shinytest.seed          = seed,
+      shinytest.shiny.options = shinyOptions
     ),
     res <- shiny::runApp(system.file("recorder", package = "shinytest"))
   )
 
-  # Run the test script
-  if (isTRUE(res$run)) {
+  if (is.null(res$appDir)) {
+    # Quit without saving
+
+  } else if (isTRUE(res$run)) {
+
+    # Before running the test, sometimes we need to make sure the previous run
+    # of the app is shut down. For example, if a port is specified in
+    # shinyOptions, it needs to be freed up before starting the app again.
+    gc()
+
+    # Run the test script
     testApp(rel_path(res$appDir), res$file)
+
+  } else {
+    if (length(res$dont_run_reasons) > 0) {
+      message(
+        "Not running test script because:\n  ",
+        paste(res$dont_run_reasons, collapse = "\n  "), "\n"
+      )
+    }
+
+    message(sprintf(
+      'After making changes to the test script, run it with:\n  testApp("%s", "%s")',
+      rel_path(res$appDir), res$file
+    ))
   }
 
   invisible(res$file)

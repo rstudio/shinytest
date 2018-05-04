@@ -1,0 +1,29 @@
+---
+title: "Frequently Asked Questions"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+
+## What does it mean when I run `testApp()` and it says, "Server did not update any output values within 3 seconds"?
+
+The full message is this:
+
+```
+Server did not update any output values within 3 seconds. If this is expected, use wait_=FALSE, values_=FALSE, or increase the value of timeout_.
+```
+
+This happens when setting an input value does *not* result in an output changing.
+
+Shinytest normally assumes that when you call `app$setInput()`, the setting of an input will also result in a changed output, so the test driver process will wait for an output to change before moving on to the next step in a test script. If no outputs change within the timeout period (which defaults to 3 seconds), it prints that message.
+
+If, in your application, you expect that setting a particular input does not immediately result in any output changes, then you should call `app$setInput()` with `wait_=FALSE, values_=FALSE)`.
+
+On the other hand, if you expect that setting the input should result in an output change, but the time exceeds the timeout, then you can call `app$setInput()` with, for example, `timeout_=10`.

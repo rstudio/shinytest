@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Launch test event recorder for a Shiny app — recordTest" />
+
+<meta property="og:description" content="Launch test event recorder for a Shiny app" />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +38,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,12 +55,25 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">shinytest</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">shinytest</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.2.0.9003</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/shinytest.html">Get started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -62,15 +83,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+    </li>
+    <li>
+      <a href="../articles/faq.html">Frequently Asked Questions</a>
+    </li>
+    <li>
       <a href="../articles/in-depth.html">Testing in depth</a>
     </li>
     <li>
-      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+      <a href="../articles/package.html">Using shinytest with R packages</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -82,6 +109,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -93,15 +121,17 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Launch test event recorder for a Shiny app</h1>
+    <small>Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/recorder.R'><code>R/recorder.R</code></a></small>
     </div>
 
     
     <p>Launch test event recorder for a Shiny app</p>
     
 
-    <pre class="usage"><span class='fu'>recordTest</span>(<span class='kw'>app</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>save_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>load_mode</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>recordTest</span>(<span class='kw'>app</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>save_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>load_mode</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>loadTimeout</span> <span class='kw'>=</span> <span class='fl'>10000</span>, <span class='kw'>shinyOptions</span> <span class='kw'>=</span> <span class='fu'>list</span>())</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -123,6 +153,16 @@ script should be appropriate for load testing.</p></td>
       <td><p>A random seed to set before running the app. This seed will also
 be used in the test script.</p></td>
     </tr>
+    <tr>
+      <th>loadTimeout</th>
+      <td><p>Maximum time to wait for the Shiny application to load, in
+milliseconds. If a value is provided, it will be saved in the test script.</p></td>
+    </tr>
+    <tr>
+      <th>shinyOptions</th>
+      <td><p>A list of options to pass to <code>runApp()</code>. If a value
+is provided, it will be saved in the test script.</p></td>
+    </tr>
     </table>
     
 
@@ -142,11 +182,14 @@ be used in the test script.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

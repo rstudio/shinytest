@@ -2,7 +2,16 @@ target_url   <- getOption("shinytest.recorder.url")
 app_dir      <- getOption("shinytest.app.dir")
 app_filename <- getOption("shinytest.app.filename")
 load_mode    <- getOption("shinytest.load.mode")
+load_timeout <- getOption("shinytest.load.timeout")
 start_seed   <- getOption("shinytest.seed")
+shiny_options<- getOption("shinytest.shiny.options")
+
+# If there are any reasons to not run a test, a message should be appended to
+# this vector.
+dont_run_reasons <- character(0)
+add_dont_run_reason <- function(reason) {
+  dont_run_reasons <<- c(dont_run_reasons, reason)
+}
 
 if (is.null(target_url) || is.null(app_dir)) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
@@ -20,6 +29,23 @@ registerInputHandler("shinytest.testevents", function(val, shinysession, name) {
 escapeString <- function(s) {
   gsub('"', '\\"', s, fixed = TRUE)
 }
+
+# A replacement for deparse() that's a little less verbose for named lists.
+deparse2 <- function(x) {
+  expr <- deparse(x)
+  expr <- paste(expr, collapse = "")
+
+  # If the deparsed expression is something like:
+  #   "structure(list(a = 1, b = 2), .Names = c(\"a\", \"b\"))"
+  # simplify it to "list(a = 1, b = 2)".
+  expr <- sub("^structure\\((list.*), \\.Names = c\\([^(]+\\)\\)$", "\\1", expr)
+  # Same as above, but for single item in .Names, like:
+  #  "structure(list(a = 1), .Names = \"a\")"
+  expr <- sub('^structure\\((list.*), \\.Names = \\"[^\\"]*\\"\\)$', "\\1", expr)
+
+  expr
+}
+
 
 # A modified version of shiny::numericInput but with a placholder
 numericInput <- function(..., placeholder = NULL) {
@@ -133,14 +159,29 @@ codeGenerators <- list(
     }
 
     if (event$inputType == "shiny.fileupload") {
-      # Special case for file uploads
-      paste0(
+      filename <- processInputValue(event$value, event$inputType)
+
+      code <- paste0(
         "app$uploadFile(",
-        quoteName(event$name), " = ",
-        processInputValue(event$value, event$inputType),
+        quoteName(event$name), " = ", filename,
         args,
         ")"
       )
+
+      # Get unescaped filenames in a char vector, with full path
+      filepaths <- vapply(event$value, `[[`, "name", FUN.VALUE = "")
+      filepaths <- file.path(app_dir, "tests", filepaths)
+
+      # Check that all files exist. If not, add a message and don't run test
+      # automatically on exit.
+      if (!all(file.exists(filepaths))) {
+        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/ directory, or copy the file to the app's tests/ directory.")
+        code <- paste0(code,
+          " # <-- This should be the path to the file, relative to the app's tests/ directory"
+        )
+      }
+
+      code
 
     } else {
       paste0(
@@ -224,9 +265,12 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE) {
     if (load_mode) {
       'app <- ShinyLoadDriver$new()'
     } else {
+
       paste0(
         'app <- ShinyDriver$new("', paste("..", app_filename, sep = "/"), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
+        if (!is.null(load_timeout)) paste0(", loadTimeout = ", load_timeout),
+        if (length(shiny_options) > 0) paste0(", shinyOptions = ", deparse2(shiny_options)),
         ')'
       )
     },
@@ -393,7 +437,8 @@ shinyApp(
           invisible(list(
             appDir = app_dir,
             file = paste0(input$testname, ".R"),
-            run = input$runScript
+            run = input$runScript && (length(dont_run_reasons) == 0),
+            dont_run_reasons = dont_run_reasons
           ))
         }
       })

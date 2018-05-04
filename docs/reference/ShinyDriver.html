@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Class to manage a shiny app and a phantom.js headless browser — ShinyDriver" />
+
+<meta property="og:description" content="Class to manage a shiny app and a phantom.js headless browser" />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +38,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,12 +55,25 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">shinytest</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">shinytest</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.2.0.9003</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/shinytest.html">Get started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -62,15 +83,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+    </li>
+    <li>
+      <a href="../articles/faq.html">Frequently Asked Questions</a>
+    </li>
+    <li>
       <a href="../articles/in-depth.html">Testing in depth</a>
     </li>
     <li>
-      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+      <a href="../articles/package.html">Using shinytest with R packages</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -82,6 +109,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -93,6 +121,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Class to manage a shiny app and a phantom.js headless browser</h1>
+    <small>Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/shiny-driver.R'><code>R/shiny-driver.R</code></a></small>
     </div>
 
     
@@ -106,7 +135,7 @@
     <pre>app &lt;- ShinyDriver$new(path = ".", loadTimeout = 5000,
               checkNames = TRUE, debug = c("none", "all",
               ShinyDriver$debugLogTypes), phantomTimeout = 5000,
-              seed = NULL, cleanLogs = TRUE))
+              seed = NULL, cleanLogs = TRUE, shinyOptions = list()))
 app$stop()
 app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
     app$getValue(name, iotype = c("auto", "input", "output"))
@@ -153,6 +182,7 @@ app$takeScreenshot(file = NULL)
      can make their behavior repeatable.</p></dd>
   <dt>cleanLogs</dt><dd><p>Whether to remove the stdout and stderr logs when the
     Shiny process object is garbage collected.</p></dd>
+  <dt>shinyOptions</dt><dd><p>A list of options to pass to <code>runApp()</code>.</p></dd>
   <dt>name</dt><dd><p>Name of a shiny widget. For <code>$sendKeys</code> it can
      be <code>NULL</code>, in which case the keys are sent to the active
      HTML element.</p></dd>
@@ -194,59 +224,59 @@ ready to use. It waits at most <code>loadTimeout</code> milliseconds, and if
 the app is not ready, then it throws an error. You can increase
 <code>loadTimeout</code> for slow loading apps. Currently it supports apps
 that are defined in a single <code>app.R</code> file, or in a <code>server.R</code>
-and <code>ui.R</code> pair.
-    <code>app$stop()</code> stops the app, i.e. the external R process that runs
-the app, and also the phantomjs instance.
-    <code>app$getDebugLog()</code> queries one or more of the debug logs:
-<code>shiny_console</code>, <code>browser</code> or <code>shinytest</code>.
-    <code>app$getValue()</code> finds a widget and queries its value. See
-the <code>getValue</code> method of the <code><a href='Widget.html'>Widget</a></code> class.
-    <code>app$setInputs()</code> sets the value of inputs. The arguments must all
-be named; an input with each name will be assigned the given value.
-    <code>app$uploadFile()</code> uploads a file to a file input. The argument must
+and <code>ui.R</code> pair.</p>
+<p><code>app$stop()</code> stops the app, i.e. the external R process that runs
+the app, and also the phantomjs instance.</p>
+<p><code>app$getDebugLog()</code> queries one or more of the debug logs:
+<code>shiny_console</code>, <code>browser</code> or <code>shinytest</code>.</p>
+<p><code>app$getValue()</code> finds a widget and queries its value. See
+the <code>getValue</code> method of the <code><a href='Widget.html'>Widget</a></code> class.</p>
+<p><code>app$setInputs()</code> sets the value of inputs. The arguments must all
+be named; an input with each name will be assigned the given value.</p>
+<p><code>app$uploadFile()</code> uploads a file to a file input. The argument must
 be named and the value must be the path to a local file; that file will be
-uploaded to a file input with that name.
-    <code>app$getAllValues()</code> returns a named list of all inputs, outputs,
-and error values.
-    <code>app$setValue()</code> finds a widget and sets its value. See the
-<code>setValue</code> method of the <code><a href='Widget.html'>Widget</a></code> class.
-    <code>app$sendKeys</code> sends the specified keys to the HTML element of the
-widget.
-    <code>app$getWindowSize()</code> returns the current size of the browser
+uploaded to a file input with that name.</p>
+<p><code>app$getAllValues()</code> returns a named list of all inputs, outputs,
+and error values.</p>
+<p><code>app$setValue()</code> finds a widget and sets its value. See the
+<code>setValue</code> method of the <code><a href='Widget.html'>Widget</a></code> class.</p>
+<p><code>app$sendKeys</code> sends the specified keys to the HTML element of the
+widget.</p>
+<p><code>app$getWindowSize()</code> returns the current size of the browser
 window, in a list of two integer scalars named &#8216;width&#8217; and
-&#8216;height&#8217;.
-    <code>app$setWindowSize()</code> sets the size of the browser window to the
-specified width and height.
-    <code>app$getUrl()</code> returns the current URL.
-    <code>app$goBack()</code> &#8220;presses&#8221; the browser's &#8216;back&#8217;
-button.
-    <code>app$refresh()</code> &#8220;presses&#8221; the browser's &#8216;refresh&#8217;
-button.
-    <code>app$getTitle()</code> returns the title of the page. (More precisely
-the document title.)
-    <code>app$getSource()</code> returns the complete HTML source of the current
-page, in a character scalar.
-    <code>app$takeScreenshot()</code> takes a screenshot of the current page
+&#8216;height&#8217;.</p>
+<p><code>app$setWindowSize()</code> sets the size of the browser window to the
+specified width and height.</p>
+<p><code>app$getUrl()</code> returns the current URL.</p>
+<p><code>app$goBack()</code> &#8220;presses&#8221; the browser's &#8216;back&#8217;
+button.</p>
+<p><code>app$refresh()</code> &#8220;presses&#8221; the browser's &#8216;refresh&#8217;
+button.</p>
+<p><code>app$getTitle()</code> returns the title of the page. (More precisely
+the document title.)</p>
+<p><code>app$getSource()</code> returns the complete HTML source of the current
+page, in a character scalar.</p>
+<p><code>app$takeScreenshot()</code> takes a screenshot of the current page
 and writes it to a file, or (if <code>file</code> is <code>NULL</code>) shows it
-on the R graphics device. The output file has PNG format.
-    <code>app$findElement()</code> find an HTML element on the page, using a
+on the R graphics device. The output file has PNG format.</p>
+<p><code>app$findElement()</code> find an HTML element on the page, using a
 CSS selector or an XPath expression. The return value is an
 <code><a href='http://www.rdocumentation.org/packages/webdriver/topics/Element'>Element</a></code> object from the <code>webdriver</code>
-package.
-    <code>app$findElements()</code> finds potentially multiple HTML elements,
+package.</p>
+<p><code>app$findElements()</code> finds potentially multiple HTML elements,
 and returns them in a list of <code><a href='http://www.rdocumentation.org/packages/webdriver/topics/Element'>Element</a></code> objects
-from the <code>webdriver</code> package.
-    <code>app$waitFor()</code> waits until a JavaScript expression evaluates
+from the <code>webdriver</code> package.</p>
+<p><code>app$waitFor()</code> waits until a JavaScript expression evaluates
 to <code>true</code>, or a timeout happens. It returns <code>TRUE</code> is the
-expression evaluated to <code>true</code>, possible after some waiting.
-    <code>app$listWidgets()</code> lists the names of all input and output
+expression evaluated to <code>true</code>, possible after some waiting.</p>
+<p><code>app$listWidgets()</code> lists the names of all input and output
 widgets. It returns a list of two character vectors, named <code>input</code>
-and <code>output</code>.
-    <code>app$checkUniqueWidgetNames()</code> checks if Shiny widget names
-are unique.
-    <code>app$findWidget()</code> finds the corresponding HTML element of a Shiny
-widget. It returns a <code><a href='Widget.html'>Widget</a></code> object.
-    <code><a href='expectUpdate.html'>expectUpdate()</a></code> is one of the main functions to test Shiny apps.
+and <code>output</code>.</p>
+<p><code>app$checkUniqueWidgetNames()</code> checks if Shiny widget names
+are unique.</p>
+<p><code>app$findWidget()</code> finds the corresponding HTML element of a Shiny
+widget. It returns a <code><a href='Widget.html'>Widget</a></code> object.</p>
+<p><code><a href='expectUpdate.html'>expectUpdate()</a></code> is one of the main functions to test Shiny apps.
 It performs one or more update operations via the browser, and then
 waits for the specified output widgets to update. The test succeeds if
 all specified output widgets are updated before the timeout. For
@@ -284,11 +314,14 @@ updates that involve a lot of computation, you increase the timeout.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

@@ -215,6 +215,21 @@ app <- ShinyDriver$new("../", seed = 4323)
 
 ## Widgets
 
+### Tabs
+
+With tabbed views, such as `tabPanel()` and `navbarPage()`, in order for shinytest to keep track of which tab is currently selected, they must have an `id`. For example:
+
+
+```{r}
+tabPanel(id = "tabs", ....)
+```
+
+or
+
+```{r}
+navbarPage(id = "tabs", ....)
+```
+
 ### Uploading files
 
 If you record a file upload event to a `fileInput`, you should uncheck **Run test script on exit** in the recorder, for reasons explained below. The test script will have a line like this:

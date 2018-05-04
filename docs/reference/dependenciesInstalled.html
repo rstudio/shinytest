@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Class for a Shiny widget — Widget • shinytest</title>
+<title>Checks all dependencies are installed — dependenciesInstalled • shinytest</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,9 +25,11 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Class for a Shiny widget — Widget" />
+<meta property="og:title" content="Checks all dependencies are installed — dependenciesInstalled" />
 
-<meta property="og:description" content="Class for a Shiny widget" />
+<meta property="og:description" content="Checks that all the required system dependencies are installed properly,
+returns. If dependencie are missing, consider running
+installDependencies." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,97 +122,37 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Class for a Shiny widget</h1>
-    <small>Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/widget.R'><code>R/widget.R</code></a></small>
+    <h1>Checks all dependencies are installed</h1>
+    <small>Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/install.R'><code>R/install.R</code></a></small>
     </div>
 
     
-    <p>Class for a Shiny widget</p>
+    <p>Checks that all the required system dependencies are installed properly,
+returns. If dependencie are missing, consider running
+<a href='installDependencies.html'>installDependencies</a>.</p>
     
 
+    <pre class="usage"><span class='fu'>dependenciesInstalled</span>()</pre>
         
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p><code>TRUE</code> when all dependencies are fullfilled; otherwise,
+  <code>FALSE</code>.</p>
     
-    <pre>w &lt;- app$findWidget(name,
-    iotype = c("auto", "input", "output"))
-    w$getName()
-w$getElement()
-w$getType()
-w$getIoType()
-w$isinput()
-w$isOutput()
-    w$getValue()
-w$setValue(value)
-    w$sendKeys(keys)
-    w$listTabs()
-</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    
-    <dl class='dl-horizontal'>
-  <dt>app</dt><dd><p>A <code><a href='ShinyDriver.html'>ShinyDriver</a></code> object.</p></dd>
-  <dt>w</dt><dd><p>A <code>Widget</code> object.</p></dd>
-  <dt>name</dt><dd><p>Name of a Shiny widget.</p></dd>
-  <dt>iotype</dt><dd><p>Character scalar, whether the widget is &#8216;input&#8217;
-    or &#8216;output&#8217;. The default &#8216;auto&#8217; value works well,
-    provided that widgets have unique names. (Shiny allows an input
-    and an output widget with the same name.)</p></dd>
-  <dt>value</dt><dd><p>Value to set for the widget. Its interpretation depends
-    on the type of the widget, see details below.</p></dd>
-  <dt>keys</dt><dd><p>Keys to send to the widget. See the <code>sendKeys</code>
-    method of the <code><a href='http://www.rdocumentation.org/packages/webdriver/topics/Element'>Element</a></code> class in the
-    <code>webdriver</code> package.</p></dd>
-</dl>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-    <p>A <code>Widget</code> object represents a Shiny input or output widget.
-<code>app$findWidget</code> creates a widget object from a
-<code><a href='ShinyDriver.html'>ShinyDriver</a></code> object.</p>
-<p><code>w$getName()</code> returns the name of the widget.</p>
-<p><code>w$getElement()</code> returns an HTML element. This is an
-<code><a href='http://www.rdocumentation.org/packages/webdriver/topics/Element'>Element</a></code> object from the <code>webdriver</code>
-package.</p>
-<p><code>w$getType()</code> returns the type of the widget, possible values
-are <code>textInput</code>, <code>selectInput</code>, etc.</p>
-<p><code>w$getIoType()</code> returns &#8216;input&#8217; or &#8216;output&#8217;,
-whether the widget is an input or output widget.</p>
-<p><code>w$isInput()</code> returns <code>TRUE</code> for input widgets, <code>FALSE</code>
-otherwise.</p>
-<p><code>w$isOutput()</code> returns <code>TRUE</code> for output widgets, <code>FALSE</code>
-otherwise.</p>
-<p><code>w$getValue()</code> returns the value of the widget. The exact type
-returned depends on the type of the widget. TODO: list widgets and their
-return types.</p>
-<p><code>w$setValue()</code> sets the value of the widget, through the web
-browser. Different widget types expect different different <code>value</code>
-arguments. TODO: list widgets and types.</p>
-<p><code>w$sendKeys</code> sends the specified keys to the HTML element of the
-widget.</p>
-<p><code>w$listTabs</code> lists the tab names of a <code>tabsetPanel</code> widget.
-It fails for other types of widgets.</p>
+    <p><code><a href='installDependencies.html'>installDependencies</a></code> to install missing dependencies.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
-
-}</div><div class='output co'>#&gt; NULL</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#value">Value</a></li>
 
-      <li><a href="#arguments">Arguments</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

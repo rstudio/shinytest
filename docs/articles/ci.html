@@ -8,8 +8,11 @@
 <title>Using shinytest with continuous integration • shinytest</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Using shinytest with continuous integration">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
@@ -24,12 +27,25 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">shinytest</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">shinytest</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.2.0.9003</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/shinytest.html">Get started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -39,15 +55,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+    </li>
+    <li>
+      <a href="../articles/faq.html">Frequently Asked Questions</a>
+    </li>
+    <li>
       <a href="../articles/in-depth.html">Testing in depth</a>
     </li>
     <li>
-      <a href="../articles/ci.html">Using shinytest with continuous integration</a>
+      <a href="../articles/package.html">Using shinytest with R packages</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -71,7 +93,10 @@
     <div class="page-header toc-ignore">
       <h1>Using shinytest with continuous integration</h1>
             
-          </div>
+      
+      <small>Source: <a href="https://github.com/rstudio/shinytest/blob/master/vignettes/ci.Rmd"><code>vignettes/ci.Rmd</code></a></small>
+
+    </div>
 
     
     
@@ -130,40 +155,40 @@
 <a href="#travis-yml" class="anchor"></a><code>.travis.yml</code>
 </h3>
 <p>This file contains information for Travis to build and test your application. It should look like this:</p>
-<div class="sourceCode"><pre class="sourceCode yml"><code class="sourceCode yaml"><span class="fu">dist:</span><span class="at"> trusty   </span><span class="co"># Use Ubuntu 14.04 image (instead of 12.04)</span>
-<span class="fu">language:</span><span class="at"> r</span>
-<span class="fu">sudo:</span><span class="at"> false</span>
-<span class="fu">r:</span><span class="at"> 3.4.1</span>
-
-<span class="co"># Install packrat if needed and have it restore packages.</span>
-<span class="fu">install:</span>
-  <span class="kw">-</span> R -e <span class="st">'if (system.file(package="packrat") == "") install.packages("packrat")'</span>
-  <span class="kw">-</span> <span class="fu">R -e "packrat:</span><span class="at">:packify(); packrat::restore()"</span>
-
-<span class="fu">cache:</span>
-  <span class="co"># Main R library</span>
-  <span class="fu">packages:</span><span class="at"> true</span>
-  <span class="fu">directories:</span>
-    <span class="co"># Packrat packages</span>
-    <span class="kw">-</span> packrat/lib
-    <span class="co"># PhantomJS</span>
-    <span class="kw">-</span> travis_phantomjs
-
-<span class="co"># Install PhantomJS (if not cached)</span>
-<span class="fu">before_install:</span>
-  <span class="kw">-</span> <span class="st">"export PHANTOMJS_VERSION=2.1.1"</span>
-  <span class="kw">-</span> <span class="st">"phantomjs --version"</span>
-  <span class="kw">-</span> <span class="st">"export PATH=$PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin:$PATH"</span>
-  <span class="kw">-</span> <span class="st">"hash -r"</span>
-  <span class="kw">-</span> <span class="st">"phantomjs --version"</span>
-  <span class="kw">-</span> <span class="st">"if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi"</span>
-  <span class="kw">-</span> <span class="st">"if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then wget https://github.com/Medium/phantomjs/releases/download/v$PHANTOMJS_VERSION/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2; fi"</span>
-  <span class="kw">-</span> <span class="st">"if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then tar -xvf $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi"</span>
-  <span class="kw">-</span> <span class="st">"if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then hash -r; fi"</span>
-  <span class="kw">-</span> <span class="st">"phantomjs --version"</span>
-
-<span class="fu">script:</span>
-  <span class="kw">-</span> R -f run_tests.R</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yml"><code class="sourceCode yaml"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">dist:</span><span class="at"> trusty   </span><span class="co"># Use Ubuntu 14.04 image (instead of 12.04)</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fu">language:</span><span class="at"> r</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="fu">sudo:</span><span class="at"> false</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="fu">r:</span><span class="at"> 3.4.1</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># Install packrat if needed and have it restore packages.</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="fu">install:</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">  <span class="kw">-</span> R -e <span class="st">'if (system.file(package="packrat") == "") install.packages("packrat")'</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">  <span class="kw">-</span> <span class="fu">R -e "packrat:</span><span class="at">:packify(); packrat::restore()"</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="fu">cache:</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">  <span class="co"># Main R library</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">  <span class="fu">packages:</span><span class="at"> true</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">  <span class="fu">directories:</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">    <span class="co"># Packrat packages</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">    <span class="kw">-</span> packrat/lib</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">    <span class="co"># PhantomJS</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">    <span class="kw">-</span> travis_phantomjs</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co"># Install PhantomJS (if not cached)</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="fu">before_install:</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">  <span class="kw">-</span> <span class="st">"export PHANTOMJS_VERSION=2.1.1"</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">  <span class="kw">-</span> <span class="st">"phantomjs --version"</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">  <span class="kw">-</span> <span class="st">"export PATH=$PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin:$PATH"</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">  <span class="kw">-</span> <span class="st">"hash -r"</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">  <span class="kw">-</span> <span class="st">"phantomjs --version"</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">  <span class="kw">-</span> <span class="st">"if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi"</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">  <span class="kw">-</span> <span class="st">"if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then wget https://github.com/Medium/phantomjs/releases/download/v$PHANTOMJS_VERSION/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2; fi"</span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">  <span class="kw">-</span> <span class="st">"if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then tar -xvf $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi"</span></a>
+<a class="sourceLine" id="cb2-30" data-line-number="30">  <span class="kw">-</span> <span class="st">"if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then hash -r; fi"</span></a>
+<a class="sourceLine" id="cb2-31" data-line-number="31">  <span class="kw">-</span> <span class="st">"phantomjs --version"</span></a>
+<a class="sourceLine" id="cb2-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="fu">script:</span></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34">  <span class="kw">-</span> R -f run_tests.R</a></code></pre></div>
 <p>You should change the R version (set to <code>3.4.1</code> above) to whatever R version is being used on the platform that your application will be deployed to.</p>
 </div>
 <div id="run_tests-r" class="section level3">
@@ -171,15 +196,15 @@
 <a href="#run_tests-r" class="anchor"></a><code>run_tests.R</code>
 </h3>
 <p>The <code>run_tests.R</code> script should look like this. It simply runs the tests for the app, and if the tests fail, it raises error (so that Travis knows the test failed) and outputs logging information:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(testthat)
-<span class="kw">library</span>(shinytest)
-
-<span class="kw"><a href="http://www.rdocumentation.org/packages/testthat/topics/test_that">test_that</a></span>(<span class="st">"Application works"</span>, {
-  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span>
-  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span>
-  <span class="co"># which runs on Linux.</span>
-  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"."</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))
-})</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(testthat)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(shinytest)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="http://www.rdocumentation.org/packages/testthat/topics/test_that">test_that</a></span>(<span class="st">"Application works"</span>, {</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">  <span class="co"># which runs on Linux.</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"."</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">})</a></code></pre></div>
 <p>Notice the use of <code>compareImages=FALSE</code>. When the expected results are generated on one platform (like Mac or Windows) and then tested on another (Travis uses Linux), this option is needed to avoid spurious test failures. This is because R’s plot rendering engine generates slightly different results across platforms, and also because the headless browser generates slightly different results across platforms. When this option is used, the test will only compare the JSON representation of application state, and not the screenshots or plots.</p>
 <p>If you develop on Linux and create the expected test results on Linux, then you should be able to leave out the <code>compareImages</code> argument; it defaults to <code>TRUE</code>.</p>
 </div>
@@ -189,7 +214,7 @@
 </h3>
 <p>This file contains a list of packages used by your application, and the version of each package that you currently have installed on your system. It is the same mechanism that is used by shinyapps.io and RStudio Connect. This file ensures that Travis will use the same versions of packages that you are using locally.</p>
 <p>To create the <code>packrat/packrat.lock</code> file, run:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">packrat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/packrat/topics/snapshotImpl">.snapshotImpl</a></span>(<span class="st">"."</span>, <span class="dt">snapshot.sources =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">packrat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/packrat/topics/snapshotImpl">.snapshotImpl</a></span>(<span class="st">"."</span>, <span class="dt">snapshot.sources =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>NOTE: Future versions of packrat (0.4.8-15 and higher) will be able to use use <code>snapshot(snapshot.sources=FALSE)</code> instead of <code>.snapshotImpl</code>.</p>
 <p><strong>Whenever you update packages on your development machine, you should run this command again to make sure the packages used on Travis stay in sync.</strong></p>
 <p>An alternative to using packrat is to create a DESCRIPTION file. This will not lock package versions; instead, it will use the latest version of each package from CRAN.</p>
@@ -240,19 +265,19 @@
 <a href="#run_tests-r-1" class="anchor"></a><code>run_tests.R</code>
 </h3>
 <p>The <code>run_tests.R</code> script should test each application in the respective directory, instead of testing just one application in the current directory.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(testthat)
-<span class="kw">library</span>(shinytest)
-
-<span class="kw"><a href="http://www.rdocumentation.org/packages/testthat/topics/test_that">test_that</a></span>(<span class="st">"Application works"</span>, {
-  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"01_hello"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))
-  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"06_tabsets"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))
-})</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(testthat)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">library</span>(shinytest)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw"><a href="http://www.rdocumentation.org/packages/testthat/topics/test_that">test_that</a></span>(<span class="st">"Application works"</span>, {</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"01_hello"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"06_tabsets"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">})</a></code></pre></div>
 </div>
 </div>
 <div id="testing-applications-in-a-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#testing-applications-in-a-package" class="anchor"></a>Testing applications in a package</h2>
-<p>This section coming soon.</p>
+<p>See the <a href="package.html">Using shinytest with R packages</a> article.</p>
 </div>
 <div id="rstudio-connect" class="section level2">
 <h2 class="hasAnchor">
@@ -274,13 +299,13 @@
 <a href="#how-do-i-use-a-description-file-instead-of-packrat" class="anchor"></a>How do I use a <code>DESCRIPTION</code> file instead of packrat?</h3>
 <p>Instead of using packrat, you can use a <code>DESCRIPTION</code> file can be used to tell Travis which packages are needed to test the application. Instead of locking each package to a specific version like packat, this will result in the latest version of each package being downloaded from CRAN. This may be appropriate if you want to make sure your application works with the latest version of each package, instead of a frozen set of packages.</p>
 <p>To use a <code>DESCRIPTION</code> file, you need to modify your <code>.travis.yml</code> file to use Travis’s default package installation system instead of packrat. Remove these lines from the template provided above:</p>
-<div class="sourceCode"><pre class="sourceCode yml"><code class="sourceCode yaml"><span class="co"># Install packrat if needed and have it restore packages.</span>
-<span class="fu">install:</span>
-  <span class="kw">-</span> R -e <span class="st">'if (system.file(package="packrat") == "") install.packages("packrat")'</span>
-  <span class="kw">-</span> <span class="fu">R -e "packrat:</span><span class="at">:packify(); packrat::restore()"</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode yml"><code class="sourceCode yaml"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Install packrat if needed and have it restore packages.</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="fu">install:</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">  <span class="kw">-</span> R -e <span class="st">'if (system.file(package="packrat") == "") install.packages("packrat")'</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">  <span class="kw">-</span> <span class="fu">R -e "packrat:</span><span class="at">:packify(); packrat::restore()"</span></a></code></pre></div>
 <p>As well as this from the <code>cache</code> section:</p>
-<div class="sourceCode"><pre class="sourceCode yml"><code class="sourceCode yaml">    <span class="co"># Packrat packages</span>
-    <span class="kw">-</span> packrat/lib</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode yml"><code class="sourceCode yaml"><a class="sourceLine" id="cb8-1" data-line-number="1">    <span class="co"># Packrat packages</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">    <span class="kw">-</span> packrat/lib</a></code></pre></div>
 <p>You will not want generate a <code>packrat.lock</code> file, so do not run the packrat snapshot command listed above.</p>
 <p>Next, create a <code>DESCRIPTION</code> file that looks something like this:</p>
 <pre><code>Imports:
@@ -321,11 +346,13 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>

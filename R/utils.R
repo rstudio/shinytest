@@ -104,8 +104,8 @@ parse_url <- function(url) {
   )
 }
 
-# Determine whether a path is to an .Rmd file or a directory. Error for other
-# cases.
+# If it's a directory, return FALSE. If it's a file ending with .Rmd, return TRUE.
+# For other cases, throw error.
 is_rmd <- function(path) {
   if (utils::file_test('-d', path)) {
     FALSE
@@ -115,6 +115,29 @@ is_rmd <- function(path) {
     stop("Unknown whether app is a regular Shiny app or .Rmd: ", path)
   }
 }
+
+# Given a path, return a path that can be passed to ShinyDriver$new()
+# * If it is a path to an Rmd file including filename (like foo/doc.Rmd), return path unchanged.
+# * If it is a dir containing app.R, server.R, return path unchanged.
+# * If it is a dir containing index.Rmd, return the path with index.Rmd at the end.
+# * Otherwise, throw error.
+app_path <- function(path) {
+  if (grepl("\\.Rmd", path, ignore.case = TRUE)) {
+    return(path)
+  }
+  if (dir_exists(path)) {
+    if (any(c("app.r", "server.r") %in% tolower(dir(path)))) {
+      return(path)
+    }
+    if ("index.Rmd" %in% dir(path)) {
+      return(file.path(path, "index.Rmd"))
+    }
+  }
+
+  stop(path, " must be a directory containing app.R, server.R, or index.Rmd; or path to a .Rmd file (including the filename).")
+}
+
+
 
 raw_to_utf8 <- function(data) {
   res <- rawToChar(data)

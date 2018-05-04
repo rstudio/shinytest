@@ -1,0 +1,196 @@
+---
+title: "Using shinytest with R packages"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+For R packages that have Shiny applications, there are generally two ways that the applications will be present in the package. The first is to have an app.R or ui.R/server.R in a subdirectory of inst/. The second way is to have a function which returns a Shiny app object.
+
+See https://github.com/rstudio/shinytestPackageExample for an example package. This document closely mirrors the content of that package: it explains how to set up tests for both types of applications, and then has a section that describes some setup tasks that are common to both types.
+
+
+## Applications in inst/
+
+An application could live in a subdirectory of inst/, as shown below:
+
+```
+/
+├── DESCRIPTION
+├── NAMESPACE
+├── R
+├── inst
+│   └── appdir
+│       ├── app.R
+│       └── tests/
+│           ├── mytest.R
+│           └── mytest-expected
+│               ├── 001.json
+│               └── 001.png
+└── tests
+    ├── testthat
+    │   └── test-app-file.R
+    └── testthat.R
+```
+
+In this case, you can run `recordTest()` and `testApp()` as normal. After you create and run the tests, there will be a tests/ subdirectory in the application directory that stores the test scripts and results.
+
+Assuming you are using testthat for automated tests, you would create a test driver script in tests/testthat/. In this example, it's named test-app-file.R and contains the following:
+
+```{r}
+context("app-file")
+# This file is for testing the applications in the inst/ directory.
+
+library(shinytest)
+
+test_that("sampleapp works", {
+  # Don't run these tests on the CRAN build servers
+  skip_on_cran()
+
+  # Use compareImages=FALSE because the expected image screenshots were created
+  # on a Mac, and they will differ from screenshots taken on the CI platform,
+  # which runs on Linux.
+  appdir <- system.file(package = "shinytestPackageExample", "sampleapp")
+  expect_pass(testApp(appdir, compareImages = FALSE))
+})
+```
+
+For more information about this script, see the [Test driver script notes](#Test-driver-script-notes) section below.
+
+
+## Application objects created by functions
+
+The second way have an application in an R package is by having a function that returns a Shiny application object. In this example, there's a function `helloWorldApp()`, which lives in R/helloworld.R:
+
+```
+/
+├── .Rbuildignore
+├── DESCRIPTION
+├── NAMESPACE
+├── R
+│   └── helloworld.R
+│
+└── tests
+    ├── testthat
+    │   ├── helloworld/
+    │   │   └── app.R
+    │   └── test-app-function.R
+    └── testthat.R
+```
+
+The function simply returns an object from `shinyApp()`:
+
+```{r}
+helloWorldApp <- function() {
+  utils::data(cars)
+  shinyApp(
+    ui = fluidPage(
+      sliderInput("n", "n", 1, nrow(cars), 10),
+      plotOutput("plot")
+    ),
+    server = function(input, output) {
+      output$plot <- renderPlot({
+        plot(head(cars, input$n), xlim = range(cars[[1]]), ylim = range(cars[[2]]))
+      })
+    }
+  )
+}
+```
+
+To use shinytest to test the application, the key is to add an app.R file that simply calls the function, and then use shinytest on that app.R. You can see the example application. In this case, the application lives at tests/testthat/helloworld/app.R, and contains the following:
+
+```{r}
+library(shinytestPackageExample)
+
+helloWorldApp()
+```
+
+You can call `recordApp()` and `testApp()` on this application as normal to create the test script and expected results.
+
+Assuming you are using testthat for automated tests, you would then create a test driver script in tests/testthat/. In this example, it's named test-app-function.R and contains the following:
+
+```{r}
+context("app-function")
+# This file is for testing the applications in the apps/ directory.
+
+library(shinytest)
+
+test_that("helloWorldApp() works", {
+  # Don't run these tests on the CRAN build servers
+  skip_on_cran()
+
+  # Use compareImages=FALSE because the expected image screenshots were created
+  # on a Mac, and they will differ from screenshots taken on the CI platform,
+  # which runs on Linux.
+  expect_pass(testApp("apps/helloworld/", compareImages = FALSE))
+})
+```
+
+For more information about this script, see the [Test driver script notes](#Test-driver-script-notes) section below.
+
+
+
+## Other setup steps
+
+There are a few steps that are needed for both types of tests.
+
+You will need to add shinytest to the Suggests section in your DESCRIPTION file.
+
+```
+Suggests:
+    shinytest
+```
+
+> **NOTE:** Until shinytest is on CRAN, you should also add it to a Remotes section in your DESCRIPTION file:
+
+```
+Remotes:
+    rstudio/shinytest
+```
+
+When all of these items are in place, you can test your package using `testthat::test()` or by running `R CMD check` on your package. If you are using the RStudio IDE, you can also run Build -> Test Package or Build -> Check Package.
+
+
+
+## Test driver script notes
+
+Here is one of the test driver scripts (which lives in tests/testthat/) from above:
+
+```{r}
+context("app-function")
+# This file is for testing the applications in the apps/ directory.
+
+library(shinytest)
+
+test_that("helloWorldApp() works", {
+  # Don't run these tests on the CRAN build servers
+  skip_on_cran()
+
+  # Use compareImages=FALSE because the expected image screenshots were created
+  # on a Mac, and they will differ from screenshots taken on the CI platform,
+  # which runs on Linux.
+  expect_pass(testApp("apps/helloworld/", compareImages = FALSE))
+})
+```
+
+It has a few unusual features:
+
+If you will submit the package to CRAN, it is best to configure the application tests to **not** run on the CRAN build servers. If you are using testthat, use `skip_on_cran()` in the test block, as in the example.
+
+If you will be testing the package on multiple different platforms, then when calling `testApp()`, use `compareImages = FALSE`. This is because the the screenshots on will likely have small differences across different platforms, and result in spurious test failures.
+
+You may have noticed the `expect_pass()` function, which is from the shinytest package (instead of most `expect_` functions, which are from the testthat package).
+
+
+## Continuous integration
+
+If you would like your package to be tested with every commit, you can set it up with Travis CI as described in Hadley Wickham's [R Packages book](http://r-pkgs.had.co.nz/check.html#travis).
+
+Note that until shinytest is available on CRAN, you will also need to edit the DESCRIPTION file and add a `Remotes` field with a `rstudio/shinytest` entry.
+
