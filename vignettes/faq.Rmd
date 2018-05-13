@@ -27,3 +27,14 @@ Shinytest normally assumes that when you call `app$setInput()`, the setting of a
 If, in your application, you expect that setting a particular input does not immediately result in any output changes, then you should call `app$setInput()` with `wait_=FALSE, values_=FALSE)`.
 
 On the other hand, if you expect that setting the input should result in an output change, but the time exceeds the timeout, then you can call `app$setInput()` with, for example, `timeout_=10`.
+
+
+## How can my app detect if it's running in shinytest?
+
+Sometimes it can be useful to alter the behavior of your application when it's being tested. To detect when it's being tested, you can use `isTRUE(getOption("shiny.testmode"))`, as in:
+
+```{r}
+if (isTRUE(getOption("shiny.testmode"))) {
+   # Do something special here
+}
+```

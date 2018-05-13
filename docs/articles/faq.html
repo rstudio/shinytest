@@ -111,6 +111,14 @@
 <p>If, in your application, you expect that setting a particular input does not immediately result in any output changes, then you should call <code>app$setInput()</code> with <code>wait_=FALSE, values_=FALSE)</code>.</p>
 <p>On the other hand, if you expect that setting the input should result in an output change, but the time exceeds the timeout, then you can call <code>app$setInput()</code> with, for example, <code>timeout_=10</code>.</p>
 </div>
+<div id="how-can-my-app-detect-if-its-running-in-shinytest" class="section level2">
+<h2 class="hasAnchor">
+<a href="#how-can-my-app-detect-if-its-running-in-shinytest" class="anchor"></a>How can my app detect if it’s running in shinytest?</h2>
+<p>Sometimes it can be useful to alter the behavior of your application when it’s being tested. To detect when it’s being tested, you can use <code>isTRUE(getOption("shiny.testmode"))</code>, as in:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">isTRUE</span>(<span class="kw">getOption</span>(<span class="st">"shiny.testmode"</span>))) {</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">   <span class="co"># Do something special here</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">}</a></code></pre></div>
+</div>
 </div>
   </div>
 
@@ -120,6 +128,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#what-does-it-mean-when-i-run-testapp-and-it-says-server-did-not-update-any-output-values-within-3-seconds">What does it mean when I run <code><a href="--/reference/testApp-html">testApp()</a></code> and it says, “Server did not update any output values within 3 seconds”?</a></li>
+      <li><a href="#how-can-my-app-detect-if-its-running-in-shinytest">How can my app detect if it’s running in shinytest?</a></li>
       </ul>
 </div>
       </div>
