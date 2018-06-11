@@ -130,7 +130,7 @@ be named and the value must be the path to a local file; that file will be
 uploaded to a file input with that name.
 
 \code{app$getAllValues()} returns a named list of all inputs, outputs,
-and error values.
+and export values.
 
 \code{app$setValue()} finds a widget and sets its value. See the
 \code{setValue} method of the \code{\link{Widget}} class.
