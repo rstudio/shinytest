@@ -11,7 +11,7 @@ License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/rstudio/shinytest
 BugReports: https://github.com/rstudio/shinytest/issues
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0
 Imports:
     assertthat,
     digest,
