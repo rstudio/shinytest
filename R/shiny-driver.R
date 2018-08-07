@@ -13,7 +13,7 @@
 #' app$setValue(name, value, iotype = c("auto", "input", "output"))
 #' app$sendKeys(name = NULL, keys)
 #'
-#' app$get_windows_size()
+#' app$getWindowSize()
 #' app$setWindowSize(width, height)
 #'
 #' app$getUrl()
