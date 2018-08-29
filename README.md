@@ -33,4 +33,4 @@ See the [getting started guide](https://rstudio.github.io/shinytest/articles/shi
 
 ## License
 
-MIT © Mango Solutions
+MIT © Mango Solutions, RStudio
