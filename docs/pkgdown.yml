@@ -1,9 +1,10 @@
 pandoc: 2.2.1
-pkgdown: 1.1.0
-pkgdown_sha: ~
+pkgdown: 1.1.0.9000
+pkgdown_sha: 4d4c58dcdc64e2406e9149c2e99afa2fb1d8fb5d
 articles:
   ci: ci.html
   faq: faq.html
+  ide: ide.html
   in-depth: in-depth.html
   package: package.html
   shinytest: shinytest.html
