@@ -4,7 +4,7 @@
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
                           debug, phantomTimeout, seed, cleanLogs,
-                          shinyOptions) {
+                          shinyOptions, rOptions) {
 
   private$cleanLogs <- cleanLogs
 
@@ -24,7 +24,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   } else {
     "!DEBUG starting shiny app from path"
     self$logEvent("Starting Shiny app")
-    private$startShiny(path, seed, loadTimeout, shinyOptions)
+    private$startShiny(path, seed, loadTimeout, shinyOptions, rOptions)
   }
 
   "!DEBUG create new phantomjs session"
@@ -86,7 +86,8 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) {
+sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions,
+                          rOptions) {
 
   assert_that(is_string(path))
 
@@ -101,7 +102,7 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
   p <- with_envvar(
     c("R_TESTS" = NA),
     callr::r_bg(
-      function(path, shinyOptions, rmd, seed) {
+      function(path, shinyOptions, rmd, seed, rOptions) {
 
         if (!is.null(seed)) {
           set.seed(seed);
@@ -109,6 +110,7 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
         }
 
         options(shiny.testmode = TRUE)
+        do.call(options, rOptions)
 
         if (rmd) {
           # Shiny document
@@ -118,7 +120,7 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
           do.call(shiny::runApp, c(path, shinyOptions))
         }
       },
-      args = list(path, shinyOptions, is_rmd(path), seed),
+      args = list(path, shinyOptions, is_rmd(path), seed, rOptions),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
       stderr = sprintf(tempfile_format, "shiny-stderr"),
       supervise = TRUE

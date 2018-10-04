@@ -11,7 +11,8 @@ Class to manage a shiny app and a phantom.js headless browser
 \preformatted{app <- ShinyDriver$new(path = ".", loadTimeout = 5000,
               checkNames = TRUE, debug = c("none", "all",
               ShinyDriver$debugLogTypes), phantomTimeout = 5000,
-              seed = NULL, cleanLogs = TRUE, shinyOptions = list()))
+              seed = NULL, cleanLogs = TRUE, shinyOptions = list(),
+              rOptions = list())
 app$stop()
 app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
 
@@ -69,6 +70,8 @@ app$expectUpdate(output, ..., timeout = 3000,
   \item{cleanLogs}{Whether to remove the stdout and stderr logs when the
     Shiny process object is garbage collected.}
   \item{shinyOptions}{A list of options to pass to \code{runApp()}.}
+  \item{rOptions}{An optional list of R \link{options} to be set within
+    Shiny session.}
   \item{name}{Name of a shiny widget. For \code{$sendKeys} it can
      be \code{NULL}, in which case the keys are sent to the active
      HTML element.}

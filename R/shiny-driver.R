@@ -5,7 +5,8 @@
 #' \preformatted{app <- ShinyDriver$new(path = ".", loadTimeout = 5000,
 #'               checkNames = TRUE, debug = c("none", "all",
 #'               ShinyDriver$debugLogTypes), phantomTimeout = 5000,
-#'               seed = NULL, cleanLogs = TRUE, shinyOptions = list()))
+#'               seed = NULL, cleanLogs = TRUE, shinyOptions = list(),
+#'               rOptions = list())
 #' app$stop()
 #' app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
 #'
@@ -61,6 +62,8 @@
 #'   \item{cleanLogs}{Whether to remove the stdout and stderr logs when the
 #'     Shiny process object is garbage collected.}
 #'   \item{shinyOptions}{A list of options to pass to \code{runApp()}.}
+#'   \item{rOptions}{An optional list of R \link{options} to be set within
+#'     Shiny session.}
 #'   \item{name}{Name of a shiny widget. For \code{$sendKeys} it can
 #'      be \code{NULL}, in which case the keys are sent to the active
 #'      HTML element.}
@@ -204,11 +207,11 @@ ShinyDriver <- R6Class(
     initialize = function(path = ".", loadTimeout = 5000, checkNames = TRUE,
       debug = c("none", "all", shinytest::ShinyDriver$debugLogTypes),
       phantomTimeout = 5000, seed = NULL, cleanLogs = TRUE,
-      shinyOptions = list())
+      shinyOptions = list(), rOptions = list())
     {
       sd_initialize(self, private, path, loadTimeout, checkNames, debug,
         phantomTimeout = phantomTimeout, seed = seed, cleanLogs = cleanLogs,
-        shinyOptions = shinyOptions)
+        shinyOptions = shinyOptions, rOptions = rOptions)
     },
 
     finalize = function()
@@ -364,8 +367,8 @@ ShinyDriver <- R6Class(
     cleanLogs = TRUE,                  # Whether to clean logs when GC'd
 
     startShiny = function(path, seed = NULL, loadTimeout = 10000,
-                          shinyOptions = list())
-      sd_startShiny(self, private, path, seed, loadTimeout, shinyOptions),
+                          shinyOptions = list(), rOptions = list())
+      sd_startShiny(self, private, path, seed, loadTimeout, shinyOptions, rOptions),
 
     getShinyUrl = function()
       sd_getShinyUrl(self, private),
