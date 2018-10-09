@@ -1,4 +1,4 @@
+1.3.0
+=====
 
-# 1.0.0
-
-First public release.
+* First public release

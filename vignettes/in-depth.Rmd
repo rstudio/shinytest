@@ -217,11 +217,11 @@ app <- ShinyDriver$new("../", seed = 4323)
 
 ### Tabs
 
-With tabbed views, such as `tabPanel()` and `navbarPage()`, in order for shinytest to keep track of which tab is currently selected, they must have an `id`. For example:
+With tabbed views, such as `tabsetPanel()` and `navbarPage()`, in order for shinytest to keep track of which tab is currently selected, they must have an `id`. For example:
 
 
 ```{r}
-tabPanel(id = "tabs", ....)
+tabsetPanel(id = "tabs", ....)
 ```
 
 or

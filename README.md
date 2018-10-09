@@ -12,6 +12,16 @@
 
 ## Installation
 
+To install the current release version:
+
+
+```r
+install.packages("shinytest")
+```
+
+
+To install the development version:
+
 
 ```r
 devtools::install_github("rstudio/shinytest")
@@ -23,4 +33,4 @@ See the [getting started guide](https://rstudio.github.io/shinytest/articles/shi
 
 ## License
 
-MIT © Mango Solutions
+MIT © Mango Solutions, RStudio

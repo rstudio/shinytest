@@ -5,12 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frequently Asked Questions • shinytest</title>
+<title>Integration with RStudio IDE • shinytest</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<script src="../extra.js"></script><meta property="og:title" content="Frequently Asked Questions">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Integration with RStudio IDE">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -63,13 +62,13 @@
       <a href="../articles/faq.html">Frequently Asked Questions</a>
     </li>
     <li>
-      <a href="../articles/ide.html">Integration with RStudio IDE</a>
-    </li>
-    <li>
       <a href="../articles/in-depth.html">Testing in depth</a>
     </li>
     <li>
       <a href="../articles/package.html">Using shinytest with R packages</a>
+    </li>
+    <li>
+      <a href="../articles/rstudio.html">Integration with RStudio IDE</a>
     </li>
   </ul>
 </li>
@@ -96,33 +95,30 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Frequently Asked Questions</h1>
+      <h1>Integration with RStudio IDE</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/shinytest/blob/master/vignettes/faq.Rmd"><code>vignettes/faq.Rmd</code></a></small>
-      <div class="hidden name"><code>faq.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/shinytest/blob/master/vignettes/rstudio.Rmd"><code>vignettes/rstudio.Rmd</code></a></small>
+      <div class="hidden name"><code>rstudio.Rmd</code></div>
 
     </div>
 
     
     
-<div id="what-does-it-mean-when-i-run-testapp-and-it-says-server-did-not-update-any-output-values-within-3-seconds" class="section level2">
+<div id="shinytest-in-the-rstudio-ide" class="section level2">
 <h2 class="hasAnchor">
-<a href="#what-does-it-mean-when-i-run-testapp-and-it-says-server-did-not-update-any-output-values-within-3-seconds" class="anchor"></a>What does it mean when I run <code><a href="../reference/testApp.html">testApp()</a></code> and it says, “Server did not update any output values within 3 seconds”?</h2>
-<p>The full message is this:</p>
-<pre><code>Server did not update any output values within 3 seconds. If this is expected, use wait_=FALSE, values_=FALSE, or increase the value of timeout_.</code></pre>
-<p>This happens when setting an input value does <em>not</em> result in an output changing.</p>
-<p>Shinytest normally assumes that when you call <code>app$setInput()</code>, the setting of an input will also result in a changed output, so the test driver process will wait for an output to change before moving on to the next step in a test script. If no outputs change within the timeout period (which defaults to 3 seconds), it prints that message.</p>
-<p>If, in your application, you expect that setting a particular input does not immediately result in any output changes, then you should call <code>app$setInput()</code> with <code>wait_=FALSE, values_=FALSE)</code>.</p>
-<p>On the other hand, if you expect that setting the input should result in an output change, but the time exceeds the timeout, then you can call <code>app$setInput()</code> with, for example, <code>timeout_=10</code>.</p>
-</div>
-<div id="how-can-my-app-detect-if-its-running-in-shinytest" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-can-my-app-detect-if-its-running-in-shinytest" class="anchor"></a>How can my app detect if it’s running in shinytest?</h2>
-<p>Sometimes it can be useful to alter the behavior of your application when it’s being tested. To detect when it’s being tested, you can use <code>isTRUE(getOption("shiny.testmode"))</code>, as in:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">isTRUE</span>(<span class="kw">getOption</span>(<span class="st">"shiny.testmode"</span>))) {</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">   <span class="co"># Do something special here</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">}</a></code></pre></div>
+<a href="#shinytest-in-the-rstudio-ide" class="anchor"></a>Shinytest in the RStudio IDE</h2>
+<p>The RStudio IDE provides a graphical interface that make it even easier to create tests for Shiny applications. The GUI provides buttons for running shinytest commands, so that you don’t have to remember them. These features are available in version 1.2 of the IDE and above.</p>
+<p>When an application file (app.R, server.R, ui.R, or global.R) is open in the editor, a button labeled <strong>Run App</strong> will show at the top of the editor pane. If you click on the small black triangle next to <strong>Run App</strong>, a menu will appear.</p>
+<p><img src="ide-menu.png"></p>
+<p>If you click on <strong>Record Test</strong>, it will start the test recorder by calling <code><a href="../reference/recordTest.html">recordTest()</a></code> for that application.</p>
+<p>If you click on <strong>Run Tests</strong>, it will run all the test scripts in the tests/ directory, and display the results in the Build pane. If the tests pass, it will look something like this:</p>
+<p><img src="ide-results-pass.png"></p>
+<p>If any of the tests fail, it will look like this:</p>
+<p><img src="ide-results-fail.png"></p>
+<p>You can click on the <strong>Output</strong> button to see the full text output from shinytest.</p>
+<p><img src="ide-results-fail-output.png"></p>
+<p>When a test fails, the IDE will also automatically open the failing test script (mytest.R, for example) in the editor. There are also two buttons for test scripts: <strong>Compare Results</strong>, which opens the diff viewer for comparing the expected and current results, and <strong>Run Tests</strong>, which runs the test script.</p>
 </div>
   </div>
 
@@ -131,8 +127,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#what-does-it-mean-when-i-run-testapp-and-it-says-server-did-not-update-any-output-values-within-3-seconds">What does it mean when I run <code><a href="--/reference/testApp-html">testApp()</a></code> and it says, “Server did not update any output values within 3 seconds”?</a></li>
-      <li><a href="#how-can-my-app-detect-if-its-running-in-shinytest">How can my app detect if it’s running in shinytest?</a></li>
+<li><a href="#shinytest-in-the-rstudio-ide">Shinytest in the RStudio IDE</a></li>
       </ul>
 </div>
       </div>
