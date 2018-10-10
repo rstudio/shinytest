@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.9000</span>
       </span>
     </div>
 
@@ -208,31 +208,26 @@
 <p>You will need to add shinytest to the Suggests section in your DESCRIPTION file.</p>
 <pre><code>Suggests:
     shinytest</code></pre>
-<blockquote>
-<p><strong>NOTE:</strong> Until shinytest is on CRAN, you should also add it to a Remotes section in your DESCRIPTION file:</p>
-</blockquote>
-<pre><code>Remotes:
-    rstudio/shinytest</code></pre>
 <p>When all of these items are in place, you can test your package using <code>testthat::test()</code> or by running <code>R CMD check</code> on your package. If you are using the RStudio IDE, you can also run Build -&gt; Test Package or Build -&gt; Check Package.</p>
 </div>
 <div id="test-driver-script-notes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#test-driver-script-notes" class="anchor"></a>Test driver script notes</h2>
 <p>Here is one of the test driver scripts (which lives in tests/testthat/) from above:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">context</span>(<span class="st">"app-function"</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co"># This file is for testing the applications in the apps/ directory.</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw">library</span>(shinytest)</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw">test_that</span>(<span class="st">"helloWorldApp() works"</span>, {</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">  <span class="co"># Don't run these tests on the CRAN build servers</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">  <span class="kw">skip_on_cran</span>()</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12">  <span class="co"># which runs on Linux.</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13">  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb9-14" data-line-number="14">})</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">context</span>(<span class="st">"app-function"</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co"># This file is for testing the applications in the apps/ directory.</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw">library</span>(shinytest)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="kw">test_that</span>(<span class="st">"helloWorldApp() works"</span>, {</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="co"># Don't run these tests on the CRAN build servers</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">  <span class="kw">skip_on_cran</span>()</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">  <span class="co"># which runs on Linux.</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">})</a></code></pre></div>
 <p>It has a few unusual features:</p>
 <p>If you will submit the package to CRAN, it is best to configure the application tests to <strong>not</strong> run on the CRAN build servers. If you are using testthat, use <code>skip_on_cran()</code> in the test block, as in the example.</p>
 <p>If you will be testing the package on multiple different platforms, then when calling <code><a href="../reference/testApp.html">testApp()</a></code>, use <code>compareImages = FALSE</code>. This is because the the screenshots on will likely have small differences across different platforms, and result in spurious test failures.</p>
@@ -242,7 +237,6 @@
 <h2 class="hasAnchor">
 <a href="#continuous-integration" class="anchor"></a>Continuous integration</h2>
 <p>If you would like your package to be tested with every commit, you can set it up with Travis CI as described in Hadley Wickham’s <a href="http://r-pkgs.had.co.nz/check.html#travis">R Packages book</a>.</p>
-<p>Note that until shinytest is available on CRAN, you will also need to edit the DESCRIPTION file and add a <code>Remotes</code> field with a <code>rstudio/shinytest</code> entry.</p>
 </div>
   </div>
 
