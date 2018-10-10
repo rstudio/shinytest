@@ -147,13 +147,6 @@ Suggests:
     shinytest
 ```
 
-> **NOTE:** Until shinytest is on CRAN, you should also add it to a Remotes section in your DESCRIPTION file:
-
-```
-Remotes:
-    rstudio/shinytest
-```
-
 When all of these items are in place, you can test your package using `testthat::test()` or by running `R CMD check` on your package. If you are using the RStudio IDE, you can also run Build -> Test Package or Build -> Check Package.
 
 
@@ -191,6 +184,3 @@ You may have noticed the `expect_pass()` function, which is from the shinytest p
 ## Continuous integration
 
 If you would like your package to be tested with every commit, you can set it up with Travis CI as described in Hadley Wickham's [R Packages book](http://r-pkgs.had.co.nz/check.html#travis).
-
-Note that until shinytest is available on CRAN, you will also need to edit the DESCRIPTION file and add a `Remotes` field with a `rstudio/shinytest` entry.
-
