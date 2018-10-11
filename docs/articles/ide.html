@@ -10,7 +10,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<script src="../extra.js"></script><meta property="og:title" content="Integration with RStudio IDE">
+<meta property="og:title" content="Integration with RStudio IDE">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -111,14 +111,14 @@
 <a href="#shinytest-in-the-rstudio-ide" class="anchor"></a>Shinytest in the RStudio IDE</h2>
 <p>The RStudio IDE provides a graphical interface that make it even easier to create tests for Shiny applications. The GUI provides buttons for running shinytest commands, so that you don’t have to remember them. These features are available in version 1.2 of the IDE and above.</p>
 <p>When an application file (app.R, server.R, ui.R, or global.R) is open in the editor, a button labeled <strong>Run App</strong> will show at the top of the editor pane. If you click on the small black triangle next to <strong>Run App</strong>, a menu will appear.</p>
-<p><img src="ide-menu.png"></p>
+<p><img src="ide-menu.png" width="631px"></p>
 <p>If you click on <strong>Record Test</strong>, it will start the test recorder by calling <code><a href="../reference/recordTest.html">recordTest()</a></code> for that application.</p>
 <p>If you click on <strong>Run Tests</strong>, it will run all the test scripts in the tests/ directory, and display the results in the Build pane. If the tests pass, it will look something like this:</p>
-<p><img src="ide-results-pass.png"></p>
+<p><img src="ide-results-pass.png" width="638px"></p>
 <p>If any of the tests fail, it will look like this:</p>
-<p><img src="ide-results-fail.png"></p>
+<p><img src="ide-results-fail.png" width="639px"></p>
 <p>You can click on the <strong>Output</strong> button to see the full text output from shinytest.</p>
-<p><img src="ide-results-fail-output.png"></p>
+<p><img src="ide-results-fail-output.png" width="636px"></p>
 <p>When a test fails, the IDE will also automatically open the failing test script (mytest.R, for example) in the editor. There are also two buttons for test scripts: <strong>Compare Results</strong>, which opens the diff viewer for comparing the expected and current results, and <strong>Run Tests</strong>, which runs the test script.</p>
 </div>
   </div>
