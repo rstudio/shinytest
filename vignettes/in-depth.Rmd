@@ -9,6 +9,7 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+source("utils.R", local = TRUE)
 ```
 
 ## Customizing test scripts
@@ -161,7 +162,9 @@ shinyApp(
 )
 ```
 
-![](screenshot-exports-app.png)
+```{r echo=FALSE, eval=TRUE, results='asis'}
+img("screenshot-exports-app.png")
+```
 
 Notice this line:
 
@@ -204,8 +207,9 @@ If your application uses randomly-generated values (by calling functions like `r
 
 To make such applications exactly repeatable, you can set the random seed. This can be done by specifying a random seed in the recorder. The seed can be any integer value.
 
-![](screenshot-recorder-random-seed.png)
-
+```{r echo=FALSE, eval=TRUE, results='asis'}
+img("screenshot-recorder-random-seed.png")
+```
 
 If your test script has already been created, you can set the random seed by editing the test script so that the `ShinyDriver$new()` call has a value for `seed`:
 

@@ -9,6 +9,7 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+source("utils.R", local = TRUE)
 ```
 
 
@@ -218,7 +219,9 @@ snapshotCompare("path/to/app/", "mytest")
 
 In the example above, we had a single test script, named `mytest.R`. If you want to have more than one set of tests for an application, you can record new tests, each with a different name. You can enter the name when recording your tests:
 
-![](screenshot-recorder-name.png)
+```{r echo=FALSE, eval=TRUE, results='asis'}
+img("screenshot-recorder-name.png")
+```
 
 When you run `testApp("path/to/app")`, it will run all the tests scripts in the application's `tests/` directory.
 
