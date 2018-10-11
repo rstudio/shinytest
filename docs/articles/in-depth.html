@@ -198,7 +198,7 @@
 <a class="sourceLine" id="cb13-19" data-line-number="19">    <span class="kw">exportTestValues</span>(<span class="dt">nums =</span> { nums })</a>
 <a class="sourceLine" id="cb13-20" data-line-number="20">  }</a>
 <a class="sourceLine" id="cb13-21" data-line-number="21">)</a></code></pre></div>
-<p><img src="screenshot-exports-app.png" width="408px"></p>
+<p><img src="screenshot-exports-app.png" width="408"></p>
 <p>Notice this line:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">    <span class="kw">exportTestValues</span>(<span class="dt">nums =</span> { nums })</a></code></pre></div>
 <p>This creates an export value named <code>nums</code>. When a test snapshot is taken, it evaluates the expression <code>{ nums }</code>, and the returned value is included in the snapshot. Here’s what the snapshot would look like if we add a few numbers and then take the snapshot:</p>
@@ -227,7 +227,7 @@
 <a href="#controlling-randomness" class="anchor"></a>Controlling randomness</h3>
 <p>If your application uses randomly-generated values (by calling functions like <code>rnorm</code>, <code>runif</code>, <code>sample</code> directly or indirectly), then, in normal operation, it will produce different results on each run. Because Shinytest works by comparing the current state of an application to a previous state, these random changes will cause test failures.</p>
 <p>To make such applications exactly repeatable, you can set the random seed. This can be done by specifying a random seed in the recorder. The seed can be any integer value.</p>
-<p><img src="screenshot-recorder-random-seed.png" width="295px"></p>
+<p><img src="screenshot-recorder-random-seed.png" width="295"></p>
 <p>If your test script has already been created, you can set the random seed by editing the test script so that the <code>ShinyDriver$new()</code> call has a value for <code>seed</code>:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">"../"</span>, <span class="dt">seed =</span> <span class="dv">4323</span>)</a></code></pre></div>
 </div>
