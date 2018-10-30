@@ -38,3 +38,7 @@ if (isTRUE(getOption("shiny.testmode"))) {
    # Do something special here
 }
 ```
+
+## Can I control the value shinytest uses for comparing test results?
+
+The **shiny** package provides a way to preprocess both input (`shiny::snapshotPreprocessInput()`) and output (`shiny::snapshotPreprocessOutput()`) values before those values are used by shinytest for comparing test results. These functions can be helpful for avoiding comparison of possible very large objects and/or superfluous information that generates false positive test results. They can used directly in your shiny app used for testing and/or internally in R packages. For example, the [DT](https://github.com/cran/DT/blob/44fb07c/R/shiny.R#L114-L125) packages uses `shiny::snapshotPreprocessOutput()` to remove information that end-users need not concern themselves about. 
