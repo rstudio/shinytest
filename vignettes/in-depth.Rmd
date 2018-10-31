@@ -216,6 +216,9 @@ If your test script has already been created, you can set the random seed by edi
 app <- ShinyDriver$new("../", seed = 4323)
 ```
 
+In many cases, instead of setting the random seed, it is more elegant to use an [output preprocessor](faq.html#can-i-modify-the-output-and-input-values-that-are-recorded-in-snapshots).
+
+
 ## Widgets
 
 ### Tabs
