@@ -230,6 +230,7 @@
 <p><img src="screenshot-recorder-random-seed.png" width="295"></p>
 <p>If your test script has already been created, you can set the random seed by editing the test script so that the <code>ShinyDriver$new()</code> call has a value for <code>seed</code>:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">"../"</span>, <span class="dt">seed =</span> <span class="dv">4323</span>)</a></code></pre></div>
+<p>In many cases, instead of setting the random seed, it is more elegant to use an <a href="faq.html#can-i-modify-the-output-and-input-values-that-are-recorded-in-snapshots">output preprocessor</a>.</p>
 </div>
 </div>
 <div id="widgets" class="section level2">
