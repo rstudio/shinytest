@@ -38,3 +38,46 @@ if (isTRUE(getOption("shiny.testmode"))) {
    # Do something special here
 }
 ```
+
+
+## Can I modify the output and input values that are recorded in snapshots?
+
+For some kinds of outputs, it is problematic to record the raw value directly in a JSON snapshot. The output might be very large (e.g., image data or a large table), or it may contain randomly-generated values for which the specific value is unimportant for testing (such as randomly-generated DOM element IDs).
+
+In these situations, you can use an *output preprocessor* function. This is most commonly done by the author of component used in an application, although it can also be done by an application author. An output preprocessor function is passed an object representing the output value, and it should return a value. If the problem is that the value is large, the preprocessor function can modify the value by hashing it and returning the hash. If the problem is that the value contains some random values, the preprocessor function can replace the random values with fixed ones.
+
+To add an output preprocessor, use `shiny::snapshotPreprocessOutput()` to modify an output renderer. For example, see [this section](https://github.com/rstudio/shiny/blob/81cc7c5/R/shinywrappers.R#L656-L663) of the `renderDataTable()` function. It takes the object that *would be* returned by `renderDataTable()`, and modifies it by adding an output preprocessor which removes strings that contain random values.
+
+For some outputs (notably htmlwidgets), the output value is text string containing JSON, and if you want to modify the JSON, you will have to either (1) do text processing on the JSON, or (2) convert the JSON to an R object, modify the R object, and convert the R object back to JSON. The plotly R package uses this method in [`renderPlotly()`](https://github.com/ropensci/plotly/blob/2eef4ab/R/shiny.R#L46-L53).
+
+The examples above modify the output renderer from inside the output renderer function, and this would have to be done by the author of the component. It is also possible for an application author to modify a renderer with something like the following:
+
+```{r}
+shinyApp(
+  ui = fluidPage(
+    verbatimTextOutput("random")
+  ),
+  server = function(input, output, session) {
+    output$random <- snapshotPreprocessOutput(
+      renderText({
+        paste("This is a random number:", rnorm(1))
+      }),
+      function(value) {
+        sub("[0-9.]+$", "<a random number>", value)
+      }
+    )
+  }
+)
+```
+
+The output in the JSON snapshot will be:
+
+```json
+  "output": {
+    "random": "This is a random number: <a random number>"
+  }
+```
+
+(This example is just for illustration purposes. Note that for this example, the screenshots will still change each time the test is run, so there are better solutions, like [setting the random seed](in-depth.html#controlling-randomness).)
+
+Input values can face the same issues, and they can also be modified with `shiny::snapshotPreprocessInput()`.
