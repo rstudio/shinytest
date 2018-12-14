@@ -35,19 +35,22 @@ shinyApp(
     )
   ),
 
-  server = function(input, output) {
+  server = function(session, input, output) {
+    msg <- reactiveVal()
     observeEvent(input$accept, {
       shinytest::snapshotUpdate(app_dir, test_name)
-      stopApp("accept")
+      msg("accept")
+      session$close()
     })
-
     observeEvent(input$reject, {
-      stopApp("reject")
+      msg("reject")
+      session$close()
     })
-
     onSessionEnded(function() {
-      # Quit the app if the user closes the window
-      stopApp("reject")
+      observe({
+        if (is.null(msg())) msg("reject")
+        stopApp(msg())
+      })
     })
   }
 )
