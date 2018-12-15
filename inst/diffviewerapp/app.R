@@ -34,7 +34,6 @@ shinyApp(
       shinytest::viewTestDiffWidget(app_dir, test_name)
     )
   ),
-
   server = function(session, input, output) {
     msg <- reactiveVal()
     observeEvent(input$accept, {
