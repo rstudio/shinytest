@@ -129,18 +129,11 @@ quoteName <- function(name) {
 }
 
 codeGenerators <- list(
-  initialize = function(event, nextEvent = NULL, useTimes = FALSE) {
+  initialize = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
     NA_character_
   },
 
-  input = function(event, nextEvent = NULL, useTimes = FALSE) {
-    if (!event$hasBinding) {
-      return(paste0(
-        "# Input '", quoteName(event$name),
-        "' was set, but doesn't have an input binding."
-      ))
-    }
-
+  input = function(event, nextEvent = NULL, useTimes = FALSE, allowInputNoBinding = FALSE, ...) {
     # Extra arguments when using times
     args <- ""
     if (useTimes && !is.null(nextEvent)) {
@@ -183,7 +176,7 @@ codeGenerators <- list(
 
       code
 
-    } else {
+    } else if (event$hasBinding) {
       paste0(
         "app$setInputs(",
         quoteName(event$name), " = ",
@@ -191,27 +184,46 @@ codeGenerators <- list(
         args,
         ")"
       )
+
+    } else {
+      if (allowInputNoBinding) {
+        args <- paste0(args, ", allowInputNoBinding_ = TRUE")
+        paste0(
+          "app$setInputs(",
+          quoteName(event$name), " = ",
+          processInputValue(event$value, inputType = "default"),
+          args,
+          ")"
+        )
+      } else {
+        paste0(
+          "# Input '", quoteName(event$name),
+          "' was set, but doesn't have an input binding."
+        )
+      }
     }
   },
 
-  fileDownload = function(event, nextEvent = NULL, useTimes = FALSE) {
+  fileDownload = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
     paste0('app$snapshotDownload("', event$name, '")')
   },
 
-  outputEvent = function(event, nextEvent = NULL, useTimes = FALSE) {
+  outputEvent = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
      NA_character_
   },
 
-  outputSnapshot = function(event, nextEvent = NULL, useTimes = FALSE) {
+  outputSnapshot = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
     paste0('app$snapshot(list(output = "', event$name, '"))')
   },
 
-  snapshot = function(event, nextEvent = NULL, useTimes = FALSE) {
+  snapshot = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
     "app$snapshot()"
   }
 )
 
-generateTestCode <- function(events, name, seed, useTimes = FALSE) {
+generateTestCode <- function(events, name, seed, useTimes = FALSE,
+  allowInputNoBinding = FALSE)
+{
   if (useTimes) {
     # Convert from absolute to relative times; first event has time 0.
     startTime <- NA
@@ -226,7 +238,8 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE) {
   # Generate code for each input and output event
   eventCode <- mapply(
     function(event, nextEvent, useTimes) {
-      codeGenerators[[event$type]](event, nextEvent, useTimes)
+      codeGenerators[[event$type]](event, nextEvent, useTimes,
+                                   allowInputNoBinding = allowInputNoBinding)
     },
     events,
     c(events[-1], list(NULL)),
@@ -331,6 +344,20 @@ shinyApp(
           value = if (load_mode) "myloadtest" else "mytest"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
         if (!load_mode) checkboxInput("runScript", "Run test script on exit", value = TRUE),
+        checkboxInput(
+          "allowInputNoBinding",
+          tagList("Record inputs that do not have a binding",
+            tooltip(
+              paste(
+                "This enables recording inputs that do not have a binding, which is common in htmlwidgets",
+                "like DT and plotly. Note that playback support is limited: shinytest will set the input",
+                "value so that R gets the input value, but the htmlwidget itself will not be aware of the value."
+              ),
+              placement = "bottom"
+            )
+          ),
+          value = FALSE
+        ),
         numericInput("seed",
           label = tagList("Random seed:",
             tooltip("A seed is recommended if your application uses any randomness. This includes all Shiny Rmd documents.")
@@ -427,7 +454,8 @@ shinyApp(
             seed <- NULL
 
           code <- generateTestCode(input$testevents, input$testname,
-            seed = seed, useTimes = load_mode)
+            seed = seed, useTimes = load_mode,
+            allowInputNoBinding = input$allowInputNoBinding)
 
           cat(code, file = saveFile())
           message("Saved test code to ", saveFile())
