@@ -273,7 +273,7 @@ The rest of the test script can be run unchanged.
 As you step through the script, you can inspect the state of the application in a few different ways. One is to view a screenshot. You should not to call `app$snapshot()` to get a screenshot, because it will increment the snapshot counter and shift the numbers of snapshots that really are part of the tests (e.g., snapshot 003 would become 004). Instead you can do this:
 
 ```{r}
-app$take_screenshot()
+app$takeScreenshot()
 ```
 
 This will display the screenshot as if it were a plot. (In RStudio, it will show in the Viewer pane.) You can inspect the screenshot to see the state of the application.
