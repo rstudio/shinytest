@@ -10,32 +10,6 @@ window.recorder = (function() {
     // Code injection
     $(document).ready(function() {
 
-        // Modify iframe's URL if we're being proxied by RStudio Server.
-        function fixupIframeUrl() {
-            var $iframe = $("#app-iframe");
-            var orig_src = $iframe.attr("data-src");
-
-            // If this app is NOT proxied by RStudio Server, set the iframe's src to
-            // point to the data-src value.
-            if (! /\/p\/[0-9]+\/$/.test(window.location.href)) {
-                $iframe.attr("src", orig_src);
-                return;
-            }
-
-            // If we are proxied by RStudio Server, rewrite the URL from something like
-            //   http://127.0.0.1:4030
-            // to
-            //   https://username.rstudio.cloud/1234abcd/p/4030/
-            var port = orig_src.replace(/.*:([0-9]+)\/?/, "$1");
-            var new_src = window.location.href.replace(
-                /\/p\/([0-9]+)\/$/,
-                "/p/" + port + "/"
-            );
-
-            $iframe.attr("src", new_src);
-        }
-        fixupIframeUrl();
-
         function evalCodeInFrame(code) {
             var message = {
                 token: "abcdef",

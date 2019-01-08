@@ -61,6 +61,20 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     save_dir <- normalizePath(save_dir)
   }
 
+  # Are we running in RStudio? If so, we might need to fix up the URL so that
+  # it's externally accessible.
+  if (rstudioapi::isAvailable()) {
+    if (rstudioapi::hasFun("translateLocalUrl")) {
+      # If the RStudio API knows how to translate URLs, call it.
+      url <- rstudioapi::translateLocalUrl(url, absolute = TRUE)
+    } else if (identical(rstudioapi::versionInfo()$mode, "server")) {
+      # Older versions of the RStudio API don't know how to translate URLs, so
+      # we'll need to do it ourselves if we're in server mode. For example,
+      # http://localhost:1234/ is translated to ../../p/1234/.
+      url <- paste0("../../p/", gsub(".*:([0-9]+)\\/?", "\\1", url), "/")
+    }
+  }
+
   # Use options to pass value to recorder app
   withr::with_options(
     list(

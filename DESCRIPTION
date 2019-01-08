@@ -30,9 +30,12 @@ Imports:
     htmlwidgets,
     jsonlite,
     withr,
-    httpuv
+    httpuv,
+    rstudioapi (>= 0.8.0.9002)
 Suggests:
     rmarkdown,
     flexdashboard
+Remotes:
+    rstudio/rstudioapi
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
