@@ -74,6 +74,15 @@ window.shinyRecorder = (function() {
     $(document).on("shiny:updateinput", function(event) {
         var inputId = event.binding.getId(event.target);
         updatedInputs[inputId] = true;
+        // Schedule this updated input to be cleared at the end of this tick.
+        // This is useful in the case where an input is updated with an empty
+        // value -- for example, if a selectInput is updated with a number of
+        // selections and a value of character(0), then it will not be removed
+        // from the updatedInputs list via the other code paths. (Note that it
+        // is possible in principle for other functions to be scheduled to
+        // occur afterward, but on the same tick, but in practice this
+        // shouldn't occur.)
+        setTimeout(function() { delete updatedInputs[inputId]; }, 0)
     });
 
     // Ctrl-click or Cmd-click (Mac) to record an output value
