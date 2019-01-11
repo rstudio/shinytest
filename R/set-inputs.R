@@ -1,5 +1,5 @@
 sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                         timeout_ = 3000) {
+                         timeout_ = 3000, allowInputNoBinding_ = FALSE) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")
@@ -10,7 +10,7 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
   )
 
   private$queueInputs(...)
-  res <- private$flushInputs(wait_, timeout_)
+  res <- private$flushInputs(wait_, timeout_, allowInputNoBinding_)
 
   if (isTRUE(res$timedOut)) {
     # Get the text from one call back, like "app$setInputs(a=1, b=2)"
@@ -48,16 +48,18 @@ sd_queueInputs <- function(self, private, ...) {
   )
 }
 
-sd_flushInputs <- function(self, private, wait, timeout) {
+sd_flushInputs <- function(self, private, wait, timeout, allowInputNoBinding) {
   private$web$executeScriptAsync(
     "var wait = arguments[0];
     var timeout = arguments[1];
-    var callback = arguments[2];
+    var allowInputNoBinding = arguments[2];
+    var callback = arguments[3];
     shinytest.outputValuesWaiter.start(timeout);
-    shinytest.inputQueue.flush();
+    shinytest.inputQueue.flush(allowInputNoBinding);
     shinytest.outputValuesWaiter.finish(wait, callback);",
     wait,
-    timeout
+    timeout,
+    allowInputNoBinding
   )
 }
 
