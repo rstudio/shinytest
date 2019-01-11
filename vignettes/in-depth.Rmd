@@ -335,14 +335,35 @@ if (isTRUE(getOption("shiny.testmode"))) {
 
 ### Inputs without input bindings
 
-Some components for Shiny can set input values directly in their JavaScript code, without going through something called an *input binding*. Because shinytest sets input values via input bindings, it will not be able to play back inputs for components like these. This is true for some [htmlwidgets](http://www.htmlwidgets.org/), such as [DT](http://rstudio.github.io/DT/). Another case is when plot interactions, such as clicking and brushing, are used with `renderPlot()` -- the clicking and brushing events cannot be played back with shinytest at this time.
+Most input components in Shiny set their values by communicating through something called an *input binding*. Shinytest works well with input values that are set via input bindings.
 
-If you record a test with components like these, you may see lines like the following in the generated test script.
+However, there are some components that set input values without using an input binding. These include some [htmlwidgets](http://www.htmlwidgets.org/), such as [DT](http://rstudio.github.io/DT/) and [plotly](https://github.com/ropensci/plotly/), as well as Shiny's built-in plot interactions with `renderPlot()`.
+
+As of shinytest 1.3.0.9001, inputs without a binding can be recorded and replayed, although with some limitations. (Prior to that version, inputs without a binding could not be recorded or replated at all.)
+
+To enable recording of these inputs in the recorder, you must enable the option labeled *Save inputs that do not have a binding*. The resulting test script code will look something like this:
 
 ```{r}
-# Input 'dt_rows_selected' was set, but doesn't have an input binding.
+app$setInputs(table_rows_selected = 1, allowInputNoBinding_ = TRUE)
+app$setInputs(table_row_last_clicked = 1, allowInputNoBinding_ = TRUE)
 ```
 
+Note: If you don't enable that option, you will see this:
+
+```{r}
+# Input 'table_rows_selected' was set, but doesn't have an input binding.
+# Input 'table_row_last_clicked' was set, but doesn't have an input binding.
+```
+
+When the test script is replayed, the headless browser will set these inputs to the specified values and send them to the server running Shiny in R. However, the browser will not be able to tell the input object to do the exact same behaviors. For example, with DT, when a row is selected, the mouse click event in the browser triggers the DataTable to highlight the row in the browser and also set the input value for Shiny. When shinytest plays the script, it can only do the latter part, setting the input value. The result is that when a screenshot is taken, it won't have highlighted rows. For components that have internal state that is updated in response to user interaction, that internal state will not be updated when the test script is played. In some cases, this may mean that when the script is played, the behavior when the script is played will not be the same as when a user actually interacts with the application.
+
+If the input component sets multiple input values (without bindings) in response to a single user event, it may make sense to coalesce them into a single `setInputs` call, such as this:
+
+```{r}
+app$setInputs(table_rows_selected = 1,
+              table_row_last_clicked = 1,
+              allowInputNoBinding_ = TRUE)
+```
 
 ## Next
 
