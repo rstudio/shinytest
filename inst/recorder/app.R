@@ -1,3 +1,5 @@
+library(promises)
+
 target_url   <- getOption("shinytest.recorder.url")
 app_dir      <- getOption("shinytest.app.dir")
 app_filename <- getOption("shinytest.app.filename")
@@ -297,6 +299,12 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE,
   )
 }
 
+hasInputsWithoutBinding <- function(events) {
+  any(vapply(events, function(event) {
+    return(event$type == "input" && !event$hasBinding)
+  }, TRUE))
+}
+
 shinyApp(
   ui = fluidPage(
     tags$head(
@@ -346,7 +354,7 @@ shinyApp(
         if (!load_mode) checkboxInput("runScript", "Run test script on exit", value = TRUE),
         checkboxInput(
           "allowInputNoBinding",
-          tagList("Record inputs that do not have a binding",
+          tagList("Save inputs that do not have a binding",
             tooltip(
               paste(
                 "This enables recording inputs that do not have a binding, which is common in htmlwidgets",
@@ -411,6 +419,8 @@ shinyApp(
             if (event$inputType == "shiny.fileupload") {
               # File uploads are a special case of inputs
               list(type = "file-upload", name = event$name)
+            } else if (!event$hasBinding) {
+              list(type = "input *", name = event$name)
             } else {
               list(type = "input", name = event$name)
             }
@@ -473,30 +483,93 @@ shinyApp(
     }
 
 
+    presentModal <- function(modalDialog, cancel, ok) {
+      promise(function(resolve, reject) {
+        cancelObs <- observeEvent(input[[cancel]],
+          {
+            okObs$destroy()
+            cancelObs$destroy()
+            reject("cancelObs")
+          },
+          ignoreInit = TRUE
+        )
+
+        okObs <- observeEvent(input[[ok]],
+          {
+            okObs$destroy()
+            cancelObs$destroy()
+            resolve(TRUE)
+          },
+          ignoreInit = TRUE
+        )
+
+        showModal(modalDialog)
+      })
+    }
+
     observeEvent(input$exit_save, {
       if (!load_mode && numSnapshots() == 0) {
         showModal(
           modalDialog("Must have at least one snapshot to save and exit.")
         )
+        return()
+      }
 
-      } else if (file.exists(saveFile())) {
-        showModal(
-          modalDialog(
-            paste0("Overwrite ", basename(saveFile()), "?"),
-            footer = tagList(
-              modalButton("Cancel"),
-              actionButton("overwrite_ok", "OK")
-            )
+      p <- promise_resolve(TRUE)
+
+      if (hasInputsWithoutBinding(input$testevents) && !input$allowInputNoBinding) {
+        p <- p %...>% {
+          presentModal(
+            modalDialog(
+              tagList(
+                "There are some input events (marked with a *) that do not have a corresponding input binding.",
+                "If you want them to be saved in the test script, press Cancel, then check ",
+                tags$b("Save inputs that do not have a binding."),
+                "If you don't want to save them, press Continue."
+              ),
+              footer = tagList(
+                actionButton("inputs_no_binding_cancel",   "Cancel",   `data-dismiss` = "modal"),
+                actionButton("inputs_no_binding_continue", "Continue", `data-dismiss` = "modal")
+              )
+            ),
+            "inputs_no_binding_cancel",
+            "inputs_no_binding_continue"
           )
-        )
+        }
+      }
 
-      } else {
+      p <- p %...>% {
+        if (file.exists(saveFile())) {
+          presentModal(
+            modalDialog(
+              paste0("Overwrite ", basename(saveFile()), "?"),
+              footer = tagList(
+                actionButton("overwrite_cancel",   "Cancel",   `data-dismiss` = "modal"),
+                actionButton("overwrite_continue", "Continue", `data-dismiss` = "modal")
+              )
+            ),
+            "overwrite_cancel",
+            "overwrite_continue"
+          )
+        } else {
+          promise_resolve(TRUE)
+        }
+      }
+
+      p <- p %...>% {
         saveAndExit()
       }
-    })
 
-    observeEvent(input$overwrite_ok, {
-      saveAndExit()
+      # When Cancel is pressed, catch the rejection.
+      p <- p %...!% {
+        NULL
+      }
+
+      # Need to return something other than the promise. Otherwise Shiny will
+      # wait for the promise to resolve before processing any further
+      # reactivity, including the inputs from the actionButtons, so the app
+      # will simply stop responding.
+      NULL
     })
 
     observeEvent(input$exit_nosave, {
