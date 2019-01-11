@@ -1,6 +1,6 @@
 Package: shinytest
 Title: Test Shiny Apps
-Version: 1.3.0.9000
+Version: 1.3.0.9001
 Authors@R: c(
     person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"),
     person("Gábor", "Csárdi", role = "aut", email = "gabor@rstudio.com")
@@ -11,7 +11,7 @@ License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/rstudio/shinytest
 BugReports: https://github.com/rstudio/shinytest/issues
-RoxygenNote: 6.1.0.9000
+RoxygenNote: 6.1.1
 Imports:
     assertthat,
     digest,
