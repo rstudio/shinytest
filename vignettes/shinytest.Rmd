@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 
 After you get your Shiny application to a state where it works, it's often useful to have an automated system that checks that it continues to work as expected. There are many possible reasons for an application to stop working. These reasons include:
 
-* An ugpraded R package has different behavior. (This could include Shiny itself!)
+* An upgraded R package has different behavior. (This could include Shiny itself!)
 * You make modifications to your application.
 * An external data source stops working, or returns data in a changed format.
 
