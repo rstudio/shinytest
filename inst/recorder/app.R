@@ -29,6 +29,8 @@ registerInputHandler("shinytest.testevents", function(val, shinysession, name) {
 })
 
 escapeString <- function(s) {
+  # escape \ as well as "
+  s <- gsub('\\', '\\\\', s, fixed = TRUE)
   gsub('"', '\\"', s, fixed = TRUE)
 }
 
