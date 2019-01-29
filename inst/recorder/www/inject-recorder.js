@@ -68,6 +68,17 @@ window.recorder = (function() {
                 console.log("Injecting JS code.");
                 evalCodeInFrame(Shiny.shinyapp.$values.recorder_js);
                 evalCodeInFrame("window.shinyRecorder.token = '" + recorder.token + "';");
+                // Listen to shift-S (for triggering snapshot via keyboard)
+                evalCodeInFrame(
+                  "$(document).keypress(function(e) {" +
+                     "if (e.key !== 'S') return;\n" +
+                     "var message = {" +
+                        "token: '" + recorder.token + "', " +
+                        "snapshotKeypress: true" +
+                      "};\n" +
+                      "parent.postMessage(message, '*');" +
+                  "});"
+                );
                 status.codeHasBeenInjected = true;
             }
         }
@@ -157,7 +168,30 @@ window.recorder = (function() {
                 Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
 
+            if (message.snapshotKeypress) {
+              recorder.testEvents.push({
+                 type: 'snapshot',
+                 name: 'snapshotKeypress',
+                 time: Date.now()
+              });
+
+              // Send updated values to server
+              Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+            }
+
             (function() { eval(message.code); }).call(status);
+        });
+
+        // Shift-S generates snapshot in the parent doc (as well as child)
+        $(document).keypress(function(e) {
+          if (e.key !== 'S') return;
+          recorder.testEvents.push({
+            type: 'snapshot',
+            name: 'snapshotKeypress',
+            time: Date.now()
+          });
+          // Send updated values to server
+          Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
         });
 
         $(document).on("shiny:inputchanged", function(event) {

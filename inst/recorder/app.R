@@ -328,7 +328,7 @@ shinyApp(
               style = "display: inline;"
             ),
             tooltip(
-              "You can also Ctrl-click or ⌘-click on an output to snapshot just that one output.",
+              "You can also Ctrl-click or ⌘-click on an output to snapshot just that one output.\n To trigger a snapshot via the keyboard, press shift-S.",
               placement = "bottom"
             ),
             hr()
