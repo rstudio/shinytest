@@ -158,29 +158,28 @@ window.recorder = (function() {
             }
 
             if (message.snapshotKeypress) {
-              recorder.testEvents.push({
-                 type: 'snapshot',
-                 name: 'snapshotKeypress',
-                 time: Date.now()
-              });
-
-              // Send updated values to server
-              Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+              triggerSnapshot();
             }
 
             (function() { eval(message.code); }).call(status);
         });
 
+        var triggerSnapshot = function() {
+            recorder.testEvents.push({
+                type: 'snapshot',
+                name: 'snapshotKeypress',
+                time: Date.now()
+            });
+            // Send updated values to server
+            Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+        }
+
         // Shift-S generates snapshot in the parent doc (as well as child)
         $(document).keypress(function(e) {
-          if (e.key !== 'S') return;
-          recorder.testEvents.push({
-            type: 'snapshot',
-            name: 'snapshotKeypress',
-            time: Date.now()
-          });
-          // Send updated values to server
-          Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+            if (e.key !== 'S')
+              return;
+
+            triggerSnapshot();
         });
 
         $(document).on("shiny:inputchanged", function(event) {
