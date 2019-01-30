@@ -24,12 +24,13 @@ window.shinytest = (function() {
 
         // Add a set of inputs to the queue. Format of `inputs` must be
         // `{ input1: value1, input2: value2 }`.
-        inputqueue.add = function(inputs) {
+        inputqueue.add = function(inputs, priority) {
             for (var name in inputs) {
                 shinytest.log("inputQueue: adding " + name);
                 queue.push({
                     name: name,
-                    value: inputs[name]
+                    value: inputs[name],
+                    priority: priority
                 });
             }
         };

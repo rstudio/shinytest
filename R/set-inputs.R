@@ -1,5 +1,5 @@
 sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                         timeout_ = 3000, allowInputNoBinding_ = FALSE) {
+                         timeout_ = 3000, allowInputNoBinding_ = FALSE, priority_ = c("input", "event")) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")
@@ -9,7 +9,7 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     input = paste(names(list(...)), collapse = ",")
   )
 
-  private$queueInputs(...)
+  private$queueInputs(..., priority = priority_)
   res <- private$flushInputs(wait_, timeout_, allowInputNoBinding_)
 
   if (isTRUE(res$timedOut)) {
@@ -38,13 +38,14 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
 
 
 
-sd_queueInputs <- function(self, private, ...) {
+sd_queueInputs <- function(self, private, ..., priority = c("input", "event")) {
   inputs <- list(...)
   assert_that(is_all_named(inputs))
 
   private$web$executeScript(
-    "shinytest.inputQueue.add(arguments[0]);",
-    inputs
+    "shinytest.inputQueue.add(arguments[0], arguments[1]);",
+    inputs,
+    match.arg(priority)
   )
 }
 

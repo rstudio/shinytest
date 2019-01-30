@@ -311,9 +311,10 @@ ShinyDriver <- R6Class(
                        iotype = match.arg(iotype)),
 
     setInputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000,
-      allowInputNoBinding_ = FALSE) {
+      allowInputNoBinding_ = FALSE, priority_ = c("input", "event")) {
       sd_setInputs(self, private, ..., wait_ = wait_, values_ = values_,
-                   timeout_ = timeout_, allowInputNoBinding_ = allowInputNoBinding_)
+                   timeout_ = timeout_, allowInputNoBinding_ = allowInputNoBinding_,
+                   priority_ = priority_)
     },
 
     uploadFile = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)
