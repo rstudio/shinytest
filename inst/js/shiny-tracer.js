@@ -50,7 +50,8 @@ window.shinytest = (function() {
                     // OK, just set the value directly. Otherwise throw an
                     // error.
                     if (allowInputNoBinding) {
-                        Shiny.onInputChange(item.name, item.value);
+                        var priority = item.priority === "event" ? {priority: "event"} : undefined;
+                        Shiny.setInputValue(item.name, item.value, priority);
                     } else {
                         var msg = "Unable to find input binding for element with id " + item.name;
                         shinytest.log("  " + msg);
