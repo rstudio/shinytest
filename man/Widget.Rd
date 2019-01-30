@@ -15,7 +15,7 @@ w$getName()
 w$getElement()
 w$getType()
 w$getIoType()
-w$isinput()
+w$isInput()
 w$isOutput()
 
 w$getValue()
