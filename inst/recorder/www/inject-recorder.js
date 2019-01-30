@@ -172,12 +172,14 @@ window.recorder = (function() {
             });
             // Send updated values to server
             Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
-        }
+        };
 
-        // Shift-S generates snapshot in the parent doc (as well as child)
+        // Ctrl-Shift-S should generate snapshot in parent as well
         $(document).keypress(function(e) {
+            if (!e.ctrlKey)
+                return;
             if (e.key !== 'S')
-              return;
+                return;
 
             triggerSnapshot();
         });
