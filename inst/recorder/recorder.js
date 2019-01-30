@@ -97,6 +97,13 @@ window.shinyRecorder = (function() {
         sendOutputSnapshotToParent($el[0].id);
     });
 
+    // Trigger a snapshot on Shift-S
+    $(document).keypress(function(e) {
+        if (e.key !== 'S')
+          return;
+
+        sendSnapshotToParent();
+    });
 
     function debounce(f, delay) {
         var timer = null;
@@ -140,6 +147,13 @@ window.shinyRecorder = (function() {
     // output events will all happen in a single tick. Debouncing for one tick
     // will collapse them into a single call to sendOutputEventToParent().
     var sendOutputEventToParentDebounced = debounce(sendOutputEventToParent, 10);
+
+    function sendSnapshotToParent() {
+        parent.postMessage({
+            token: shinyrecorder.token,
+            snapshotKeypress: true
+        }, "*");
+    }
 
     function sendOutputSnapshotToParent(name) {
         parent.postMessage({
