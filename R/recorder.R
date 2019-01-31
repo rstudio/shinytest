@@ -9,12 +9,12 @@
 #'   be used in the test script.
 #' @param loadTimeout Maximum time to wait for the Shiny application to load, in
 #'   milliseconds. If a value is provided, it will be saved in the test script.
-#' @param debug start the underlying \code{ShinyDriver} in \code{debug} mode and
-#' print those debug logs to the R console once recording is finished. The default,
-#' \code{'shiny_console'}, captures and prints R console output from the recorded
-#' R shiny process. Any value that the \code{debug} argument in \code{ShinyDriver}
-#' accepts may be used (e.g., \code{'none'} may be used to completely suppress
-#' the driver logs).
+#' @param debug start the underlying \code{\link{ShinyDriver}} in \code{debug}
+#'   mode and print those debug logs to the R console once recording is
+#'   finished. The default, \code{'shiny_console'}, captures and prints R
+#'   console output from the recorded R shiny process. Any value that the
+#'   \code{debug} argument in \code{\link{ShinyDriver}} accepts may be used
+#'   (e.g., \code{'none'} may be used to completely suppress the driver logs).
 #' @param shinyOptions A list of options to pass to \code{runApp()}. If a value
 #'   is provided, it will be saved in the test script.
 #' @export
@@ -45,12 +45,8 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
       }
 
       # It's a path to an app; start the app
-      app <- ShinyDriver$new(app, seed = seed, loadTimeout = loadTimeout, debug = "all", shinyOptions = shinyOptions)
+      app <- ShinyDriver$new(app, seed = seed, loadTimeout = loadTimeout, debug = debug, shinyOptions = shinyOptions)
       on.exit({
-        if (!identical(debug, "none")) {
-          message("Logs from the recorded R shiny process:")
-          print(app$getDebugLog(debug))
-        }
         rm(app)
         gc()
       })
