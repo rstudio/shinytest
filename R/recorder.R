@@ -89,8 +89,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
   withr::with_options(
     list(
       shinytest.recorder.url  = url,
-      shinytest.app.dir       = app$getAppDir(),
-      shinytest.app.filename  = app$getAppFilename(),
+      shinytest.app           = app,
       shinytest.load.mode     = load_mode,
       shinytest.load.timeout  = if (!missing(loadTimeout)) loadTimeout,
       shinytest.seed          = seed,
