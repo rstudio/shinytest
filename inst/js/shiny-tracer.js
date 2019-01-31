@@ -24,18 +24,20 @@ window.shinytest = (function() {
 
         // Add a set of inputs to the queue. Format of `inputs` must be
         // `{ input1: value1, input2: value2 }`.
-        inputqueue.add = function(inputs, priority) {
+        inputqueue.add = function(inputs) {
             for (var name in inputs) {
                 shinytest.log("inputQueue: adding " + name);
+                var input = inputs[name];
                 queue.push({
                     name: name,
-                    value: inputs[name],
-                    priority: priority
+                    value: input.value,
+                    allowInputNoBinding: input.allowInputNoBinding,
+                    priority: input.priority
                 });
             }
         };
 
-        inputqueue.flush = function(allowInputNoBinding) {
+        inputqueue.flush = function() {
             function flushItem(item) {
                 shinytest.log("inputQueue: flushing " + item.name);
                 var binding = findInputBinding(item.name);
@@ -50,7 +52,7 @@ window.shinytest = (function() {
                     // For inputs without a binding: if the script says it's
                     // OK, just set the value directly. Otherwise throw an
                     // error.
-                    if (allowInputNoBinding) {
+                    if (item.allowInputNoBinding) {
                         var priority = item.priority === "event" ? {priority: "event"} : undefined;
                         Shiny.setInputValue(item.name, item.value, priority);
                     } else {

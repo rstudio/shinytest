@@ -5,12 +5,22 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
       "Can't return all values without waiting for update.")
   }
 
+  priority_ <- match.arg(priority_)
+
+  input_values <- lapply(list(...), function(value) {
+    list(
+      value = value,
+      allowInputNoBinding = allowInputNoBinding_,
+      priority = priority_
+    )
+  })
+
   self$logEvent("Setting inputs",
-    input = paste(names(list(...)), collapse = ",")
+    input = paste(names(input_values), collapse = ",")
   )
 
-  private$queueInputs(..., priority = priority_)
-  res <- private$flushInputs(wait_, timeout_, allowInputNoBinding_)
+  private$queueInputs(input_values)
+  res <- private$flushInputs(wait_, timeout_)
 
   if (isTRUE(res$timedOut)) {
     # Get the text from one call back, like "app$setInputs(a=1, b=2)"
@@ -38,29 +48,25 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
 
 
 
-sd_queueInputs <- function(self, private, ..., priority = c("input", "event")) {
-  inputs <- list(...)
+sd_queueInputs <- function(self, private, inputs) {
   assert_that(is_all_named(inputs))
 
   private$web$executeScript(
-    "shinytest.inputQueue.add(arguments[0], arguments[1]);",
-    inputs,
-    match.arg(priority)
+    "shinytest.inputQueue.add(arguments[0]);",
+    inputs
   )
 }
 
-sd_flushInputs <- function(self, private, wait, timeout, allowInputNoBinding) {
+sd_flushInputs <- function(self, private, wait, timeout) {
   private$web$executeScriptAsync(
     "var wait = arguments[0];
     var timeout = arguments[1];
-    var allowInputNoBinding = arguments[2];
-    var callback = arguments[3];
+    var callback = arguments[2];
     shinytest.outputValuesWaiter.start(timeout);
-    shinytest.inputQueue.flush(allowInputNoBinding);
+    shinytest.inputQueue.flush();
     shinytest.outputValuesWaiter.finish(wait, callback);",
     wait,
-    timeout,
-    allowInputNoBinding
+    timeout
   )
 }
 

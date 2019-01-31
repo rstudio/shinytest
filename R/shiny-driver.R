@@ -384,8 +384,8 @@ ShinyDriver <- R6Class(
     queueInputs = function(...)
       sd_queueInputs(self, private, ...),
 
-    flushInputs = function(wait = TRUE, timeout = 1000, allowInputNoBinding = FALSE)
-      sd_flushInputs(self, private, wait, timeout, allowInputNoBinding),
+    flushInputs = function(wait = TRUE, timeout = 1000)
+      sd_flushInputs(self, private, wait, timeout),
 
     getTestSnapshotUrl = function(input = TRUE, output = TRUE,
       export = TRUE, format = "json")
