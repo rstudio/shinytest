@@ -45,7 +45,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
       }
 
       # It's a path to an app; start the app
-      app <- ShinyDriver$new(app, seed = seed, loadTimeout = loadTimeout, debug = debug, shinyOptions = shinyOptions)
+      app <- ShinyDriver$new(app, seed = seed, loadTimeout = loadTimeout, shinyOptions = shinyOptions)
       on.exit({
         rm(app)
         gc()
@@ -86,6 +86,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     list(
       shinytest.recorder.url  = url,
       shinytest.app           = app,
+      shinytest.debug         = debug,
       shinytest.load.mode     = load_mode,
       shinytest.load.timeout  = if (!missing(loadTimeout)) loadTimeout,
       shinytest.seed          = seed,

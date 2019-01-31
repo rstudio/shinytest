@@ -1,7 +1,8 @@
 library(promises)
 
 target_url   <- getOption("shinytest.recorder.url")
-app      <- getOption("shinytest.app")
+app          <- getOption("shinytest.app")
+debug        <- getOption("shinytest.debug")
 load_mode    <- getOption("shinytest.load.mode")
 load_timeout <- getOption("shinytest.load.timeout")
 start_seed   <- getOption("shinytest.seed")
@@ -388,6 +389,21 @@ shinyApp(
       readChar(file, file.info(file)$size, useBytes = TRUE)
     })
     outputOptions(output, "recorder_js", suspendWhenHidden = FALSE)
+
+    # echo console output from the driver object (in real-time)
+    if (!identical(debug, "none")) {
+      nConsoleLines <- 0
+      observe({
+        invalidateLater(500)
+        logs <- app$getDebugLog(debug)
+        n <- nrow(logs)
+        if (n > nConsoleLines) {
+          newLines <- seq.int(nConsoleLines + 1, n)
+          print(logs[newLines, ])
+        }
+        nConsoleLines <<- n
+      })
+    }
 
     saveFile <- reactive({
       file.path(app$getAppDir(), "tests", paste0(input$testname, ".R"))
