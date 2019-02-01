@@ -164,7 +164,7 @@ window.recorder = (function() {
             (function() { eval(message.code); }).call(status);
         });
 
-        var triggerSnapshot = function() {
+        function triggerSnapshot() {
             recorder.testEvents.push({
                 type: 'snapshot',
                 name: 'snapshotKeypress',
