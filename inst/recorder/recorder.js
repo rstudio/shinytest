@@ -97,11 +97,11 @@ window.shinyRecorder = (function() {
         sendOutputSnapshotToParent($el[0].id);
     });
 
-    // Trigger a snapshot on Ctrl-Shift-S
-    $(document).keypress(function(e) {
-        if (!e.ctrlKey)
+    // Trigger a snapshot on Ctrl-shift-S or Cmd-shift-S (Mac)
+    $(document).keydown(function(e) {
+        if (!(e.ctrlKey || e.metaKey))
             return;
-        if (e.key !== 'S')
+        if (e.which !== 83)
             return;
 
         sendSnapshotToParent();

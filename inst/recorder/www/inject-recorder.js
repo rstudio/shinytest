@@ -174,11 +174,11 @@ window.recorder = (function() {
             Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
         };
 
-        // Ctrl-Shift-S should generate snapshot in parent as well
-        $(document).keypress(function(e) {
-            if (!e.ctrlKey)
+        // Generate snapshot via keypress within parent context as well
+        $(document).keydown(function(e) {
+            if (!(e.ctrlKey || e.metaKey))
                 return;
-            if (e.key !== 'S')
+            if (e.which !== 83)
                 return;
 
             triggerSnapshot();
