@@ -101,6 +101,8 @@ window.shinyRecorder = (function() {
     $(document).keydown(function(e) {
         if (!(e.ctrlKey || e.metaKey))
             return;
+        if (!e.shiftKey)
+            return;
         if (e.which !== 83)
             return;
 
