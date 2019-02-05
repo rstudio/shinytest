@@ -399,7 +399,7 @@ shinyApp(
         n <- nrow(logs)
         if (n > nConsoleLines) {
           newLines <- seq.int(nConsoleLines + 1, n)
-          print(logs[newLines, ])
+          print(logs[newLines, ], short = TRUE)
         }
         nConsoleLines <<- n
       })

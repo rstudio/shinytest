@@ -104,7 +104,7 @@ filter_log_text <- function(str) {
 #' @export
 #' @importFrom crayon blue magenta cyan make_style
 
-format.shinytest_logs <- function(x, ...) {
+format.shinytest_logs <- function(x, ..., short = FALSE) {
 
   colors <- list(
     shiny_console = magenta,
@@ -119,6 +119,15 @@ format.shinytest_logs <- function(x, ...) {
   )
 
   lines <- vapply(seq_len(nrow(x)), function(i) {
+
+    if (short) {
+      return(
+        paste0(
+          types[x$type[i]], "> ",
+          colors[[ x$type[i] ]](x$message[i])
+        )
+      )
+    }
 
     time <- if (is.na(x$timestamp[i])) {
       "-----------"
@@ -144,7 +153,7 @@ format.shinytest_logs <- function(x, ...) {
 #' @export
 #' @importFrom crayon blue magenta cyan make_style
 
-print.shinytest_logs <- function(x, ...) {
-  cat(format(x), ...)
+print.shinytest_logs <- function(x, ..., short = FALSE) {
+  cat(format(x, short = short), ...)
   invisible(x)
 }
