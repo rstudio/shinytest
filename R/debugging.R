@@ -19,8 +19,8 @@ sd_getDebugLog <- function(self, private, type) {
   # against a remote server (as in shinyloadtest).
   if (!is.null(private$shinyProcess) && "shiny_console" %in% type) {
     "!DEBUG sd_getDebugLog shiny_console"
-    out <- readLines(private$shinyProcess$get_output_file())
-    err <- readLines(private$shinyProcess$get_error_file())
+    out <- readLines(private$shinyProcess$get_output_file(), warn = FALSE)
+    err <- readLines(private$shinyProcess$get_error_file(), warn = FALSE)
     output$shiny_console <- make_shiny_console_log(out = out, err = err)
   }
 
