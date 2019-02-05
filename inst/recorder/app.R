@@ -192,6 +192,7 @@ codeGenerators <- list(
     } else {
       if (allowInputNoBinding) {
         args <- paste0(args, ", allowInputNoBinding_ = TRUE")
+        if (identical(event$priority, "event")) args <- paste0(args, ', priority_ = "event"')
         paste0(
           "app$setInputs(",
           quoteName(event$name), " = ",

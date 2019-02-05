@@ -112,6 +112,7 @@ window.recorder = (function() {
                     name: evt.name,
                     value: evt.value,
                     hasBinding: evt.hasBinding,
+                    priority: evt.priority,
                     time: Date.now()
                 });
 

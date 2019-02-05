@@ -45,13 +45,15 @@ window.shinyRecorder = (function() {
         }
 
         // Check if value has changed from last time.
-        var valueJSON = JSON.stringify(event.value);
-        if (valueJSON === previousInputValues[event.name])
-            return;
-        previousInputValues[event.name] = valueJSON;
+        if (event.priority !== "event") {
+            var valueJSON = JSON.stringify(event.value);
+            if (valueJSON === previousInputValues[event.name])
+                return;
+            previousInputValues[event.name] = valueJSON;
+        }
 
         var hasBinding = !!event.binding;
-        sendInputEventToParent(event.inputType, event.name, event.value, hasBinding);
+        sendInputEventToParent(event.inputType, event.name, event.value, hasBinding, event.priority);
     });
 
     $(document).on("shiny:filedownload", function(event) {
@@ -82,7 +84,7 @@ window.shinyRecorder = (function() {
         // is possible in principle for other functions to be scheduled to
         // occur afterward, but on the same tick, but in practice this
         // shouldn't occur.)
-        setTimeout(function() { delete updatedInputs[inputId]; }, 0)
+        setTimeout(function() { delete updatedInputs[inputId]; }, 0);
     });
 
     // Ctrl-click or Cmd-click (Mac) to record an output value
@@ -110,14 +112,15 @@ window.shinyRecorder = (function() {
         };
     }
 
-    function sendInputEventToParent(inputType, name, value, hasBinding) {
+    function sendInputEventToParent(inputType, name, value, hasBinding, priority) {
         parent.postMessage({
             token: shinyrecorder.token,
             inputEvent: {
                 inputType: inputType,
                 name: name,
                 value: value,
-                hasBinding: hasBinding
+                hasBinding: hasBinding,
+                priority: priority
              }
         }, "*");
     }
