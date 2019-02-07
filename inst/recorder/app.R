@@ -192,6 +192,7 @@ codeGenerators <- list(
     } else {
       if (allowInputNoBinding) {
         args <- paste0(args, ", allowInputNoBinding_ = TRUE")
+        if (identical(event$priority, "event")) args <- paste0(args, ', priority_ = "event"')
         paste0(
           "app$setInputs(",
           quoteName(event$name), " = ",
@@ -330,7 +331,7 @@ shinyApp(
               style = "display: inline;"
             ),
             tooltip(
-              "You can also Ctrl-click or ⌘-click on an output to snapshot just that one output.",
+              "You can also Ctrl-click or ⌘-click on an output to snapshot just that one output.\n To trigger a snapshot via the keyboard, press Ctrl-shift-S or ⌘-shift-S",
               placement = "bottom"
             ),
             hr()

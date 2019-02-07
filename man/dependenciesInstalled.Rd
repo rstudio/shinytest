@@ -7,12 +7,12 @@
 dependenciesInstalled()
 }
 \value{
-\code{TRUE} when all dependencies are fullfilled; otherwise,
+\code{TRUE} when all dependencies are fulfilled; otherwise,
   \code{FALSE}.
 }
 \description{
 Checks that all the required system dependencies are installed properly,
-returns. If dependencie are missing, consider running
+returns. If dependencies are missing, consider running
 \link{installDependencies}.
 }
 \seealso{

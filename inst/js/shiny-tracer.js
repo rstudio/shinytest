@@ -27,14 +27,17 @@ window.shinytest = (function() {
         inputqueue.add = function(inputs) {
             for (var name in inputs) {
                 shinytest.log("inputQueue: adding " + name);
+                var input = inputs[name];
                 queue.push({
                     name: name,
-                    value: inputs[name]
+                    value: input.value,
+                    allowInputNoBinding: input.allowInputNoBinding,
+                    priority: input.priority
                 });
             }
         };
 
-        inputqueue.flush = function(allowInputNoBinding) {
+        inputqueue.flush = function() {
             function flushItem(item) {
                 shinytest.log("inputQueue: flushing " + item.name);
                 var binding = findInputBinding(item.name);
@@ -49,8 +52,9 @@ window.shinytest = (function() {
                     // For inputs without a binding: if the script says it's
                     // OK, just set the value directly. Otherwise throw an
                     // error.
-                    if (allowInputNoBinding) {
-                        Shiny.onInputChange(item.name, item.value);
+                    if (item.allowInputNoBinding) {
+                        var priority = item.priority === "event" ? {priority: "event"} : undefined;
+                        Shiny.setInputValue(item.name, item.value, priority);
                     } else {
                         var msg = "Unable to find input binding for element with id " + item.name;
                         shinytest.log("  " + msg);

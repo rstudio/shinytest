@@ -266,7 +266,7 @@
 <h3 class="hasAnchor">
 <a href="#screenshots" class="anchor"></a>Screenshots</h3>
 <p>As you step through the script, you can inspect the state of the application in a few different ways. One is to view a screenshot. You should not to call <code>app$snapshot()</code> to get a screenshot, because it will increment the snapshot counter and shift the numbers of snapshots that really are part of the tests (e.g., snapshot 003 would become 004). Instead you can do this:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">app<span class="op">$</span><span class="kw">take_screenshot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">app<span class="op">$</span><span class="kw">takeScreenshot</span>()</a></code></pre></div>
 <p>This will display the screenshot as if it were a plot. (In RStudio, it will show in the Viewer pane.) You can inspect the screenshot to see the state of the application.</p>
 </div>
 <div id="getting-input-output-and-export-values" class="section level3">

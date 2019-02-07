@@ -112,6 +112,7 @@ window.recorder = (function() {
                     name: evt.name,
                     value: evt.value,
                     hasBinding: evt.hasBinding,
+                    priority: evt.priority,
                     time: Date.now()
                 });
 
@@ -157,7 +158,33 @@ window.recorder = (function() {
                 Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
             }
 
+            if (message.snapshotKeypress) {
+              triggerSnapshot();
+            }
+
             (function() { eval(message.code); }).call(status);
+        });
+
+        function triggerSnapshot() {
+            recorder.testEvents.push({
+                type: 'snapshot',
+                name: 'snapshotKeypress',
+                time: Date.now()
+            });
+            // Send updated values to server
+            Shiny.onInputChange("testevents:shinytest.testevents", recorder.testEvents);
+        };
+
+        // Generate snapshot via keypress within parent context as well
+        $(document).keydown(function(e) {
+            if (!(e.ctrlKey || e.metaKey))
+                return;
+            if (!e.shiftKey)
+                return;
+            if (e.which !== 83)
+                return;
+
+            triggerSnapshot();
         });
 
         $(document).on("shiny:inputchanged", function(event) {
