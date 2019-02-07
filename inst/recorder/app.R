@@ -401,6 +401,7 @@ shinyApp(
         if (n > nConsoleLines) {
           newLines <- seq.int(nConsoleLines + 1, n)
           print(logs[newLines, ], short = TRUE)
+          cat("\n")
         }
         nConsoleLines <<- n
       })
