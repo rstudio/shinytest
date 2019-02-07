@@ -1,8 +1,8 @@
 library(promises)
 
 target_url   <- getOption("shinytest.recorder.url")
-app_dir      <- getOption("shinytest.app.dir")
-app_filename <- getOption("shinytest.app.filename")
+app          <- getOption("shinytest.app")
+debug        <- getOption("shinytest.debug")
 load_mode    <- getOption("shinytest.load.mode")
 load_timeout <- getOption("shinytest.load.timeout")
 start_seed   <- getOption("shinytest.seed")
@@ -15,7 +15,7 @@ add_dont_run_reason <- function(reason) {
   dont_run_reasons <<- c(dont_run_reasons, reason)
 }
 
-if (is.null(target_url) || is.null(app_dir)) {
+if (is.null(target_url) || is.null(app$getAppDir())) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
     "'shinytest.app.dir' options to be set.")
 }
@@ -167,7 +167,7 @@ codeGenerators <- list(
 
       # Get unescaped filenames in a char vector, with full path
       filepaths <- vapply(event$value, `[[`, "name", FUN.VALUE = "")
-      filepaths <- file.path(app_dir, "tests", filepaths)
+      filepaths <- file.path(app$getAppDir(), "tests", filepaths)
 
       # Check that all files exist. If not, add a message and don't run test
       # automatically on exit.
@@ -285,7 +285,7 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE,
     } else {
 
       paste0(
-        'app <- ShinyDriver$new("', paste("..", app_filename, sep = "/"), '"',
+        'app <- ShinyDriver$new("', paste("..", app$getAppFilename(), sep = "/"), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
         if (!is.null(load_timeout)) paste0(", loadTimeout = ", load_timeout),
         if (length(shiny_options) > 0) paste0(", shinyOptions = ", deparse2(shiny_options)),
@@ -391,8 +391,24 @@ shinyApp(
     })
     outputOptions(output, "recorder_js", suspendWhenHidden = FALSE)
 
+    # echo console output from the driver object (in real-time)
+    if (!identical(debug, "none")) {
+      nConsoleLines <- 0
+      observe({
+        invalidateLater(500)
+        logs <- app$getDebugLog(debug)
+        n <- nrow(logs)
+        if (n > nConsoleLines) {
+          newLines <- seq.int(nConsoleLines + 1, n)
+          print(logs[newLines, ], short = TRUE)
+          cat("\n")
+        }
+        nConsoleLines <<- n
+      })
+    }
+
     saveFile <- reactive({
-      file.path(app_dir, "tests", paste0(input$testname, ".R"))
+      file.path(app$getAppDir(), "tests", paste0(input$testname, ".R"))
     })
 
     # Number of snapshot or fileDownload events in input$testevents
@@ -474,7 +490,7 @@ shinyApp(
             file.edit(saveFile())
 
           invisible(list(
-            appDir = app_dir,
+            appDir = app$getAppDir(),
             file = paste0(input$testname, ".R"),
             run = input$runScript && (length(dont_run_reasons) == 0),
             dont_run_reasons = dont_run_reasons

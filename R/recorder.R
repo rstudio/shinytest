@@ -9,11 +9,17 @@
 #'   be used in the test script.
 #' @param loadTimeout Maximum time to wait for the Shiny application to load, in
 #'   milliseconds. If a value is provided, it will be saved in the test script.
+#' @param debug start the underlying \code{\link{ShinyDriver}} in \code{debug}
+#'   mode and print those debug logs to the R console once recording is
+#'   finished. The default, \code{'shiny_console'}, captures and prints R
+#'   console output from the recorded R shiny process. Any value that the
+#'   \code{debug} argument in \code{\link{ShinyDriver}} accepts may be used
+#'   (e.g., \code{'none'} may be used to completely suppress the driver logs).
 #' @param shinyOptions A list of options to pass to \code{runApp()}. If a value
 #'   is provided, it will be saved in the test script.
 #' @export
 recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL,
-  loadTimeout = 10000, shinyOptions = list()) {
+  loadTimeout = 10000, debug = "shiny_console", shinyOptions = list()) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
@@ -79,8 +85,8 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
   withr::with_options(
     list(
       shinytest.recorder.url  = url,
-      shinytest.app.dir       = app$getAppDir(),
-      shinytest.app.filename  = app$getAppFilename(),
+      shinytest.app           = app,
+      shinytest.debug         = debug,
       shinytest.load.mode     = load_mode,
       shinytest.load.timeout  = if (!missing(loadTimeout)) loadTimeout,
       shinytest.seed          = seed,
