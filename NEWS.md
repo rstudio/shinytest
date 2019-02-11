@@ -7,6 +7,8 @@
 
 * Added support for triggering snapshots from the keyboard (by pressing Ctrl-Shift-S or Command-Shift-S) while recording tests with `recordTest()` (#240).
 
+* `recordTest()` gains a `debug` argument for displaying (`"shiny_console"`, `"browser"`, and/or `"shinytest`) logs into the R console (#146). When these logs are displayed, they use `format.shinytest_logs()` with `short = TRUE` which suppress the timestamp and level.
+
 ## Bug fixes
 
 * Recording a test that produces an input value with an escape character, '\', no longer results in error (#241).
