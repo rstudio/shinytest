@@ -9,11 +9,17 @@
 #'   be used in the test script.
 #' @param loadTimeout Maximum time to wait for the Shiny application to load, in
 #'   milliseconds. If a value is provided, it will be saved in the test script.
+#' @param debug start the underlying \code{\link{ShinyDriver}} in \code{debug}
+#'   mode and print those debug logs to the R console once recording is
+#'   finished. The default, \code{'shiny_console'}, captures and prints R
+#'   console output from the recorded R shiny process. Any value that the
+#'   \code{debug} argument in \code{\link{ShinyDriver}} accepts may be used
+#'   (e.g., \code{'none'} may be used to completely suppress the driver logs).
 #' @param shinyOptions A list of options to pass to \code{runApp()}. If a value
 #'   is provided, it will be saved in the test script.
 #' @export
 recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL,
-  loadTimeout = 10000, shinyOptions = list()) {
+  loadTimeout = 10000, debug = "shiny_console", shinyOptions = list()) {
 
   # Get the URL for the app. Depending on what type of object `app` is, it may
   # require starting an app.
@@ -61,12 +67,26 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     save_dir <- normalizePath(save_dir)
   }
 
+  # Are we running in RStudio? If so, we might need to fix up the URL so that
+  # it's externally accessible.
+  if (rstudioapi::isAvailable()) {
+    if (rstudioapi::hasFun("translateLocalUrl")) {
+      # If the RStudio API knows how to translate URLs, call it.
+      url <- rstudioapi::translateLocalUrl(url, absolute = TRUE)
+    } else if (identical(rstudioapi::versionInfo()$mode, "server")) {
+      # Older versions of the RStudio API don't know how to translate URLs, so
+      # we'll need to do it ourselves if we're in server mode. For example,
+      # http://localhost:1234/ is translated to ../../p/1234/.
+      url <- paste0("../../p/", gsub(".*:([0-9]+)\\/?", "\\1", url), "/")
+    }
+  }
+
   # Use options to pass value to recorder app
   withr::with_options(
     list(
       shinytest.recorder.url  = url,
-      shinytest.app.dir       = app$getAppDir(),
-      shinytest.app.filename  = app$getAppFilename(),
+      shinytest.app           = app,
+      shinytest.debug         = debug,
       shinytest.load.mode     = load_mode,
       shinytest.load.timeout  = if (!missing(loadTimeout)) loadTimeout,
       shinytest.seed          = seed,
@@ -105,60 +125,3 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
   invisible(res$file)
 }
 
-
-# Evaluates an expression (like `runApp()`) with the shiny.http.response.filter
-# option set to a function which rewrites the <head> to include recorder.js.
-with_shinyrecorder <- function(expr) {
-  shiny::addResourcePath(
-    "shinytest",
-    system.file("js", package = "shinytest")
-  )
-
-  filter <- function(request, response) {
-    if (response$status < 200 || response$status > 300) return(response)
-
-    # Don't break responses that use httpuv's file-based bodies.
-    if ('file' %in% names(response$content))
-      return(response)
-
-    if (!grepl("^text/html\\b", response$content_type, perl=T))
-      return(response)
-
-    # HTML files served from static handler are raw. Convert to char so we
-    # can inject our head content.
-    if (is.raw(response$content))
-      response$content <- rawToChar(response$content)
-
-    # Modify the <head> to load shinytest.js
-    response$content <- sub(
-      "</head>",
-      "<script src=\"shared/jqueryui/jquery-ui.min.js\"></script>
-      <script src=\"shinytest/recorder.js\"></script>\n</head>",
-      response$content,
-      ignore.case = TRUE
-    )
-
-    return(response)
-  }
-
-  if (!is.null(getOption("shiny.http.response.filter"))) {
-    # If there's an existing filter, create a wrapper function that first runs
-    # the old filter and then the new one on the request.
-    old_filter <- getOption("shiny.http.response.filter")
-
-    wrapper_filter <- function(request, response) {
-      filter(old_filter(request, response))
-    }
-
-    withr::with_options(
-      list(shiny.http.response.filter = wrapper_filter, shiny.testmode = TRUE),
-      expr
-    )
-
-  } else {
-    withr::with_options(
-      list(shiny.http.response.filter = filter, shiny.testmode = TRUE),
-      expr
-    )
-  }
-}

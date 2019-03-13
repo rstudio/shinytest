@@ -1,10 +1,10 @@
 #' Checks all dependencies are installed
 #'
 #' Checks that all the required system dependencies are installed properly,
-#' returns. If dependencie are missing, consider running
+#' returns. If dependencies are missing, consider running
 #' \link{installDependencies}.
 #'
-#' @return \code{TRUE} when all dependencies are fullfilled; otherwise,
+#' @return \code{TRUE} when all dependencies are fulfilled; otherwise,
 #'   \code{FALSE}.
 #'
 #' @seealso \code{\link{installDependencies}} to install missing dependencies.

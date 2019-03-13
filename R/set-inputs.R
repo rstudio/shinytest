@@ -1,15 +1,25 @@
 sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
-                         timeout_ = 3000) {
+                         timeout_ = 3000, allowInputNoBinding_ = FALSE, priority_ = c("input", "event")) {
   if (values_ && !wait_) {
     stop("values_=TRUE and wait_=FALSE are not compatible.",
       "Can't return all values without waiting for update.")
   }
 
+  priority_ <- match.arg(priority_)
+
+  input_values <- lapply(list(...), function(value) {
+    list(
+      value = value,
+      allowInputNoBinding = allowInputNoBinding_,
+      priority = priority_
+    )
+  })
+
   self$logEvent("Setting inputs",
-    input = paste(names(list(...)), collapse = ",")
+    input = paste(names(input_values), collapse = ",")
   )
 
-  private$queueInputs(...)
+  private$queueInputs(input_values)
   res <- private$flushInputs(wait_, timeout_)
 
   if (isTRUE(res$timedOut)) {
@@ -38,8 +48,7 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
 
 
 
-sd_queueInputs <- function(self, private, ...) {
-  inputs <- list(...)
+sd_queueInputs <- function(self, private, inputs) {
   assert_that(is_all_named(inputs))
 
   private$web$executeScript(

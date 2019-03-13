@@ -98,6 +98,9 @@ app$expectUpdate(output, ..., timeout = 3000,
   \item{timeout}{Timeout for the condition, in milliseconds.}
   \item{output}{Character vector, the name(s) of the Shiny output
     widgets that should be updated.}
+  \item{allowInputNoBinding_}{When setting the value of an input, allow
+    it to set the value of an input even if that input does not have
+    an input binding.}
   \item{...}{For \code{expectUpdate} these can be named arguments.
     The argument names correspond to Shiny input widgets: each input
     widget will be set to the specified value.}

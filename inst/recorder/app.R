@@ -1,6 +1,8 @@
+library(promises)
+
 target_url   <- getOption("shinytest.recorder.url")
-app_dir      <- getOption("shinytest.app.dir")
-app_filename <- getOption("shinytest.app.filename")
+app          <- getOption("shinytest.app")
+debug        <- getOption("shinytest.debug")
 load_mode    <- getOption("shinytest.load.mode")
 load_timeout <- getOption("shinytest.load.timeout")
 start_seed   <- getOption("shinytest.seed")
@@ -13,7 +15,7 @@ add_dont_run_reason <- function(reason) {
   dont_run_reasons <<- c(dont_run_reasons, reason)
 }
 
-if (is.null(target_url) || is.null(app_dir)) {
+if (is.null(target_url) || is.null(app$getAppDir())) {
   stop("Test recorder requires the 'shinytest.recorder.url' and ",
     "'shinytest.app.dir' options to be set.")
 }
@@ -27,6 +29,8 @@ registerInputHandler("shinytest.testevents", function(val, shinysession, name) {
 })
 
 escapeString <- function(s) {
+  # escape \ as well as "
+  s <- gsub('\\', '\\\\', s, fixed = TRUE)
   gsub('"', '\\"', s, fixed = TRUE)
 }
 
@@ -129,18 +133,11 @@ quoteName <- function(name) {
 }
 
 codeGenerators <- list(
-  initialize = function(event, nextEvent = NULL, useTimes = FALSE) {
+  initialize = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
     NA_character_
   },
 
-  input = function(event, nextEvent = NULL, useTimes = FALSE) {
-    if (!event$hasBinding) {
-      return(paste0(
-        "# Input '", quoteName(event$name),
-        "' was set, but doesn't have an input binding."
-      ))
-    }
-
+  input = function(event, nextEvent = NULL, useTimes = FALSE, allowInputNoBinding = FALSE, ...) {
     # Extra arguments when using times
     args <- ""
     if (useTimes && !is.null(nextEvent)) {
@@ -170,7 +167,7 @@ codeGenerators <- list(
 
       # Get unescaped filenames in a char vector, with full path
       filepaths <- vapply(event$value, `[[`, "name", FUN.VALUE = "")
-      filepaths <- file.path(app_dir, "tests", filepaths)
+      filepaths <- file.path(app$getAppDir(), "tests", filepaths)
 
       # Check that all files exist. If not, add a message and don't run test
       # automatically on exit.
@@ -183,7 +180,7 @@ codeGenerators <- list(
 
       code
 
-    } else {
+    } else if (event$hasBinding) {
       paste0(
         "app$setInputs(",
         quoteName(event$name), " = ",
@@ -191,27 +188,47 @@ codeGenerators <- list(
         args,
         ")"
       )
+
+    } else {
+      if (allowInputNoBinding) {
+        args <- paste0(args, ", allowInputNoBinding_ = TRUE")
+        if (identical(event$priority, "event")) args <- paste0(args, ', priority_ = "event"')
+        paste0(
+          "app$setInputs(",
+          quoteName(event$name), " = ",
+          processInputValue(event$value, inputType = "default"),
+          args,
+          ")"
+        )
+      } else {
+        paste0(
+          "# Input '", quoteName(event$name),
+          "' was set, but doesn't have an input binding."
+        )
+      }
     }
   },
 
-  fileDownload = function(event, nextEvent = NULL, useTimes = FALSE) {
+  fileDownload = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
     paste0('app$snapshotDownload("', event$name, '")')
   },
 
-  outputEvent = function(event, nextEvent = NULL, useTimes = FALSE) {
+  outputEvent = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
      NA_character_
   },
 
-  outputSnapshot = function(event, nextEvent = NULL, useTimes = FALSE) {
+  outputSnapshot = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
     paste0('app$snapshot(list(output = "', event$name, '"))')
   },
 
-  snapshot = function(event, nextEvent = NULL, useTimes = FALSE) {
+  snapshot = function(event, nextEvent = NULL, useTimes = FALSE, ...) {
     "app$snapshot()"
   }
 )
 
-generateTestCode <- function(events, name, seed, useTimes = FALSE) {
+generateTestCode <- function(events, name, seed, useTimes = FALSE,
+  allowInputNoBinding = FALSE)
+{
   if (useTimes) {
     # Convert from absolute to relative times; first event has time 0.
     startTime <- NA
@@ -226,7 +243,8 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE) {
   # Generate code for each input and output event
   eventCode <- mapply(
     function(event, nextEvent, useTimes) {
-      codeGenerators[[event$type]](event, nextEvent, useTimes)
+      codeGenerators[[event$type]](event, nextEvent, useTimes,
+                                   allowInputNoBinding = allowInputNoBinding)
     },
     events,
     c(events[-1], list(NULL)),
@@ -267,7 +285,7 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE) {
     } else {
 
       paste0(
-        'app <- ShinyDriver$new("', paste("..", app_filename, sep = "/"), '"',
+        'app <- ShinyDriver$new("', paste("..", app$getAppFilename(), sep = "/"), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
         if (!is.null(load_timeout)) paste0(", loadTimeout = ", load_timeout),
         if (length(shiny_options) > 0) paste0(", shinyOptions = ", deparse2(shiny_options)),
@@ -284,6 +302,12 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE) {
   )
 }
 
+hasInputsWithoutBinding <- function(events) {
+  any(vapply(events, function(event) {
+    return(event$type == "input" && !event$hasBinding)
+  }, TRUE))
+}
+
 shinyApp(
   ui = fluidPage(
     tags$head(
@@ -292,9 +316,7 @@ shinyApp(
     ),
 
     div(id = "app-iframe-container",
-      # The `data-src` target_url might get rewritten in JS if we're running
-      # in RStudio server, and the result will be the value of `src`.
-      tags$iframe(id = "app-iframe", `data-src` = target_url)
+      tags$iframe(id = "app-iframe", src = target_url)
     ),
     div(id = "shiny-recorder",
       div(class = "shiny-recorder-header", "Test event recorder"),
@@ -309,7 +331,7 @@ shinyApp(
               style = "display: inline;"
             ),
             tooltip(
-              "You can also Ctrl-click or ⌘-click on an output to snapshot just that one output.",
+              "You can also Ctrl-click or ⌘-click on an output to snapshot just that one output.\n To trigger a snapshot via the keyboard, press Ctrl-shift-S or ⌘-shift-S",
               placement = "bottom"
             ),
             hr()
@@ -331,6 +353,20 @@ shinyApp(
           value = if (load_mode) "myloadtest" else "mytest"),
         checkboxInput("editSaveFile", "Open script in editor on exit", value = TRUE),
         if (!load_mode) checkboxInput("runScript", "Run test script on exit", value = TRUE),
+        checkboxInput(
+          "allowInputNoBinding",
+          tagList("Save inputs that do not have a binding",
+            tooltip(
+              paste(
+                "This enables recording inputs that do not have a binding, which is common in htmlwidgets",
+                "like DT and plotly. Note that playback support is limited: shinytest will set the input",
+                "value so that R gets the input value, but the htmlwidget itself will not be aware of the value."
+              ),
+              placement = "bottom"
+            )
+          ),
+          value = FALSE
+        ),
         numericInput("seed",
           label = tagList("Random seed:",
             tooltip("A seed is recommended if your application uses any randomness. This includes all Shiny Rmd documents.")
@@ -355,8 +391,24 @@ shinyApp(
     })
     outputOptions(output, "recorder_js", suspendWhenHidden = FALSE)
 
+    # echo console output from the driver object (in real-time)
+    if (!identical(debug, "none")) {
+      nConsoleLines <- 0
+      observe({
+        invalidateLater(500)
+        logs <- app$getDebugLog(debug)
+        n <- nrow(logs)
+        if (n > nConsoleLines) {
+          newLines <- seq.int(nConsoleLines + 1, n)
+          print(logs[newLines, ], short = TRUE)
+          cat("\n")
+        }
+        nConsoleLines <<- n
+      })
+    }
+
     saveFile <- reactive({
-      file.path(app_dir, "tests", paste0(input$testname, ".R"))
+      file.path(app$getAppDir(), "tests", paste0(input$testname, ".R"))
     })
 
     # Number of snapshot or fileDownload events in input$testevents
@@ -384,6 +436,8 @@ shinyApp(
             if (event$inputType == "shiny.fileupload") {
               # File uploads are a special case of inputs
               list(type = "file-upload", name = event$name)
+            } else if (!event$hasBinding) {
+              list(type = "input *", name = event$name)
             } else {
               list(type = "input", name = event$name)
             }
@@ -427,7 +481,8 @@ shinyApp(
             seed <- NULL
 
           code <- generateTestCode(input$testevents, input$testname,
-            seed = seed, useTimes = load_mode)
+            seed = seed, useTimes = load_mode,
+            allowInputNoBinding = input$allowInputNoBinding)
 
           cat(code, file = saveFile())
           message("Saved test code to ", saveFile())
@@ -435,7 +490,7 @@ shinyApp(
             file.edit(saveFile())
 
           invisible(list(
-            appDir = app_dir,
+            appDir = app$getAppDir(),
             file = paste0(input$testname, ".R"),
             run = input$runScript && (length(dont_run_reasons) == 0),
             dont_run_reasons = dont_run_reasons
@@ -445,30 +500,93 @@ shinyApp(
     }
 
 
+    presentModal <- function(modalDialog, cancel, ok) {
+      promise(function(resolve, reject) {
+        cancelObs <- observeEvent(input[[cancel]],
+          {
+            okObs$destroy()
+            cancelObs$destroy()
+            reject("cancelObs")
+          },
+          ignoreInit = TRUE
+        )
+
+        okObs <- observeEvent(input[[ok]],
+          {
+            okObs$destroy()
+            cancelObs$destroy()
+            resolve(TRUE)
+          },
+          ignoreInit = TRUE
+        )
+
+        showModal(modalDialog)
+      })
+    }
+
     observeEvent(input$exit_save, {
       if (!load_mode && numSnapshots() == 0) {
         showModal(
           modalDialog("Must have at least one snapshot to save and exit.")
         )
+        return()
+      }
 
-      } else if (file.exists(saveFile())) {
-        showModal(
-          modalDialog(
-            paste0("Overwrite ", basename(saveFile()), "?"),
-            footer = tagList(
-              modalButton("Cancel"),
-              actionButton("overwrite_ok", "OK")
-            )
+      p <- promise_resolve(TRUE)
+
+      if (hasInputsWithoutBinding(input$testevents) && !input$allowInputNoBinding) {
+        p <- p %...>% {
+          presentModal(
+            modalDialog(
+              tagList(
+                "There are some input events (marked with a *) that do not have a corresponding input binding.",
+                "If you want them to be saved in the test script, press Cancel, then check ",
+                tags$b("Save inputs that do not have a binding."),
+                "If you don't want to save them, press Continue."
+              ),
+              footer = tagList(
+                actionButton("inputs_no_binding_cancel",   "Cancel",   `data-dismiss` = "modal"),
+                actionButton("inputs_no_binding_continue", "Continue", `data-dismiss` = "modal")
+              )
+            ),
+            "inputs_no_binding_cancel",
+            "inputs_no_binding_continue"
           )
-        )
+        }
+      }
 
-      } else {
+      p <- p %...>% {
+        if (file.exists(saveFile())) {
+          presentModal(
+            modalDialog(
+              paste0("Overwrite ", basename(saveFile()), "?"),
+              footer = tagList(
+                actionButton("overwrite_cancel",   "Cancel",   `data-dismiss` = "modal"),
+                actionButton("overwrite_continue", "Continue", `data-dismiss` = "modal")
+              )
+            ),
+            "overwrite_cancel",
+            "overwrite_continue"
+          )
+        } else {
+          promise_resolve(TRUE)
+        }
+      }
+
+      p <- p %...>% {
         saveAndExit()
       }
-    })
 
-    observeEvent(input$overwrite_ok, {
-      saveAndExit()
+      # When Cancel is pressed, catch the rejection.
+      p <- p %...!% {
+        NULL
+      }
+
+      # Need to return something other than the promise. Otherwise Shiny will
+      # wait for the promise to resolve before processing any further
+      # reactivity, including the inputs from the actionButtons, so the app
+      # will simply stop responding.
+      NULL
     })
 
     observeEvent(input$exit_nosave, {

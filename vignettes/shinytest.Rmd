@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 
 After you get your Shiny application to a state where it works, it's often useful to have an automated system that checks that it continues to work as expected. There are many possible reasons for an application to stop working. These reasons include:
 
-* An ugpraded R package has different behavior. (This could include Shiny itself!)
+* An upgraded R package has different behavior. (This could include Shiny itself!)
 * You make modifications to your application.
 * An external data source stops working, or returns data in a changed format.
 
@@ -218,7 +218,9 @@ snapshotCompare("path/to/app/", "mytest")
 
 In the example above, we had a single test script, named `mytest.R`. If you want to have more than one set of tests for an application, you can record new tests, each with a different name. You can enter the name when recording your tests:
 
-![](screenshot-recorder-name.png)
+```{r echo=FALSE, eval=TRUE}
+knitr::include_graphics("screenshot-recorder-name.png")
+```
 
 When you run `testApp("path/to/app")`, it will run all the tests scripts in the application's `tests/` directory.
 
