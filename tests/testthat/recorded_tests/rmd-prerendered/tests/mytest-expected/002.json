@@ -1,36 +1,43 @@
 {
   "input": {
     "bw_adjust": 1.8,
-    "n_breaks": "35"
+    "n_breaks": "35",
+    "n_breaks-selectized": ""
   },
   "output": {
     "eruptions": {
-      "src": "[image data sha1: ffd04a0972c7680d6af642dca158df42a9c20d5a]",
+      "src": "[image data sha1: e143c0ea54706be9ea199167639fe88a6ed48f8e]",
       "width": 738,
       "height": 626,
-      "coordmap": [
-        {
-          "domain": {
-            "left": 1.568,
-            "right": 5.132,
-            "bottom": -0.0440000000000001,
-            "top": 1.144
-          },
-          "range": {
-            "left": 59.04,
-            "right": 707.76,
-            "bottom": 551.56,
-            "top": 58.04
-          },
-          "log": {
-            "x": null,
-            "y": null
-          },
-          "mapping": {
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 1.568,
+              "right": 5.132,
+              "bottom": -0.0440000000000001,
+              "top": 1.144
+            },
+            "range": {
+              "left": 59.04,
+              "right": 707.76,
+              "bottom": 551.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
 
+            }
           }
+        ],
+        "dims": {
+          "width": 738,
+          "height": 626
         }
-      ]
+      }
     }
   },
   "export": {
