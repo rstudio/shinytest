@@ -25,3 +25,6 @@ r:
  - release
  - devel
  - oldrel
+
+r_github_packages:
+  - rstudio/webdriver
