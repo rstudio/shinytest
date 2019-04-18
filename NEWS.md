@@ -13,6 +13,10 @@
 
 * Recording a test that produces an input value with an escape character, '\', no longer results in error (#241).
 
+## Improvements
+
+* `ShinyDriver` now passes the current `RNGkind()` to the background R process that serves up the app being tested. This allows for better control over randomness across mutliple versions of R with different `RNGkind()` defaults (e.g., 3.5 and 3.6)
+
 1.3.0
 =====
 
