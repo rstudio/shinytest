@@ -107,7 +107,8 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
       function(path, shinyOptions, rmd, seed, rng_kind) {
 
         if (!is.null(seed)) {
-          RNGkind(rng_kind[1], rng_kind[2])
+          # Prior to R 3.6, RNGkind has 2 args, otherwise it has 3
+          do.call(RNGkind, as.list(rng_kind))
           set.seed(seed);
           shiny:::withPrivateSeed(set.seed(seed + 11))
         }
