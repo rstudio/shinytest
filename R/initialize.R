@@ -104,6 +104,7 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
       function(path, shinyOptions, rmd, seed) {
 
         if (!is.null(seed)) {
+          RNGversion("3.5.0")
           set.seed(seed);
           shiny:::withPrivateSeed(set.seed(seed + 11))
         }
