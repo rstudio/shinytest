@@ -101,10 +101,11 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
   p <- with_envvar(
     c("R_TESTS" = NA),
     callr::r_bg(
-      function(path, shinyOptions, rmd, seed) {
+      function(path, shinyOptions, rmd, seed, rng_kind) {
 
         if (!is.null(seed)) {
-          RNGversion("3.5.0")
+          # the RNG kind should inherit from the parent process
+          RNGkind(rng_kind[1], rng_kind[2])
           set.seed(seed);
           shiny:::withPrivateSeed(set.seed(seed + 11))
         }
@@ -119,7 +120,7 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
           do.call(shiny::runApp, c(path, shinyOptions))
         }
       },
-      args = list(path, shinyOptions, is_rmd(path), seed),
+      args = list(path, shinyOptions, is_rmd(path), seed, RNGkind()),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
       stderr = sprintf(tempfile_format, "shiny-stderr"),
       supervise = TRUE
