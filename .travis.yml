@@ -27,6 +27,4 @@ r:
  - oldrel
 
 r_github_packages:
-  - gaborcsardi/debugme
   - rstudio/webdriver
-  - rstudio/shiny

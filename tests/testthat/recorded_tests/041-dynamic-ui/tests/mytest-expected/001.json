@@ -1,7 +1,8 @@
 {
   "input": {
     "dynamic": 10,
-    "input_type": "slider"
+    "input_type": "slider",
+    "input_type-selectized": ""
   },
   "output": {
     "dynamic_value": " int 10",

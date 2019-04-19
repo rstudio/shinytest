@@ -1,11 +1,12 @@
 {
   "input": {
     "bw_adjust": 1,
-    "n_breaks": "20"
+    "n_breaks": "20",
+    "n_breaks-selectized": ""
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 65a0afabe07dd2d0fa9755aac7d7c5f41895f940]",
+      "html": "[html data sha1: 9b2def6aec925a776ba86a184c4f7ab347fdd4b1]",
       "deps": [
         {
           "name": "jquery",
@@ -116,34 +117,39 @@
         }
       ]
     },
-    "outd7d6c1f84a304cb0": {
+    "out4cb05256550523c6": {
       "src": "[image data sha1: ee763391af3894c1e43a4aafda1a9191ef340736]",
       "width": 738,
       "height": 626,
-      "coordmap": [
-        {
-          "domain": {
-            "left": 1.456,
-            "right": 5.344,
-            "bottom": -0.0286764705882353,
-            "top": 0.745588235294118
-          },
-          "range": {
-            "left": 59.04,
-            "right": 707.76,
-            "bottom": 551.56,
-            "top": 58.04
-          },
-          "log": {
-            "x": null,
-            "y": null
-          },
-          "mapping": {
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 1.456,
+              "right": 5.344,
+              "bottom": -0.0286764705882353,
+              "top": 0.745588235294118
+            },
+            "range": {
+              "left": 59.04,
+              "right": 707.76,
+              "bottom": 551.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
 
+            }
           }
+        ],
+        "dims": {
+          "width": 738,
+          "height": 626
         }
-      ],
-      "error": null
+      }
     }
   },
   "export": {

@@ -1,7 +1,8 @@
 {
   "input": {
     "dynamic": false,
-    "input_type": "checkbox"
+    "input_type": "checkbox",
+    "input_type-selectized": ""
   },
   "output": {
     "dynamic_value": " logi FALSE",

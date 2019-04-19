@@ -10,60 +10,72 @@
       ]
     },
     "plot1": {
-      "src": "[image data sha1: cdb50473e608af8ba71c294753179b1281561d8e]",
+      "src": "[image data sha1: 22c2949ed4c7518fbeafff975d3d5780e1bbf04f]",
       "width": 30,
       "height": 30,
-      "coordmap": [
-        {
-          "domain": {
-            "left": 0.84,
-            "right": 5.16,
-            "bottom": 0.84,
-            "top": 5.16
-          },
-          "range": {
-            "left": 0,
-            "right": 30,
-            "bottom": 29,
-            "top": -1
-          },
-          "log": {
-            "x": null,
-            "y": null
-          },
-          "mapping": {
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 0.84,
+              "right": 5.16,
+              "bottom": 0.84,
+              "top": 5.16
+            },
+            "range": {
+              "left": 0,
+              "right": 30,
+              "bottom": 29,
+              "top": -1
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
 
+            }
           }
+        ],
+        "dims": {
+          "width": 30,
+          "height": 30
         }
-      ]
+      }
     },
     "plot2": {
-      "src": "[image data sha1: 821d3178f367c78b1705060acfb89bdd59ff92cc]",
+      "src": "[image data sha1: de8245a8a5d95796ade12f6dae6a23b28e11a2a0]",
       "width": 30,
       "height": 30,
-      "coordmap": [
-        {
-          "domain": {
-            "left": 0.84,
-            "right": 5.16,
-            "bottom": 0.84,
-            "top": 5.16
-          },
-          "range": {
-            "left": 0,
-            "right": 30,
-            "bottom": 29,
-            "top": -1
-          },
-          "log": {
-            "x": null,
-            "y": null
-          },
-          "mapping": {
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 0.84,
+              "right": 5.16,
+              "bottom": 0.84,
+              "top": 5.16
+            },
+            "range": {
+              "left": 0,
+              "right": 30,
+              "bottom": 29,
+              "top": -1
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
 
+            }
           }
+        ],
+        "dims": {
+          "width": 30,
+          "height": 30
         }
-      ]
+      }
     }
   },
   "export": {

@@ -35,7 +35,5 @@ Imports:
 Suggests:
     rmarkdown,
     flexdashboard
-Remotes:
-    rstudio/rstudioapi
 Encoding: UTF-8
 SystemRequirements: PhantomJS (http://phantomjs.org/)
