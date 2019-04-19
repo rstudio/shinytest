@@ -210,7 +210,7 @@ To make such applications exactly repeatable, you can set the random seed. This 
 knitr::include_graphics("screenshot-recorder-random-seed.png")
 ```
 
-If your test script has already been created, you can set the random seed by editing the test script so that the `ShinyDriver$new()` call has a value for `seed`. Moreover, if you need these tests to pass on multiple versions of R with different `RNGkind()` defaults (e.g., 3.5 and 3.6), you may want to set a fixed `RNGkind()` across your tests (perhaps via `RNGversion("3.5.0")`). The **shinytest** does this in it's own automated tests [via a **testthat** helper](https://github.com/rstudio/shinytest/tree/master/tests/testthat/test-helper-rng.R).
+If your test script has already been created, you can set the random seed by editing the test script so that the `ShinyDriver$new()` call has a value for `seed`. Moreover, if you need these tests to pass on multiple versions of R with different `RNGkind()` defaults (e.g., 3.5 and 3.6), you may want to set a fixed `RNGkind()` across your tests (perhaps via `RNGversion("3.5.0")`). The **shinytest** package does this in it's own automated tests [via a **testthat** helper](https://github.com/rstudio/shinytest/tree/master/tests/testthat/test-helper-rng.R).
 
 ```{r}
 app <- ShinyDriver$new("../", seed = 4323)
