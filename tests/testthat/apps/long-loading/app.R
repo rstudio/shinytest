@@ -55,4 +55,6 @@ server <- function(input, output) {
 
 }
 
+Sys.sleep(21) # that will excced the loadTimeout=20000 of the test
+
 shinyApp(ui = ui, server = server)
