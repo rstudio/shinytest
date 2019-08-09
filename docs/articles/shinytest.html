@@ -190,7 +190,7 @@ Renaming tests/mytest-current
 <p>Behind the scenes, it runs <code><a href="../reference/testApp.html">testApp()</a></code>. You can manually run the tests with this:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"myshinyapp"</span>, <span class="st">"mytest"</span>)</a></code></pre></div>
 <p>This will play back the interactions and record snapshots, as specified in the test script. The very first time the tests are run, they will be saved in a subdirectory of the app called <code>tests/mytest-expected</code>. These are the expected results, and future test runs will be compared against them.</p>
-<p>The directory will contain two files for each snapshot. For exmaple:</p>
+<p>The directory will contain two files for each snapshot. For example:</p>
 <pre><code>001.json
 001.png</code></pre>
 <p>The .json file is a JSON representation of the state of the application when <code>app$snapshot()</code> was called. The .png file is a screenshot of the application, which you can look at to inspect the state of the application.</p>
