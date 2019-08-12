@@ -470,12 +470,11 @@ order.list <- function(l) {
 }
 
 # Process iteratively filters.
-pipe.filters <- function(...) {
+pipe.filters <- function(f1,f2) {
+  if (is.null(f1)) return(f2)
+  if (is.null(f2)) return(f1)
   return( function(filename, content) {
-    filters = list(...)
-    for (f in filters) {
-      content = f(filename,content)
-    }
-    return(content)
-  } )
+            return(f1(filename,f2(filename,content)))
+          }
+  )
 }
