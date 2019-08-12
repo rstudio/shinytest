@@ -5,7 +5,7 @@
 \title{Run tests for a Shiny application}
 \usage{
 testApp(appDir = ".", testnames = NULL, quiet = FALSE,
-  compareImages = TRUE, interactive = base::interactive())
+  compareImages = TRUE, normalizeContent = FALSE, interactive = base::interactive())
 }
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
@@ -21,6 +21,10 @@ testing.}
 \item{compareImages}{Should screenshots be compared? It can be useful to set
 this to \code{FALSE} when the expected results were taken on a different
 platform from the one currently being used to test the application.}
+
+\item{normalizeContent}{Should JSON content be normalized? It can be useful
+to set this to \code{TRUE} when the JSON content produced is unstable for 
+loading order issues in heavy shiny apps.}
 
 \item{interactive}{If there are any differences between current results and
 expected results, provide an interactive graphical viewer that shows the

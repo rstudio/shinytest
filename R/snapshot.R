@@ -119,7 +119,7 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #'
 #' @export
 snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
-  images = TRUE, quiet = FALSE, interactive = base::interactive()) {
+  images = TRUE, normalize_data = FALSE, quiet = FALSE, interactive = base::interactive()) {
 
   if (is.null(testnames)) {
     testnames <- all_testnames(appDir, "-current")
@@ -155,7 +155,7 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
 
 
 snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
-  quiet = FALSE, images = TRUE, interactive = base::interactive())
+  quiet = FALSE, images = TRUE, normalize_data = FALSE, interactive = base::interactive())
 {
   current_dir  <- file.path(appDir, "tests", paste0(testname, "-current"))
   expected_dir <- file.path(appDir, "tests", paste0(testname, "-expected"))
@@ -174,10 +174,12 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
 
   if (dir_exists(expected_dir)) {
 
-    if (images) {
-      filter_fun <- NULL
-    } else {
-      filter_fun <- remove_image_hashes_json
+    filter_fun <- NULL
+    if (!images) {
+      filter_fun <- pipe.filters(filter_fun,remove_image_hashes_json)
+    }
+    if (!normalize_data) {
+      filter_fun <- pipe.filters(filter_fun,normalize_text_json)
     }
 
     res <- dirs_differ(expected_dir, current_dir, filter_fun)
@@ -275,7 +277,8 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
     name = testname,
     pass = snapshot_pass,
     status = snapshot_status,
-    images = images
+    images = images,
+    normalize_data = normalize_data
   ))
 }
 
@@ -435,4 +438,44 @@ remove_image_hashes_and_files <- function(filename) {
   }
 
   filename
+}
+
+# Given a filename and contents: if it is a JSON file, sort the content by
+# alphabetical order, and return the new JSON.
+# If it is not a JSON file, return content unchanged.
+normalize_text_json <- function(filename, content) {
+  if (!grepl("\\.json$", filename))
+    return(content)
+
+  content <- jsonlite::fromJSON(content)
+  content <- order.list(content)
+  content <- jsonlite::toJSON(content)
+  return(content)
+}
+
+# Sort list names by order (recursively).
+#' @test order.list(list('a'=1,'b'=2,'c'=3))
+#' @test order.list(list('d'=5,'a'=1,'b'=2,'c'=3))
+#' @test order.list(list('d'=list('cc'=1,'bb'=0),'a'=1,'b'=2,'c'=3))
+order.list <- function(l) {
+  l.ordered = list()
+  order_names = order(names(l))
+  for (i.n in order_names) {
+    l.i = l[[names(l)[i.n]]]
+    if (is.list(l.i))
+      l.i = order.list(l.i)
+    l.ordered[[names(l)[i.n]]] = l.i
+  }
+  return(l.ordered)
+}
+
+# Process iteratively filters.
+pipe.filters <- function(...) {
+  return( function(filename, content) {
+    filters = list(...)
+    for (f in filters) {
+      content = f(filename,content)
+    }
+    return(content)
+  } )
 }
