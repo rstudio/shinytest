@@ -20,10 +20,11 @@ if (dir.exists("recorded_tests")) {
   app_dirs <- Filter(dir.exists, dir("recorded_tests", full.names = TRUE))
   if (length(app_dirs) > 0) {
     for (app_dir in app_dirs) {
+      print(app_dir)
       # If the dir contains an .Rmd, add that to the path
       path <- append_rmd(app_dir)
       test_that(basename(path), {
-        shinytest::expect_pass(shinytest::testApp(path, compareImages = FALSE))
+        shinytest::expect_pass(shinytest::testApp(path, compareImages = FALSE, normalizeContent = T))
       })
     }
   }

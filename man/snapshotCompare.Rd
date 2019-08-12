@@ -6,7 +6,8 @@
 \title{Compare current and expected snapshots}
 \usage{
 snapshotCompare(appDir, testnames = NULL, autoremove = TRUE,
-  images = TRUE, normalize_data = FALSE, quiet = FALSE, interactive = base::interactive())
+  images = TRUE, normalize_data = FALSE, quiet = FALSE,
+  interactive = base::interactive())
 
 snapshotUpdate(appDir = ".", testnames = NULL, quiet = FALSE)
 }
@@ -22,10 +23,6 @@ the current results be removed automatically? Defaults to TRUE.}
 \item{images}{Should screenshots and PNG images be compared? It can be useful
 to set this to \code{FALSE} when the expected results were taken on a
 different platform from the current results.}
-
-\item{normalize_data}{Should JSON content be normalized? It can be useful
-to set this to \code{TRUE} when the JSON content produced is unstable for 
-loading order issues in heavy shiny apps.}
 
 \item{quiet}{Should output be suppressed? This is useful for automated
 testing.}

@@ -176,10 +176,12 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
 
     filter_fun <- NULL
     if (!images) {
-      filter_fun <- pipe.filters(filter_fun,remove_image_hashes_json)
+      filter_fun_old = filter_fun
+      filter_fun <- pipe.filters(filter_fun_old,remove_image_hashes_json)
     }
-    if (!normalize_data) {
-      filter_fun <- pipe.filters(filter_fun,normalize_text_json)
+    if (normalize_data) {
+      filter_fun_old2 = filter_fun
+      filter_fun <- pipe.filters(filter_fun_old2,normalize_text_json)
     }
 
     res <- dirs_differ(expected_dir, current_dir, filter_fun)
@@ -447,24 +449,36 @@ normalize_text_json <- function(filename, content) {
   if (!grepl("\\.json$", filename))
     return(content)
 
+  content <- raw_to_utf8(content)
   content <- jsonlite::fromJSON(content)
   content <- order.list(content)
-  content <- jsonlite::toJSON(content)
-  return(content)
+  content <- jsonlite::toJSON(content,pretty = T,null = 'null',auto_unbox = T)
+  return(charToRaw(content))
 }
 
 # Sort list names by order (recursively).
 #' @test order.list(list('a'=1,'b'=2,'c'=3))
 #' @test order.list(list('d'=5,'a'=1,'b'=2,'c'=3))
 #' @test order.list(list('d'=list('cc'=1,'bb'=0),'a'=1,'b'=2,'c'=3))
+empty.list=jsonlite::fromJSON("{}")
 order.list <- function(l) {
+  if (!is.list(l)) return(l)
+  if (is.null(names(l))) return(l)
+  if (length(names(l))) return(empty.list)
+
   l.ordered = list()
   order_names = order(names(l))
+  if (length(order_names)>0)
   for (i.n in order_names) {
-    l.i = l[[names(l)[i.n]]]
-    if (is.list(l.i))
-      l.i = order.list(l.i)
-    l.ordered[[names(l)[i.n]]] = l.i
+    if (isTRUE(i.n > 0)) {
+      l.ordered[[names(l)[i.n]]]
+      l.i = l[[names(l)[i.n]]]
+      if (is.list(l.i)) {
+        l.i = order.list(l.i)
+      }
+      if (l.i != character(0))
+        l.ordered[[names(l)[i.n]]] = l.i
+    }
   }
   return(l.ordered)
 }
