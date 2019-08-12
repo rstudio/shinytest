@@ -128,7 +128,7 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
   results <- lapply(
     testnames,
     function(testname) {
-      snapshotCompareSingle(appDir, testname, autoremove, quiet, images, interactive)
+      snapshotCompareSingle(appDir, testname, autoremove, quiet, images, normalize_data, interactive)
     }
   )
 
