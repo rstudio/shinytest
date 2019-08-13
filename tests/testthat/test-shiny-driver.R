@@ -42,7 +42,8 @@ test_that("window size", {
 
 
 test_that("loadTimeout", {
-
-  ShinyDriver$new(test_path("apps/long-loading"), loadTimeout=20000)
-
+  expect_error(ShinyDriver$new(test_path("apps/long-loading"), loadTimeout=20000))
+  ShinyDriver$new(test_path("apps/long-loading"), loadTimeout=40000)
 })
+
+
