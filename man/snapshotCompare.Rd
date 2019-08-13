@@ -24,6 +24,12 @@ the current results be removed automatically? Defaults to TRUE.}
 to set this to \code{FALSE} when the expected results were taken on a
 different platform from the current results.}
 
+\item{normalize_data}{This will pre-process the JSON content to
+canonicalize it (alphabetical order), so changes of JSON objects order will
+no longer be considered as differences. It can be useful to set
+this to \code{TRUE} when the content of snapshot is quite heavy
+(which means that the snapshooted page may be loaded hieratically).}
+
 \item{quiet}{Should output be suppressed? This is useful for automated
 testing.}
 
