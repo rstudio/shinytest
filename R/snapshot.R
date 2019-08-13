@@ -464,7 +464,7 @@ empty.list=jsonlite::fromJSON("{}")
 order.list <- function(l) {
   if (!is.list(l)) return(l)
   if (is.null(names(l))) return(l)
-  if (length(names(l))) return(empty.list)
+  if (length(names(l))==0) return(empty.list)
 
   l.ordered = list()
   order_names = order(names(l))
