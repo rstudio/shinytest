@@ -114,6 +114,11 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #' @param images Should screenshots and PNG images be compared? It can be useful
 #'   to set this to \code{FALSE} when the expected results were taken on a
 #'   different platform from the current results.
+#' @param normalize_data This will pre-process the JSON content to
+#'   canonicalize it (alphabetical order), so changes of JSON objects order will
+#'   no longer be considered as differences. It can be useful to set
+#'   this to \code{TRUE} when the content of snapshot is quite heavy
+#'   (which means that the snapshooted page may be loaded hieratically).
 #'
 #' @seealso \code{\link{testApp}}
 #'
@@ -457,29 +462,46 @@ normalize_text_json <- function(filename, content) {
 }
 
 # Sort list names by order (recursively).
-#' @test order.list(list('a'=1,'b'=2,'c'=3))
-#' @test order.list(list('d'=5,'a'=1,'b'=2,'c'=3))
-#' @test order.list(list('d'=list('cc'=1,'bb'=0),'a'=1,'b'=2,'c'=3))
+#' @test order.list(list('a'=1,'b'=3,'c'=2))
+#' @test order.list(list('d'=5,'a'=1,'b'=3,'c'=2))
+#' @test order.list(list('d'=list('cc'=1,'bb'=0),'a'=1,'b'=3,'c'=2))
+#' @test order.list(list('d'=c(list('cc'=11,'bb'=10),'aa'),'a'=1,'b'=3,'c'=2))
+#' @test order.list(c(list('cc'=11,'bb'=10),'aa'))
+#' @test order.list(list('d'=c(list('cc'=11,'bb'=10),'aa'),'a'=1,'b'=3,'c'=2))
+#' @test order.list(fromJSON('[{"a":1,"b":2},{"c":3,"aa":4}]'))
 empty.list=jsonlite::fromJSON("{}")
 order.list <- function(l) {
-  if (!is.list(l)) return(l)
+  if (!is.list(l)) { # we don't want to reorder other object than lists
+    if (length(l)<=1) return(l) # one simple object
+    a = l # an 'array' (or sort-of)
+    for (i in 1:length(a))
+      a[i] = order.list(a[i]) # apply order.list on each element of the array, but do not reoredr it
+    return(a)
+  }
+
+  # ok, now we are sure l is a list...
   if (is.null(names(l))) return(l)
   if (length(names(l))==0) return(empty.list)
 
   l.ordered = list()
-  order_names = order(names(l))
+  order_names = order(names(l),na.last = F)
   if (length(order_names)>0)
-  for (i.n in order_names) {
-    if (isTRUE(i.n > 0)) {
-      l.ordered[[names(l)[i.n]]]
-      l.i = l[[names(l)[i.n]]]
-      if (is.list(l.i)) {
-        l.i = order.list(l.i)
+    for (i in 1:length(order_names)) {
+      o = order_names[i]
+      if (isTRUE(o > 0)) {
+        name.o = names(l)[o]
+        if (name.o=="")
+          l.ordered[i] = l[o]
+        else {
+          l.i = l[[name.o]]
+          if (is.list(l.i)) {
+            l.i = order.list(l.i)
+          }
+          l.ordered[[name.o]] = l.i
+        }
       }
-      if (l.i != character(0))
-        l.ordered[[names(l)[i.n]]] = l.i
     }
-  }
+
   return(l.ordered)
 }
 

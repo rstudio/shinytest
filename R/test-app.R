@@ -10,6 +10,11 @@
 #' @param compareImages Should screenshots be compared? It can be useful to set
 #'   this to \code{FALSE} when the expected results were taken on a different
 #'   platform from the one currently being used to test the application.
+#' @param normalizeContent This will pre-process the JSON content to
+#'   canonicalize it (alphabetical order), so changes of JSON objects order will
+#'   no longer be considered as differences. It can be useful to set
+#'   this to \code{TRUE} when the content of snapshot is quite heavy
+#'   (which means that the snapshooted page may be loaded hieratically).
 #' @param interactive If there are any differences between current results and
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
