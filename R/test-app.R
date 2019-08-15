@@ -40,26 +40,8 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
   }
 
   testsDir <- file.path(appDir, "tests")
-
-  found_testnames <- list.files(testsDir, pattern = "\\.[r|R]$")
+  found_testnames <- findTests(testsDir, testnames)
   found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
-  if (!is.null(testnames)) {
-    # Strip .R extension from supplied filenames
-    testnames_no_ext <- sub("\\.[rR]$", "", testnames)
-
-    # Keep only specified files
-    idx <- match(testnames_no_ext, found_testnames_no_ext)
-
-    if (any(is.na(idx))) {
-      stop("Test scripts do not exist: ",
-        paste0(testnames[is.na(idx)], collapse =", ")
-      )
-    }
-
-    # Keep only specified files
-    found_testnames <- found_testnames[idx]
-    found_testnames_no_ext <- found_testnames_no_ext[idx]
-  }
 
   if (length(found_testnames) == 0) {
     stop("No test scripts found in ", testsDir)
@@ -99,6 +81,30 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
   )
 }
 
+#' Finds the relevant tests in a given directory
+#' @noRd
+findTests <- function(testsDir, testnames=NULL) {
+  found_testnames <- list.files(testsDir, pattern = "\\.[rR]$")
+  found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
+
+  if (!is.null(testnames)) {
+    testnames_no_ext <- sub("\\.[rR]$", "", testnames)
+
+    # Keep only specified files
+    idx <- match(testnames_no_ext, found_testnames_no_ext)
+
+    if (any(is.na(idx))) {
+      stop("Test scripts do not exist: ",
+        paste0(testnames[is.na(idx)], collapse =", ")
+      )
+    }
+
+    # Keep only specified files
+    found_testnames <- found_testnames[idx]
+  }
+
+  found_testnames
+}
 
 all_testnames <- function(appDir, suffixes = c("-expected", "-current")) {
   # Create a regex string like "(-expected|-current)$"
