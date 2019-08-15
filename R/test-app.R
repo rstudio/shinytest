@@ -39,7 +39,7 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
     appDir       <- appDir
   }
 
-  testsDir <- file.path(appDir, "tests")
+  testsDir <- findTestsDir(appDir)
   found_testnames <- findTests(testsDir, testnames)
   found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
 
@@ -79,6 +79,50 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
     snapshotCompare(appDir, testnames = found_testnames_no_ext, quiet = quiet,
       images = compareImages, interactive = interactive)
   )
+}
+
+#' Identify in which directory the tests are contained.
+#'
+#' Prior to 1.3.1.9999, tests were stored directly in `tests/` rather than
+#' nested in `tests/shinytests/`.
+#'
+#' This function does the following:
+#'  1. Check to see if `tests/shinytests/` exists. If so, use it.
+#'  2. Check to see if all the top-level R files in `tests/` appear to be shinytests. If
+#'     some are and some aren't, throw an error.
+#'  3. Assuming all top-level R files in `tests/` appear to be shinytests, return that dir.
+#'  @noRd
+findTestsDir <- function(appDir) {
+  testsDir <- file.path(appDir, "tests")
+
+  if (!dir.exists(testsDir)){
+    stop("tests/ directory doesn't exist")
+  }
+
+  shinytestsDir <- file.path(testsDir, "shinytests")
+  if (dir.exists(shinytestsDir)){
+    return(shinytestsDir)
+  }
+
+  r_files <- list.files(testsDir, pattern = "\\.[rR]$", full.names = TRUE)
+  is_test <- sapply(r_files, function(f){
+    isShinyTest(readLines(f, warn=FALSE))
+  })
+
+  if (!all(is_test)){
+    stop("Found R files that don't appear to be shinytests in the tests/ directory. shinytests should be placed in tests/shinytests/")
+  }
+
+  message("shinytests should be placed in the tests/shinytests directory. Storing them in the top-level tests/ directory will be deprecated in the future.")
+  testsDir
+}
+
+#' Check to see if the given text is a shinytest
+#' Scans for the magic string of `app <- ShinyDriver$new(` as an indicator that this is a shinytest.
+#' @noRd
+isShinyTest <- function(text){
+  lines <- grepl("app\\s*<-\\s*ShinyDriver\\$new\\(", text, perl=TRUE)
+  any(lines)
 }
 
 #' Finds the relevant tests in a given directory

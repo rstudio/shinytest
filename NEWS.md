@@ -1,3 +1,8 @@
+1.3.1.9999
+==========
+
+* Recommend that tests be placed in `tests/shinytests/` instead of directly in the tests directory. Users with their tests in the `tests/` directory will now see a message about this change. Storing shinytests directly in `tests/` will be deprecated in the future.
+
 1.3.1
 ==========
 
