@@ -92,10 +92,8 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 #'     some are and some aren't, throw an error.
 #'  3. Assuming all top-level R files in `tests/` appear to be shinytests, return that dir.
 #' @noRd
-#' @import shiny
 findTestsDir <- function(appDir) {
   testsDir <- file.path(appDir, "tests")
-
   if (!dir_exists(testsDir)){
     stop("tests/ directory doesn't exist")
   }

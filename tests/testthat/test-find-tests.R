@@ -19,18 +19,18 @@ test_that("Filters out based on given test names", {
 })
 
 test_that("findTestsDir works", {
-  expect_match(suppressMessages(findTestsDir("example_test_dirs/simple/")), "/tests$")
-  expect_message(findTestsDir("example_test_dirs/simple/"), "deprecated in the future")
-  expect_match(findTestsDir("example_test_dirs/nested/"), "/shinytests$")
+  expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/simple/"))), "/tests$")
+  expect_message(findTestsDir(test_path("example_test_dirs/simple/")), "deprecated in the future")
+  expect_match(findTestsDir(test_path("example_test_dirs/nested/")), "/shinytests$")
 
   # Use shinytests if it exists -- even if it's empty
-  expect_match(findTestsDir("example_test_dirs/empty-nested/"), "/shinytests$")
+  expect_match(findTestsDir(test_path("example_test_dirs/empty-nested/")), "/shinytests$")
 
   # Empty top-level is ok
-  expect_match(suppressMessages(findTestsDir("example_test_dirs/empty-toplevel/")), "/tests$")
+  expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/empty-toplevel/"))), "/tests$")
 
   # Non-shinytest files in the top-level dir cause an error
-  expect_error(findTestsDir("example_test_dirs/mixed-toplevel/"))
+  expect_error(findTestsDir(test_path("example_test_dirs/mixed-toplevel/")))
 })
 
 test_that("isShinyTest works", {
