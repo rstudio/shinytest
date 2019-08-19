@@ -91,23 +91,24 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 #'  2. Check to see if all the top-level R files in `tests/` appear to be shinytests. If
 #'     some are and some aren't, throw an error.
 #'  3. Assuming all top-level R files in `tests/` appear to be shinytests, return that dir.
-#'  @noRd
+#' @noRd
+#' @import shiny
 findTestsDir <- function(appDir) {
   testsDir <- file.path(appDir, "tests")
 
-  if (!dir.exists(testsDir)){
+  if (!dir_exists(testsDir)){
     stop("tests/ directory doesn't exist")
   }
 
   shinytestsDir <- file.path(testsDir, "shinytests")
-  if (dir.exists(shinytestsDir)){
+  if (dir_exists(shinytestsDir)){
     return(shinytestsDir)
   }
 
   r_files <- list.files(testsDir, pattern = "\\.[rR]$", full.names = TRUE)
-  is_test <- sapply(r_files, function(f){
+  is_test <- vapply(r_files, function(f){
     isShinyTest(readLines(f, warn=FALSE))
-  })
+  }, logical(1))
 
   if (!all(is_test)){
     stop("Found R files that don't appear to be shinytests in the tests/ directory. shinytests should be placed in tests/shinytests/")
