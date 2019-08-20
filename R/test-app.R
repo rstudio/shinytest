@@ -39,27 +39,9 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
     appDir       <- appDir
   }
 
-  testsDir <- file.path(appDir, "tests")
-
-  found_testnames <- list.files(testsDir, pattern = "\\.[r|R]$")
+  testsDir <- findTestsDir(appDir)
+  found_testnames <- findTests(testsDir, testnames)
   found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
-  if (!is.null(testnames)) {
-    # Strip .R extension from supplied filenames
-    testnames_no_ext <- sub("\\.[rR]$", "", testnames)
-
-    # Keep only specified files
-    idx <- match(testnames_no_ext, found_testnames_no_ext)
-
-    if (any(is.na(idx))) {
-      stop("Test scripts do not exist: ",
-        paste0(testnames[is.na(idx)], collapse =", ")
-      )
-    }
-
-    # Keep only specified files
-    found_testnames <- found_testnames[idx]
-    found_testnames_no_ext <- found_testnames_no_ext[idx]
-  }
 
   if (length(found_testnames) == 0) {
     stop("No test scripts found in ", testsDir)
@@ -99,6 +81,73 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
   )
 }
 
+#' Identify in which directory the tests are contained.
+#'
+#' Prior to 1.3.1.9999, tests were stored directly in `tests/` rather than
+#' nested in `tests/shinytests/`.
+#'
+#' This function does the following:
+#'  1. Check to see if `tests/shinytests/` exists. If so, use it.
+#'  2. Check to see if all the top-level R files in `tests/` appear to be shinytests. If
+#'     some are and some aren't, throw an error.
+#'  3. Assuming all top-level R files in `tests/` appear to be shinytests, return that dir.
+#' @noRd
+findTestsDir <- function(appDir) {
+  testsDir <- file.path(appDir, "tests")
+  if (!dir_exists(testsDir)){
+    stop("tests/ directory doesn't exist")
+  }
+
+  shinytestsDir <- file.path(testsDir, "shinytests")
+  if (dir_exists(shinytestsDir)){
+    return(shinytestsDir)
+  }
+
+  r_files <- list.files(testsDir, pattern = "\\.[rR]$", full.names = TRUE)
+  is_test <- vapply(r_files, function(f){
+    isShinyTest(readLines(f, warn=FALSE))
+  }, logical(1))
+
+  if (!all(is_test)){
+    stop("Found R files that don't appear to be shinytests in the tests/ directory. shinytests should be placed in tests/shinytests/")
+  }
+
+  message("shinytests should be placed in the tests/shinytests directory. Storing them in the top-level tests/ directory will be deprecated in the future.")
+  testsDir
+}
+
+#' Check to see if the given text is a shinytest
+#' Scans for the magic string of `app <- ShinyDriver$new(` as an indicator that this is a shinytest.
+#' @noRd
+isShinyTest <- function(text){
+  lines <- grepl("app\\s*<-\\s*ShinyDriver\\$new\\(", text, perl=TRUE)
+  any(lines)
+}
+
+#' Finds the relevant tests in a given directory
+#' @noRd
+findTests <- function(testsDir, testnames=NULL) {
+  found_testnames <- list.files(testsDir, pattern = "\\.[rR]$")
+  found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
+
+  if (!is.null(testnames)) {
+    testnames_no_ext <- sub("\\.[rR]$", "", testnames)
+
+    # Keep only specified files
+    idx <- match(testnames_no_ext, found_testnames_no_ext)
+
+    if (any(is.na(idx))) {
+      stop("Test scripts do not exist: ",
+        paste0(testnames[is.na(idx)], collapse =", ")
+      )
+    }
+
+    # Keep only specified files
+    found_testnames <- found_testnames[idx]
+  }
+
+  found_testnames
+}
 
 all_testnames <- function(appDir, suffixes = c("-expected", "-current")) {
   # Create a regex string like "(-expected|-current)$"

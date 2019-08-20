@@ -1,0 +1,43 @@
+
+context("Find tests")
+
+test_that("Finds test files", {
+  expect_equal(findTests("example_test_dirs/simple/tests"), c("testa.r", "testb.R"))
+
+  # No files is empty
+  expect_equal(findTests("example_test_dirs/"), character(0))
+})
+
+test_that("Filters out based on given test names", {
+  expect_equal(findTests("example_test_dirs/simple/tests", "testa"), c("testa.r"))
+
+  # Accepts with or without file extension
+  expect_equal(findTests("example_test_dirs/simple/tests", "testb.r"), c("testb.R"))
+
+  # Non-existant file filter errors
+  expect_error(findTests("example_test_dirs/simple/tests", "i don't exist"))
+})
+
+test_that("findTestsDir works", {
+  expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/simple/"))), "/tests$")
+  expect_message(findTestsDir(test_path("example_test_dirs/simple/")), "deprecated in the future")
+  expect_match(findTestsDir(test_path("example_test_dirs/nested/")), "/shinytests$")
+
+  # Use shinytests if it exists -- even if it's empty
+  expect_match(findTestsDir(test_path("example_test_dirs/empty-nested/")), "/shinytests$")
+
+  # Empty top-level is ok
+  expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/empty-toplevel/"))), "/tests$")
+
+  # Non-shinytest files in the top-level dir cause an error
+  expect_error(findTestsDir(test_path("example_test_dirs/mixed-toplevel/")))
+})
+
+test_that("isShinyTest works", {
+  expect_false(isShinyTest("blah"))
+  expect_true(isShinyTest("app<-ShinyDriver$new()"))
+  expect_true(isShinyTest(c("blah", "app<-ShinyDriver$new()")))
+
+  # Not sensitive to spacing
+  expect_true(isShinyTest("app\t<-      ShinyDriver$new("))
+})
