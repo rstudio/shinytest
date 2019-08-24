@@ -519,8 +519,14 @@ ignore_text <- function(filename, content, patterns) {
     return(content)
 
   content <- raw_to_utf8(content)
-  for (p in patterns)
+  for (p in patterns){
+    g = gregexpr(p,content)[[1]]
+    if (all(g>=0)) {
+      reps = sapply(1:length(g),function(i)substr(content,g[i],g[i]+attr(g,"match.length")[i]))
+      warning("Will ignore JSON content matching:",p,"\n  ",paste(reps,collapse = "\n  "))
+    }
     content <- gsub(pattern=p,replacement = paste0("__",p,"__"),content)
+  }
   return(charToRaw(content))
 }
 
