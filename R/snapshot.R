@@ -135,7 +135,7 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
   results <- lapply(
     testnames,
     function(testname) {
-      snapshotCompareSingle(appDir, testname, autoremove, quiet, images, normalize_data, interactive)
+      snapshotCompareSingle(appDir, testname, autoremove, quiet, images, normalize_data, ignore_pattern, interactive)
     }
   )
 
@@ -291,7 +291,8 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
     pass = snapshot_pass,
     status = snapshot_status,
     images = images,
-    normalize_data = normalize_data
+    normalize_data = normalize_data,
+    ignore_pattern = ignore_pattern
   ))
 }
 
@@ -535,7 +536,7 @@ pipe.filters <- function(f1,f2,...) {
   if (is.null(f1)) return(f2)
   if (is.null(f2)) return(f1)
   return( function(filename, content) {
-            return(f1(filename,f2(filename,content,...)))
+            return(f2(filename,f1(filename,content),...))
           }
   )
 }
