@@ -119,12 +119,14 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #'   no longer be considered as differences. It can be useful to set
 #'   this to \code{TRUE} when the content of snapshot is quite heavy
 #'   (which means that the snapshooted page may be loaded hieratically).
+#' @param ignore_pattern This will pre-process the JSON content to ignore text
+#'   matching this pattern (using gsub to replace it by arbitrary value).
 #'
 #' @seealso \code{\link{testApp}}
 #'
 #' @export
 snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
-  images = TRUE, normalize_data = FALSE, quiet = FALSE, interactive = base::interactive()) {
+  images = TRUE, normalize_data = FALSE, ignore_pattern = NULL, quiet = FALSE, interactive = base::interactive()) {
 
   if (is.null(testnames)) {
     testnames <- all_testnames(appDir, "-current")
@@ -160,7 +162,7 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
 
 
 snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
-  quiet = FALSE, images = TRUE, normalize_data = FALSE, interactive = base::interactive())
+  quiet = FALSE, images = TRUE, normalize_data = FALSE, ignore_pattern = NULL, interactive = base::interactive())
 {
   current_dir  <- file.path(appDir, "tests", paste0(testname, "-current"))
   expected_dir <- file.path(appDir, "tests", paste0(testname, "-expected"))
@@ -187,6 +189,10 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
     if (normalize_data) {
       filter_fun_old2 = filter_fun
       filter_fun <- pipe.filters(filter_fun_old2,normalize_text_json)
+    }
+    if (!is.null(ignore_pattern)) {
+      filter_fun_old3 = filter_fun
+      filter_fun <- pipe.filters(filter_fun_old3,ignore_text,ignore_pattern)
     }
 
     res <- dirs_differ(expected_dir, current_dir, filter_fun)
@@ -505,12 +511,25 @@ order.list <- function(l) {
   return(l.ordered)
 }
 
+# Given a filename and contents: if it is a JSON file, fix some content arbitrary
+# and return the new JSON, so this content will be ignored/fixed for later diff.
+# If it is not a JSON file, return content unchanged.
+ignore_text <- function(filename, content, patterns) {
+  if (!grepl("\\.json$", filename))
+    return(content)
+
+  content <- raw_to_utf8(content)
+  for (p in patterns)
+    content <- gsub(pattern=p,replacement = paste0("__",p,"__"),content)
+  return(charToRaw(content))
+}
+
 # Process iteratively filters.
-pipe.filters <- function(f1,f2) {
+pipe.filters <- function(f1,f2,...) {
   if (is.null(f1)) return(f2)
   if (is.null(f2)) return(f1)
   return( function(filename, content) {
-            return(f1(filename,f2(filename,content)))
+            return(f1(filename,f2(filename,content,...)))
           }
   )
 }

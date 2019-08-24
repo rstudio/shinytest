@@ -15,6 +15,8 @@
 #'   no longer be considered as differences. It can be useful to set
 #'   this to \code{TRUE} when the content of snapshot is quite heavy
 #'   (which means that the snapshooted page may be loaded hieratically).
+#' @param ignorePattern This will pre-process the JSON content to ignore text
+#'   matching this pattern (using gsub to replace it by arbitrary value).
 #' @param interactive If there are any differences between current results and
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
@@ -27,7 +29,7 @@
 #'
 #' @export
 testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
-  compareImages = TRUE, normalizeContent = FALSE, interactive = base::interactive())
+  compareImages = TRUE, normalizeContent = FALSE, ignorePattern = NULL, interactive = base::interactive())
 {
   library(shinytest)
 
@@ -100,7 +102,7 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
   # Compare all results
   return(
     snapshotCompare(appDir, testnames = found_testnames_no_ext, quiet = quiet,
-      images = compareImages, normalize_data = normalizeContent, interactive = interactive)
+      images = compareImages, normalize_data = normalizeContent, ignore_pattern = ignorePattern, interactive = interactive)
   )
 }
 
