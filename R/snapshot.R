@@ -561,7 +561,7 @@ clean.list <- function(l,key_to_remove) {
             l.i = clean.list(l.i,key_to_remove)
           }
           l.cleaned[[name.i]] = l.i
-        }
+        } else warning("Will remove key ",name.i)
       }
     }
 
