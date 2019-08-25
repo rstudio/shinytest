@@ -31,7 +31,7 @@
 #'
 #' @export
 testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
-  compareImages = TRUE, normalizeContent = FALSE, ignoreContent = NULL, interactive = base::interactive())
+  compareImages = TRUE, normalizeContent = FALSE, ignoreElement = NULL, ignoreContent = NULL, interactive = base::interactive())
 {
   library(shinytest)
 
@@ -104,7 +104,7 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
   # Compare all results
   return(
     snapshotCompare(appDir, testnames = found_testnames_no_ext, quiet = quiet,
-      images = compareImages, normalize_data = normalizeContent, ignore_pattern = ignoreContent, interactive = interactive)
+      images = compareImages, normalize_data = normalizeContent, ignore_keys = ignoreElement, ignore_text = ignoreContent, interactive = interactive)
   )
 }
 
