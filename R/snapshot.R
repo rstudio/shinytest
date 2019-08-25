@@ -486,7 +486,7 @@ ignore_in_json <- function(filename, content,key_patterns) {
   content <- raw_to_utf8(content)
   content <- jsonlite::fromJSON(content)
   for (p in key_patterns)
-    content <- clean.list(content,p)
+    content <- clean.list(content,paste0("^",p,"$"))
   content <- jsonlite::toJSON(content,pretty = T,null = 'null',auto_unbox = T)
   return(charToRaw(content))
 }
@@ -561,7 +561,7 @@ clean.list <- function(l,key_to_remove) {
             l.i = clean.list(l.i,key_to_remove)
           }
           l.cleaned[[name.i]] = l.i
-        } else warning("Will remove key ",name.i)
+        } else warning("Will remove key ",name.i," matching ",key_to_remove)
       }
     }
 
