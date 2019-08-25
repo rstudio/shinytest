@@ -540,7 +540,7 @@ clean.list <- function(l,key_to_remove) {
     if (length(l)<=1) return(l) # one simple object
     a = l # an 'array' (or sort-of)
     for (i in 1:length(a))
-      a[i] = clean.list(a[i]) # apply order.list on each element of the array, but do not reorder it
+      a[i] = clean.list(a[i],key_to_remove) # apply order.list on each element of the array, but do not reorder it
     return(a)
   }
 
@@ -558,7 +558,7 @@ clean.list <- function(l,key_to_remove) {
         if (all(gregexpr(key_to_remove,name.i)[[1]]<0)){
           l.i = l[[name.i]]
           if (is.list(l.i)) {
-            l.i = clean.list(l.i)
+            l.i = clean.list(l.i,key_to_remove)
           }
           l.cleaned[[name.i]] = l.i
         }
