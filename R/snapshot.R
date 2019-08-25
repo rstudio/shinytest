@@ -119,14 +119,16 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #'   no longer be considered as differences. It can be useful to set
 #'   this to \code{TRUE} when the content of snapshot is quite heavy
 #'   (which means that the snapshooted page may be loaded hieratically).
-#' @param ignore_pattern This will pre-process the JSON content to ignore text
-#'   matching this pattern (using gsub to replace it by arbitrary value).
+#' @param ignore_text This will pre-process the content to ignore text
+#'   matching thess pattern (using gsub to replace it by arbitrary value).
+#' @param ignore_keys This will pre-process the JSON content to remove elements
+#'   matching these key patterns.
 #'
 #' @seealso \code{\link{testApp}}
 #'
 #' @export
 snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
-  images = TRUE, normalize_data = FALSE, ignore_pattern = NULL, quiet = FALSE, interactive = base::interactive()) {
+  images = TRUE, normalize_data = FALSE, ignore_keys = NULL, ignore_text = NULL, quiet = FALSE, interactive = base::interactive()) {
 
   if (is.null(testnames)) {
     testnames <- all_testnames(appDir, "-current")
@@ -135,7 +137,7 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
   results <- lapply(
     testnames,
     function(testname) {
-      snapshotCompareSingle(appDir, testname, autoremove, quiet, images, normalize_data, ignore_pattern, interactive)
+      snapshotCompareSingle(appDir, testname, autoremove, quiet, images, normalize_data, ignore_keys, ignore_text, interactive)
     }
   )
 
@@ -162,7 +164,7 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
 
 
 snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
-  quiet = FALSE, images = TRUE, normalize_data = FALSE, ignore_pattern = NULL, interactive = base::interactive())
+  quiet = FALSE, images = TRUE, normalize_data = FALSE, ignore_keys = NULL, ignore_text = NULL, interactive = base::interactive())
 {
   current_dir  <- file.path(appDir, "tests", paste0(testname, "-current"))
   expected_dir <- file.path(appDir, "tests", paste0(testname, "-expected"))
@@ -188,11 +190,15 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
     }
     if (normalize_data) {
       filter_fun_old2 = filter_fun
-      filter_fun <- pipe.filters(filter_fun_old2,normalize_text_json)
+      filter_fun <- pipe.filters(filter_fun_old2,normalize_json)
     }
-    if (!is.null(ignore_pattern)) {
+    if (!is.null(ignore_text)) {
       filter_fun_old3 = filter_fun
-      filter_fun <- pipe.filters(filter_fun_old3,ignore_text,ignore_pattern)
+      filter_fun <- pipe.filters(filter_fun_old3,remove_text,ignore_text)
+    }
+    if (!is.null(ignore_keys)) {
+      filter_fun_old4 = filter_fun
+      filter_fun <- pipe.filters(filter_fun_old4,ignore_in_json,ignore_keys)
     }
 
     res <- dirs_differ(expected_dir, current_dir, filter_fun)
@@ -292,7 +298,8 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
     status = snapshot_status,
     images = images,
     normalize_data = normalize_data,
-    ignore_pattern = ignore_pattern
+    ignore_keys = ignore_keys,
+    ignore_text = ignore_text
   ))
 }
 
@@ -457,13 +464,29 @@ remove_image_hashes_and_files <- function(filename) {
 # Given a filename and contents: if it is a JSON file, sort the content by
 # alphabetical order, and return the new JSON.
 # If it is not a JSON file, return content unchanged.
-normalize_text_json <- function(filename, content) {
+normalize_json <- function(filename, content) {
   if (!grepl("\\.json$", filename))
     return(content)
 
   content <- raw_to_utf8(content)
   content <- jsonlite::fromJSON(content)
   content <- order.list(content)
+  content <- jsonlite::toJSON(content,pretty = T,null = 'null',auto_unbox = T)
+  return(charToRaw(content))
+}
+
+
+# Given a filename and contents: if it is a JSON file, empty the content
+# matching these key patterns.
+# If it is not a JSON file, return content unchanged.
+ignore_in_json <- function(filename, content,key_patterns) {
+  if (!grepl("\\.json$", filename))
+    return(content)
+
+  content <- raw_to_utf8(content)
+  content <- jsonlite::fromJSON(content)
+  for (p in key_patterns)
+    content <- clean.list(content,p)
   content <- jsonlite::toJSON(content,pretty = T,null = 'null',auto_unbox = T)
   return(charToRaw(content))
 }
@@ -482,7 +505,7 @@ order.list <- function(l) {
     if (length(l)<=1) return(l) # one simple object
     a = l # an 'array' (or sort-of)
     for (i in 1:length(a))
-      a[i] = order.list(a[i]) # apply order.list on each element of the array, but do not reoredr it
+      a[i] = order.list(a[i]) # apply order.list on each element of the array, but do not reorder it
     return(a)
   }
 
@@ -512,10 +535,43 @@ order.list <- function(l) {
   return(l.ordered)
 }
 
+clean.list <- function(l,key_to_remove) {
+  if (!is.list(l)) { # we don't want to reorder other object than lists
+    if (length(l)<=1) return(l) # one simple object
+    a = l # an 'array' (or sort-of)
+    for (i in 1:length(a))
+      a[i] = clean.list(a[i]) # apply order.list on each element of the array, but do not reorder it
+    return(a)
+  }
+
+  # ok, now we are sure l is a list...
+  if (is.null(names(l))) return(l)
+  if (length(names(l))==0) return(empty.list)
+
+  l.cleaned = list()
+  if (length(names(l))>0)
+    for (i in 1:length(names(l))) {
+      name.i = names(l)[i]
+      if (name.i=="")
+        l.cleaned[i] = l[i]
+      else {
+        if (all(gregexpr(key_to_remove,name.i)[[1]]<0)){
+          l.i = l[[name.i]]
+          if (is.list(l.i)) {
+            l.i = clean.list(l.i)
+          }
+          l.cleaned[[name.i]] = l.i
+        }
+      }
+    }
+
+  return(l.cleaned)
+}
+
 # Given a filename and contents: if it is a JSON file, fix some content arbitrary
 # and return the new JSON, so this content will be ignored/fixed for later diff.
 # If it is not a JSON file, return content unchanged.
-ignore_text <- function(filename, content, patterns) {
+remove_text <- function(filename, content, patterns) {
   if (!grepl("\\.json$", filename))
     return(content)
 
@@ -523,10 +579,10 @@ ignore_text <- function(filename, content, patterns) {
   for (p in patterns){
     g = gregexpr(p,content)[[1]]
     if (any(g!=-1)) {
-      # reps = sapply(1:length(g),
-      #               function(i)
-      #                 substr(content,g[i],g[i]+attr(g,"match.length")[i]-1))
-      # warning("Will ignore JSON content of file ",filename," matching:",p,"\n  ",paste(reps,collapse = "\n  "))
+      reps = sapply(1:length(g),
+                    function(i)
+                      substr(content,g[i],g[i]+attr(g,"match.length")[i]-1))
+      warning("Will ignore content of file ",filename," matching:",p,"\n  ...",paste(reps,collapse = "...\n  "))
       content <- gsub(pattern=p,replacement = paste0("__",p,"__"),content)
     } #else warning("No matching ",p," in ",filename)
   }
