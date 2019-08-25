@@ -8,11 +8,13 @@ files_identical <- function(a, b, preprocess = NULL) {
     return(FALSE)
   }
 
-  # Fast path: if not the same size, return FALSE
-  a_size <- file.info(a)$size
-  b_size <- file.info(b)$size
-  if (!identical(a_size, b_size)) {
-    return(FALSE)
+  if (is.null(preprocess)) { # if preprocess is here, size diff is no longer sufficient to return FALSE
+    # Fast path: if not the same size, return FALSE
+    a_size <- file.info(a)$size
+    b_size <- file.info(b)$size
+    if (!identical(a_size, b_size)) {
+      return(FALSE)
+    }
   }
 
   a_content <- read_raw(a)
@@ -54,6 +56,7 @@ dirs_differ <- function(expected, current, file_preprocess = NULL) {
     if (res$expected && res$current) {
       res$identical <- files_identical(expected_file, current_file, file_preprocess)
     } else {
+      warning("Missing files: ",ifelse(res$expected,"expected ",""),ifelse(res$current,"current",""))
       res$identical <- NA
     }
     res

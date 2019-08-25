@@ -522,11 +522,13 @@ ignore_text <- function(filename, content, patterns) {
   content <- raw_to_utf8(content)
   for (p in patterns){
     g = gregexpr(p,content)[[1]]
-    if (all(g>=0)) {
-      reps = sapply(1:length(g),function(i)substr(content,g[i],g[i]+attr(g,"match.length")[i]))
-      warning("Will ignore JSON content matching:",p,"\n  ",paste(reps,collapse = "\n  "))
-    }
-    content <- gsub(pattern=p,replacement = paste0("__",p,"__"),content)
+    if (any(g!=-1)) {
+      # reps = sapply(1:length(g),
+      #               function(i)
+      #                 substr(content,g[i],g[i]+attr(g,"match.length")[i]-1))
+      # warning("Will ignore JSON content of file ",filename," matching:",p,"\n  ",paste(reps,collapse = "\n  "))
+      content <- gsub(pattern=p,replacement = paste0("__",p,"__"),content)
+    } #else warning("No matching ",p," in ",filename)
   }
   return(charToRaw(content))
 }
