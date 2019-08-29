@@ -24,7 +24,8 @@ test_that("findTestsDir works", {
   expect_match(findTestsDir(test_path("example_test_dirs/nested/")), "/shinytests$")
 
   # Use shinytests if it exists -- even if it's empty
-  expect_match(findTestsDir(test_path("example_test_dirs/empty-nested/")), "/shinytests$")
+  endir <- expect_warning(findTestsDir(test_path("example_test_dirs/empty-nested/")), "there are some shinytests in")
+  expect_match(endir, "/shinytests$")
 
   # Empty top-level is ok
   expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/empty-toplevel/"))), "/tests$")
