@@ -167,7 +167,7 @@ codeGenerators <- list(
 
       # Get unescaped filenames in a char vector, with full path
       filepaths <- vapply(event$value, `[[`, "name", FUN.VALUE = "")
-      filepaths <- file.path(findTestsDir(app$getAppDir()), filepaths)
+      filepaths <- file.path(app$getTestsDir(), filepaths)
 
       # Check that all files exist. If not, add a message and don't run test
       # automatically on exit.
@@ -283,9 +283,12 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE,
     if (load_mode) {
       'app <- ShinyLoadDriver$new()'
     } else {
+      print(app$getRelativePathToApp())
 
       paste0(
-        'app <- ShinyDriver$new("', paste("..", app$getAppFilename(), sep = "/"), '"',
+        # TODO: test with RMD
+        # TODO: Windows compat with / sep?
+        'app <- ShinyDriver$new("', paste(app$getRelativePathToApp(), app$getAppFilename(), sep=.Platform$file.sep), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
         if (!is.null(load_timeout)) paste0(", loadTimeout = ", load_timeout),
         if (length(shiny_options) > 0) paste0(", shinyOptions = ", deparse2(shiny_options)),
@@ -408,8 +411,7 @@ shinyApp(
     }
 
     saveFile <- reactive({
-      testDir <- findTestsDir(app$getAppDir())
-      file.path(testDir, paste0(input$testname, ".R"))
+      file.path(app$getTestsDir(), paste0(input$testname, ".R"))
     })
 
     # Number of snapshot or fileDownload events in input$testevents
