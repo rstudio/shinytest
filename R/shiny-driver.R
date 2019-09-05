@@ -541,7 +541,8 @@ sd_getAppDir <- function(self, private) {
 }
 
 sd_getSnapshotDir <- function(self, private) {
-  file.path(self$getAppDir(), "tests", private$snapshotDir)
+  testDir <- findTestsDir(self$getAppDir())
+  file.path(testDir, private$snapshotDir)
 }
 
 sd_snapshotInit <- function(self, private, path, screenshot) {

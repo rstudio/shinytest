@@ -60,7 +60,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 
   # Create directory if needed
   if (is.null(save_dir)) {
-    save_dir <- file.path(app$getAppDir(), "tests")
+    save_dir <- findTestsDir(app$getAppDir())
     if (!dir_exists(save_dir)) {
       dir.create(save_dir)
     }

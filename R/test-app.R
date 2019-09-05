@@ -158,7 +158,7 @@ findTests <- function(testsDir, testnames=NULL) {
   found_testnames
 }
 
-all_testnames <- function(appDir, suffixes = c("-expected", "-current")) {
+all_testnames <- function(testDir, suffixes = c("-expected", "-current")) {
   # Create a regex string like "(-expected|-current)$"
   pattern <- paste0(
     "(",
@@ -166,14 +166,14 @@ all_testnames <- function(appDir, suffixes = c("-expected", "-current")) {
     ")$"
   )
 
-  testnames <- dir(file.path(appDir, "tests"), pattern = pattern)
+  testnames <- dir(testDir, pattern = pattern)
   testnames <- sub(pattern, "", testnames)
   unique(testnames)
 }
 
 
-validate_testname <- function(appDir, testname) {
-  valid_testnames <- all_testnames(appDir)
+validate_testname <- function(testDir, testname) {
+  valid_testnames <- all_testnames(testDir)
 
   if (is.null(testname) || !(testname %in% valid_testnames)) {
     stop('"', testname, '" ',

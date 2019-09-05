@@ -167,14 +167,14 @@ codeGenerators <- list(
 
       # Get unescaped filenames in a char vector, with full path
       filepaths <- vapply(event$value, `[[`, "name", FUN.VALUE = "")
-      filepaths <- file.path(app$getAppDir(), "tests", filepaths)
+      filepaths <- file.path(findTestsDir(app$getAppDir()), filepaths)
 
       # Check that all files exist. If not, add a message and don't run test
       # automatically on exit.
       if (!all(file.exists(filepaths))) {
-        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/ directory, or copy the file to the app's tests/ directory.")
+        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/shinytests directory, or copy the file to the app's tests/shinytests directory.")
         code <- paste0(code,
-          " # <-- This should be the path to the file, relative to the app's tests/ directory"
+          " # <-- This should be the path to the file, relative to the app's tests/shinytests directory"
         )
       }
 
@@ -408,7 +408,8 @@ shinyApp(
     }
 
     saveFile <- reactive({
-      file.path(app$getAppDir(), "tests", paste0(input$testname, ".R"))
+      testDir <- findTestsDir(app$getAppDir())
+      file.path(testDir, paste0(input$testname, ".R"))
     })
 
     # Number of snapshot or fileDownload events in input$testevents

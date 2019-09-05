@@ -82,8 +82,9 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 #'
 #' @export
 viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
-  expected <- file.path(appDir, "tests", paste0(testname, "-expected"))
-  current  <- file.path(appDir, "tests", paste0(testname, "-current"))
+  testDir <- findTestsDir(appDir)
+  expected <- file.path(testDir, paste0(testname, "-expected"))
+  current  <- file.path(testDir, paste0(testname, "-current"))
   diffviewer_widget(expected, current)
 }
 
@@ -109,10 +110,11 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
 viewTestDiff <- function(appDir = ".", testnames = NULL,
   interactive = base::interactive(), images = TRUE)
 {
+  testDir <- findTestsDir(appDir)
   if (interactive) {
     if (is.null(testnames)) {
       # Only try to view diffs if there's a -current dir
-      testnames <- all_testnames(appDir, "-current")
+      testnames <- all_testnames(testDir, "-current")
     }
 
     message("Differences in current results found for: ", paste(testnames, collapse = " "))
@@ -135,7 +137,8 @@ viewTestDiff <- function(appDir = ".", testnames = NULL,
 
 
 viewTestDiffSingle <- function(appDir = ".", testname = NULL) {
-  validate_testname(appDir, testname)
+  testDir <- findTestsDir(appDir)
+  validate_testname(testDir, testname)
 
   withr::with_options(
     list(
@@ -156,8 +159,9 @@ viewTestDiffSingle <- function(appDir = ".", testname = NULL) {
 #' @seealso \code{\link{viewTestDiff}} for interactive diff viewer.
 #' @export
 textTestDiff <- function(appDir = ".", testnames = NULL, images = TRUE) {
+  testDir <- findTestsDir(appDir)
   if (is.null(testnames)) {
-    testnames <- all_testnames(appDir)
+    testnames <- all_testnames(testDir)
   }
 
   diff_results <- lapply(
@@ -188,10 +192,12 @@ textTestDiff <- function(appDir = ".", testnames = NULL, images = TRUE) {
 
 
 textTestDiffSingle <- function(appDir = ".", testname = NULL, images = TRUE) {
-  validate_testname(appDir, testname)
+  testDir <- findTestsDir(appDir)
+  validate_testname(testDir, testname)
 
-  current_dir  <- file.path(appDir, "tests", paste0(testname, "-current"))
-  expected_dir <- file.path(appDir, "tests", paste0(testname, "-expected"))
+  testDir <- findTestsDir(appDir)
+  current_dir  <- file.path(testDir, paste0(testname, "-current"))
+  expected_dir <- file.path(testDir, paste0(testname, "-expected"))
 
   if (dir_exists(expected_dir) && !dir_exists(current_dir)) {
     return(
