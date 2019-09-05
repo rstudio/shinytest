@@ -39,7 +39,7 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
     appDir       <- appDir
   }
 
-  testsDir <- findTestsDir(appDir)
+  testsDir <- findTestsDir(appDir, doMessage=TRUE)
   found_testnames <- findTests(testsDir, testnames)
   found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
 
@@ -87,6 +87,8 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 #' nested in `tests/shinytests/`.
 #'
 #' @param must.exist If TRUE, will error if we can't find a test directory.
+#' @param doMessage If we see that the tests are stored in the top-level tests/ directory as we used to
+#'   recommend, we will note the new recommendation in a message to the user if this is TRUE.
 #'
 #' This function does the following:
 #'  1. Check to see if `tests/shinytests/` exists. If so, use it.
@@ -94,7 +96,7 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 #'     some are and some aren't, throw an error.
 #'  3. Assuming all top-level R files in `tests/` appear to be shinytests, return that dir.
 #' @noRd
-findTestsDir <- function(appDir, must.exist=TRUE) {
+findTestsDir <- function(appDir, must.exist=TRUE, doMessage=FALSE) {
   testsDir <- file.path(appDir, "tests")
   if (!dir_exists(testsDir) && must.exist){
     stop("tests/ directory doesn't exist")
@@ -125,7 +127,9 @@ findTestsDir <- function(appDir, must.exist=TRUE) {
     stop("Found R files that don't appear to be shinytests in the tests/ directory. shinytests should be placed in tests/shinytests/")
   }
 
-  message("shinytests should be placed in the tests/shinytests directory. Storing them in the top-level tests/ directory will be deprecated in the future.")
+  if (doMessage){
+    message("shinytests should be placed in the tests/shinytests directory. Storing them in the top-level tests/ directory will be deprecated in the future.")
+  }
   testsDir
 }
 
