@@ -562,7 +562,6 @@ sd_getTestsDir <- function(self, private) {
 # between the two paths.
 sd_getRelativePathToApp <- function(self, private){
   td <- self$getTestsDir()
-  print(td)
   if (grepl("[/\\\\]shinytest[/\\\\]?", td, perl=TRUE)){
     return(file.path("..", ".."))
   } else {

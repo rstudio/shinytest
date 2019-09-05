@@ -86,16 +86,20 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 #' Prior to 1.3.1.9999, tests were stored directly in `tests/` rather than
 #' nested in `tests/shinytests/`.
 #'
+#' @param must.exist If TRUE, will error if we can't find a test directory.
+#'
 #' This function does the following:
 #'  1. Check to see if `tests/shinytests/` exists. If so, use it.
 #'  2. Check to see if all the top-level R files in `tests/` appear to be shinytests. If
 #'     some are and some aren't, throw an error.
 #'  3. Assuming all top-level R files in `tests/` appear to be shinytests, return that dir.
 #' @noRd
-findTestsDir <- function(appDir) {
+findTestsDir <- function(appDir, must.exist=TRUE) {
   testsDir <- file.path(appDir, "tests")
-  if (!dir_exists(testsDir)){
+  if (!dir_exists(testsDir) && must.exist){
     stop("tests/ directory doesn't exist")
+  } else if (!dir_exists(testsDir) && !must.exist){
+    return(file.path(testsDir, "shinytests"))
   }
 
   r_files <- list.files(testsDir, pattern = "\\.[rR]$", full.names = TRUE)

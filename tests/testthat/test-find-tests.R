@@ -32,6 +32,9 @@ test_that("findTestsDir works", {
 
   # Non-shinytest files in the top-level dir cause an error
   expect_error(findTestsDir(test_path("example_test_dirs/mixed-toplevel/")))
+
+  # Unless must-exist is false, in which case it gives us the nested dir optimistically
+  expect_match(findTestsDir(test_path("example_test_dirs/"), must.exist=FALSE), "/shinytests$")
 })
 
 test_that("isShinyTest works", {

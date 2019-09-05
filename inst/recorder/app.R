@@ -283,8 +283,6 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE,
     if (load_mode) {
       'app <- ShinyLoadDriver$new()'
     } else {
-      print(app$getRelativePathToApp())
-
       paste0(
         # TODO: test with RMD
         # TODO: Windows compat with / sep?
