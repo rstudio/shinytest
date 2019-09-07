@@ -250,7 +250,7 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
         response <- readline("Would you like to view the differences between expected and current results [y/n]? ")
         if (tolower(response) == "y") {
           quiet <- TRUE
-          result <- viewTestDiff(appDir, testname, interactive)[[1]]
+          result <- viewTestDiff(appDir, testname, interactive, preprocess = filter_fun)[[1]]
 
           if (result == "accept") {
             snapshot_pass <- TRUE
@@ -260,7 +260,7 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
       }
 
       if (!quiet && interactive) {
-        message('\n  To view differences between expected and current results, run:\n',
+        message('\n  To view all differences between expected and current results, run:\n',
                 '    viewTestDiff("', relativeAppDir, '", "', testname, '")\n',
                 '  To save current results as expected results, run:\n',
                 '    snapshotUpdate("', relativeAppDir, '", "', testname, '")\n')
@@ -442,23 +442,6 @@ remove_image_hashes_json <- function(filename, content) {
   content <- raw_to_utf8(content)
   content <- remove_image_hashes(content)
   charToRaw(content)
-}
-
-# Given a filename: If it is a PNG file, delete the file. If it is a JSON
-# file, remove the image hashes and overwrite the original file with the new
-# contents. For all other files, do nothing.
-remove_image_hashes_and_files <- function(filename) {
-  if (grepl("\\.png$", filename)) {
-    unlink(filename)
-
-  } else if (grepl("\\.json$", filename)) {
-    content <- read_utf8(filename)
-    content <- remove_image_hashes(content)
-    writeChar(content, filename, eos = NULL)
-    filename
-  }
-
-  filename
 }
 
 # Given a filename and contents: if it is a JSON file, sort the content by
