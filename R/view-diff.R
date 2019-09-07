@@ -9,6 +9,7 @@
 #' @param pattern A filter to apply to the old and new directories.
 #' @param width Width of the htmlwidget.
 #' @param height Height of the htmlwidget
+#' @param preprocess Preliminary processing for content filtering.
 #'
 #' @export
 diffviewer_widget <- function(old, new, width = NULL, height = NULL,
@@ -81,6 +82,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 #'
 #' @param appDir Directory of the Shiny application that was tested.
 #' @param testname Name of test to compare.
+#' @param preprocess Preliminary processing for content filtering.
 #'
 #' @export
 viewTestDiffWidget <- function(appDir = ".", testname = NULL, preprocess = NULL) {
@@ -154,7 +156,6 @@ viewTestDiffSingle <- function(appDir = ".", testname = NULL, preprocess = NULL)
 #' Get textual diff of test results
 #'
 #' @inheritParams viewTestDiff
-#' @param preprocess Preliminary processing for content filtering.
 #' @seealso \code{\link{viewTestDiff}} for interactive diff viewer.
 #' @export
 textTestDiff <- function(appDir = ".", testnames = NULL, preprocess = NULL) {

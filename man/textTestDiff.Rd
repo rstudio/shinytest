@@ -4,7 +4,7 @@
 \alias{textTestDiff}
 \title{Get textual diff of test results}
 \usage{
-textTestDiff(appDir = ".", testnames = NULL, images = TRUE)
+textTestDiff(appDir = ".", testnames = NULL, preprocess = NULL)
 }
 \arguments{
 \item{appDir}{Directory of the Shiny application that was tested.}
@@ -12,7 +12,7 @@ textTestDiff(appDir = ".", testnames = NULL, images = TRUE)
 \item{testnames}{A character vector of names of tests to compare. If NULL,
 compare all test results for which there are differences.}
 
-\item{images}{Compare screenshot images.}
+\item{preprocess}{Preliminary processing for content filtering.}
 }
 \description{
 Get textual diff of test results

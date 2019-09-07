@@ -4,7 +4,7 @@
 \alias{viewTestDiffWidget}
 \title{Interactive viewer widget for changes in test results}
 \usage{
-viewTestDiffWidget(appDir = ".", testname = NULL)
+viewTestDiffWidget(appDir = ".", testname = NULL, preprocess = NULL)
 }
 \arguments{
 \item{appDir}{Directory of the Shiny application that was tested.}

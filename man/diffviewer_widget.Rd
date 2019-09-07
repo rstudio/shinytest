@@ -5,7 +5,7 @@
 \title{Creat an htmlwidget that shows differences between files or directories}
 \usage{
 diffviewer_widget(old, new, width = NULL, height = NULL,
-  pattern = NULL)
+  pattern = NULL, preprocess = NULL)
 }
 \arguments{
 \item{old, new}{Names of the old and new directories to compare.
