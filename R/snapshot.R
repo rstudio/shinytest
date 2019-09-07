@@ -162,7 +162,6 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
   ))
 }
 
-
 snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
   quiet = FALSE, images = TRUE, normalize_data = FALSE, ignore_keys = NULL, ignore_text = NULL, interactive = base::interactive())
 {
@@ -183,23 +182,7 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
 
   if (dir_exists(expected_dir)) {
 
-    filter_fun <- NULL
-    if (!images) {
-      filter_fun_old = filter_fun
-      filter_fun <- pipe.filters(filter_fun_old,remove_image_hashes_json)
-    }
-    if (normalize_data) {
-      filter_fun_old2 = filter_fun
-      filter_fun <- pipe.filters(filter_fun_old2,normalize_json)
-    }
-    if (!is.null(ignore_text)) {
-      filter_fun_old3 = filter_fun
-      filter_fun <- pipe.filters(filter_fun_old3,remove_text,ignore_text)
-    }
-    if (!is.null(ignore_keys)) {
-      filter_fun_old4 = filter_fun
-      filter_fun <- pipe.filters(filter_fun_old4,ignore_in_json,ignore_keys)
-    }
+    filter_fun <- preprocessFilter(images, normalize_data, ignore_keys, ignore_text)
 
     res <- dirs_differ(expected_dir, current_dir, filter_fun)
 
@@ -580,4 +563,40 @@ pipe.filters <- function(f1,f2,...) {
             return(f2(filename,f1(filename,content),...))
           }
   )
+}
+
+#' Build a preprocessing filter to avoid false negatives in tests.Compare current and expected snapshots
+#'
+#' @param images Should screenshots and PNG images be compared? It can be useful
+#'   to set this to \code{FALSE} when the expected results were taken on a
+#'   different platform from the current results.
+#' @param normalize_data This will pre-process the JSON content to
+#'   canonicalize it (alphabetical order), so changes of JSON objects order will
+#'   no longer be considered as differences. It can be useful to set
+#'   this to \code{TRUE} when the content of snapshot is quite heavy
+#'   (which means that the snapshooted page may be loaded hieratically).
+#' @param ignore_text This will pre-process the content to ignore text
+#'   matching thess pattern (using gsub to replace it by arbitrary value).
+#' @param ignore_keys This will pre-process the JSON content to remove elements
+#'   matching these key patterns.
+#' @export
+preprocessFilter <- function(images = TRUE, normalize_data = FALSE, ignore_keys = NULL, ignore_text = NULL) {
+  filter_fun <- NULL
+  if (!images) {
+    filter_fun_old = filter_fun
+    filter_fun <- pipe.filters(filter_fun_old,remove_image_hashes_json)
+  }
+  if (normalize_data) {
+    filter_fun_old2 = filter_fun
+    filter_fun <- pipe.filters(filter_fun_old2,normalize_json)
+  }
+  if (!is.null(ignore_text)) {
+    filter_fun_old3 = filter_fun
+    filter_fun <- pipe.filters(filter_fun_old3,remove_text,ignore_text)
+  }
+  if (!is.null(ignore_keys)) {
+    filter_fun_old4 = filter_fun
+    filter_fun <- pipe.filters(filter_fun_old4,ignore_in_json,ignore_keys)
+  }
+  filter_fun
 }
