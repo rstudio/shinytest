@@ -411,7 +411,7 @@ hash_snapshot_image_data <- function(data) {
 remove_image_hashes <- function(json) {
   gsub(
     '((^|\\n)\\s*"src":\\s*"\\[image data) sha1: [^]]+\\]"',
-    "\\1]",
+    "\\1]\"",
     json
   )
 }
