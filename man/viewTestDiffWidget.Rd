@@ -10,6 +10,8 @@ viewTestDiffWidget(appDir = ".", testname = NULL, preprocess = NULL)
 \item{appDir}{Directory of the Shiny application that was tested.}
 
 \item{testname}{Name of test to compare.}
+
+\item{preprocess}{Preliminary processing for content filtering.}
 }
 \description{
 Interactive viewer widget for changes in test results

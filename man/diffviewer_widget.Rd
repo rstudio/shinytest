@@ -17,6 +17,8 @@ compare.}
 \item{height}{Height of the htmlwidget}
 
 \item{pattern}{A filter to apply to the old and new directories.}
+
+\item{preprocess}{Preliminary processing for content filtering.}
 }
 \description{
 This function can be used for viewing differences between current test
