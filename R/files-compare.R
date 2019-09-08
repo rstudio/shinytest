@@ -101,7 +101,6 @@ diff_files <- function(file1, file2, preprocess = NULL) {
 
   if (!is.null(preprocess)) {
     file_preprocess <- function(filename) {
-      cat("diff_files.file_preprocess: ",filename,"\n")
       if (grepl("\\.png$", filename)) {
         unlink(filename)
       } else if (grepl("\\.json$", filename)) {
