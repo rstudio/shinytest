@@ -156,7 +156,7 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
     list(
       appDir = appDir,
       results = results,
-      images = images
+      preprocess = results$preprocess
     ),
     class = "shinytest.results"
   ))
@@ -272,6 +272,7 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
 
     snapshot_pass <- TRUE
     snapshot_status <- "new"
+    filter_fun <- NULL
   }
 
   invisible(list(
@@ -279,10 +280,7 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
     name = testname,
     pass = snapshot_pass,
     status = snapshot_status,
-    images = images,
-    normalize_data = normalize_data,
-    ignore_keys = ignore_keys,
-    ignore_text = ignore_text
+    preprocess = filter_fun
   ))
 }
 
