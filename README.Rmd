@@ -25,7 +25,6 @@ To install the current release version:
 install.packages("shinytest")
 ```
 
-
 To install the development version:
 
 ```{r eval = FALSE}
