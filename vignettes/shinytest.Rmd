@@ -231,9 +231,6 @@ Shinytest can be used with [interactive R markdown documents](http://rmarkdown.r
 
 Shiny documents have some differences compared to regular Shiny applications, and so the tests are slightly different. For an example of an interactive Rmd with tests, see [here](https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd).
 
-As of this writing testing, Shiny documents should be done with a development version of the rmarkdown package, which can be installed using `devtools::install_github("rstudio/rmarkdown")`. It will be released in the future as rmarkdown 1.7.
-
-
 ### Randomness
 
 In a Shiny Rmd application, the UI of the application is created dynamically, using some randomly generated IDs. To make the results repeatable, you must set a random seed; otherwise the output will have slight differences in each run. See the section on [controlling randomness](in-depth.html#controlling-randomness) for more information.
