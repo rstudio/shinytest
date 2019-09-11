@@ -546,8 +546,8 @@ sd_getAppDir <- function(self, private) {
     private$path
 }
 
-#' Returns NULL if RMD, or the tests/ or tests/shinytests/ dir otherwise, based on
-#' what it finds in each dir.
+# Returns NULL if RMD, or the tests/ or tests/shinytests/ dir otherwise, based on
+# what it finds in each dir.
 sd_getTestsDir <- function(self, private) {
   # private$path can be a directory (for a normal Shiny app) or path to a .Rmd
   # file.
@@ -560,9 +560,9 @@ sd_getTestsDir <- function(self, private) {
 # Get the relative path from the test directory to the parent. Since there are currently
 # only two supported test dir options, we can just cheat rather than doing a real path computation
 # between the two paths.
-sd_getRelativePathToApp <- function(self, private){
+sd_getRelativePathToApp <- function(self, private) {
   td <- self$getTestsDir()
-  if (grepl("[/\\\\]shinytest[/\\\\]?", td, perl=TRUE)){
+  if (grepl("[/\\\\]shinytest[/\\\\]?", td, perl=TRUE)) {
     return(file.path("..", ".."))
   } else {
     return(file.path(".."))

@@ -286,7 +286,7 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE,
       paste0(
         # TODO: test with RMD
         # TODO: Windows compat with / sep?
-        'app <- ShinyDriver$new("', paste(app$getRelativePathToApp(), app$getAppFilename(), sep=.Platform$file.sep), '"',
+        'app <- ShinyDriver$new("', file.path(app$getRelativePathToApp(), app$getAppFilename()), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
         if (!is.null(load_timeout)) paste0(", loadTimeout = ", load_timeout),
         if (length(shiny_options) > 0) paste0(", shinyOptions = ", deparse2(shiny_options)),
