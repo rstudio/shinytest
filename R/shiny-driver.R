@@ -546,15 +546,16 @@ sd_getAppDir <- function(self, private) {
     private$path
 }
 
-# Returns NULL if RMD, or the tests/ or tests/shinytests/ dir otherwise, based on
+# Returns the tests/ or tests/shinytests/ dir otherwise, based on
 # what it finds in each dir.
 sd_getTestsDir <- function(self, private) {
   # private$path can be a directory (for a normal Shiny app) or path to a .Rmd
   # file.
-  if (self$isRmd())
-    return(NULL)
-  else
-    findTestsDir(private$path)
+  path <- private$path
+  if (self$isRmd()) {
+    path <- dirname(private$path)
+  }
+  findTestsDir(path)
 }
 
 # Get the relative path from the test directory to the parent. Since there are currently
