@@ -285,7 +285,7 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE,
     } else {
       paste0(
         # Need paste instead of file.path because app$getAppFileName() can be NULL which makes file.path grumpy.
-        'app <- ShinyDriver$new("', paste(app$getRelativePathToApp(), app$getAppFilename(), sep=.Platform$file.sep), '"',
+        'app <- ShinyDriver$new("', paste(app$getRelativePathToApp(), app$getAppFilename(), sep="/"), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
         if (!is.null(load_timeout)) paste0(", loadTimeout = ", load_timeout),
         if (length(shiny_options) > 0) paste0(", shinyOptions = ", deparse2(shiny_options)),
