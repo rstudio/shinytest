@@ -121,8 +121,9 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
   images = TRUE, quiet = FALSE, interactive = base::interactive()) {
 
+  testDir <- findTestsDir(appDir)
   if (is.null(testnames)) {
-    testnames <- all_testnames(appDir, "-current")
+    testnames <- all_testnames(testDir, "-current")
   }
 
   results <- lapply(
@@ -157,8 +158,9 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
 snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
   quiet = FALSE, images = TRUE, interactive = base::interactive())
 {
-  current_dir  <- file.path(appDir, "tests", paste0(testname, "-current"))
-  expected_dir <- file.path(appDir, "tests", paste0(testname, "-expected"))
+  testDir <- findTestsDir(appDir)
+  current_dir  <- file.path(testDir, paste0(testname, "-current"))
+  expected_dir <- file.path(testDir, paste0(testname, "-expected"))
 
   # When this function is called from testApp(), this is the way that we get
   # the relative path from the current working dir when testApp() is called.
@@ -284,8 +286,9 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
 #' @inheritParams snapshotCompare
 #' @export
 snapshotUpdate <- function(appDir = ".", testnames = NULL, quiet = FALSE) {
+  testDir <- findTestsDir(appDir)
   if (is.null(testnames)) {
-    testnames <- all_testnames(appDir, "-current")
+    testnames <- all_testnames(testDir, "-current")
   }
 
   for (testname in testnames) {
@@ -298,7 +301,8 @@ snapshotUpdateSingle <- function(appDir = ".", testname, quiet = FALSE) {
   # Strip off trailing slash if present
   testname <- sub("/$", "", testname)
 
-  base_path <- file.path(appDir, "tests", testname)
+  testDir <- findTestsDir(appDir)
+  base_path <- file.path(testDir, testname)
   current_dir  <- paste0(base_path, "-current")
   expected_dir <- paste0(base_path, "-expected")
 

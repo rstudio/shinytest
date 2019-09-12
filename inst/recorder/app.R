@@ -167,14 +167,14 @@ codeGenerators <- list(
 
       # Get unescaped filenames in a char vector, with full path
       filepaths <- vapply(event$value, `[[`, "name", FUN.VALUE = "")
-      filepaths <- file.path(app$getAppDir(), "tests", filepaths)
+      filepaths <- file.path(app$getTestsDir(), filepaths)
 
       # Check that all files exist. If not, add a message and don't run test
       # automatically on exit.
       if (!all(file.exists(filepaths))) {
-        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/ directory, or copy the file to the app's tests/ directory.")
+        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/shinytests directory, or copy the file to the app's tests/shinytests directory.")
         code <- paste0(code,
-          " # <-- This should be the path to the file, relative to the app's tests/ directory"
+          " # <-- This should be the path to the file, relative to the app's tests/shinytests directory"
         )
       }
 
@@ -283,9 +283,9 @@ generateTestCode <- function(events, name, seed, useTimes = FALSE,
     if (load_mode) {
       'app <- ShinyLoadDriver$new()'
     } else {
-
       paste0(
-        'app <- ShinyDriver$new("', paste("..", app$getAppFilename(), sep = "/"), '"',
+        # Need paste instead of file.path because app$getAppFileName() can be NULL which makes file.path grumpy.
+        'app <- ShinyDriver$new("', paste(app$getRelativePathToApp(), app$getAppFilename(), sep="/"), '"',
         if (!is.null(seed)) sprintf(", seed = %s", seed),
         if (!is.null(load_timeout)) paste0(", loadTimeout = ", load_timeout),
         if (length(shiny_options) > 0) paste0(", shinyOptions = ", deparse2(shiny_options)),
@@ -408,7 +408,7 @@ shinyApp(
     }
 
     saveFile <- reactive({
-      file.path(app$getAppDir(), "tests", paste0(input$testname, ".R"))
+      file.path(app$getTestsDir(), paste0(input$testname, ".R"))
     })
 
     # Number of snapshot or fileDownload events in input$testevents

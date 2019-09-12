@@ -332,6 +332,12 @@ ShinyDriver <- R6Class(
     getAppDir = function()
       sd_getAppDir(self, private),
 
+    getTestsDir = function()
+      sd_getTestsDir(self, private),
+
+    getRelativePathToApp = function()
+      sd_getRelativePathToApp(self, private),
+
     getSnapshotDir = function()
       sd_getSnapshotDir(self, private),
 
@@ -540,8 +546,33 @@ sd_getAppDir <- function(self, private) {
     private$path
 }
 
+# Returns the tests/ or tests/shinytests/ dir otherwise, based on
+# what it finds in each dir.
+sd_getTestsDir <- function(self, private) {
+  # private$path can be a directory (for a normal Shiny app) or path to a .Rmd
+  # file.
+  path <- private$path
+  if (self$isRmd()) {
+    path <- dirname(private$path)
+  }
+  findTestsDir(path)
+}
+
+# Get the relative path from the test directory to the parent. Since there are currently
+# only two supported test dir options, we can just cheat rather than doing a real path computation
+# between the two paths.
+sd_getRelativePathToApp <- function(self, private) {
+  td <- self$getTestsDir()
+  if (grepl("[/\\\\]shinytest[/\\\\]?", td, perl=TRUE)) {
+    return(file.path("..", ".."))
+  } else {
+    return(file.path(".."))
+  }
+}
+
 sd_getSnapshotDir <- function(self, private) {
-  file.path(self$getAppDir(), "tests", private$snapshotDir)
+  testDir <- findTestsDir(self$getAppDir())
+  file.path(testDir, private$snapshotDir)
 }
 
 sd_snapshotInit <- function(self, private, path, screenshot) {

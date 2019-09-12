@@ -20,7 +20,7 @@ test_that("Filters out based on given test names", {
 
 test_that("findTestsDir works", {
   expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/simple/"))), "/tests$")
-  expect_message(findTestsDir(test_path("example_test_dirs/simple/")), "deprecated in the future")
+  expect_message(findTestsDir(test_path("example_test_dirs/simple/"), quiet=FALSE), "deprecated in the future")
   expect_match(findTestsDir(test_path("example_test_dirs/nested/")), "/shinytests$")
 
   # Use shinytests if it exists -- even if it's empty
@@ -32,6 +32,9 @@ test_that("findTestsDir works", {
 
   # Non-shinytest files in the top-level dir cause an error
   expect_error(findTestsDir(test_path("example_test_dirs/mixed-toplevel/")))
+
+  # Unless must-exist is false, in which case it gives us the nested dir optimistically
+  expect_match(findTestsDir(test_path("example_test_dirs/"), mustExist=FALSE), "/shinytests$")
 })
 
 test_that("isShinyTest works", {
