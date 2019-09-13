@@ -96,7 +96,7 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 #'     some are and some aren't, throw an error.
 #'  3. Assuming all top-level R files in `tests/` appear to be shinytests, return that dir.
 #' @noRd
-findTestsDir <- function(appDir, mustExist=TRUE, quiet=FALSE) {
+findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
   testsDir <- file.path(appDir, "tests")
   if (!dir_exists(testsDir) && mustExist) {
     stop("tests/ directory doesn't exist")
@@ -115,7 +115,7 @@ findTestsDir <- function(appDir, mustExist=TRUE, quiet=FALSE) {
     # that appears to be a shinytest in the top-level; it's possible that someone
     # using the old layout (tests at the top-level) might have just had a directory
     # named shinytests. Let's leave them a clue.
-    if (any(is_test)) {
+    if (any(is_test) && !quiet) {
       warning("Assuming that the shinytests are stored in tests/shinytests, but it appears that there are some ",
               "shinytests in the top-level tests/ directory. All shinytests should be placed in the tests/shinytests directory.")
     }
