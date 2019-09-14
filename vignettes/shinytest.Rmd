@@ -125,7 +125,7 @@ testApp("myshinyapp", "mytest")
 
 This will play back the interactions and record snapshots, as specified in the test script. The very first time the tests are run, they will be saved in a subdirectory of the app called `tests/mytest-expected`. These are the expected results, and future test runs will be compared against them.
 
-The directory will contain two files for each snapshot. For exmaple:
+The directory will contain two files for each snapshot. For example:
 
 ```
 001.json
