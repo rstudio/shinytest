@@ -101,6 +101,7 @@ findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
   if (!dir_exists(testsDir) && mustExist) {
     stop("tests/ directory doesn't exist")
   } else if (!dir_exists(testsDir) && !mustExist) {
+    # Use the preferred directory if nothing exists yet.
     return(file.path(testsDir, "shinytests"))
   }
 
@@ -120,6 +121,12 @@ findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
               "shinytests in the top-level tests/ directory. All shinytests should be placed in the tests/shinytests directory.")
     }
 
+    return(shinytestsDir)
+  }
+
+  if (!any(is_test) && !mustExist){
+    # There may be some stuff in the tests directory, but if it's not shinytest-related...
+    # Ignore and just use the nested dir
     return(shinytestsDir)
   }
 

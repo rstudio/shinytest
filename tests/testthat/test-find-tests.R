@@ -24,11 +24,13 @@ test_that("findTestsDir works", {
   expect_match(findTestsDir(test_path("example_test_dirs/nested/")), "/shinytests$")
 
   # Use shinytests if it exists -- even if it's empty
-  endir <- expect_warning(findTestsDir(test_path("example_test_dirs/empty-nested/")), "there are some shinytests in")
+  endir <- expect_warning(findTestsDir(test_path("example_test_dirs/empty-nested/"), quiet=FALSE), "there are some shinytests in")
   expect_match(endir, "/shinytests$")
 
-  # Empty top-level is ok
-  expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/empty-toplevel/"))), "/tests$")
+  # Empty top-level recommends non-existant nested dir if top-level doesn't contain any shinytests
+  expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/empty-toplevel/"), mustExist=FALSE)), "/tests/shinytests$")
+  # Empty top-level with mustExist=TRUE errors
+  expect_error(findTestsDir(test_path("example_test_dirs/empty-toplevel/"), mustExist=TRUE), "should be placed in tests/shinytests")
 
   # Non-shinytest files in the top-level dir cause an error
   expect_error(findTestsDir(test_path("example_test_dirs/mixed-toplevel/")))
