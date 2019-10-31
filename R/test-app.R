@@ -101,6 +101,7 @@ findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
     # We were given a */tests/ directory. It's possible that we're in the middle of a nested tests
     # directory and the application dir is actually one level up. This happens in certain versions
     # of the RStudio IDE.
+    # https://github.com/rstudio/rstudio/issues/5677
 
     if (!dir_exists(file.path(appDir, "tests"))){
       # We're in a dir called `tests` and there's not another `tests` directory inside, so we can
