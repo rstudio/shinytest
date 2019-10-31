@@ -37,6 +37,8 @@ test_that("findTestsDir works", {
 
   # Unless must-exist is false, in which case it gives us the nested dir optimistically
   expect_match(findTestsDir(test_path("example_test_dirs/"), mustExist=FALSE), "/shinytests$")
+
+  expect_match(findTestsDir(test_path("example_test_dirs/nested/tests"), mustExist=FALSE), "/nested/tests/shinytests$")
 })
 
 test_that("isShinyTest works", {
