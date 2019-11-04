@@ -82,7 +82,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 #'
 #' @export
 viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   expected <- file.path(testDir, paste0(testname, "-expected"))
   current  <- file.path(testDir, paste0(testname, "-current"))
   diffviewer_widget(expected, current)
@@ -110,7 +110,7 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
 viewTestDiff <- function(appDir = ".", testnames = NULL,
   interactive = base::interactive(), images = TRUE)
 {
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   if (interactive) {
     if (is.null(testnames)) {
       # Only try to view diffs if there's a -current dir
@@ -137,7 +137,7 @@ viewTestDiff <- function(appDir = ".", testnames = NULL,
 
 
 viewTestDiffSingle <- function(appDir = ".", testname = NULL) {
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   validate_testname(testDir, testname)
 
   withr::with_options(
@@ -159,7 +159,7 @@ viewTestDiffSingle <- function(appDir = ".", testname = NULL) {
 #' @seealso \code{\link{viewTestDiff}} for interactive diff viewer.
 #' @export
 textTestDiff <- function(appDir = ".", testnames = NULL, images = TRUE) {
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   if (is.null(testnames)) {
     testnames <- all_testnames(testDir)
   }
@@ -192,10 +192,10 @@ textTestDiff <- function(appDir = ".", testnames = NULL, images = TRUE) {
 
 
 textTestDiffSingle <- function(appDir = ".", testname = NULL, images = TRUE) {
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   validate_testname(testDir, testname)
 
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   current_dir  <- file.path(testDir, paste0(testname, "-current"))
   expected_dir <- file.path(testDir, paste0(testname, "-expected"))
 

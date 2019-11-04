@@ -121,7 +121,7 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
   images = TRUE, quiet = FALSE, interactive = base::interactive()) {
 
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   if (is.null(testnames)) {
     testnames <- all_testnames(testDir, "-current")
   }
@@ -158,7 +158,7 @@ snapshotCompare <- function(appDir, testnames = NULL, autoremove = TRUE,
 snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
   quiet = FALSE, images = TRUE, interactive = base::interactive())
 {
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   current_dir  <- file.path(testDir, paste0(testname, "-current"))
   expected_dir <- file.path(testDir, paste0(testname, "-expected"))
 
@@ -286,7 +286,7 @@ snapshotCompareSingle <- function(appDir, testname, autoremove = TRUE,
 #' @inheritParams snapshotCompare
 #' @export
 snapshotUpdate <- function(appDir = ".", testnames = NULL, quiet = FALSE) {
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   if (is.null(testnames)) {
     testnames <- all_testnames(testDir, "-current")
   }
@@ -301,7 +301,7 @@ snapshotUpdateSingle <- function(appDir = ".", testname, quiet = FALSE) {
   # Strip off trailing slash if present
   testname <- sub("/$", "", testname)
 
-  testDir <- findTestsDir(appDir)
+  testDir <- findTestsDir(appDir, quiet=TRUE)
   base_path <- file.path(testDir, testname)
   current_dir  <- paste0(base_path, "-current")
   expected_dir <- paste0(base_path, "-expected")
