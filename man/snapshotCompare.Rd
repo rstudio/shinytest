@@ -5,10 +5,17 @@
 \alias{snapshotUpdate}
 \title{Compare current and expected snapshots}
 \usage{
-snapshotCompare(appDir, testnames = NULL, autoremove = TRUE,
-  images = TRUE, quiet = FALSE, interactive = base::interactive())
+snapshotCompare(
+  appDir,
+  testnames = NULL,
+  autoremove = TRUE,
+  images = TRUE,
+  quiet = FALSE,
+  interactive = base::interactive(),
+  suffix = NULL
+)
 
-snapshotUpdate(appDir = ".", testnames = NULL, quiet = FALSE)
+snapshotUpdate(appDir = ".", testnames = NULL, quiet = FALSE, suffix = NULL)
 }
 \arguments{
 \item{appDir}{Directory that holds the tests for an application. This is the
@@ -29,6 +36,10 @@ testing.}
 \item{interactive}{If there are any differences between current results and
 expected results, provide an interactive graphical viewer that shows the
 changes and allows the user to accept or reject the changes.}
+
+\item{suffix}{An optional suffix for the expected results directory. For
+example, if the suffix is \code{"mac"}, the expected directory would be
+\code{mytest-expected-mac}.}
 }
 \description{
 This compares current and expected snapshots for a test set, and prints any

@@ -77,13 +77,13 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 
 #' Interactive viewer widget for changes in test results
 #'
-#' @param appDir Directory of the Shiny application that was tested.
+#' @inheritParams viewTestDiff
 #' @param testname Name of test to compare.
 #'
 #' @export
-viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
-  testDir <- findTestsDir(appDir, quiet=TRUE)
-  expected <- file.path(testDir, paste0(testname, "-expected"))
+viewTestDiffWidget <- function(appDir = ".", testname = NULL, suffix = NULL) {
+  testDir <- findTestsDir(appDir, quiet = TRUE)
+  expected <- file.path(testDir, paste0(testname, "-expected", normalize_suffix(suffix)))
   current  <- file.path(testDir, paste0(testname, "-current"))
   diffviewer_widget(expected, current)
 }
@@ -99,6 +99,9 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
 #'   \code{\link{textTestDiff}}.
 #' @param images Compare screenshot images (only used when \code{interactive} is
 #'   FALSE).
+#' @param suffix An optional suffix for the expected results directory. For
+#'   example, if the suffix is \code{"mac"}, the expected directory would be
+#'   \code{mytest-expected-mac}.
 #'
 #' @return A character vector the same length as \code{testnames}, with
 #'   \code{"accept"} or \code{"reject"} for each test.
@@ -107,9 +110,13 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL) {
 #'
 #' @import shiny
 #' @export
-viewTestDiff <- function(appDir = ".", testnames = NULL,
-  interactive = base::interactive(), images = TRUE)
-{
+viewTestDiff <- function(
+  appDir = ".",
+  testnames = NULL,
+  interactive = base::interactive(),
+  images = TRUE,
+  suffix = NULL
+) {
   testDir <- findTestsDir(appDir, quiet=TRUE)
   if (interactive) {
     if (is.null(testnames)) {
@@ -121,7 +128,7 @@ viewTestDiff <- function(appDir = ".", testnames = NULL,
 
     results <- lapply(testnames, function(testname) {
       message("Viewing diff for ", testname)
-      viewTestDiffSingle(appDir, testname)
+      viewTestDiffSingle(appDir, testname, suffix)
     })
 
     names(results) <- testnames
@@ -129,21 +136,22 @@ viewTestDiff <- function(appDir = ".", testnames = NULL,
 
   } else {
     # textTestDiff returns a string with a "status" attribute
-    result <- textTestDiff(appDir, testnames, images)
+    result <- textTestDiff(appDir, testnames, images, suffix)
     cat(result)
     invisible(attr(result, "status", exact = TRUE))
   }
 }
 
 
-viewTestDiffSingle <- function(appDir = ".", testname = NULL) {
+viewTestDiffSingle <- function(appDir = ".", testname = NULL, suffix = NULL) {
   testDir <- findTestsDir(appDir, quiet=TRUE)
   validate_testname(testDir, testname)
 
   withr::with_options(
     list(
       shinytest.app.dir = normalizePath(appDir, mustWork = TRUE),
-      shinytest.test.name = testname
+      shinytest.test.name = testname,
+      shinytest.suffix = suffix
     ),
     invisible(
       shiny::runApp(system.file("diffviewerapp", package = "shinytest"))
@@ -158,7 +166,12 @@ viewTestDiffSingle <- function(appDir = ".", testname = NULL) {
 #' @param images Compare screenshot images.
 #' @seealso \code{\link{viewTestDiff}} for interactive diff viewer.
 #' @export
-textTestDiff <- function(appDir = ".", testnames = NULL, images = TRUE) {
+textTestDiff <- function(
+  appDir = ".",
+  testnames = NULL,
+  images = TRUE,
+  suffix = NULL
+) {
   testDir <- findTestsDir(appDir, quiet=TRUE)
   if (is.null(testnames)) {
     testnames <- all_testnames(testDir)
@@ -167,7 +180,7 @@ textTestDiff <- function(appDir = ".", testnames = NULL, images = TRUE) {
   diff_results <- lapply(
     testnames,
     function(testname) {
-      result <- textTestDiffSingle(appDir, testname, images)
+      result <- textTestDiffSingle(appDir, testname, images, suffix)
 
       # Need to pass along status attribute
       structure(
@@ -191,17 +204,26 @@ textTestDiff <- function(appDir = ".", testnames = NULL, images = TRUE) {
 }
 
 
-textTestDiffSingle <- function(appDir = ".", testname = NULL, images = TRUE) {
+textTestDiffSingle <- function(
+  appDir = ".",
+  testname = NULL,
+  images = TRUE,
+  suffix = NULL
+) {
   testDir <- findTestsDir(appDir, quiet=TRUE)
   validate_testname(testDir, testname)
 
-  testDir <- findTestsDir(appDir, quiet=TRUE)
   current_dir  <- file.path(testDir, paste0(testname, "-current"))
-  expected_dir <- file.path(testDir, paste0(testname, "-expected"))
+  expected_dir <- file.path(testDir, paste0(testname, "-expected", normalize_suffix(suffix)))
 
   if (dir_exists(expected_dir) && !dir_exists(current_dir)) {
     return(
-      structure("No differences between expected and current results", status = "accept")
+      structure(
+        paste0(
+          "No differences between expected", normalize_suffix(suffix),
+          "and current results"),
+        status = "accept"
+      )
     )
   }
 

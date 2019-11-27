@@ -4,7 +4,7 @@
 \alias{textTestDiff}
 \title{Get textual diff of test results}
 \usage{
-textTestDiff(appDir = ".", testnames = NULL, images = TRUE)
+textTestDiff(appDir = ".", testnames = NULL, images = TRUE, suffix = NULL)
 }
 \arguments{
 \item{appDir}{Directory of the Shiny application that was tested.}
@@ -13,6 +13,10 @@ textTestDiff(appDir = ".", testnames = NULL, images = TRUE)
 compare all test results for which there are differences.}
 
 \item{images}{Compare screenshot images.}
+
+\item{suffix}{An optional suffix for the expected results directory. For
+example, if the suffix is \code{"mac"}, the expected directory would be
+\code{mytest-expected-mac}.}
 }
 \description{
 Get textual diff of test results
