@@ -44,6 +44,10 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
       raw_to_utf8(bin_data)
     } else if (grepl("\\.png$", filename)) {
       paste0("data:image/png;base64,", jsonlite::base64_enc(bin_data))
+    } else if (grepl("\\.jpg$", filename)){
+      paste0("data:image/jpeg;base64,", jsonlite::base64_enc(bin_data))
+    } else if (grepl("\\.pdf$", filename)){
+      paste0("data:application/pdf;base64,", jsonlite::base64_enc(bin_data))
     } else {
       ""
     }
