@@ -13,7 +13,9 @@
 #' @param interactive If there are any differences between current results and
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
-#'
+#' @param suffix An optional suffix for the expected results directory. For
+#'   example, if the suffix is \code{"mac"}, the expected directory would be
+#'   \code{mytest-expected-mac}.
 #'
 #' @seealso \code{\link{snapshotCompare}} and \code{\link{snapshotUpdate}} if
 #'   you want to compare or update snapshots after testing. In most cases, the
@@ -21,8 +23,14 @@
 #'   where it is useful to call these functions from the console.
 #'
 #' @export
-testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
-  compareImages = TRUE, interactive = base::interactive())
+testApp <- function(
+  appDir = ".",
+  testnames = NULL,
+  quiet = FALSE,
+  compareImages = TRUE,
+  interactive = base::interactive(),
+  suffix = NULL
+)
 {
   library(shinytest)
 
@@ -76,8 +84,14 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 
   # Compare all results
   return(
-    snapshotCompare(appDir, testnames = found_testnames_no_ext, quiet = quiet,
-      images = compareImages, interactive = interactive)
+    snapshotCompare(
+      appDir,
+      testnames = found_testnames_no_ext,
+      quiet = quiet,
+      images = compareImages,
+      interactive = interactive,
+      suffix = suffix
+    )
   )
 }
 

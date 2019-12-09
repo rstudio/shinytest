@@ -153,3 +153,12 @@ read_utf8 <- function(file) {
   res <- read_raw(file)
   raw_to_utf8(res)
 }
+
+
+normalize_suffix <- function(suffix) {
+  if (is.null(suffix) || suffix == "") {
+    ""
+  } else {
+    paste0("-", suffix)
+  }
+}
