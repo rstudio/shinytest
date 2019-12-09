@@ -5,6 +5,8 @@
 
 * Added new `suffix` option, which allows adding a suffix to an expected results directory. This makes it possible to store multiple sets of results, which can be useful, for example, if you run tests on multiple platforms. ((#295)[https://github.com/rstudio/shinytest/pull/295])
 
+* Previously, on Windows, the reported resolution of screenshots depended on the actual screen resolution. For example, on one Windows machine, it might report a screenshot to be 96 ppi, while on another machine, it might report it to be 240 ppi, even though the image data is exactly the same from the two machines. This caused problems when expected results were generated on one machine and the tests were run on another machine. Now, the screenshots are modified so that they always report 72 ppi resolution, which is the same as on Mac and Linux. ((#297)[https://github.com/rstudio/shinytest/pull/297])
+
 1.3.1
 =======
 
