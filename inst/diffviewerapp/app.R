@@ -2,7 +2,7 @@ app_dir   <- getOption("shinytest.app.dir")
 test_name <- getOption("shinytest.test.name")
 suffix    <- getOption("shinytest.suffix")
 
-msg_suffix <- normalize_suffix(suffix)
+msg_suffix <- shinytest:::normalize_suffix(suffix)
 
 shinyApp(
   ui = bootstrapPage(
