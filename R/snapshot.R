@@ -258,10 +258,16 @@ snapshotCompareSingle <- function(
       }
 
       if (!quiet && interactive) {
+
+        if (is.null(suffix) || suffix == "") {
+          suffix_param <- ""
+        } else {
+          suffix_param <- paste0(', suffix="', suffix, '"')
+        }
         message('\n  To view differences between expected and current results, run:\n',
-                '    viewTestDiff("', relativeAppDir, '", "', testname, '")\n',
+                '    viewTestDiff("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n',
                 '  To save current results as expected results, run:\n',
-                '    snapshotUpdate("', relativeAppDir, '", "', testname, '")\n')
+                '    snapshotUpdate("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n')
       }
 
     } else {
