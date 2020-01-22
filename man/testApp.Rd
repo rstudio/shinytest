@@ -4,10 +4,17 @@
 \alias{testApp}
 \title{Run tests for a Shiny application}
 \usage{
-testApp(appDir = ".", testnames = NULL, quiet = FALSE,
-  compareImages = TRUE, normalizeContent = FALSE,
-  ignoreElement = NULL, ignoreContent = NULL,
-  interactive = base::interactive())
+testApp(
+  appDir = ".",
+  testnames = NULL,
+  quiet = FALSE,
+  compareImages = TRUE,
+  normalizeContent = FALSE,
+  ignoreElement = NULL, 
+  ignoreContent = NULL,
+  interactive = base::interactive(),
+  suffix = NULL
+)
 }
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
@@ -39,6 +46,10 @@ matching these patterns (using gsub to replace it by arbitrary value).}
 \item{interactive}{If there are any differences between current results and
 expected results, provide an interactive graphical viewer that shows the
 changes and allows the user to accept or reject the changes.}
+
+\item{suffix}{An optional suffix for the expected results directory. For
+example, if the suffix is \code{"mac"}, the expected directory would be
+\code{mytest-expected-mac}.}
 }
 \description{
 Run tests for a Shiny application

@@ -153,3 +153,50 @@ read_utf8 <- function(file) {
   res <- read_raw(file)
   raw_to_utf8(res)
 }
+
+normalize_suffix <- function(suffix) {
+  if (is.null(suffix) || suffix == "") {
+    ""
+  } else {
+    paste0("-", suffix)
+  }
+}
+
+# For PhantomJS on Windows, the pHYs (Physical pixel dimensions) header enbeds
+# the computer screen's actual resolution, even though the screenshots are
+# done on a headless browser, and the actual screen resolution has no effect
+# on the pixel-for-pixel content of the screenshot.
+#
+# The header can differ when expected results are generated on one computer
+# and compared to results from another computer, and this causes shinytest to
+# report false positives in changes to screenshots. In order to avoid this
+# problem, this function rewrites the pHYs header to always report a 72 ppi
+# resolution.
+#
+# https://github.com/ariya/phantomjs/issues/10659#issuecomment-14993827
+normalize_png_res_header <- function(file) {
+  data <- readBin(file, raw(), n = 512)
+  header_offset <- grepRaw("pHYs", data)
+
+  if (length(header_offset) == 0) {
+    warning("Cannot find pHYs header in ", basename(file))
+    return(FALSE)
+  }
+
+  # Replace with header specifying 2835 pixels per meter (equivalent to 72
+  # ppi).
+  con <- file(file, open = "r+b")
+  seek(con, header_offset - 1, rw = "write")
+  writeBin(png_res_header_data, con)
+  close(con)
+
+  return(TRUE)
+}
+
+png_res_header_data <- as.raw(c(
+  0x70, 0x48, 0x59, 0x73,  # "pHYs"
+  0x00, 0x00, 0x0b, 0x13,  # Pixels per unit, X: 2835
+  0x00, 0x00, 0x0b, 0x13,  # Pixels per unit, Y: 2835
+  0x01,                    # Unit specifier: meters
+  0x00, 0x9a, 0x9c, 0x18   # Checksum
+))

@@ -22,7 +22,9 @@
 #' @param interactive If there are any differences between current results and
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
-#'
+#' @param suffix An optional suffix for the expected results directory. For
+#'   example, if the suffix is \code{"mac"}, the expected directory would be
+#'   \code{mytest-expected-mac}.
 #'
 #' @seealso \code{\link{snapshotCompare}} and \code{\link{snapshotUpdate}} if
 #'   you want to compare or update snapshots after testing. In most cases, the
@@ -30,8 +32,15 @@
 #'   where it is useful to call these functions from the console.
 #'
 #' @export
-testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
-  compareImages = TRUE, normalizeContent = FALSE, ignoreElement = NULL, ignoreContent = NULL, interactive = base::interactive())
+testApp <- function(
+  appDir = ".",
+  testnames = NULL,
+  quiet = FALSE,
+  compareImages = TRUE,
+  normalizeContent = FALSE, ignoreElement = NULL, ignoreContent = NULL,
+  interactive = base::interactive(),
+  suffix = NULL
+)
 {
   library(shinytest)
 
@@ -85,8 +94,15 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 
   # Compare all results
   return(
-    snapshotCompare(appDir, testnames = found_testnames_no_ext, quiet = quiet,
-      images = compareImages, normalize_data = normalizeContent, ignore_keys = ignoreElement, ignore_text = ignoreContent, interactive = interactive)
+    snapshotCompare(
+      appDir,
+      testnames = found_testnames_no_ext,
+      quiet = quiet,
+      images = compareImages,
+      normalize_data = normalizeContent, ignore_keys = ignoreElement, ignore_text = ignoreContent,
+      interactive = interactive,
+      suffix = suffix
+    )
   )
 }
 
@@ -106,6 +122,19 @@ testApp <- function(appDir = ".", testnames = NULL, quiet = FALSE,
 #'  3. Assuming all top-level R files in `tests/` appear to be shinytests, return that dir.
 #' @noRd
 findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
+  if (basename(appDir) == "tests"){
+    # We were given a */tests/ directory. It's possible that we're in the middle of a nested tests
+    # directory and the application dir is actually one level up. This happens in certain versions
+    # of the RStudio IDE.
+    # https://github.com/rstudio/rstudio/issues/5677
+
+    if (!dir_exists(file.path(appDir, "tests"))){
+      # We're in a dir called `tests` and there's not another `tests` directory inside, so we can
+      # assume that the app dir is actually probably one level up.
+      appDir <- dirname(appDir)
+    }
+  }
+
   testsDir <- file.path(appDir, "tests")
   if (!dir_exists(testsDir) && mustExist) {
     stop("tests/ directory doesn't exist")

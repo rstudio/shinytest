@@ -30,6 +30,12 @@ sd_takeScreenshot <- function(self, private, file) {
   "!DEBUG sd_takeScreenshot"
   self$logEvent("Taking screenshot")
   private$web$takeScreenshot(file)
+
+  # On Windows, need to fix up the PNG resolution header to make it
+  # consistent.
+  if (is_windows()) {
+    normalize_png_res_header(file)
+  }
 }
 
 sd_findElement <- function(self, private, css, linkText,

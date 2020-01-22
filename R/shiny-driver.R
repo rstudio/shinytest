@@ -555,7 +555,7 @@ sd_getTestsDir <- function(self, private) {
   if (self$isRmd()) {
     path <- dirname(private$path)
   }
-  findTestsDir(path)
+  findTestsDir(path, quiet=TRUE)
 }
 
 # Get the relative path from the test directory to the parent. Since there are currently
@@ -571,7 +571,7 @@ sd_getRelativePathToApp <- function(self, private) {
 }
 
 sd_getSnapshotDir <- function(self, private) {
-  testDir <- findTestsDir(self$getAppDir())
+  testDir <- findTestsDir(self$getAppDir(), quiet=TRUE)
   file.path(testDir, private$snapshotDir)
 }
 

@@ -4,8 +4,13 @@
 \alias{expectUpdate}
 \title{\code{testthat} expectation for a Shiny update}
 \usage{
-expectUpdate(app, output, ..., timeout = 3000, iotype = c("auto",
-  "input", "output"))
+expectUpdate(
+  app,
+  output,
+  ...,
+  timeout = 3000,
+  iotype = c("auto", "input", "output")
+)
 }
 \arguments{
 \item{app}{A \code{\link{ShinyDriver}} object.}
