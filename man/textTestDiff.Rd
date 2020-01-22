@@ -4,7 +4,8 @@
 \alias{textTestDiff}
 \title{Get textual diff of test results}
 \usage{
-textTestDiff(appDir = ".", testnames = NULL, preprocess = NULL, images = TRUE, suffix = NULL)
+textTestDiff(appDir = ".", testnames = NULL, preprocess = NULL,
+             images = TRUE, suffix = NULL)
 }
 \arguments{
 \item{appDir}{Directory of the Shiny application that was tested.}
