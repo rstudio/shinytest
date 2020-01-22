@@ -85,7 +85,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 #' @param preprocess Preliminary processing for content filtering.
 #'
 #' @export
-viewTestDiffWidget <- function(appDir = ".", testname = NULL, suffix = NULL) {
+viewTestDiffWidget <- function(appDir = ".", testname = NULL, preprocess=NULL, suffix = NULL) {
   testDir <- findTestsDir(appDir, quiet = TRUE)
   expected <- file.path(testDir, paste0(testname, "-expected", normalize_suffix(suffix)))
   current  <- file.path(testDir, paste0(testname, "-current"))
@@ -188,7 +188,7 @@ textTestDiff <- function(
     testnames,
     function(testname) {
       result <- textTestDiffSingle(appDir, testname, preprocess, images, suffix)
-      
+
       # Need to pass along status attribute
       structure(
         paste0(

@@ -7,8 +7,8 @@
 viewTestDiff(
   appDir = ".",
   testnames = NULL,
-  preprocess = NULL,
   interactive = base::interactive(),
+  preprocess = NULL,
   images = TRUE,
   suffix = NULL
 )
