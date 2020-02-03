@@ -37,6 +37,8 @@ app$findElements(css = NULL, linkText = NULL,
 
 app$waitFor(expr, checkInterval = 100, timeout = 3000)
 
+app$waitForValue(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30, checkInterval = 400)
+
 app$listWidgets()
 
 app$checkUniqueWidgetNames()
@@ -92,6 +94,9 @@ app$expectUpdate(output, ..., timeout = 3000,
     evaluates to the condition to wait for.}
   \item{checkInterval}{How often to check for the condition, in
     milliseconds.}
+  \item{invalidValues}{List of possible values that are to not be
+    considered valid.  \code{app$waitForValue} will continue to poll until
+    it finds a value not contained in \code{invalidValues}.}
   \item{timeout}{Timeout for the condition, in milliseconds.}
   \item{output}{Character vector, the name(s) of the Shiny output
     widgets that should be updated.}
@@ -178,6 +183,12 @@ from the \code{webdriver} package.
 \code{app$waitFor()} waits until a JavaScript expression evaluates
 to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 expression evaluated to \code{true}, possible after some waiting.
+
+\code{app$waitForValue()} waits until the current application's
+\code{input} (or \code{output}) value is not one of the supplied invalid
+values.  The function will return the value found or throw if the
+timelimit is reached ([\code{30sec}]).  This function is useful in
+helping determine if an application has initialized or finished processing.
 
 \code{app$listWidgets()} lists the names of all input and output
 widgets. It returns a list of two character vectors, named \code{input}

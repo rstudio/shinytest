@@ -31,6 +31,8 @@
 #'
 #' app$waitFor(expr, checkInterval = 100, timeout = 3000)
 #'
+#' app$waitForValue(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30, checkInterval = 400)
+#'
 #' app$listWidgets()
 #'
 #' app$checkUniqueWidgetNames()
@@ -84,6 +86,9 @@
 #'     evaluates to the condition to wait for.}
 #'   \item{checkInterval}{How often to check for the condition, in
 #'     milliseconds.}
+#'   \item{invalidValues}{List of possible values that are to not be
+#'     considered valid.  \code{app$waitForValue} will continue to poll until
+#'     it finds a value not contained in \code{invalidValues}.}
 #'   \item{timeout}{Timeout for the condition, in milliseconds.}
 #'   \item{output}{Character vector, the name(s) of the Shiny output
 #'     widgets that should be updated.}
@@ -168,6 +173,12 @@
 #' \code{app$waitFor()} waits until a JavaScript expression evaluates
 #' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 #' expression evaluated to \code{true}, possible after some waiting.
+#'
+#' \code{app$waitForValue()} waits until the current application's
+#' \code{input} (or \code{output}) value is not one of the supplied invalid
+#' values.  The function will return the value found or throw if the
+#' timelimit is reached ([\code{30sec}]).  This function is useful in
+#' helping determine if an application has initialized or finished processing.
 #'
 #' \code{app$listWidgets()} lists the names of all input and output
 #' widgets. It returns a list of two character vectors, named \code{input}
@@ -287,6 +298,9 @@ ShinyDriver <- R6Class(
     waitFor = function(expr, checkInterval = 100, timeout = 3000)
       sd_waitFor(self, private, expr, checkInterval, timeout),
 
+    waitForValue = function(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 3000, checkInterval = 400) {
+      sd_waitForValue(name = name, invalidValues = invalidValues, iotype = iotype, timeout = timeout, checkInterval = checkInterval)
+    },
 
     listWidgets = function()
       sd_listWidgets(self, private),
@@ -468,6 +482,40 @@ sd_stop <- function(self, private) {
 sd_waitFor <- function(self, private, expr, checkInterval, timeout) {
   "!DEBUG sd_waitFor"
   private$web$waitFor(expr, checkInterval, timeout)
+}
+
+sd_waitForValue <- function(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 3000, checkInterval = 400) {
+  "!DEBUG sd_waitForValue"
+
+  if (is.numeric(timeout)) {
+    timeout <- as.difftime(timeout / 100, units = "secs")
+  }
+  now <- Sys.time
+
+  endTime <- now() + timeout
+
+  while (TRUE) {
+    value <- try(app$getValue(name, iotype = iotype))
+
+    # if no error when trying ot retrieve the value..
+    if (!inherits(name, "try-error")) {
+      # check against all invalid values
+      isInvalid <- vapply(invalidValues, identical, logical(1), x = value)
+      # if no matches, then it's a success!
+      if (!any(isInvalid)) {
+        return(value)
+      }
+    }
+
+    # if too much time has elapsed... throw
+    if (endTime < now()) {
+      stop("timeout reached when waiting for value: ", value)
+    }
+
+    # wait a little bit for shiny to do some work
+    Sys.sleep(checkInterval / 1000)
+  }
+
 }
 
 sd_listWidgets <- function(self, private) {
