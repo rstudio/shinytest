@@ -37,7 +37,7 @@ app$findElements(css = NULL, linkText = NULL,
 
 app$waitFor(expr, checkInterval = 100, timeout = 3000)
 
-app$waitForValue(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30, checkInterval = 400)
+app$waitForValue(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30000, checkInterval = 400)
 
 app$listWidgets()
 
@@ -187,7 +187,7 @@ expression evaluated to \code{true}, possible after some waiting.
 \code{app$waitForValue()} waits until the current application's
 \code{input} (or \code{output}) value is not one of the supplied invalid
 values.  The function will return the value found or throw if the
-timelimit is reached ([\code{30sec}]).  This function is useful in
+time limit is reached (default is 30 seconds).  This function is useful in
 helping determine if an application has initialized or finished processing.
 
 \code{app$listWidgets()} lists the names of all input and output

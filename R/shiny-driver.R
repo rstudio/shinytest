@@ -31,7 +31,7 @@
 #'
 #' app$waitFor(expr, checkInterval = 100, timeout = 3000)
 #'
-#' app$waitForValue(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30, checkInterval = 400)
+#' app$waitForValue(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30000, checkInterval = 400)
 #'
 #' app$listWidgets()
 #'
@@ -177,7 +177,7 @@
 #' \code{app$waitForValue()} waits until the current application's
 #' \code{input} (or \code{output}) value is not one of the supplied invalid
 #' values.  The function will return the value found or throw if the
-#' timelimit is reached ([\code{30sec}]).  This function is useful in
+#' time limit is reached (default is 30 seconds).  This function is useful in
 #' helping determine if an application has initialized or finished processing.
 #'
 #' \code{app$listWidgets()} lists the names of all input and output
@@ -298,7 +298,7 @@ ShinyDriver <- R6Class(
     waitFor = function(expr, checkInterval = 100, timeout = 3000)
       sd_waitFor(self, private, expr, checkInterval, timeout),
 
-    waitForValue = function(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 3000, checkInterval = 400) {
+    waitForValue = function(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30000, checkInterval = 400) {
       sd_waitForValue(name = name, invalidValues = invalidValues, iotype = iotype, timeout = timeout, checkInterval = checkInterval)
     },
 
@@ -484,13 +484,21 @@ sd_waitFor <- function(self, private, expr, checkInterval, timeout) {
   private$web$waitFor(expr, checkInterval, timeout)
 }
 
-sd_waitForValue <- function(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 3000, checkInterval = 400) {
+sd_waitForValue <- function(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30000, checkInterval = 400) {
   "!DEBUG sd_waitForValue"
 
-  if (is.numeric(timeout)) {
-    timeout <- as.difftime(timeout / 100, units = "secs")
+  timeoutSec <- as.numeric(timeout) / 1000
+  if (!is.numeric(timeoutSec) || is.na(timeoutSec) || is.nan(timeoutSec)) {
+    stop("timeout must be numeric")
   }
-  now <- Sys.time
+  checkInterval <- as.numeric(checkInterval)
+  if (!is.numeric(checkInterval) || is.na(checkInterval) || is.nan(checkInterval)) {
+    stop("checkInterval must be numeric")
+  }
+
+  now <- function() {
+    as.numeric(Sys.time())
+  }
 
   endTime <- now() + timeout
 
@@ -508,7 +516,7 @@ sd_waitForValue <- function(name, invalidValues = list(NULL, ""), iotype = "inpu
     }
 
     # if too much time has elapsed... throw
-    if (endTime < now()) {
+    if (now() > endTime) {
       stop("timeout reached when waiting for value: ", value)
     }
 
