@@ -298,8 +298,8 @@ ShinyDriver <- R6Class(
     waitFor = function(expr, checkInterval = 100, timeout = 3000)
       sd_waitFor(self, private, expr, checkInterval, timeout),
 
-    waitForValue = function(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30000, checkInterval = 400) {
-      sd_waitForValue(name = name, invalidValues = invalidValues, iotype = iotype, timeout = timeout, checkInterval = checkInterval)
+    waitForValue = function(name, invalidValues = list(NULL, ""), iotype = c("input", "output", "auto"), timeout = 30000, checkInterval = 400) {
+      sd_waitForValue(self, private, name = name, invalidValues = invalidValues, iotype = match.arg(iotype), timeout = timeout, checkInterval = checkInterval)
     },
 
     listWidgets = function()
@@ -484,7 +484,7 @@ sd_waitFor <- function(self, private, expr, checkInterval, timeout) {
   private$web$waitFor(expr, checkInterval, timeout)
 }
 
-sd_waitForValue <- function(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30000, checkInterval = 400) {
+sd_waitForValue <- function(self, private, name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30000, checkInterval = 400) {
   "!DEBUG sd_waitForValue"
 
   timeoutSec <- as.numeric(timeout) / 1000
@@ -500,13 +500,15 @@ sd_waitForValue <- function(name, invalidValues = list(NULL, ""), iotype = "inpu
     as.numeric(Sys.time())
   }
 
-  endTime <- now() + timeout
+  endTime <- now() + timeoutSec
 
   while (TRUE) {
-    value <- try(app$getValue(name, iotype = iotype))
+    value <- try({
+      self$getValue(name, iotype = iotype)
+    }, silent = TRUE)
 
     # if no error when trying ot retrieve the value..
-    if (!inherits(name, "try-error")) {
+    if (!inherits(value, "try-error")) {
       # check against all invalid values
       isInvalid <- vapply(invalidValues, identical, logical(1), x = value)
       # if no matches, then it's a success!
