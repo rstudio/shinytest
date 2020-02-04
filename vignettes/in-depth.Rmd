@@ -315,6 +315,26 @@ vals <- app$getAllValues()
 expect_identical(vals$output$checkboxOut, "[1] TRUE")
 ```
 
+### Waiting for input values
+
+In most situations, when an input value is set, `shinytest` will wait for the next value to be sent to the server.  If, however, you have an application that does not immediately send the value you are interested in, you will need to insert at `app$waitForValue` function call.  This is readily useful for htmlwidgets or anything that involves javascript code for values to be set. This method can also be used to determine when `input` values have been set after the initial output values have been set or for when reactivity is done in two or more stages.
+
+For example, when clicking a button that adds dynamic UI containing a numeric input value.  This is a two stage process. Stage 1 sets the button value and the UI is placed.  In stage 2, Shiny then recognizes there is new UI values and sets the numeric input value on `input`.  This will require two separate calls to update `output`.  `app$setInput('my_button', 1)` will return after the button value is set (Stage 1). This is too early for the numeric value to be found.  Therefore, we can call `app$waitForValue("my_number_1")` to wait until the numeric input is set.
+
+```r
+app <- ShinyDriver$new("path/to/app")
+app$snapshotInit("mytest")
+
+# 'Click' button
+app$setInput('my_button', 1)
+
+# Wait until input$numeric gives us a useful value (or reaches time limit)
+numVal <- app$waitForValue('my_number_1')
+
+app$snapshot()
+```
+
+
 
 ## Dealing with dynamic data
 
