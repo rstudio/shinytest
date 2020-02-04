@@ -1,13 +1,26 @@
 {
   "input": {
     "bw_adjust": 1,
-    "n_breaks": "20",
-    "n_breaks-selectized": ""
+    "n_breaks": "20"
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 9b2def6aec925a776ba86a184c4f7ab347fdd4b1]",
+      "html": "[html data sha1: 20ca38991c764ea23bf08028282d9bffc7d092da]",
       "deps": [
+        {
+          "name": "header-attrs",
+          "version": "2.1.1",
+          "src": {
+            "href": "header-attrs-2.1.1"
+          },
+          "meta": null,
+          "script": "header-attrs.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
         {
           "name": "jquery",
           "version": "1.11.3",
@@ -118,7 +131,7 @@
       ]
     },
     "out4cb05256550523c6": {
-      "src": "[image data sha1: ee763391af3894c1e43a4aafda1a9191ef340736]",
+      "src": "[image data sha1: 8a50cfe9e476183fb6d189d594fb4f4e6b1ee270]",
       "width": 738,
       "height": 626,
       "coordmap": {

@@ -1,9 +1,7 @@
 {
   "input": {
     "dynamic": "option1",
-    "dynamic-selectized": "",
-    "input_type": "selectInput",
-    "input_type-selectized": ""
+    "input_type": "selectInput"
   },
   "output": {
     "dynamic_value": " chr \"option1\"",
