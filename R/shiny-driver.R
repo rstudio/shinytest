@@ -31,7 +31,7 @@
 #'
 #' app$waitFor(expr, checkInterval = 100, timeout = 3000)
 #'
-#' app$waitForValue(name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30000, checkInterval = 400)
+#' app$waitForValue(name, ignore = list(NULL, ""), iotype = "input", timeout = 10000, checkInterval = 400)
 #'
 #' app$listWidgets()
 #'
@@ -86,9 +86,9 @@
 #'     evaluates to the condition to wait for.}
 #'   \item{checkInterval}{How often to check for the condition, in
 #'     milliseconds.}
-#'   \item{invalidValues}{List of possible values that are to not be
+#'   \item{ignore}{List of possible values that are to not be
 #'     considered valid.  \code{app$waitForValue} will continue to poll until
-#'     it finds a value not contained in \code{invalidValues}.}
+#'     it finds a value not contained in \code{ignore}.}
 #'   \item{timeout}{Timeout for the condition, in milliseconds.}
 #'   \item{output}{Character vector, the name(s) of the Shiny output
 #'     widgets that should be updated.}
@@ -176,9 +176,10 @@
 #'
 #' \code{app$waitForValue()} waits until the current application's
 #' \code{input} (or \code{output}) value is not one of the supplied invalid
-#' values.  The function will return the value found or throw if the
-#' time limit is reached (default is 30 seconds).  This function is useful in
-#' helping determine if an application has initialized or finished processing.
+#' values.  The function returns the value found if the time limit has not
+#' been reached (default is 10 seconds).  This function can be useful in
+#' helping determine if an application has initialized or finished
+#' processing a complex reactive situation.
 #'
 #' \code{app$listWidgets()} lists the names of all input and output
 #' widgets. It returns a list of two character vectors, named \code{input}
@@ -298,8 +299,8 @@ ShinyDriver <- R6Class(
     waitFor = function(expr, checkInterval = 100, timeout = 3000)
       sd_waitFor(self, private, expr, checkInterval, timeout),
 
-    waitForValue = function(name, invalidValues = list(NULL, ""), iotype = c("input", "output", "auto"), timeout = 30000, checkInterval = 400) {
-      sd_waitForValue(self, private, name = name, invalidValues = invalidValues, iotype = match.arg(iotype), timeout = timeout, checkInterval = checkInterval)
+    waitForValue = function(name, ignore = list(NULL, ""), iotype = c("input", "output", "auto"), timeout = 10000, checkInterval = 400) {
+      sd_waitForValue(self, private, name = name, ignore = ignore, iotype = match.arg(iotype), timeout = timeout, checkInterval = checkInterval)
     },
 
     listWidgets = function()
@@ -484,7 +485,7 @@ sd_waitFor <- function(self, private, expr, checkInterval, timeout) {
   private$web$waitFor(expr, checkInterval, timeout)
 }
 
-sd_waitForValue <- function(self, private, name, invalidValues = list(NULL, ""), iotype = "input", timeout = 30000, checkInterval = 400) {
+sd_waitForValue <- function(self, private, name, ignore = list(NULL, ""), iotype = "input", timeout = 10000, checkInterval = 400) {
   "!DEBUG sd_waitForValue"
 
   timeoutSec <- as.numeric(timeout) / 1000
@@ -510,7 +511,7 @@ sd_waitForValue <- function(self, private, name, invalidValues = list(NULL, ""),
     # if no error when trying ot retrieve the value..
     if (!inherits(value, "try-error")) {
       # check against all invalid values
-      isInvalid <- vapply(invalidValues, identical, logical(1), x = value)
+      isInvalid <- vapply(ignore, identical, logical(1), x = value)
       # if no matches, then it's a success!
       if (!any(isInvalid)) {
         return(value)

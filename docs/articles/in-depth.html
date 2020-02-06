@@ -303,7 +303,7 @@
 <h3 class="hasAnchor">
 <a href="#waiting-for-input-values" class="anchor"></a>Waiting for input values</h3>
 <p>In most situations, when an input value is set, <code>shinytest</code> will wait for the next value to be sent to the server. If, however, you have an application that does not immediately send the value you are interested in, you will need to insert at <code>app$waitForValue</code> function call. This is readily useful for htmlwidgets or anything that involves javascript code for values to be set. This method can also be used to determine when <code>input</code> values have been set after the initial output values have been set or for when reactivity is done in two or more stages.</p>
-<p>For example, when clicking a button that adds dynamic UI containing a numeric input value. This is a two stage process. Stage 1 sets the button value and the UI is placed. In stage 2, Shiny then recognizes there is new UI values and sets the numeric input value on <code>input</code>. This will require two separate calls to update <code>output</code>. <code>app$setInput('my_button', 1)</code> will return after the button value is set (Stage 1). This is too early for the numeric value to be found. Therefore, we can call <code>app$waitForValue("my_number_1")</code> to wait until the numeric input is set.</p>
+<p>For example, when clicking a button that adds dynamic UI containing a numeric input value. This is a two stage process. Stage 1 sets the button value and the UI is placed. In stage 2, Shiny then recognizes there is new UI values and sets the numeric input value on <code>input</code>. This will require two separate calls to update <code>output</code>. <code>app$setInput('my_button', 1)</code> will return after the button value is set (Stage 1). This is too early for the numeric value to be found. Therefore, we can call <code>app$waitForValue("my_number_1", ignore = list(NULL, ""))</code> to wait until the numeric input is set.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">"path/to/app"</span>)</span>
 <span id="cb26-2"><a href="#cb26-2"></a>app<span class="op">$</span><span class="kw">snapshotInit</span>(<span class="st">"mytest"</span>)</span>
 <span id="cb26-3"><a href="#cb26-3"></a></span>
@@ -311,7 +311,7 @@
 <span id="cb26-5"><a href="#cb26-5"></a>app<span class="op">$</span><span class="kw">setInput</span>(<span class="st">'my_button'</span>, <span class="dv">1</span>)</span>
 <span id="cb26-6"><a href="#cb26-6"></a></span>
 <span id="cb26-7"><a href="#cb26-7"></a><span class="co"># Wait until input$numeric gives us a useful value (or reaches time limit)</span></span>
-<span id="cb26-8"><a href="#cb26-8"></a>numVal &lt;-<span class="st"> </span>app<span class="op">$</span><span class="kw">waitForValue</span>(<span class="st">'my_number_1'</span>)</span>
+<span id="cb26-8"><a href="#cb26-8"></a>numVal &lt;-<span class="st"> </span>app<span class="op">$</span><span class="kw">waitForValue</span>(<span class="st">'my_number_1'</span>, <span class="dt">ignore =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="ot">NULL</span>, <span class="st">""</span>))</span>
 <span id="cb26-9"><a href="#cb26-9"></a></span>
 <span id="cb26-10"><a href="#cb26-10"></a>app<span class="op">$</span><span class="kw">snapshot</span>()</span></code></pre></div>
 </div>
