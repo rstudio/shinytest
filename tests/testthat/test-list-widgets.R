@@ -9,7 +9,7 @@ test_that("list input & output widgets", {
   expect_equal(
     sort(inputs),
     sort(c("action", "checkbox", "checkGroup", "date", "dates", "file",
-           "num", "radio", "select", "select-selectized", "slider1", "slider2", "text"))
+           "num", "radio", "select", "slider1", "slider2", "text"))
   )
 
   outputs <- widgets$output
