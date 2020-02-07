@@ -232,12 +232,14 @@ ShinyDriver <- R6Class(
     stop = function()
       sd_stop(self, private),
 
+    # Note: This queries the **browser**
     getValue = function(name, iotype = c("auto", "input", "output"))
       sd_getValue(self, private, name, match.arg(iotype)),
 
     setValue = function(name, value, iotype = c("auto", "input", "output"))
       sd_setValue(self, private, name, value, match.arg(iotype)),
 
+    # Note: This queries the server
     getAllValues = function(input = TRUE, output = TRUE, export = TRUE)
       sd_getAllValues(self, private, input, output, export),
 
@@ -299,7 +301,7 @@ ShinyDriver <- R6Class(
     waitFor = function(expr, checkInterval = 100, timeout = 3000)
       sd_waitFor(self, private, expr, checkInterval, timeout),
 
-    waitForValue = function(name, ignore = list(NULL, ""), iotype = c("input", "output", "auto"), timeout = 10000, checkInterval = 400) {
+    waitForValue = function(name, ignore = list(NULL, ""), iotype = c("input", "output", "export"), timeout = 10000, checkInterval = 400) {
       sd_waitForValue(self, private, name = name, ignore = ignore, iotype = match.arg(iotype), timeout = timeout, checkInterval = checkInterval)
     },
 
@@ -423,6 +425,7 @@ ShinyDriver$debugLogTypes <- c(
   "shinytest"
 )
 
+# Note: This queries the **browser**
 sd_getValue <- function(self, private, name, iotype) {
   "!DEBUG sd_getValue `name` (`iotype`)"
   self$findWidget(name, iotype)$getValue()
@@ -505,7 +508,9 @@ sd_waitForValue <- function(self, private, name, ignore = list(NULL, ""), iotype
 
   while (TRUE) {
     value <- try({
-      self$getValue(name, iotype = iotype)
+      args <- list()
+      args[[iotype]] <- name
+      do.call(self$getAllValues, args)[[iotype]][[name]]
     }, silent = TRUE)
 
     # if no error when trying ot retrieve the value..
