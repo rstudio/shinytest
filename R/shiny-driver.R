@@ -520,7 +520,7 @@ sd_waitForValue <- function(self, private, name, ignore = list(NULL, ""), iotype
 
     # if too much time has elapsed... throw
     if (now() > endTime) {
-      stop("timeout reached when waiting for value: ", value)
+      stop("timeout reached when waiting for value: ", name)
     }
 
     # wait a little bit for shiny to do some work
