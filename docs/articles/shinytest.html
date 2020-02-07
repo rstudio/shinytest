@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Getting started with shinytest • shinytest</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Getting started with shinytest">
 <meta property="og:description" content="">
@@ -31,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9002</span>
       </span>
     </div>
 
@@ -39,7 +40,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -80,7 +81,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/rstudio/shinytest">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -93,7 +94,8 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
+
+      </header><script src="shinytest_files/header-attrs-2.1.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Getting started with shinytest</h1>
@@ -128,8 +130,8 @@
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
 <p><strong>Shinytest</strong> is in active development. To install it, run:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(devtools)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"rstudio/shinytest"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"rstudio/shinytest"</span>)</span></code></pre></div>
 <div id="recording-tests" class="section level3">
 <h3 class="hasAnchor">
 <a href="#recording-tests" class="anchor"></a>Recording tests</h3>
@@ -146,10 +148,10 @@
 </li>
 </ul>
 <p>To record tests, run the following:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shinytest)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Launch the target app (replace with the correct path)</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="../reference/recordTest.html">recordTest</a></span>(<span class="st">"path/to/app"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shinytest)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Launch the target app (replace with the correct path)</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw"><a href="../reference/recordTest.html">recordTest</a></span>(<span class="st">"path/to/app"</span>)</span></code></pre></div>
 <p>In a separate R process, this launches the Shiny application to be tested. We’ll refer to this as the <strong>target app</strong>. This also launches a special Shiny application in the current R process which displays the target app in an iframe and has some controls outside the iframe. We’ll refer to this as the <strong>recorder app</strong>. You will see something like this:</p>
 <p><img src="screenshot-recorder-1.png"></p>
 <p>On the left is the target app (in this case, the “Shiny Widgets Gallery”), and on the right is the recorder app (titled “Test event recorder”). Note that you may need to make the browser window wider because the recorder panel occupies some space.</p>
@@ -160,14 +162,14 @@
 <p><img src="screenshot-recorder-2.png"></p>
 <p>It is also possible to take a <em>target</em> snapshot. This is a snapshot of one or more specified output (instead of the default, which is to snapshot the entire application). To do this, hold down the Control (or Command) button on your keyboard and click on an output; it will snapshot just that one output.</p>
 <p>When you are done recording a sequence of events, click on the “Save script and exit test event recorder” button. If you are in the RStudio IDE, it will open the test script in the <code>tests/</code> subdirectory of the application. In this case, the name of the script is <code>mytest.R</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">".."</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">app<span class="op">$</span><span class="kw">snapshotInit</span>(<span class="st">"mytest"</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">app<span class="op">$</span><span class="kw">snapshot</span>()</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>))</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">action =</span> <span class="st">"click"</span>)</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">app<span class="op">$</span><span class="kw">snapshot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">".."</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>app<span class="op">$</span><span class="kw">snapshotInit</span>(<span class="st">"mytest"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a>app<span class="op">$</span><span class="kw">snapshot</span>()</span>
+<span id="cb3-5"><a href="#cb3-5"></a>app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>))</span>
+<span id="cb3-6"><a href="#cb3-6"></a>app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))</span>
+<span id="cb3-7"><a href="#cb3-7"></a>app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">action =</span> <span class="st">"click"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a>app<span class="op">$</span><span class="kw">snapshot</span>()</span></code></pre></div>
 </div>
 <div id="running-tests" class="section level3">
 <h3 class="hasAnchor">
@@ -188,44 +190,44 @@ Updating baseline snapshot at tests/mytest-expected
 Renaming tests/mytest-current
       =&gt; tests/mytest-expected.</code></pre>
 <p>Behind the scenes, it runs <code><a href="../reference/testApp.html">testApp()</a></code>. You can manually run the tests with this:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"myshinyapp"</span>, <span class="st">"mytest"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"myshinyapp"</span>, <span class="st">"mytest"</span>)</span></code></pre></div>
 <p>This will play back the interactions and record snapshots, as specified in the test script. The very first time the tests are run, they will be saved in a subdirectory of the app called <code>tests/mytest-expected</code>. These are the expected results, and future test runs will be compared against them.</p>
-<p>The directory will contain two files for each snapshot. For exmaple:</p>
+<p>The directory will contain two files for each snapshot. For example:</p>
 <pre><code>001.json
 001.png</code></pre>
 <p>The .json file is a JSON representation of the state of the application when <code>app$snapshot()</code> was called. The .png file is a screenshot of the application, which you can look at to inspect the state of the application.</p>
 <p>The JSON file stores the state of all the input, output, and export values at the time of the snapshot:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode json"><code class="sourceCode json"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fu">{</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="dt">"input"</span><span class="fu">:</span> <span class="fu">{</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="dt">"action"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="dt">"checkbox"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">    <span class="dt">"checkGroup"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"1"</span><span class="ot">,</span> <span class="st">"2"</span><span class="ot">,</span> <span class="st">"3"</span><span class="ot">]</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">    <span class="dt">"date"</span><span class="fu">:</span> <span class="st">"2014-01-01"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">    <span class="dt">"dates"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"2014-01-01"</span><span class="ot">,</span> <span class="st">"2015-01-01"</span><span class="ot">]</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8">    <span class="dt">"file"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">    <span class="dt">"num"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">    <span class="dt">"radio"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11">    <span class="dt">"select"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12">    <span class="dt">"slider1"</span><span class="fu">:</span> <span class="dv">50</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13">    <span class="dt">"slider2"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">25</span><span class="ot">,</span> <span class="dv">75</span><span class="ot">]</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14">    <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"Enter text..."</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15">  <span class="fu">},</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16">  <span class="dt">"output"</span><span class="fu">:</span> <span class="fu">{</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17">    <span class="dt">"actionOut"</span><span class="fu">:</span> <span class="st">"[1] 1</span><span class="ch">\n</span><span class="st">attr(,</span><span class="ch">\"</span><span class="st">class</span><span class="ch">\"</span><span class="st">)</span><span class="ch">\n</span><span class="st">[1] </span><span class="ch">\"</span><span class="st">integer</span><span class="ch">\"</span><span class="st">                </span><span class="ch">\"</span><span class="st">shinyActionButtonValue</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18">    <span class="dt">"checkboxOut"</span><span class="fu">:</span> <span class="st">"[1] TRUE"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19">    <span class="dt">"checkGroupOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">2</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">3</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20">    <span class="dt">"dateOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">2014-01-01</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-21" data-line-number="21">    <span class="dt">"datesOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">2014-01-01</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">2015-01-01</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22">    <span class="dt">"fileOut"</span><span class="fu">:</span> <span class="st">"NULL"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23">    <span class="dt">"numOut"</span><span class="fu">:</span> <span class="st">"[1] 1"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24">    <span class="dt">"radioOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25">    <span class="dt">"selectOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-26" data-line-number="26">    <span class="dt">"slider1Out"</span><span class="fu">:</span> <span class="st">"[1] 50"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-27" data-line-number="27">    <span class="dt">"slider2Out"</span><span class="fu">:</span> <span class="st">"[1] 25 75"</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28">    <span class="dt">"textOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">Enter text...</span><span class="ch">\"</span><span class="st">"</span></a>
-<a class="sourceLine" id="cb7-29" data-line-number="29">  <span class="fu">},</span></a>
-<a class="sourceLine" id="cb7-30" data-line-number="30">  <span class="dt">"export"</span><span class="fu">:</span> <span class="fu">{}</span></a>
-<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="fu">}</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>    <span class="dt">"action"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>    <span class="dt">"checkbox"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="dt">"checkGroup"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"1"</span><span class="ot">,</span> <span class="st">"2"</span><span class="ot">,</span> <span class="st">"3"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="dt">"date"</span><span class="fu">:</span> <span class="st">"2014-01-01"</span><span class="fu">,</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>    <span class="dt">"dates"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"2014-01-01"</span><span class="ot">,</span> <span class="st">"2015-01-01"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>    <span class="dt">"file"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>    <span class="dt">"num"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>    <span class="dt">"radio"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>    <span class="dt">"select"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>    <span class="dt">"slider1"</span><span class="fu">:</span> <span class="dv">50</span><span class="fu">,</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>    <span class="dt">"slider2"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">25</span><span class="ot">,</span> <span class="dv">75</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a>    <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"Enter text..."</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>  <span class="fu">},</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a>  <span class="dt">"output"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>    <span class="dt">"actionOut"</span><span class="fu">:</span> <span class="st">"[1] 1</span><span class="ch">\n</span><span class="st">attr(,</span><span class="ch">\"</span><span class="st">class</span><span class="ch">\"</span><span class="st">)</span><span class="ch">\n</span><span class="st">[1] </span><span class="ch">\"</span><span class="st">integer</span><span class="ch">\"</span><span class="st">                </span><span class="ch">\"</span><span class="st">shinyActionButtonValue</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>    <span class="dt">"checkboxOut"</span><span class="fu">:</span> <span class="st">"[1] TRUE"</span><span class="fu">,</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>    <span class="dt">"checkGroupOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">2</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">3</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>    <span class="dt">"dateOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">2014-01-01</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a>    <span class="dt">"datesOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">2014-01-01</span><span class="ch">\"</span><span class="st"> </span><span class="ch">\"</span><span class="st">2015-01-01</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a>    <span class="dt">"fileOut"</span><span class="fu">:</span> <span class="st">"NULL"</span><span class="fu">,</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a>    <span class="dt">"numOut"</span><span class="fu">:</span> <span class="st">"[1] 1"</span><span class="fu">,</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a>    <span class="dt">"radioOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a>    <span class="dt">"selectOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st">"</span><span class="fu">,</span></span>
+<span id="cb7-26"><a href="#cb7-26"></a>    <span class="dt">"slider1Out"</span><span class="fu">:</span> <span class="st">"[1] 50"</span><span class="fu">,</span></span>
+<span id="cb7-27"><a href="#cb7-27"></a>    <span class="dt">"slider2Out"</span><span class="fu">:</span> <span class="st">"[1] 25 75"</span><span class="fu">,</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a>    <span class="dt">"textOut"</span><span class="fu">:</span> <span class="st">"[1] </span><span class="ch">\"</span><span class="st">Enter text...</span><span class="ch">\"</span><span class="st">"</span></span>
+<span id="cb7-29"><a href="#cb7-29"></a>  <span class="fu">},</span></span>
+<span id="cb7-30"><a href="#cb7-30"></a>  <span class="dt">"export"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a><span class="fu">}</span></span></code></pre></div>
 <p>If you are using a source control system (like git), you should check in the expected results.</p>
 </div>
 <div id="subsequent-test-runs" class="section level3">
@@ -250,7 +252,7 @@ Would you like to view the differences between expected and current results [y/n
 <p>After inspecting the changes, you can choose to update the expected results (that is, replace the old expected results with the new current results), or to just quit without updating.</p>
 <p>You should update the results if the changes are expected. You should quit without updating if the changes are unexpected.</p>
 <p>If you want to compare the results again in the future, without running <code><a href="../reference/testApp.html">testApp()</a></code>, you can run the following:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/snapshotCompare.html">snapshotCompare</a></span>(<span class="st">"path/to/app/"</span>, <span class="st">"mytest"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="../reference/snapshotCompare.html">snapshotCompare</a></span>(<span class="st">"path/to/app/"</span>, <span class="st">"mytest"</span>)</span></code></pre></div>
 </div>
 <div id="multiple-test-scripts" class="section level3">
 <h3 class="hasAnchor">
@@ -265,7 +267,6 @@ Would you like to view the differences between expected and current results [y/n
 <a href="#interactive-r-markdown-documents" class="anchor"></a>Interactive R markdown documents</h2>
 <p>Shinytest can be used with <a href="http://rmarkdown.rstudio.com/authoring_shiny.html">interactive R markdown documents</a> that use <code>runtime: shiny</code> (sometimes also referred to as Shiny documents). This includes those that use the <a href="http://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a> package.</p>
 <p>Shiny documents have some differences compared to regular Shiny applications, and so the tests are slightly different. For an example of an interactive Rmd with tests, see <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd">here</a>.</p>
-<p>As of this writing testing, Shiny documents should be done with a development version of the rmarkdown package, which can be installed using <code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("rstudio/rmarkdown")</a></code>. It will be released in the future as rmarkdown 1.7.</p>
 <div id="randomness" class="section level3">
 <h3 class="hasAnchor">
 <a href="#randomness" class="anchor"></a>Randomness</h3>
@@ -281,7 +282,7 @@ Would you like to view the differences between expected and current results [y/n
 <a href="#prerendered-shiny-documents" class="anchor"></a>Prerendered Shiny documents</h3>
 <p>Some Shiny documents use <a href="http://rmarkdown.rstudio.com/authoring_shiny_prerendered.html"><code>runtime: shiny_prerendered</code></a>, which helps speed up page loading time. Normally, the first time these applications are run, they will leave behind a generated .html file as well as a cache directory named myfile_data/.</p>
 <p>You can remove these files by adding this to the end of your test script (assuming the name of your document is doc.Rmd):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">rmarkdown<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rmarkdown/topics/shiny_prerendered_clean">shiny_prerendered_clean</a></span>(<span class="st">"../doc.Rmd"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>rmarkdown<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rmarkdown/man/shiny_prerendered_clean.html">shiny_prerendered_clean</a></span>(<span class="st">"../doc.Rmd"</span>)</span></code></pre></div>
 <p>Alternatively, you can save the generated files, but then the tests will be run with the generated files, so the prerendering step will not be run for future tests.</p>
 <p>For an example of a prerendered .Rmd and tests, see <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/rmd-prerendered">here</a>.</p>
 </div>
@@ -294,6 +295,7 @@ Would you like to view the differences between expected and current results [y/n
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -310,17 +312,20 @@ Would you like to view the differences between expected and current results [y/n
 </div>
 
 
+
       <footer><div class="copyright">
-  <p>Developed by Winston Chang, Gábor Csárdi.</p>
+  <p>Developed by Winston Chang, Gábor Csárdi, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

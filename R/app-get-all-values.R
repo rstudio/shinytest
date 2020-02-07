@@ -1,3 +1,4 @@
+# Note: This queries the server
 sd_getAllValues <- function(self, private, input, output, export) {
   "!DEBUG sd_getAllValues"
   url <- private$getTestSnapshotUrl(input, output, export, format = "rds")

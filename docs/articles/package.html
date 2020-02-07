@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Using shinytest with R packages • shinytest</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Using shinytest with R packages">
 <meta property="og:description" content="">
@@ -31,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9002</span>
       </span>
     </div>
 
@@ -39,7 +40,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -80,7 +81,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/rstudio/shinytest">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -93,7 +94,8 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
+
+      </header><script src="package_files/header-attrs-2.1.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Using shinytest with R packages</h1>
@@ -130,21 +132,21 @@
     └── testthat.R</code></pre>
 <p>In this case, you can run <code><a href="../reference/recordTest.html">recordTest()</a></code> and <code><a href="../reference/testApp.html">testApp()</a></code> as normal. After you create and run the tests, there will be a tests/ subdirectory in the application directory that stores the test scripts and results.</p>
 <p>Assuming you are using testthat for automated tests, you would create a test driver script in tests/testthat/. In this example, it’s named test-app-file.R and contains the following:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">context</span>(<span class="st">"app-file"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># This file is for testing the applications in the inst/ directory.</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shinytest)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw">test_that</span>(<span class="st">"sampleapp works"</span>, {</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">  <span class="co"># Don't run these tests on the CRAN build servers</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">  <span class="kw">skip_on_cran</span>()</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">  <span class="co"># which runs on Linux.</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">  appdir &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"shinytestPackageExample"</span>, <span class="st">"sampleapp"</span>)</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(appdir, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">})</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">context</span>(<span class="st">"app-file"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># This file is for testing the applications in the inst/ directory.</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shinytest)</span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="kw">test_that</span>(<span class="st">"sampleapp works"</span>, {</span>
+<span id="cb2-7"><a href="#cb2-7"></a>  <span class="co"># Don't run these tests on the CRAN build servers</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>  <span class="kw">skip_on_cran</span>()</span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a>  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>  <span class="co"># which runs on Linux.</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a>  appdir &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="dt">package =</span> <span class="st">"shinytestPackageExample"</span>, <span class="st">"sampleapp"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14"></a>  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(appdir, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</span>
+<span id="cb2-15"><a href="#cb2-15"></a>})</span></code></pre></div>
 <p>For more information about this script, see the <a href="#Test-driver-script-notes">Test driver script notes</a> section below.</p>
 </div>
 <div id="application-objects-created-by-functions" class="section level2">
@@ -166,40 +168,40 @@
     │   └── test-app-function.R
     └── testthat.R</code></pre>
 <p>The function simply returns an object from <code>shinyApp()</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">helloWorldApp &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">  utils<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(cars)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="kw">shinyApp</span>(</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="dt">ui =</span> <span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">      <span class="kw">sliderInput</span>(<span class="st">"n"</span>, <span class="st">"n"</span>, <span class="dv">1</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(cars), <span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">      <span class="kw">plotOutput</span>(<span class="st">"plot"</span>)</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">    ),</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">    <span class="dt">server =</span> <span class="cf">function</span>(input, output) {</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">      output<span class="op">$</span>plot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">        <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(cars, input<span class="op">$</span>n), <span class="dt">xlim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(cars[[<span class="dv">1</span>]]), <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(cars[[<span class="dv">2</span>]]))</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">      })</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">    }</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13">  )</a>
-<a class="sourceLine" id="cb4-14" data-line-number="14">}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>helloWorldApp &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2"></a>  utils<span class="op">::</span><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(cars)</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="kw">shinyApp</span>(</span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="dt">ui =</span> <span class="kw">fluidPage</span>(</span>
+<span id="cb4-5"><a href="#cb4-5"></a>      <span class="kw">sliderInput</span>(<span class="st">"n"</span>, <span class="st">"n"</span>, <span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(cars), <span class="dv">10</span>),</span>
+<span id="cb4-6"><a href="#cb4-6"></a>      <span class="kw">plotOutput</span>(<span class="st">"plot"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    ),</span>
+<span id="cb4-8"><a href="#cb4-8"></a>    <span class="dt">server =</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb4-9"><a href="#cb4-9"></a>      output<span class="op">$</span>plot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({</span>
+<span id="cb4-10"><a href="#cb4-10"></a>        <span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(cars, input<span class="op">$</span>n), <span class="dt">xlim =</span> <span class="kw"><a href="https://rdrr.io/r/base/range.html">range</a></span>(cars[[<span class="dv">1</span>]]), <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/range.html">range</a></span>(cars[[<span class="dv">2</span>]]))</span>
+<span id="cb4-11"><a href="#cb4-11"></a>      })</span>
+<span id="cb4-12"><a href="#cb4-12"></a>    }</span>
+<span id="cb4-13"><a href="#cb4-13"></a>  )</span>
+<span id="cb4-14"><a href="#cb4-14"></a>}</span></code></pre></div>
 <p>To use shinytest to test the application, the key is to add an app.R file that simply calls the function, and then use shinytest on that app.R. You can see the example application. In this case, the application lives at tests/testthat/apps/helloworld/app.R, and contains the following:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shinytestPackageExample)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">helloWorldApp</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shinytestPackageExample)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">helloWorldApp</span>()</span></code></pre></div>
 <p>You can call <code>recordApp()</code> and <code><a href="../reference/testApp.html">testApp()</a></code> on this application as normal to create the test script and expected results.</p>
 <p>Assuming you are using testthat for automated tests, you would then create a test driver script in tests/testthat/. In this example, it’s named test-app-function.R and contains the following:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">context</span>(<span class="st">"app-function"</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># This file is for testing the applications in the apps/ directory.</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shinytest)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="kw">test_that</span>(<span class="st">"helloWorldApp() works"</span>, {</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">  <span class="co"># Don't run these tests on the CRAN build servers</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">  <span class="kw">skip_on_cran</span>()</a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10">  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11">  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12">  <span class="co"># which runs on Linux.</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13">  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb6-14" data-line-number="14">})</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">context</span>(<span class="st">"app-function"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co"># This file is for testing the applications in the apps/ directory.</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shinytest)</span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="kw">test_that</span>(<span class="st">"helloWorldApp() works"</span>, {</span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="co"># Don't run these tests on the CRAN build servers</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="kw">skip_on_cran</span>()</span>
+<span id="cb6-9"><a href="#cb6-9"></a></span>
+<span id="cb6-10"><a href="#cb6-10"></a>  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>  <span class="co"># which runs on Linux.</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a>  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</span>
+<span id="cb6-14"><a href="#cb6-14"></a>})</span></code></pre></div>
 <p>For more information about this script, see the <a href="#Test-driver-script-notes">Test driver script notes</a> section below.</p>
 </div>
 <div id="other-setup-steps" class="section level2">
@@ -215,20 +217,20 @@
 <h2 class="hasAnchor">
 <a href="#test-driver-script-notes" class="anchor"></a>Test driver script notes</h2>
 <p>Here is one of the test driver scripts (which lives in tests/testthat/) from above:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">context</span>(<span class="st">"app-function"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co"># This file is for testing the applications in the apps/ directory.</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shinytest)</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="kw">test_that</span>(<span class="st">"helloWorldApp() works"</span>, {</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="co"># Don't run these tests on the CRAN build servers</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">  <span class="kw">skip_on_cran</span>()</a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10">  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12">  <span class="co"># which runs on Linux.</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13">  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb8-14" data-line-number="14">})</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">context</span>(<span class="st">"app-function"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co"># This file is for testing the applications in the apps/ directory.</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shinytest)</span>
+<span id="cb8-5"><a href="#cb8-5"></a></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="kw">test_that</span>(<span class="st">"helloWorldApp() works"</span>, {</span>
+<span id="cb8-7"><a href="#cb8-7"></a>  <span class="co"># Don't run these tests on the CRAN build servers</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>  <span class="kw">skip_on_cran</span>()</span>
+<span id="cb8-9"><a href="#cb8-9"></a></span>
+<span id="cb8-10"><a href="#cb8-10"></a>  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a>  <span class="co"># which runs on Linux.</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>  <span class="kw"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="kw"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, <span class="dt">compareImages =</span> <span class="ot">FALSE</span>))</span>
+<span id="cb8-14"><a href="#cb8-14"></a>})</span></code></pre></div>
 <p>It has a few unusual features:</p>
 <p>If you will submit the package to CRAN, it is best to configure the application tests to <strong>not</strong> run on the CRAN build servers. If you are using testthat, use <code>skip_on_cran()</code> in the test block, as in the example.</p>
 <p>If you will be testing the package on multiple different platforms, then when calling <code><a href="../reference/testApp.html">testApp()</a></code>, use <code>compareImages = FALSE</code>. This is because the the screenshots on will likely have small differences across different platforms, and result in spurious test failures.</p>
@@ -242,6 +244,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -258,17 +261,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
-  <p>Developed by Winston Chang, Gábor Csárdi.</p>
+  <p>Developed by Winston Chang, Gábor Csárdi, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
