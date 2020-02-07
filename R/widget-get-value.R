@@ -35,6 +35,10 @@ widget_getValueFuncs <- list(
 
   textOutput = function(self, private) {
     private$element$getText()
+  },
+
+  plotOutput = function(self, private) {
+    private$element$findElement("img")$getAttribute("src")
   }
 )
 
