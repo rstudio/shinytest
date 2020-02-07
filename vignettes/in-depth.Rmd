@@ -410,7 +410,7 @@ app$snapshot()
 
 
 # Change slider value to 40
-app$setInputs(bins = 40)
+app$setInputs(bins = 40, wait_ = FALSE, values_=FALSE)
 # Wait until plot does not equal the plot with 30 bins
 app$waitForValue("distPlot", iotype = "output", ignore = list(priorPlotValue))
 

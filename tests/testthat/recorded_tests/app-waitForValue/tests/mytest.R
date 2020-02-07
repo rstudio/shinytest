@@ -14,7 +14,7 @@ app$snapshot()
 
 
 # Change slider value
-app$setInputs(bins = 40)
+app$setInputs(bins = 40, wait_ = FALSE, values_=FALSE)
 app$waitForValue("distPlot", iotype = "output", ignore = list(priorPlotValue))
 
 app$snapshot()
