@@ -199,6 +199,8 @@ In some cases, you may need to wait for some amount of time between steps. You c
 Sys.sleep(0.5)
 ```
 
+If you are waiting for some reactives to be calculated, please read more in the [Waiting for an `input` (or `output`) value](#waitForValue) section.
+
 
 ### Controlling randomness
 
