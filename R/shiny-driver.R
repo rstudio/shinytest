@@ -508,7 +508,9 @@ sd_waitForValue <- function(self, private, name, ignore = list(NULL, ""), iotype
 
   while (TRUE) {
     value <- try({
-      args <- list()
+      # by default, do not retrieve anything
+      args <- list(input = FALSE, output = FALSE, export = FALSE)
+      # only retrieve `name` from `iotype`
       args[[iotype]] <- name
       do.call(self$getAllValues, args)[[iotype]][[name]]
     }, silent = TRUE)
