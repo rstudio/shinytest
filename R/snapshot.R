@@ -255,15 +255,18 @@ snapshotCompareSingle <- function(
           }
         }
 
-        if (is.null(suffix) || suffix == "") {
-          suffix_param <- ""
-        } else {
-          suffix_param <- paste0(', suffix="', suffix, '"')
+        if (result == "reject" && !quiet) {
+          if (is.null(suffix) || suffix == "") {
+            suffix_param <- ""
+          } else {
+            suffix_param <- paste0(', suffix="', suffix, '"')
+          }
+          message('\n  To view differences between expected and current results, run:\n',
+                  '    viewTestDiff("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n',
+                  '  To save current results as expected results, run:\n',
+                  '    snapshotUpdate("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n')
+
         }
-        message('\n  To view differences between expected and current results, run:\n',
-                '    viewTestDiff("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n',
-                '  To save current results as expected results, run:\n',
-                '    snapshotUpdate("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n')
       }
 
     } else {
