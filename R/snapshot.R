@@ -26,8 +26,8 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   extra_names <- setdiff(names(items), c("input", "output", "export"))
   if (length(extra_names) > 0) {
     stop("'items' must be a list containing one or more items named",
-         "'input', 'output' and 'export'. Each of these can be TRUE, FALSE, ",
-         " or a character vector.")
+      "'input', 'output' and 'export'. Each of these can be TRUE, FALSE, ",
+      " or a character vector.")
   }
 
   if (is.null(items$input))  items$input  <- FALSE
