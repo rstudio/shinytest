@@ -26,8 +26,8 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   extra_names <- setdiff(names(items), c("input", "output", "export"))
   if (length(extra_names) > 0) {
     stop("'items' must be a list containing one or more items named",
-      "'input', 'output' and 'export'. Each of these can be TRUE, FALSE, ",
-      " or a character vector.")
+         "'input', 'output' and 'export'. Each of these can be TRUE, FALSE, ",
+         " or a character vector.")
   }
 
   if (is.null(items$input))  items$input  <- FALSE
@@ -252,21 +252,22 @@ snapshotCompareSingle <- function(
           if (result == "accept") {
             snapshot_pass <- TRUE
             snapshot_status <- "updated"
+            quiet <- TRUE
           }
         }
+      }
 
-        if (result == "reject" && !quiet) {
-          if (is.null(suffix) || suffix == "") {
-            suffix_param <- ""
-          } else {
-            suffix_param <- paste0(', suffix="', suffix, '"')
-          }
-          message('\n  To view differences between expected and current results, run:\n',
-                  '    viewTestDiff("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n',
-                  '  To save current results as expected results, run:\n',
-                  '    snapshotUpdate("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n')
+      if (!quiet && interactive) {
 
+        if (is.null(suffix) || suffix == "") {
+          suffix_param <- ""
+        } else {
+          suffix_param <- paste0(', suffix="', suffix, '"')
         }
+        message('\n  To view differences between expected and current results, run:\n',
+                '    viewTestDiff("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n',
+                '  To save current results as expected results, run:\n',
+                '    snapshotUpdate("', relativeAppDir, '", "', testname, '"', suffix_param, ')\n')
       }
 
     } else {
