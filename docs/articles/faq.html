@@ -95,7 +95,7 @@
 
       
 
-      </header><script src="faq_files/header-attrs-2.1.1/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Frequently Asked Questions</h1>
@@ -121,7 +121,7 @@
 <div id="some-input-values-are-not-set-right-after-calling-appsetinput--how-do-i-wait-for-them" class="section level2">
 <h2 class="hasAnchor">
 <a href="#some-input-values-are-not-set-right-after-calling-appsetinput--how-do-i-wait-for-them" class="anchor"></a>Some input values are not set right after calling <code>app$setInput()</code>. How do I wait for them?</h2>
-<p>In most situations, when an <code>input</code> value is set, <code>shinytest</code> will wait for the next value to be sent to the server. (See question above and Testing in depth). However, when dealing with dynamic UI inputs, htmlwidgets, or even selectize inputs, <code>input</code> values are not set on the first <code>output</code> change. Use <code>app$waitForValue(NAME, ignore = list(VALUE_1, ...., VALUE_N), iotype = "input")</code> to wait until a particular <code>input</code> (or <code>output</code>) value is available (or has a non-invalid value).</p>
+<p>In most situations, when an <code>input</code> value is set, <code>shinytest</code> will wait for the next value to be sent to the server. (See question above and <a href="in-depth.html#wait-for-value">this section in Testing in depth</a>. However, when dealing with dynamic UI inputs, htmlwidgets, or even selectize inputs, <code>input</code> values are not set on the first <code>output</code> change. Use <code>app$waitForValue(NAME, ignore = list(VALUE_1, ...., VALUE_N), iotype = "input")</code> to wait until a particular <code>input</code> (or <code>output</code>) value is available (or has a non-invalid value).</p>
 </div>
 <div id="how-can-my-app-detect-if-its-running-in-shinytest" class="section level2">
 <h2 class="hasAnchor">
