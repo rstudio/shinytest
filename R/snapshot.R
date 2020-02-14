@@ -247,12 +247,12 @@ snapshotCompareSingle <- function(
       if (interactive) {
         response <- readline("Would you like to view the differences between expected and current results [y/n]? ")
         if (tolower(response) == "y") {
-          quiet <- TRUE
           result <- viewTestDiff(appDir, testname, interactive, suffix = suffix)[[1]]
 
           if (result == "accept") {
             snapshot_pass <- TRUE
             snapshot_status <- "updated"
+            quiet <- TRUE
           }
         }
       }

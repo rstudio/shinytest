@@ -1,6 +1,8 @@
 shinytest (development version)
 ==========
 
+* Also display the massage about where to find the diff when de diff viewer was opened but the diffs were not accepted. ([#131](https://github.com/rstudio/shinytest/issues/131))
+
 * Recommend that tests be placed in `tests/shinytests/` instead of directly in the tests directory. Users with their tests in the `tests/` directory will now see a message about this change. Storing shinytests directly in `tests/` will be deprecated in the future.
 
 * Added new `suffix` option, which allows adding a suffix to an expected results directory. This makes it possible to store multiple sets of results, which can be useful, for example, if you run tests on multiple platforms. ([#295](https://github.com/rstudio/shinytest/pull/295))
