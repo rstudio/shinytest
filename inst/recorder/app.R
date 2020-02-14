@@ -64,7 +64,8 @@ tooltip <- function(text, placement = "top") {
     `data-toggle` = "tooltip",
     title = text,
     icon("question-sign", lib = "glyphicon"),
-    `data-placement` = placement
+    `data-placement` = placement,
+    `data-html` = "true"
   )
 }
 
@@ -331,7 +332,7 @@ shinyApp(
               style = "display: inline;"
             ),
             tooltip(
-              "You can also Ctrl-click or ⌘-click on an output to snapshot just that one output.\n To trigger a snapshot via the keyboard, press Ctrl-shift-S or ⌘-shift-S",
+              HTML("You can also Ctrl-click or &#8984;-click on an output to snapshot just that one output.<br> To trigger a snapshot via the keyboard, press Ctrl-shift-S or &#8984;-shift-S"),
               placement = "bottom"
             ),
             hr()
