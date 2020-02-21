@@ -219,12 +219,6 @@ test_that("Application works", {
 
 See the [Using shinytest with R packages](package.html) article.
 
-
-## RStudio Connect
-
-In the coming months, RStudio Connect will have the ability to automatically test Shiny applications.
-
-
 ## Frequently asked questions
 
 ### How do I add a status badge to my project?
