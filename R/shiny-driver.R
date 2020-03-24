@@ -612,7 +612,7 @@ sd_getAppDir <- function(self, private) {
     private$path
 }
 
-# Returns the tests/ or tests/shinytests/ dir otherwise, based on
+# Returns the tests/ or tests/shinytest/ dir otherwise, based on
 # what it finds in each dir.
 sd_getTestsDir <- function(self, private) {
   # private$path can be a directory (for a normal Shiny app) or path to a .Rmd

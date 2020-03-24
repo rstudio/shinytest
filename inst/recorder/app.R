@@ -173,9 +173,9 @@ codeGenerators <- list(
       # Check that all files exist. If not, add a message and don't run test
       # automatically on exit.
       if (!all(file.exists(filepaths))) {
-        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/shinytests directory, or copy the file to the app's tests/shinytests directory.")
+        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/shinytest directory, or copy the file to the app's tests/shinytest directory.")
         code <- paste0(code,
-          " # <-- This should be the path to the file, relative to the app's tests/shinytests directory"
+          " # <-- This should be the path to the file, relative to the app's tests/shinytest directory"
         )
       }
 

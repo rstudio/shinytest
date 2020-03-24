@@ -64,7 +64,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     if (!dir_exists(save_dir)) {
       dir.create(save_dir, recursive=TRUE)
 
-      # findTestsDir would return the nested shinytests/ directory if the dir didn't exist,
+      # findTestsDir would return the nested shinytest/ directory if the dir didn't exist,
       # so since we're creating the nested structure, we should leave behind the top-
       # level runner, too.
       runner <- paste0("library(shinytest)\nshinytest::testApp(\"../\")\n")
