@@ -21,24 +21,24 @@ test_that("Filters out based on given test names", {
 test_that("findTestsDir works", {
   expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/simple/"))), "/tests$")
   expect_message(findTestsDir(test_path("example_test_dirs/simple/"), quiet=FALSE), "deprecated in the future")
-  expect_match(findTestsDir(test_path("example_test_dirs/nested/")), "/shinytests$")
+  expect_match(findTestsDir(test_path("example_test_dirs/nested/")), "/shinytest$")
 
-  # Use shinytests if it exists -- even if it's empty
+  # Use shinytest/ if it exists -- even if it's empty
   endir <- expect_warning(findTestsDir(test_path("example_test_dirs/empty-nested/"), quiet=FALSE), "there are some shinytests in")
-  expect_match(endir, "/shinytests$")
+  expect_match(endir, "/shinytest$")
 
   # Empty top-level recommends non-existant nested dir if top-level doesn't contain any shinytests
-  expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/empty-toplevel/"), mustExist=FALSE)), "/tests/shinytests$")
+  expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/empty-toplevel/"), mustExist=FALSE)), "/tests/shinytest$")
   # Empty top-level with mustExist=TRUE errors
-  expect_error(findTestsDir(test_path("example_test_dirs/empty-toplevel/"), mustExist=TRUE), "should be placed in tests/shinytests")
+  expect_error(findTestsDir(test_path("example_test_dirs/empty-toplevel/"), mustExist=TRUE), "should be placed in tests/shinytest")
 
   # Non-shinytest files in the top-level dir cause an error
   expect_error(findTestsDir(test_path("example_test_dirs/mixed-toplevel/")))
 
   # Unless must-exist is false, in which case it gives us the nested dir optimistically
-  expect_match(findTestsDir(test_path("example_test_dirs/"), mustExist=FALSE), "/shinytests$")
+  expect_match(findTestsDir(test_path("example_test_dirs/"), mustExist=FALSE), "/shinytest$")
 
-  expect_match(findTestsDir(test_path("example_test_dirs/nested/tests"), mustExist=FALSE), "/nested/tests/shinytests$")
+  expect_match(findTestsDir(test_path("example_test_dirs/nested/tests"), mustExist=FALSE), "/nested/tests/shinytest$")
 })
 
 test_that("isShinyTest works", {
