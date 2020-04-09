@@ -8,12 +8,12 @@ files_identical <- function(a, b, preprocess = NULL) {
     return(FALSE)
   }
 
-  ## Fast path: if not the same size, return FALSE
-  #a_size <- file.info(a)$size
-  #b_size <- file.info(b)$size
-  #if (!identical(a_size, b_size)) {
-  #  return(FALSE)
-  #}
+  # Fast path: if not the same size, return FALSE
+  a_size <- file.info(a)$size
+  b_size <- file.info(b)$size
+  if (!identical(a_size, b_size)) {
+    return(FALSE)
+  }
 
   a_content <- read_raw(a)
   b_content <- read_raw(b)
@@ -23,19 +23,7 @@ files_identical <- function(a, b, preprocess = NULL) {
     b_content <- preprocess(b, b_content)
   }
 
-  a_content <- remove_carriage_return(a_content)
-  b_content <- remove_carriage_return(b_content)
-
   identical(a_content, b_content)
-}
-
-remove_carriage_return <- function(x) {
-  if (!is.raw(x)) {
-    stop("Expected a raw vector", call. = FALSE)
-  }
-  is_cr <- function(y) identical(y, as.raw(0x0d))
-
-  x[!vapply(x, is_cr, logical(1))]
 }
 
 # `expected` and `current` are directories. `file_preprocess` is an optional

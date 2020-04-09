@@ -467,9 +467,20 @@ remove_image_hashes_and_files <- function(filename) {
   } else if (grepl("\\.json$", filename)) {
     content <- read_utf8(filename)
     content <- remove_image_hashes(content)
+    if (!getOption("shinytest.crlf", FALSE)) {
+      content <- remove_carriage_return(content)
+    }
     writeChar(content, filename, eos = NULL)
     filename
   }
 
   filename
+}
+
+remove_carriage_return <- function(x) {
+  if (!is.raw(x)) {
+    stop("Expected a raw vector", call. = FALSE)
+  }
+  is_cr <- function(y) identical(y, as.raw(0x0d))
+  x[!vapply(x, is_cr, logical(1))]
 }
