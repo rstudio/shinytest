@@ -1,5 +1,5 @@
-shinytest (development version)
-==========
+shinytest 1.4.0
+===============
 
 * Also display the message about where to find the diff when the diff viewer was opened but the diffs were not accepted. ([#131](https://github.com/rstudio/shinytest/issues/131))
 
@@ -12,7 +12,7 @@ shinytest (development version)
 * Added new `ShinyDriver` method `app$waitForValue()` which will wait until the current application's `input` (or `output`) value is not one of the supplied invalid values.  ([#304](https://github.com/rstudio/shinytest/pull/304))
 
 shinytest 1.3.1
-=======
+===============
 
 ## New features
 
@@ -31,6 +31,6 @@ shinytest 1.3.1
 * `ShinyDriver` now passes the current `RNGkind()` to the background R process that serves up the app being tested. This allows for better control over randomness across mutliple versions of R with different `RNGkind()` defaults (e.g., 3.5 and 3.6)
 
 shinytest 1.3.0
-=====
+===============
 
 * First public release
