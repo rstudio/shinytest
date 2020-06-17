@@ -21,7 +21,7 @@ used in shinytest 1.4.0 and above.
 Before \pkg{shinytest} 1.4.0, the shinytest scripts and results were put in a
 subdirectory of the application named \verb{tests/}. As of \pkg{shinytest} 1.4.0,
 the tests are put in \verb{tests/shinytest/}, so that it works with the
-\code{\link[shiny:runTests]{shiny::runTests()}} function shiny package (added in \pkg{shiny} 1.5.0).
+\code{runTests()} function shiny package (added in \pkg{shiny} 1.5.0).
 
 With \pkg{shinytest} 1.3.1 and below, the tests/ subdirectory of the
 application was used specifically for \pkg{shinytest}, and could not be used
@@ -30,7 +30,7 @@ for other types of tests. So the directory structure would look like this:\prefo
      `- mytest.R
 }
 
-In Shiny 1.5.0, the \code{\link[shiny:runTests]{shiny::runTests()}} function was added, and it will run
+In Shiny 1.5.0, the \code{shiny::runTests()} function was added, and it will run
 test scripts tests/ subdirectory of the application. This makes it possible
 to use other testing systems in addition to shinytest. \pkg{shinytest} 1.4.0
 is designed to work with this new directory structure. The directory
@@ -46,7 +46,7 @@ structure looks something like this:\preformatted{appdir/
 }
 
 This allows for tests using the \pkg{shinytest} package as well as other
-testing tools, such as the \code{\link[shiny:testServer]{shiny::testServer()}} function, which can be used
+testing tools, such as the \code{shiny::testServer()} function, which can be used
 for testing module and server logic, and for unit tests of functions in an R/
 subdirectory.
 
