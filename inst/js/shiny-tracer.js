@@ -294,12 +294,12 @@ window.shinytest = (function() {
         };
     };
 
+    var jquery_message_shown = false;
     // This sets shinytest.ready to true when the Shiny application is ready.
     function waitForReady() {
         // It's possible (though unusual) to get here before jQuery is
         // loaded. In that case, wait until jQuery is loaded before doing the
         // rest of the stuff in this function.
-        var jquery_message_shown = false;
         if (typeof window.jQuery === "undefined") {
             if (!jquery_message_shown) {
                 shinytest.log("jQuery not loaded yet");
