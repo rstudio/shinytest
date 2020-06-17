@@ -20,7 +20,7 @@ test_that("Filters out based on given test names", {
 
 test_that("findTestsDir works", {
   expect_match(suppressMessages(findTestsDir(test_path("example_test_dirs/simple/"))), "/tests$")
-  expect_message(findTestsDir(test_path("example_test_dirs/simple/"), quiet=FALSE), "deprecated in the future")
+  expect_message(findTestsDir(test_path("example_test_dirs/simple/"), quiet=FALSE), "shinytests should be placed in")
   expect_match(findTestsDir(test_path("example_test_dirs/nested/")), "/shinytest$")
 
   # Use shinytest/ if it exists -- even if it's empty
