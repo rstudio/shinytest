@@ -31,7 +31,7 @@ example, if the suffix is \code{"mac"}, the expected directory would be
 }
 \value{
 A character vector the same length as \code{testnames}, with
-  \code{"accept"} or \code{"reject"} for each test.
+\code{"accept"} or \code{"reject"} for each test.
 }
 \description{
 View differences in test results
