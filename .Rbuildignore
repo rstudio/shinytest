@@ -9,3 +9,4 @@
 ^_pkgdown\.yml$
 ^vignettes$
 ^pkgdown$
+^\.github$
