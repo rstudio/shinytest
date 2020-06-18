@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -39,7 +43,6 @@
 
 <meta property="og:title" content="Class to manage a shiny app and a phantom.js headless browser — ShinyDriver" />
 <meta property="og:description" content="Class to manage a shiny app and a phantom.js headless browser" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -57,7 +60,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -71,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -119,7 +122,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/shinytest">
+  <a href="https://github.com/rstudio/shinytest/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -197,60 +200,60 @@ app$expectUpdate(output, ..., timeout = 3000,
 
     
 
-<dl class='dl-horizontal'>
-  <dt>app</dt><dd><p>A <code>ShinyDriver</code> instance.</p></dd>
-  <dt>path</dt><dd><p>Path to a directory containing a Shiny app, i.e. a
-     single <code>app.R</code> file or a <code>server.R</code> and <code>ui.R</code>
-     pair.</p></dd>
-  <dt>loadTimeout</dt><dd><p>How long to wait for the app to load, in ms.
-     This includes the time to start R.</p></dd>
-  <dt>phantomTimeout</dt><dd><p>How long to wait when connecting to phantomJS
-     process, in ms.</p></dd>
-  <dt>checkNames</dt><dd><p>Whether to check if widget names are unique in the
-     app.</p></dd>
-  <dt>debug</dt><dd><p>Whether to start the app in debugging mode. In debugging
-     mode debug messages are printed to the console.</p></dd>
-  <dt>seed</dt><dd><p>An optional random seed to use before starting the
-     application. For apps that use R's random number generator, this
-     can make their behavior repeatable.</p></dd>
-  <dt>cleanLogs</dt><dd><p>Whether to remove the stdout and stderr logs when the
-    Shiny process object is garbage collected.</p></dd>
-  <dt>shinyOptions</dt><dd><p>A list of options to pass to <code>runApp()</code>.</p></dd>
-  <dt>name</dt><dd><p>Name of a shiny widget. For <code>$sendKeys</code> it can
-     be <code>NULL</code>, in which case the keys are sent to the active
-     HTML element.</p></dd>
-  <dt>iotype</dt><dd><p>Type of the Shiny widget. Usually <code>shinytest</code>
-     finds the widgets by their name, so this need not be specified,
-     but Shiny allows input and output widgets with identical names.</p></dd>
-  <dt>keys</dt><dd><p>Keys to send to the widget or the app. See the
-     <code>sendKeys</code> method of the <code>webdriver</code> package.</p></dd>
-  <dt>width</dt><dd><p>Scalar integer, the desired width of the browser window.</p></dd>
-  <dt>height</dt><dd><p>Scalar integer, the desired height of the browser
-     window.</p></dd>
-  <dt>file</dt><dd><p>File name to save the screenshot to. If <code>NULL</code>, then
-    it will be shown on the R graphics device.</p></dd>
-  <dt>css</dt><dd><p>CSS selector to find an HTML element.</p></dd>
-  <dt>linkText</dt><dd><p>Find <code>&lt;a&gt;</code> HTML elements based on their
-    <code>innerText</code>.</p></dd>
-  <dt>partialLinkText</dt><dd><p>Find <code>&lt;a&gt;</code> HTML elements based on their
-    <code>innerText</code>. It uses partial matching.</p></dd>
-  <dt>xpath</dt><dd><p>Find HTML elements using XPath expressions.</p></dd>
-  <dt>expr</dt><dd><p>A string scalar containing JavaScript code that
-    evaluates to the condition to wait for.</p></dd>
-  <dt>checkInterval</dt><dd><p>How often to check for the condition, in
-    milliseconds.</p></dd>
-  <dt>ignore</dt><dd><p>List of possible values that are to not be
-    considered valid.  <code>app$waitForValue</code> will continue to poll until
-    it finds a value not contained in <code>ignore</code>.</p></dd>
-  <dt>timeout</dt><dd><p>Timeout for the condition, in milliseconds.</p></dd>
-  <dt>output</dt><dd><p>Character vector, the name(s) of the Shiny output
-    widgets that should be updated.</p></dd>
-  <dt>allowInputNoBinding_</dt><dd><p>When setting the value of an input, allow
-    it to set the value of an input even if that input does not have
-    an input binding.</p></dd>
-  <dt>...</dt><dd><p>For <code>expectUpdate</code> these can be named arguments.
-    The argument names correspond to Shiny input widgets: each input
-    widget will be set to the specified value.</p></dd>
+<dl'>
+<dt>app</dt><dd><p>A <code>ShinyDriver</code> instance.</p></dd>
+<dt>path</dt><dd><p>Path to a directory containing a Shiny app, i.e. a
+single <code>app.R</code> file or a <code>server.R</code> and <code>ui.R</code>
+pair.</p></dd>
+<dt>loadTimeout</dt><dd><p>How long to wait for the app to load, in ms.
+This includes the time to start R.</p></dd>
+<dt>phantomTimeout</dt><dd><p>How long to wait when connecting to phantomJS
+process, in ms.</p></dd>
+<dt>checkNames</dt><dd><p>Whether to check if widget names are unique in the
+app.</p></dd>
+<dt>debug</dt><dd><p>Whether to start the app in debugging mode. In debugging
+mode debug messages are printed to the console.</p></dd>
+<dt>seed</dt><dd><p>An optional random seed to use before starting the
+application. For apps that use R's random number generator, this
+can make their behavior repeatable.</p></dd>
+<dt>cleanLogs</dt><dd><p>Whether to remove the stdout and stderr logs when the
+Shiny process object is garbage collected.</p></dd>
+<dt>shinyOptions</dt><dd><p>A list of options to pass to <code>runApp()</code>.</p></dd>
+<dt>name</dt><dd><p>Name of a shiny widget. For <code>$sendKeys</code> it can
+be <code>NULL</code>, in which case the keys are sent to the active
+HTML element.</p></dd>
+<dt>iotype</dt><dd><p>Type of the Shiny widget. Usually <code>shinytest</code>
+finds the widgets by their name, so this need not be specified,
+but Shiny allows input and output widgets with identical names.</p></dd>
+<dt>keys</dt><dd><p>Keys to send to the widget or the app. See the
+<code>sendKeys</code> method of the <code>webdriver</code> package.</p></dd>
+<dt>width</dt><dd><p>Scalar integer, the desired width of the browser window.</p></dd>
+<dt>height</dt><dd><p>Scalar integer, the desired height of the browser
+window.</p></dd>
+<dt>file</dt><dd><p>File name to save the screenshot to. If <code>NULL</code>, then
+it will be shown on the R graphics device.</p></dd>
+<dt>css</dt><dd><p>CSS selector to find an HTML element.</p></dd>
+<dt>linkText</dt><dd><p>Find <code>&lt;a&gt;</code> HTML elements based on their
+<code>innerText</code>.</p></dd>
+<dt>partialLinkText</dt><dd><p>Find <code>&lt;a&gt;</code> HTML elements based on their
+<code>innerText</code>. It uses partial matching.</p></dd>
+<dt>xpath</dt><dd><p>Find HTML elements using XPath expressions.</p></dd>
+<dt>expr</dt><dd><p>A string scalar containing JavaScript code that
+evaluates to the condition to wait for.</p></dd>
+<dt>checkInterval</dt><dd><p>How often to check for the condition, in
+milliseconds.</p></dd>
+<dt>ignore</dt><dd><p>List of possible values that are to not be
+considered valid.  <code>app$waitForValue</code> will continue to poll until
+it finds a value not contained in <code>ignore</code>.</p></dd>
+<dt>timeout</dt><dd><p>Timeout for the condition, in milliseconds.</p></dd>
+<dt>output</dt><dd><p>Character vector, the name(s) of the Shiny output
+widgets that should be updated.</p></dd>
+<dt>allowInputNoBinding_</dt><dd><p>When setting the value of an input, allow
+it to set the value of an input even if that input does not have
+an input binding.</p></dd>
+<dt>...</dt><dd><p>For <code>expectUpdate</code> these can be named arguments.
+The argument names correspond to Shiny input widgets: each input
+widget will be set to the specified value.</p></dd>
 
 </dl>
 
@@ -339,15 +342,10 @@ updates that involve a lot of computation, you increase the timeout.</p>
 <span class='fu'><a href='expectUpdate.html'>expectUpdate</a></span>(<span class='no'>app</span>, <span class='kw'>clusters</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot1"</span>)
 }</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#usage">Usage</a></li>
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -358,7 +356,7 @@ updates that involve a lot of computation, you increase the timeout.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
 </div>
 
       </footer>

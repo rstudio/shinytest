@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get textual diff of test results — textTestDiff • shinytest</title>
+<title>Migrate legacy <span class="pkg">shinytest</span> files to new test directory structure — migrateShinytestDir • shinytest</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,10 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Get textual diff of test results — textTestDiff" />
-<meta property="og:description" content="Get textual diff of test results" />
+<meta property="og:title" content="Migrate legacy <span class="pkg">shinytest</span> files to new test directory structure — migrateShinytestDir" />
+<meta property="og:description" content="This function migrates the old-style directory structure used by
+shinytest (versions 1.3.1 and below) to new test directory structure
+used in shinytest 1.4.0 and above." />
 
 
 
@@ -140,44 +142,66 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get textual diff of test results</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/view-diff.R'><code>R/view-diff.R</code></a></small>
-    <div class="hidden name"><code>textTestDiff.Rd</code></div>
+    <h1>Migrate legacy <span class="pkg">shinytest</span> files to new test directory structure</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/migrate-shinytest-dir.R'><code>R/migrate-shinytest-dir.R</code></a></small>
+    <div class="hidden name"><code>migrateShinytestDir.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get textual diff of test results</p>
+    <p>This function migrates the old-style directory structure used by
+<span class="pkg">shinytest</span> (versions 1.3.1 and below) to new test directory structure
+used in shinytest 1.4.0 and above.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>textTestDiff</span>(<span class='kw'>appDir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>testnames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>images</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>migrateShinytestDir</span>(<span class='no'>appdir</span>, <span class='kw'>dryrun</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>appDir</th>
-      <td><p>Directory of the Shiny application that was tested.</p></td>
+      <th>appdir</th>
+      <td><p>A directory containing a Shiny application.</p></td>
     </tr>
     <tr>
-      <th>testnames</th>
-      <td><p>A character vector of names of tests to compare. If NULL,
-compare all test results for which there are differences.</p></td>
-    </tr>
-    <tr>
-      <th>images</th>
-      <td><p>Compare screenshot images.</p></td>
-    </tr>
-    <tr>
-      <th>suffix</th>
-      <td><p>An optional suffix for the expected results directory. For
-example, if the suffix is <code>"mac"</code>, the expected directory would be
-<code>mytest-expected-mac</code>.</p></td>
+      <th>dryrun</th>
+      <td><p>If <code>TRUE</code>, print out the changes that would be made, but don't
+actually do them.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p><code><a href='viewTestDiff.html'>viewTestDiff</a></code> for interactive diff viewer.</p></div>
+    <p>Before <span class="pkg">shinytest</span> 1.4.0, the shinytest scripts and results were put in a
+subdirectory of the application named <code>tests/</code>. As of <span class="pkg">shinytest</span> 1.4.0,
+the tests are put in <code>tests/shinytest/</code>, so that it works with the
+<code>runTests()</code> function shiny package (added in <span class="pkg">shiny</span> 1.5.0).</p>
+<p>With <span class="pkg">shinytest</span> 1.3.1 and below, the tests/ subdirectory of the
+application was used specifically for <span class="pkg">shinytest</span>, and could not be used
+for other types of tests. So the directory structure would look like this:</p><pre><span class='no'>appdir</span>/
+ <span class='no'>`- tests
+     `</span>- <span class='no'>mytest.R</span></pre>
+
+<p>In Shiny 1.5.0, the <code><a href='https://rdrr.io/pkg/shiny/man/runTests.html'>shiny::runTests()</a></code> function was added, and it will run
+test scripts tests/ subdirectory of the application. This makes it possible
+to use other testing systems in addition to shinytest. <span class="pkg">shinytest</span> 1.4.0
+is designed to work with this new directory structure. The directory
+structure looks something like this:</p><pre>appdir/
+ |- R
+ |- tests
+     |- shinytest.R
+     |- shinytest
+     |   `- mytest.R
+     |- testthat.R
+     `- testthat
+         `- test-script.R
+</pre>
+
+<p>This allows for tests using the <span class="pkg">shinytest</span> package as well as other
+testing tools, such as the <code><a href='https://rdrr.io/pkg/shiny/man/testServer.html'>shiny::testServer()</a></code> function, which can be used
+for testing module and server logic, and for unit tests of functions in an R/
+subdirectory.</p>
+<p>In <span class="pkg">shinytest</span> 1.4.0 and above, it defaults to creating the new directory
+structure.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
