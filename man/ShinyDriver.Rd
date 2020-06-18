@@ -53,59 +53,59 @@ app$expectUpdate(output, ..., timeout = 3000,
 \section{Arguments}{
 
 \describe{
-  \item{app}{A \code{ShinyDriver} instance.}
-  \item{path}{Path to a directory containing a Shiny app, i.e. a
-     single \code{app.R} file or a \code{server.R} and \code{ui.R}
-     pair.}
-  \item{loadTimeout}{How long to wait for the app to load, in ms.
-     This includes the time to start R.}
-  \item{phantomTimeout}{How long to wait when connecting to phantomJS
-     process, in ms.}
-  \item{checkNames}{Whether to check if widget names are unique in the
-     app.}
-  \item{debug}{Whether to start the app in debugging mode. In debugging
-     mode debug messages are printed to the console.}
-  \item{seed}{An optional random seed to use before starting the
-     application. For apps that use R's random number generator, this
-     can make their behavior repeatable.}
-  \item{cleanLogs}{Whether to remove the stdout and stderr logs when the
-    Shiny process object is garbage collected.}
-  \item{shinyOptions}{A list of options to pass to \code{runApp()}.}
-  \item{name}{Name of a shiny widget. For \code{$sendKeys} it can
-     be \code{NULL}, in which case the keys are sent to the active
-     HTML element.}
-  \item{iotype}{Type of the Shiny widget. Usually \code{shinytest}
-     finds the widgets by their name, so this need not be specified,
-     but Shiny allows input and output widgets with identical names.}
-  \item{keys}{Keys to send to the widget or the app. See the
-     \code{sendKeys} method of the \code{webdriver} package.}
-  \item{width}{Scalar integer, the desired width of the browser window.}
-  \item{height}{Scalar integer, the desired height of the browser
-     window.}
-  \item{file}{File name to save the screenshot to. If \code{NULL}, then
-    it will be shown on the R graphics device.}
-  \item{css}{CSS selector to find an HTML element.}
-  \item{linkText}{Find \code{<a>} HTML elements based on their
-    \code{innerText}.}
-  \item{partialLinkText}{Find \code{<a>} HTML elements based on their
-    \code{innerText}. It uses partial matching.}
-  \item{xpath}{Find HTML elements using XPath expressions.}
-  \item{expr}{A string scalar containing JavaScript code that
-    evaluates to the condition to wait for.}
-  \item{checkInterval}{How often to check for the condition, in
-    milliseconds.}
-  \item{ignore}{List of possible values that are to not be
-    considered valid.  \code{app$waitForValue} will continue to poll until
-    it finds a value not contained in \code{ignore}.}
-  \item{timeout}{Timeout for the condition, in milliseconds.}
-  \item{output}{Character vector, the name(s) of the Shiny output
-    widgets that should be updated.}
-  \item{allowInputNoBinding_}{When setting the value of an input, allow
-    it to set the value of an input even if that input does not have
-    an input binding.}
-  \item{...}{For \code{expectUpdate} these can be named arguments.
-    The argument names correspond to Shiny input widgets: each input
-    widget will be set to the specified value.}
+\item{app}{A \code{ShinyDriver} instance.}
+\item{path}{Path to a directory containing a Shiny app, i.e. a
+single \code{app.R} file or a \code{server.R} and \code{ui.R}
+pair.}
+\item{loadTimeout}{How long to wait for the app to load, in ms.
+This includes the time to start R.}
+\item{phantomTimeout}{How long to wait when connecting to phantomJS
+process, in ms.}
+\item{checkNames}{Whether to check if widget names are unique in the
+app.}
+\item{debug}{Whether to start the app in debugging mode. In debugging
+mode debug messages are printed to the console.}
+\item{seed}{An optional random seed to use before starting the
+application. For apps that use R's random number generator, this
+can make their behavior repeatable.}
+\item{cleanLogs}{Whether to remove the stdout and stderr logs when the
+Shiny process object is garbage collected.}
+\item{shinyOptions}{A list of options to pass to \code{runApp()}.}
+\item{name}{Name of a shiny widget. For \code{$sendKeys} it can
+be \code{NULL}, in which case the keys are sent to the active
+HTML element.}
+\item{iotype}{Type of the Shiny widget. Usually \code{shinytest}
+finds the widgets by their name, so this need not be specified,
+but Shiny allows input and output widgets with identical names.}
+\item{keys}{Keys to send to the widget or the app. See the
+\code{sendKeys} method of the \code{webdriver} package.}
+\item{width}{Scalar integer, the desired width of the browser window.}
+\item{height}{Scalar integer, the desired height of the browser
+window.}
+\item{file}{File name to save the screenshot to. If \code{NULL}, then
+it will be shown on the R graphics device.}
+\item{css}{CSS selector to find an HTML element.}
+\item{linkText}{Find \code{<a>} HTML elements based on their
+\code{innerText}.}
+\item{partialLinkText}{Find \code{<a>} HTML elements based on their
+\code{innerText}. It uses partial matching.}
+\item{xpath}{Find HTML elements using XPath expressions.}
+\item{expr}{A string scalar containing JavaScript code that
+evaluates to the condition to wait for.}
+\item{checkInterval}{How often to check for the condition, in
+milliseconds.}
+\item{ignore}{List of possible values that are to not be
+considered valid.  \code{app$waitForValue} will continue to poll until
+it finds a value not contained in \code{ignore}.}
+\item{timeout}{Timeout for the condition, in milliseconds.}
+\item{output}{Character vector, the name(s) of the Shiny output
+widgets that should be updated.}
+\item{allowInputNoBinding_}{When setting the value of an input, allow
+it to set the value of an input even if that input does not have
+an input binding.}
+\item{...}{For \code{expectUpdate} these can be named arguments.
+The argument names correspond to Shiny input widgets: each input
+widget will be set to the specified value.}
 }
 }
 

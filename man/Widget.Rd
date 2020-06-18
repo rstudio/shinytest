@@ -30,18 +30,18 @@ w$listTabs()
 \section{Arguments}{
 
 \describe{
-  \item{app}{A \code{\link{ShinyDriver}} object.}
-  \item{w}{A \code{Widget} object.}
-  \item{name}{Name of a Shiny widget.}
-  \item{iotype}{Character scalar, whether the widget is \sQuote{input}
-    or \sQuote{output}. The default \sQuote{auto} value works well,
-    provided that widgets have unique names. (Shiny allows an input
-    and an output widget with the same name.)}
-  \item{value}{Value to set for the widget. Its interpretation depends
-    on the type of the widget, see details below.}
-  \item{keys}{Keys to send to the widget. See the \code{sendKeys}
-    method of the \code{\link[webdriver]{Element}} class in the
-    \code{webdriver} package.}
+\item{app}{A \code{\link{ShinyDriver}} object.}
+\item{w}{A \code{Widget} object.}
+\item{name}{Name of a Shiny widget.}
+\item{iotype}{Character scalar, whether the widget is \sQuote{input}
+or \sQuote{output}. The default \sQuote{auto} value works well,
+provided that widgets have unique names. (Shiny allows an input
+and an output widget with the same name.)}
+\item{value}{Value to set for the widget. Its interpretation depends
+on the type of the widget, see details below.}
+\item{keys}{Keys to send to the widget. See the \code{sendKeys}
+method of the \code{\link[webdriver]{Element}} class in the
+\code{webdriver} package.}
 }
 }
 

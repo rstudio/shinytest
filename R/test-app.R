@@ -170,7 +170,11 @@ findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
   }
 
   if (!quiet) {
-    message("shinytests should be placed in the tests/shinytest/ directory. Storing them in the top-level tests/ directory will be deprecated in the future.")
+    message(
+      "Shinytest scripts found in tests/.\n",
+      "As of shinytest 1.4.0, shinytests should be placed in the tests/shinytest/ directory.\n",
+      "Please use migrateShinytestDir(), or see ?migrateShinytestDir for more information."
+    )
   }
   testsDir
 }

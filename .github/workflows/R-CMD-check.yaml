@@ -78,6 +78,25 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
+      - name: Install shinytest (so that phantomJS can be installed)
+        run: |
+          Rscript -e "remotes::install_local('.')"
+      - name: Find PhantomJS path
+        id: phantomjs
+        run: |
+          echo "::set-output name=path::$(Rscript -e 'cat(shinytest:::phantom_paths()[[1]])')"
+      - name: Cache PhantomJS
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.phantomjs.outputs.path }}
+          key: ${{ runner.os }}-phantomjs
+          restore-keys: ${{ runner.os }}-phantomjs
+      - name: Install PhantomJS
+        run: >
+          Rscript
+          -e "options(install.packages.check.source = 'no')"
+          -e "if (!shinytest::dependenciesInstalled()) shinytest::installDependencies()"
+
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_: false
