@@ -200,3 +200,10 @@ png_res_header_data <- as.raw(c(
   0x01,                    # Unit specifier: meters
   0x00, 0x9a, 0x9c, 0x18   # Checksum
 ))
+
+
+# write text as UTF-8 copied from shiny
+writeUTF8 <- function(text, ...) {
+  text <- enc2utf8(text)
+  writeLines(text, ..., useBytes = TRUE)
+}
