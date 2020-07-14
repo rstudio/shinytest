@@ -51,9 +51,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   content <- raw_to_utf8(req$content)
   content <- hash_snapshot_image_data(content)
   content <- jsonlite::prettify(content, indent = 2)
-  con <- file(file.path(current_dir, filename), encoding = "UTF-8")
-  write(content, con)
-  close(con)
+  writeUTF8(content, file.path(current_dir, filename))
 
   if (screenshot) {
     # Replace extension with .png
@@ -468,10 +466,8 @@ remove_image_hashes_and_files <- function(filename) {
 
   } else if (grepl("\\.json$", filename)) {
     content <- read_utf8(filename)
-    content <- remove_image_hashes
-    con <- file(filename, encoding = "UTF-8")
-    write(content, con)
-    close(con)
+    content <- remove_image_hashes(content)
+    writeUTF8(content, file.path(current_dir, filename))
     filename
   }
 
