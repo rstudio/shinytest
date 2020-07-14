@@ -467,7 +467,7 @@ remove_image_hashes_and_files <- function(filename) {
   } else if (grepl("\\.json$", filename)) {
     content <- read_utf8(filename)
     content <- remove_image_hashes(content)
-    writeUTF8(content, file.path(current_dir, filename))
+    writeUTF8(content, filename)
     filename
   }
 
