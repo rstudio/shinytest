@@ -5,13 +5,13 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 20ca38991c764ea23bf08028282d9bffc7d092da]",
+      "html": "[html data sha1: 8bb765462387db5e4338c66634c24b7a2a8e7c4e]",
       "deps": [
         {
           "name": "header-attrs",
-          "version": "2.1.1",
+          "version": "2.3",
           "src": {
-            "href": "header-attrs-2.1.1"
+            "href": "header-attrs-2.3"
           },
           "meta": null,
           "script": "header-attrs.js",
@@ -130,8 +130,8 @@
         }
       ]
     },
-    "out4cb05256550523c6": {
-      "src": "[image data sha1: 8a50cfe9e476183fb6d189d594fb4f4e6b1ee270]",
+    "out6e1a6d8785f04cf5": {
+      "src": "[image data sha1: 6d05878129fc52943312ca6728e0f605ff55578b]",
       "width": 738,
       "height": 626,
       "coordmap": {
