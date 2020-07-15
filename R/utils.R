@@ -154,6 +154,11 @@ read_utf8 <- function(file) {
   raw_to_utf8(res)
 }
 
+# write text as UTF-8
+write_utf8 <- function(text, ...) {
+  writeBin(charToRaw(enc2utf8(text)), ..., endian = "little")
+}
+
 normalize_suffix <- function(suffix) {
   if (is.null(suffix) || suffix == "") {
     ""
@@ -200,10 +205,3 @@ png_res_header_data <- as.raw(c(
   0x01,                    # Unit specifier: meters
   0x00, 0x9a, 0x9c, 0x18   # Checksum
 ))
-
-
-# write text as UTF-8 copied from shiny
-writeUTF8 <- function(text, ...) {
-  text <- enc2utf8(text)
-  writeLines(text, ..., useBytes = TRUE)
-}
