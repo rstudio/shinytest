@@ -156,7 +156,7 @@ read_utf8 <- function(file) {
 
 # write text as UTF-8
 write_utf8 <- function(text, ...) {
-  writeBin(charToRaw(enc2utf8(text)), ..., endian = "little")
+  writeBin(charToRaw(enc2utf8(text)), ...)
 }
 
 normalize_suffix <- function(suffix) {
