@@ -1,7 +1,9 @@
-shinytest 1.4.0.9000
+shinytest 1.4.0.9002
 ===============
 
 * Fixed [#206](https://github.com/rstudio/shinytest/issues/206): On Windows, non-ASCII characters in JSON snapshots were written using the native encoding, instead of UTF-8. ([#318](https://github.com/rstudio/shinytest/pull/318), [#320](https://github.com/rstudio/shinytest/pull/320))
+
+* Added `registerInputProcessor()`, which allows other packages to control how code is generated when recording input values from input bindings from that package. ([#321])
 
 shinytest 1.4.0
 ===============
