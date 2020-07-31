@@ -153,10 +153,12 @@ processInputValue <- function(value, inputType) {
     # running the Shiny app.) See https://github.com/rstudio/learnr/pull/407 for
     # more info.
     pkg <- strsplit(inputType, ".", fixed = TRUE)[[1]][1]
-    tryLoadPackage(pkg)
-    # The set of inputProcessors may have changed by loading the package, so
-    # re-merge the registered input processors.
-    inputProcessors <<- mergeVectors(inputProcessors, shinytest::getInputProcessors())
+
+    if (tryLoadPackage(pkg)) {
+      # The set of inputProcessors may have changed by loading the package, so
+      # re-merge the registered input processors.
+      inputProcessors <<- mergeVectors(inputProcessors, shinytest::getInputProcessors())
+    }
   }
 
   # Check again if the input type is now registered.
@@ -168,11 +170,12 @@ processInputValue <- function(value, inputType) {
 }
 
 # Try to load a package, but only once; subsequent calls with the same value of
-# `pkg` will do nothing.
+# `pkg` will do nothing. Returns TRUE if the package is successfully loaded,
+# FALSE otherwise.
 triedPackages <- character()
 tryLoadPackage <- function(pkg) {
   if (pkg %in% triedPackages) {
-    return()
+    return(FALSE)
   }
   triedPackages <<- c(triedPackages, pkg)
   requireNamespace(pkg, quietly = TRUE)
