@@ -134,15 +134,26 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 
 #' Register an input processor for the test recorder
 #'
-#' This function registers an input processor which will be used by the test
-#' recorder. The input processor function should take one parameter, `value`,
-#' and return a string of R code which returns the desired value.
+#' @description
+#' `registerInputProcessor()` registers an input processor which will be used by
+#' the test recorder. The input processor function should take one parameter,
+#' `value`, and return a string of R code which returns the desired value.
 #'
-#' @param inputType The name of an input type, for example, `"mypkg:numberinput"`.
+#' `getInputProcessors()` returns a named list of all registered input processor
+#' functions.
+#'
+#' @param inputType The name of an input type, for example,
+#'   `"mypkg:numberinput"`.
 #' @param processor An input processor function.
 #' @export
-registerInputProcesser <- function(inputType, processor) {
+registerInputProcessor <- function(inputType, processor) {
   recorder_input_processors[[inputType]] <- processor
+}
+
+#' @rdname registerInputProcessor
+#' @export
+getInputProcessors <- function() {
+  as.list(recorder_input_processors)
 }
 
 # This environment holds input processors registered by other packages on load.

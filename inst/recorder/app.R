@@ -114,7 +114,7 @@ inputProcessors <- list(
 )
 
 # Add in input processors registered by other packages.
-inputProcessors <- c(inputProcessors, as.list(shinytest:::recorder_input_processors))
+inputProcessors <- c(inputProcessors, as.list(shinytest::get_recorder_input_processors()))
 
 # Given an input value taken from the client, return the value that would need
 # to be passed to app$set_input() to set the input to that value.
