@@ -130,7 +130,7 @@ processInputValue <- function(value, inputType) {
   }
 
   # Check again if the input type is now registered.
-  is.null(inputProcessors[[inputType]]) {
+  if (is.null(inputProcessors[[inputType]])) {
     inputType <- "default"
   }
 
