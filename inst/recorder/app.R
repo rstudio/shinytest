@@ -73,6 +73,33 @@ enable_tooltip_script <- function() {
   tags$script("$('a[data-toggle=\"tooltip\"]').tooltip({ delay: 250 });")
 }
 
+# Given a vector/list, return TRUE if any elements are unnamed, FALSE otherwise.
+anyUnnamed <- function(x) {
+  # Zero-length vector
+  if (length(x) == 0) return(FALSE)
+
+  nms <- names(x)
+
+  # List with no name attribute
+  if (is.null(nms)) return(TRUE)
+
+  # List with name attribute; check for any ""
+  any(!nzchar(nms))
+}
+
+# Given two named vectors, join them together, and keep only the last element
+# with a given name in the resulting vector. If b has any elements with the same
+# name as elements in a, the element in a is dropped. Also, if there are any
+# duplicated names in a or b, only the last one with that name is kept.
+mergeVectors <- function(a, b) {
+  if (anyUnnamed(a) || anyUnnamed(b)) {
+    stop("Vectors must be either NULL or have names for all elements")
+  }
+
+  x <- c(a, b)
+  drop_idx <- duplicated(names(x), fromLast = TRUE)
+  x[!drop_idx]
+}
 
 inputProcessors <- list(
   default = function(value) {
@@ -114,7 +141,7 @@ inputProcessors <- list(
 )
 
 # Add in input processors registered by other packages.
-inputProcessors <- c(inputProcessors, shinytest::getInputProcessors())
+inputProcessors <- mergeVectors(inputProcessors, shinytest::getInputProcessors())
 
 # Given an input value taken from the client, return the value that would need
 # to be passed to app$set_input() to set the input to that value.
@@ -127,6 +154,9 @@ processInputValue <- function(value, inputType) {
     # more info.
     pkg <- strsplit(inputType, ".", fixed = TRUE)[[1]][1]
     tryLoadPackage(pkg)
+    # The set of inputProcessors may have changed by loading the package, so
+    # re-merge the registered input processors.
+    inputProcessors <<- mergeVectors(inputProcessors, shinytest::getInputProcessors())
   }
 
   # Check again if the input type is now registered.
