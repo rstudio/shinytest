@@ -114,17 +114,39 @@ inputProcessors <- list(
 )
 
 # Add in input processors registered by other packages.
-inputProcessors <- c(inputProcessors, as.list(shinytest::get_recorder_input_processors()))
+inputProcessors <- c(inputProcessors, shinytest::getInputProcessors())
 
 # Given an input value taken from the client, return the value that would need
 # to be passed to app$set_input() to set the input to that value.
 processInputValue <- function(value, inputType) {
-  if (is.null(inputProcessors[[inputType]]))
+  if (is.null(inputProcessors[[inputType]])) {
+    # For input with type "mypkg.foo", get "mypkg", and then try to load it.
+    # This is helpful in cases where the R session running `recordTest()` has
+    # not loaded the package with the input type. (There's a separate R session
+    # running the Shiny app.) See https://github.com/rstudio/learnr/pull/407 for
+    # more info.
+    pkg <- strsplit(inputType, ".", fixed = TRUE)[[1]][1]
+    tryLoadPackage(pkg)
+  }
+
+  # Check again if the input type is now registered.
+  is.null(inputProcessors[[inputType]]) {
     inputType <- "default"
+  }
 
   inputProcessors[[inputType]](value)
 }
 
+# Try to load a package, but only once; subsequent calls with the same value of
+# `pkg` will do nothing.
+triedPackages <- character()
+tryLoadPackage <- function(pkg) {
+  if (pkg %in% triedPackages) {
+    return()
+  }
+  triedPackages <<- c(triedPackages, pkg)
+  requireNamespace(pkg, quietly = TRUE)
+}
 
 # Quote variable/argument names. Normal names like x, x1, or x_y will not be changed, but
 # if there are any strange characters, it will be quoted; x-1 will return `x-1`.
