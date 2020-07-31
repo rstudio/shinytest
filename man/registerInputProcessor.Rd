@@ -11,7 +11,7 @@ getInputProcessors()
 }
 \arguments{
 \item{inputType}{The name of an input type, for example,
-\code{"mypkg:numberinput"}.}
+\code{"mypkg.numberinput"}.}
 
 \item{processor}{An input processor function.}
 }

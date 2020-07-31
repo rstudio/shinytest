@@ -143,10 +143,13 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 #' functions.
 #'
 #' @param inputType The name of an input type, for example,
-#'   `"mypkg:numberinput"`.
+#'   `"mypkg.numberinput"`.
 #' @param processor An input processor function.
 #' @export
 registerInputProcessor <- function(inputType, processor) {
+  if (!is.function(processor) || !identical(names(formals(processor)), "value")) {
+    stop("`processor` must be a function that takes one parameter, `value`")
+  }
   recorder_input_processors[[inputType]] <- processor
 }
 
