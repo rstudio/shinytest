@@ -1,4 +1,4 @@
-sd_snapshot <- function(self, private, items, filename, screenshot)
+sd_snapshot <- function(self, private, items, filename, screenshot, exclude)
 {
   if (!is.list(items) && !is.null(items))
     stop("'items' must be NULL or a list.")
@@ -51,6 +51,17 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   content <- raw_to_utf8(req$content)
   content <- hash_snapshot_image_data(content)
   content <- jsonlite::prettify(content, indent = 2)
+
+  # Remove any items specified in ignore
+  if(length(exclude)>0)
+  {
+    dropItems <- function(l, i) l[! names(l) %in% i]
+
+    content$output <- dropItems(content$output, exclude)
+    content$input <- dropItems(content$input, exclude)
+    content$input <- dropItems(content$input, exclude)
+  }
+
   write_utf8(content, file.path(current_dir, filename))
 
   if (screenshot) {

@@ -129,6 +129,13 @@ The same can be used to snapshot all inputs and/or all exports. To capture all o
 app$snapshot(items = list(output = TRUE, export = TRUE))
 ```
 
+Occasionally, you may need to exclude specific objects from the snapshot, such as objects that change from run to run (e.g. timestamps). Specify the name of these objects with `exclude`:
+
+```{r}
+app$snapshot(items = list(exclude=c("a", "e1")))
+```
+
+Objects with the specified names will be excluded from input, output, and export.   
 
 ### Exported values
 
