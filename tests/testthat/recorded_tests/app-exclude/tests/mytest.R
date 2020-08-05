@@ -20,8 +20,4 @@ app$waitForValue("distPlot", iotype = "output", ignore = list(priorPlotValue))
 tmp <- app$snapshot()
 
 # Test excluding 'distplot'
-tmp <- app$snapshot(exclude='distPlot')
-rObj <- jsonlite::fromJSON(tmp)
-"distPlot" %in% c(names(rObj$input), names(rObj$output), names(rObj$export) )
-
-snapshot()
+app$snapshot(exclude='distPlot')
