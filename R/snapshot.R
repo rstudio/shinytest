@@ -544,8 +544,9 @@ clean.list <- function(l,key_to_remove) {
     for (i in 1:length(a))
       a[i] = clean.list(a[i],key_to_remove) # apply order.list on each element of the array, but do not reorder it
     return(a)
+  }
 }
- 
+
 # Given a filename: If it is a PNG file, delete the file. If it is a JSON
 # file, remove the image hashes and overwrite the original file with the new
 # contents. For all other files, do nothing.
@@ -568,16 +569,17 @@ remove_image_hashes_and_files <- function(filename) {
   if (length(names(l))>0)
     for (i in 1:length(names(l))) {
       name.i = names(l)[i]
-      if (name.i=="")
+      if (name.i=="") {
         l.cleaned[i] = l[i]
-      else {
+      } else {
         if (all(gregexpr(key_to_remove,name.i)[[1]]<0)){
           l.i = l[[name.i]]
           if (is.list(l.i)) {
             l.i = clean.list(l.i,key_to_remove)
           }
           l.cleaned[[name.i]] = l.i
-        } else warning("Will remove key ",name.i," matching ",key_to_remove)
+        } else
+          warning("Will remove key ",name.i," matching ",key_to_remove)
       }
     }
 
