@@ -1,4 +1,6 @@
-sd_snapshot <- function(self, private, items, filename, screenshot, exclude)
+#' @importFrom xml2 read_html,as_list
+
+sd_snapshot <- function(self, private, items, filename, screenshot, exclude, stop_on_error=TRUE)
 {
   if (!is.list(items) && !is.null(items))
     stop("'items' must be NULL or a list.")
@@ -39,17 +41,24 @@ sd_snapshot <- function(self, private, items, filename, screenshot, exclude)
   url <- private$getTestSnapshotUrl(items$input, items$output, items$export)
   req <- httr::GET(url)
 
-  # For first snapshot, create -current snapshot dir.
-  if (private$snapshotCount == 1) {
-    if (dir_exists(current_dir)) {
-      unlink(current_dir, recursive = TRUE)
-    }
-    dir.create(current_dir, recursive = TRUE)
-  }
-
   # Convert to text, then replace base64-encoded images with hashes of them.
   content <- raw_to_utf8(req$content)
   content <- hash_snapshot_image_data(content)
+
+  if(req$status_code != 200)
+  {
+    if(stop_on_error)
+    {
+      stop("Status code ", req$status_code, "\n", content)
+    } else {
+      new_content <- list(
+        status_code=req$status_code,
+        html=xml2::as_list(xml2::read_html(content))
+      )
+      content <- jsonlite::toJSON(new_content)
+    }
+  }
+
 
   # Remove any items specified in ignore
   if(length(exclude)>0)
@@ -66,6 +75,14 @@ sd_snapshot <- function(self, private, items, filename, screenshot, exclude)
   }
 
   content <- jsonlite::prettify(content, indent = 2)
+
+  # For first snapshot, create -current snapshot dir.
+  if (private$snapshotCount == 1) {
+    if (dir_exists(current_dir)) {
+      unlink(current_dir, recursive = TRUE)
+    }
+    dir.create(current_dir, recursive = TRUE)
+  }
 
   write_utf8(content, file.path(current_dir, filename))
 
