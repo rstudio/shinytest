@@ -344,8 +344,9 @@ ShinyDriver <- R6Class(
     snapshot = function(items = NULL,
                         filename = NULL,
                         screenshot = NULL,
-                        exclude = NULL)
-      sd_snapshot(self, private, items, filename, screenshot, exclude),
+                        exclude = NULL,
+			stop_on_error = TRUE)
+      sd_snapshot(self, private, items, filename, screenshot, exclude, stop_on_error),
 
     getAppDir = function()
       sd_getAppDir(self, private),
