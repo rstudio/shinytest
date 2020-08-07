@@ -51,7 +51,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   content <- raw_to_utf8(req$content)
   content <- hash_snapshot_image_data(content)
   content <- jsonlite::prettify(content, indent = 2)
-  writeChar(content, file.path(current_dir, filename), eos = NULL)
+  write_utf8(content, file.path(current_dir, filename))
 
   if (screenshot) {
     # Replace extension with .png
@@ -253,12 +253,11 @@ snapshotCompareSingle <- function(
       if (interactive) {
         response <- readline("Would you like to view the differences between expected and current results [y/n]? ")
         if (tolower(response) == "y") {
-          quiet <- TRUE
           result <- viewTestDiff(appDir, testname, interactive, preprocess = filter_fun, suffix = suffix)[[1]]
-
           if (result == "accept") {
             snapshot_pass <- TRUE
             snapshot_status <- "updated"
+            quiet <- TRUE
           }
         }
       }
@@ -545,6 +544,20 @@ clean.list <- function(l,key_to_remove) {
     for (i in 1:length(a))
       a[i] = clean.list(a[i],key_to_remove) # apply order.list on each element of the array, but do not reorder it
     return(a)
+}
+ 
+# Given a filename: If it is a PNG file, delete the file. If it is a JSON
+# file, remove the image hashes and overwrite the original file with the new
+# contents. For all other files, do nothing.
+remove_image_hashes_and_files <- function(filename) {
+  if (grepl("\\.png$", filename)) {
+    unlink(filename)
+
+  } else if (grepl("\\.json$", filename)) {
+    content <- read_utf8(filename)
+    content <- remove_image_hashes(content)
+    write_utf8(content, filename)
+    filename
   }
 
   # ok, now we are sure l is a list...

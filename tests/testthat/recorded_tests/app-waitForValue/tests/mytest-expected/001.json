@@ -1,0 +1,81 @@
+{
+  "input": {
+    "bins": 30,
+    "chkbx": true
+  },
+  "output": {
+    "distPlot": {
+      "src": "[image data sha1: 0e9029ef927ecee77e2982a814d555d06ab824c1]",
+      "width": 962,
+      "height": 400,
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 40.88,
+              "right": 98.12,
+              "bottom": -1.08,
+              "top": 28.08
+            },
+            "range": {
+              "left": 59.0399999999999,
+              "right": 931.76,
+              "bottom": 325.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 962,
+          "height": 400
+        }
+      }
+    },
+    "dynamic_output": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"bins\">Number of bins:<\/label>\n  <input class=\"js-range-slider\" id=\"bins\" data-min=\"1\" data-max=\"50\" data-from=\"30\" data-step=\"1\" data-grid=\"true\" data-grid-num=\"9.8\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"number\"/>\n<\/div>\n<div id=\"distPlot\" class=\"shiny-plot-output\" style=\"width: 100% ; height: 400px\"><\/div>",
+      "deps": [
+        {
+          "name": "ionrangeslider",
+          "version": "2.1.6",
+          "src": {
+            "href": "shared/ionrangeslider"
+          },
+          "meta": null,
+          "script": "js/ion.rangeSlider.min.js",
+          "stylesheet": [
+            "css/ion.rangeSlider.css",
+            "css/ion.rangeSlider.skinShiny.css"
+          ],
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "strftime",
+          "version": "0.9.2",
+          "src": {
+            "href": "shared/strftime"
+          },
+          "meta": null,
+          "script": "strftime-min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

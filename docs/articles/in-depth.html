@@ -6,19 +6,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Testing in depth • shinytest</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Testing in depth">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="shinytest">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -39,7 +40,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -79,8 +80,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rstudio/shinytest">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/rstudio/shinytest/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -93,10 +94,11 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
+
+      </header><script src="in-depth_files/header-attrs-2.1.2/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Testing in depth</h1>
+      <h1 data-toc-skip>Testing in depth</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/shinytest/blob/master/vignettes/in-depth.Rmd"><code>vignettes/in-depth.Rmd</code></a></small>
@@ -112,36 +114,36 @@
 <p>The test recorder is the easiest way to create test scripts, but it is not the only way. You can create and edit test scripts manually.</p>
 <p>A test script has this basic structure: first, there is an initialization, then the tests, and finally the tests are wrapped up.</p>
 <p>In the initialization, the script creates a new ShinyDriver object and tells it what name to use for this set of tests.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Initialize a ShinyDriver object using the app in the test script's parent</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># directory</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">".."</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">app<span class="op">$</span><span class="kw">snapshotInit</span>(<span class="st">"mytest"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># Initialize a ShinyDriver object using the app in the test script's parent</span>
+<span class="co"># directory</span>
+<span class="no">app</span> <span class="kw">&lt;-</span> <span class="no">ShinyDriver</span>$<span class="fu">new</span>(<span class="st">".."</span>)
+<span class="no">app</span>$<span class="fu">snapshotInit</span>(<span class="st">"mytest"</span>)</pre></body></html></div>
 <p>Next, it defines some interactions with the application and takes snapshots.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>))</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">action =</span> <span class="st">"click"</span>)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">app<span class="op">$</span><span class="kw">snapshot</span>()</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">action =</span> <span class="st">"click"</span>)</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">app<span class="op">$</span><span class="kw">snapshot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">checkGroup</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>))
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">checkGroup</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">action</span> <span class="kw">=</span> <span class="st">"click"</span>)
+<span class="no">app</span>$<span class="fu">snapshot</span>()
+
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">action</span> <span class="kw">=</span> <span class="st">"click"</span>)
+<span class="no">app</span>$<span class="fu">snapshot</span>()</pre></body></html></div>
 <p>For customizing a script, the second portion – the interactions and snapshots – is the part you will want to modify. For snapshot-based testing, there are two methods that are used: <code>app$setInputs()</code> and <code>app$snapshot()</code>.</p>
 <div id="setting-inputs-with-appsetinputs" class="section level3">
 <h3 class="hasAnchor">
 <a href="#setting-inputs-with-appsetinputs" class="anchor"></a>Setting inputs with <code>app$setInputs()</code>
 </h3>
 <p>With <code>app$setInputs()</code>, you provide the name of one or more inputs and corresponding values to set them to. Consider this set of directives:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">action =</span> <span class="st">"click"</span>)</a></code></pre></div>
-<p>Notice that we set the value of <code>checkGroup</code> two times in a row. When we recorded this test script, it started with the value <code>"1"</code>, and then we checked the <code>"2"</code> and <code>"3"</code> boxes. The recorded script set the value to <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c("1", "2")</a></code>, and then <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c("1", "2", "3")</a></code>. The <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c("1", "2")</a></code> value was simply an intermediate step.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">checkGroup</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>))
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">checkGroup</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">action</span> <span class="kw">=</span> <span class="st">"click"</span>)</pre></body></html></div>
+<p>Notice that we set the value of <code>checkGroup</code> two times in a row. When we recorded this test script, it started with the value <code>"1"</code>, and then we checked the <code>"2"</code> and <code>"3"</code> boxes. The recorded script set the value to <code><a href="https://rdrr.io/r/base/c.html">c("1", "2")</a></code>, and then <code><a href="https://rdrr.io/r/base/c.html">c("1", "2", "3")</a></code>. The <code><a href="https://rdrr.io/r/base/c.html">c("1", "2")</a></code> value was simply an intermediate step.</p>
 <p>It’s possible to simplify and speed up the tests by dropping the intermediate step, which leaves us with this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">checkGroup =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">action =</span> <span class="st">"click"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">checkGroup</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">action</span> <span class="kw">=</span> <span class="st">"click"</span>)</pre></body></html></div>
 <p>And it’s also possible to set <code>action</code> in the same call, resulting in this:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">app<span class="op">$</span><span class="kw">setInputs</span>(</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="dt">checkGroup =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>),</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">action =</span> <span class="st">"click"</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">setInputs</span>(
+  <span class="kw">checkGroup</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>),
+  <span class="kw">action</span> <span class="kw">=</span> <span class="st">"click"</span>
+)</pre></body></html></div>
 <p>This will set the values of inputs simultaneously, which will make the tests run faster.</p>
 <p>This is because, when <code>app$setInputs()</code> is called, it normally returns control and moves on to the next step only after the server sends a response to the client.</p>
 <p>The reason it waits for a response is so that a subsequent call to <code>app$snapshot()</code> will be sure to capture the updated output values. If <code>app$setInputs()</code> did not wait for a update, then, if the output update did not happen very quickly, a snapshot might capture the state of the application before the outputs are updated.</p>
@@ -153,74 +155,75 @@
 <a href="#taking-snapshots-with-appsnapshot" class="anchor"></a>Taking snapshots with <code>app$snapshot()</code>
 </h3>
 <p>There are two ways to use <code>app$snapshot()</code>. The simplest way is to call it with no arguments:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">app<span class="op">$</span><span class="kw">snapshot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">snapshot</span>()</pre></body></html></div>
 <p>The first time this is called in a test script, it will record all input, output, and exported values from the application, in a file called <code>001.json</code>. The next call will save the values in <code>002.json</code>, and so on.</p>
 <p>Each time you call <code>app$snapshot()</code>, it will also save a <strong>screen shot</strong> of the web browser, in a file <code>001.png</code>, <code>002.png</code>, and so on. These screen shots are useful for debugging your tests and inspecting what they’re doing. You can tell it to not take screen shots, to save space and make the tests run slightly faster, in the initialization step, with:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">app<span class="op">$</span><span class="kw">snapshotInit</span>(<span class="st">"mytest"</span>, <span class="dt">screenshot =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">snapshotInit</span>(<span class="st">"mytest"</span>, <span class="kw">screenshot</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p>If you want to disable screenshots for a single snapshot, you can use:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">app<span class="op">$</span><span class="kw">snapshot</span>(<span class="dt">screenshot =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">snapshot</span>(<span class="kw">screenshot</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p>If you want more targeted tests, you can snapshot specific items with the <code>items</code> argument. For example, to capture the value of just the outputs named <code>"a"</code> and <code>"b"</code>, you would call:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">app<span class="op">$</span><span class="kw">snapshot</span>(<span class="dt">items =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">output =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">snapshot</span>(<span class="kw">items</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">output</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>)))</pre></body></html></div>
 <p>The value passed to <code>items</code> is a named list, where the <code>output</code> is a character vector with the names of outputs to snapshot. You could also capture specific inputs or exports:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">app<span class="op">$</span><span class="kw">snapshot</span>(<span class="dt">items =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="dt">input =</span> <span class="st">"n"</span>,</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="dt">output =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>),</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">  <span class="dt">export =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"e1"</span>, <span class="st">"e2"</span>)</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">))</a></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">snapshot</span>(<span class="kw">items</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+  <span class="kw">input</span> <span class="kw">=</span> <span class="st">"n"</span>,
+  <span class="kw">output</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>),
+  <span class="kw">export</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"e1"</span>, <span class="st">"e2"</span>)
+))</pre></body></html></div>
 <p>Finally, if you want to snapshot all outputs but no inputs or exports, you can simply set <code>output</code> to <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">app<span class="op">$</span><span class="kw">snapshot</span>(<span class="dt">items =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">output =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">snapshot</span>(<span class="kw">items</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">output</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></body></html></div>
 <p>The same can be used to snapshot all inputs and/or all exports. To capture all outputs and exports, but no inputs:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">app<span class="op">$</span><span class="kw">snapshot</span>(<span class="dt">items =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">output =</span> <span class="ot">TRUE</span>, <span class="dt">export =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">snapshot</span>(<span class="kw">items</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">output</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">export</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></body></html></div>
 </div>
 <div id="exported-values" class="section level3">
 <h3 class="hasAnchor">
 <a href="#exported-values" class="anchor"></a>Exported values</h3>
 <p>In some cases, it’s useful to snapshot some bits of internal state of an application – state that’s not reflected directly in the inputs or outputs. This can be done by <em>exporting</em> values.</p>
 <p>Consider this toy example where an application displays a cumulative sum, and also internally keeps track of all numbers that have been added, in a numeric vector named <code>nums</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">shinyApp</span>(</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">    <span class="kw">numericInput</span>(<span class="st">"n"</span>, <span class="st">"Number to add"</span>, <span class="dv">4</span>),</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">    <span class="kw">actionButton</span>(<span class="st">"add"</span>, <span class="st">"Add"</span>),</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">    <span class="kw">verbatimTextOutput</span>(<span class="st">"sum"</span>, <span class="dt">placeholder =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">  ),</a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">  <span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">    nums &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">numeric</a></span>()</a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10">    c_sum &lt;-<span class="st"> </span><span class="kw">eventReactive</span>(input<span class="op">$</span>add, {</a>
-<a class="sourceLine" id="cb13-11" data-line-number="11">      nums &lt;&lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(nums, input<span class="op">$</span>n)</a>
-<a class="sourceLine" id="cb13-12" data-line-number="12">      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(nums)</a>
-<a class="sourceLine" id="cb13-13" data-line-number="13">    })</a>
-<a class="sourceLine" id="cb13-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb13-15" data-line-number="15">    output<span class="op">$</span>sum &lt;-<span class="st"> </span><span class="kw">renderText</span>({</a>
-<a class="sourceLine" id="cb13-16" data-line-number="16">      <span class="kw">c_sum</span>()</a>
-<a class="sourceLine" id="cb13-17" data-line-number="17">    })</a>
-<a class="sourceLine" id="cb13-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb13-19" data-line-number="19">    <span class="kw">exportTestValues</span>(<span class="dt">nums =</span> { nums })</a>
-<a class="sourceLine" id="cb13-20" data-line-number="20">  }</a>
-<a class="sourceLine" id="cb13-21" data-line-number="21">)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu">shinyApp</span>(
+  <span class="fu">fluidPage</span>(
+    <span class="fu">numericInput</span>(<span class="st">"n"</span>, <span class="st">"Number to add"</span>, <span class="fl">4</span>),
+    <span class="fu">actionButton</span>(<span class="st">"add"</span>, <span class="st">"Add"</span>),
+    <span class="fu">verbatimTextOutput</span>(<span class="st">"sum"</span>, <span class="kw">placeholder</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+  ),
+  <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>, <span class="no">session</span>) {
+    <span class="no">nums</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span>()
+
+    <span class="no">c_sum</span> <span class="kw">&lt;-</span> <span class="fu">eventReactive</span>(<span class="no">input</span>$<span class="no">add</span>, {
+      <span class="no">nums</span> <span class="kw">&lt;&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">nums</span>, <span class="no">input</span>$<span class="no">n</span>)
+      <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">nums</span>)
+    })
+
+    <span class="no">output</span>$<span class="no">sum</span> <span class="kw">&lt;-</span> <span class="fu">renderText</span>({
+      <span class="fu">c_sum</span>()
+    })
+
+    <span class="fu">exportTestValues</span>(<span class="kw">nums</span> <span class="kw">=</span> { <span class="no">nums</span> })
+  }
+)</pre></body></html></div>
 <p><img src="screenshot-exports-app.png" width="408"></p>
 <p>Notice this line:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">    <span class="kw">exportTestValues</span>(<span class="dt">nums =</span> { nums })</a></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r">    <span class="fu">exportTestValues</span>(<span class="kw">nums</span> <span class="kw">=</span> { <span class="no">nums</span> })</pre></body></html></div>
 <p>This creates an export value named <code>nums</code>. When a test snapshot is taken, it evaluates the expression <code>{ nums }</code>, and the returned value is included in the snapshot. Here’s what the snapshot would look like if we add a few numbers and then take the snapshot:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode json"><code class="sourceCode json"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="fu">{</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="dt">"input"</span><span class="fu">:</span> <span class="fu">{</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">    <span class="dt">"add"</span><span class="fu">:</span> <span class="dv">4</span><span class="fu">,</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">    <span class="dt">"n"</span><span class="fu">:</span> <span class="dv">0</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">  <span class="fu">},</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">  <span class="dt">"output"</span><span class="fu">:</span> <span class="fu">{</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">    <span class="dt">"sum"</span><span class="fu">:</span> <span class="st">"14"</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8">  <span class="fu">},</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">  <span class="dt">"export"</span><span class="fu">:</span> <span class="fu">{</span></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10">    <span class="dt">"nums"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">4</span><span class="ot">,</span> <span class="dv">7</span><span class="ot">,</span> <span class="dv">3</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">]</span></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11">  <span class="fu">}</span></a>
-<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="fu">}</span></a></code></pre></div>
-<p>The curly braces around <code>{ nums }</code> are not strictly necessary, but they are in this example to make it clear that, when <code>exportTestValues()</code> is called, it is the expression that is stored for later use, not the value. If the value of <code>nums</code> were saved immediately, then it would be an empty vector, and every time a snapshot is taken, it would simply return that empty vector.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">{</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>    <span class="dt">"add"</span><span class="fu">:</span> <span class="dv">4</span><span class="fu">,</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>    <span class="dt">"n"</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a>  <span class="fu">},</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a>  <span class="dt">"output"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a>    <span class="dt">"sum"</span><span class="fu">:</span> <span class="st">"14"</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>  <span class="fu">},</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a>  <span class="dt">"export"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-10"><a href="#cb15-10"></a>    <span class="dt">"nums"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">4</span><span class="ot">,</span> <span class="dv">7</span><span class="ot">,</span> <span class="dv">3</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">]</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a>  <span class="fu">}</span></span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="fu">}</span></span></code></pre></div>
+<p>The curly braces around <code>{ nums }</code> are not strictly necessary, but they are in this example to make it clear that, when <code><a href="https://rdrr.io/pkg/shiny/man/exportTestValues.html">exportTestValues()</a></code> is called, it is the expression that is stored for later use, not the value. If the value of <code>nums</code> were saved immediately, then it would be an empty vector, and every time a snapshot is taken, it would simply return that empty vector.</p>
 </div>
 <div id="adding-delays" class="section level3">
 <h3 class="hasAnchor">
 <a href="#adding-delays" class="anchor"></a>Adding delays</h3>
-<p>In some cases, you may need to wait for some amount of time between steps. You can do this by adding <code><a href="https://www.rdocumentation.org/packages/base/topics/Sys.sleep">Sys.sleep()</a></code> in your script. For example:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.sleep">Sys.sleep</a></span>(<span class="fl">0.5</span>)</a></code></pre></div>
+<p>In some cases, you may need to wait for some amount of time between steps. You can do this by adding <code><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep()</a></code> in your script. For example:</p>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span>(<span class="fl">0.5</span>)</pre></body></html></div>
+<p>If you are waiting for some reactives to be calculated, please read more in the <a href="#wait-for-value">Waiting for an <code>input</code> (or <code>output</code>) value</a> section.</p>
 </div>
 <div id="controlling-randomness" class="section level3">
 <h3 class="hasAnchor">
@@ -228,8 +231,8 @@
 <p>If your application uses randomly-generated values (by calling functions like <code>rnorm</code>, <code>runif</code>, <code>sample</code> directly or indirectly), then, in normal operation, it will produce different results on each run. Because Shinytest works by comparing the current state of an application to a previous state, these random changes will cause test failures.</p>
 <p>To make such applications exactly repeatable, you can set the random seed. This can be done by specifying a random seed in the recorder. The seed can be any integer value.</p>
 <p><img src="screenshot-recorder-random-seed.png" width="295"></p>
-<p>If your test script has already been created, you can set the random seed by editing the test script so that the <code>ShinyDriver$new()</code> call has a value for <code>seed</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">"../"</span>, <span class="dt">seed =</span> <span class="dv">4323</span>)</a></code></pre></div>
+<p>If your test script has already been created, you can set the random seed by editing the test script so that the <code>ShinyDriver$new()</code> call has a value for <code>seed</code>. Moreover, if you need these tests to pass on multiple versions of R with different <code><a href="https://rdrr.io/r/base/Random.html">RNGkind()</a></code> defaults (e.g., 3.5 and 3.6), you may want to set a fixed <code><a href="https://rdrr.io/r/base/Random.html">RNGkind()</a></code> across your tests (perhaps via <code><a href="https://rdrr.io/r/base/Random.html">RNGversion("3.5.0")</a></code>). The <strong>shinytest</strong> package does this in its own automated tests <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/test-helper-rng.R">via a <strong>testthat</strong> helper</a>.</p>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">app</span> <span class="kw">&lt;-</span> <span class="no">ShinyDriver</span>$<span class="fu">new</span>(<span class="st">"../"</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">4323</span>)</pre></body></html></div>
 <p>In many cases, instead of setting the random seed, it is more elegant to use an <a href="faq.html#can-i-modify-the-output-and-input-values-that-are-recorded-in-snapshots">output preprocessor</a>.</p>
 </div>
 </div>
@@ -239,16 +242,16 @@
 <div id="tabs" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tabs" class="anchor"></a>Tabs</h3>
-<p>With tabbed views, such as <code>tabsetPanel()</code> and <code>navbarPage()</code>, in order for shinytest to keep track of which tab is currently selected, they must have an <code>id</code>. For example:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">tabsetPanel</span>(<span class="dt">id =</span> <span class="st">"tabs"</span>, ....)</a></code></pre></div>
+<p>With tabbed views, such as <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel()</a></code> and <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage()</a></code>, in order for shinytest to keep track of which tab is currently selected, they must have an <code>id</code>. For example:</p>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu">tabsetPanel</span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"tabs"</span>, <span class="no">....</span>)</pre></body></html></div>
 <p>or</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">navbarPage</span>(<span class="dt">id =</span> <span class="st">"tabs"</span>, ....)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu">navbarPage</span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"tabs"</span>, <span class="no">....</span>)</pre></body></html></div>
 </div>
 <div id="uploading-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#uploading-files" class="anchor"></a>Uploading files</h3>
 <p>If you record a file upload event to a <code>fileInput</code>, you should uncheck <strong>Run test script on exit</strong> in the recorder, for reasons explained below. The test script will have a line like this:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">app<span class="op">$</span><span class="kw">uploadFile</span>(<span class="dt">file1 =</span> <span class="st">"mtcars.csv"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">uploadFile</span>(<span class="kw">file1</span> <span class="kw">=</span> <span class="st">"mtcars.csv"</span>)</pre></body></html></div>
 <p>Notice that the filename mtcars.csv appears in the script without a path. This is because the test recorder does not know where the file came from; it only knows the name of the file.</p>
 <p>Before you run the test script, you must copy the file to the tests/ directory. See the tests/ subdirectory of <a href="https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/009-upload">this app</a> for an example.</p>
 <p>After copying the file to that directory, run <code><a href="../reference/testApp.html">testApp()</a></code> as usual.</p>
@@ -258,44 +261,132 @@
 <h2 class="hasAnchor">
 <a href="#debugging-test-scripts" class="anchor"></a>Debugging test scripts</h2>
 <p>If you need to debug a test script, you can run line-by-line from the R console. However, you likely will have modify the first line. It normally will refer to the Shiny application the parent directory (<code>".."</code>):</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">".."</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">app</span> <span class="kw">&lt;-</span> <span class="no">ShinyDriver</span>$<span class="fu">new</span>(<span class="st">".."</span>)</pre></body></html></div>
 <p>When the test is run the usual way, with <code><a href="../reference/testApp.html">testApp()</a></code>, it will be run with the test directory as the working directory. However, when you run the tests from the command line, you generally will have a different working directory. To run the tests from a different directory, you will have to pass in the path to the application. It can be a relative path, for example:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">app &lt;-<span class="st"> </span>ShinyDriver<span class="op">$</span><span class="kw">new</span>(<span class="st">"path/to/app"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">app</span> <span class="kw">&lt;-</span> <span class="no">ShinyDriver</span>$<span class="fu">new</span>(<span class="st">"path/to/app"</span>)</pre></body></html></div>
 <p>The rest of the test script can be run unchanged.</p>
 <div id="screenshots" class="section level3">
 <h3 class="hasAnchor">
 <a href="#screenshots" class="anchor"></a>Screenshots</h3>
 <p>As you step through the script, you can inspect the state of the application in a few different ways. One is to view a screenshot. You should not to call <code>app$snapshot()</code> to get a screenshot, because it will increment the snapshot counter and shift the numbers of snapshots that really are part of the tests (e.g., snapshot 003 would become 004). Instead you can do this:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">app<span class="op">$</span><span class="kw">takeScreenshot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">takeScreenshot</span>()</pre></body></html></div>
 <p>This will display the screenshot as if it were a plot. (In RStudio, it will show in the Viewer pane.) You can inspect the screenshot to see the state of the application.</p>
 </div>
 <div id="getting-input-output-and-export-values" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getting-input-output-and-export-values" class="anchor"></a>Getting input, output, and export values</h3>
 <p>It can also be useful to get the current input, output, and export values. As with screenshots, this is something that <code>app$snapshot()</code> does, but we don’t want to call that function because increments the snapshot counter.</p>
-<p>To fetch all values, you can call <code>app$getAllValues()</code>. This returns a list, which you can inspect with the <code><a href="https://www.rdocumentation.org/packages/utils/topics/str">str()</a></code> function. It may look something like this:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">vals &lt;-<span class="st"> </span>app<span class="op">$</span><span class="kw">getAllValues</span>()</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(vals)</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co">#&gt; List of 3</span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co">#&gt;  $ input :List of 4</span></a>
-<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="co">#&gt;   ..$ action    :Classes 'integer', 'shinyActionButtonValue'  int 0</span></a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#&gt;   ..$ checkbox  : logi TRUE</span></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co">#&gt;   ..$ checkGroup: chr "1"</span></a>
-<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="co">#&gt;   ..$ text      : chr "Enter text..."</span></a>
-<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="co">#&gt;  $ output:List of 12</span></a>
-<a class="sourceLine" id="cb24-11" data-line-number="11"><span class="co">#&gt;   ..$ actionOut    : chr "[1] 0\nattr(,\"class\")\n[1] \"integer\"                #&gt; \"shinyActionButtonValue\""</span></a>
-<a class="sourceLine" id="cb24-12" data-line-number="12"><span class="co">#&gt;   ..$ checkboxOut  : chr "[1] TRUE"</span></a>
-<a class="sourceLine" id="cb24-13" data-line-number="13"><span class="co">#&gt;   ..$ checkGroupOut: chr "[1] \"1\""</span></a>
-<a class="sourceLine" id="cb24-14" data-line-number="14"><span class="co">#&gt;   ..$ textOut      : chr "[1] \"Enter text...\""</span></a>
-<a class="sourceLine" id="cb24-15" data-line-number="15"><span class="co">#&gt;  $ export: Named list()</span></a></code></pre></div>
+<p>To fetch all values, you can call <code>app$getAllValues()</code>. This returns a list, which you can inspect with the <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> function. It may look something like this:</p>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">vals</span> <span class="kw">&lt;-</span> <span class="no">app</span>$<span class="fu">getAllValues</span>()
+
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">vals</span>)
+<span class="co">#&gt; List of 3</span>
+<span class="co">#&gt;  $ input :List of 4</span>
+<span class="co">#&gt;   ..$ action    :Classes 'integer', 'shinyActionButtonValue'  int 0</span>
+<span class="co">#&gt;   ..$ checkbox  : logi TRUE</span>
+<span class="co">#&gt;   ..$ checkGroup: chr "1"</span>
+<span class="co">#&gt;   ..$ text      : chr "Enter text..."</span>
+<span class="co">#&gt;  $ output:List of 12</span>
+<span class="co">#&gt;   ..$ actionOut    : chr "[1] 0\nattr(,\"class\")\n[1] \"integer\"                #&gt; \"shinyActionButtonValue\""</span>
+<span class="co">#&gt;   ..$ checkboxOut  : chr "[1] TRUE"</span>
+<span class="co">#&gt;   ..$ checkGroupOut: chr "[1] \"1\""</span>
+<span class="co">#&gt;   ..$ textOut      : chr "[1] \"Enter text...\""</span>
+<span class="co">#&gt;  $ export: Named list()</span></pre></body></html></div>
 <p>The same data is returned (invisibly) from each call to <code>app$setInput()</code>, so you can also look at the return value from those function calls to get the same result.</p>
 <p>The values retrieved this way can be used for expectation-based testing. For example, if you are using the <strong>testthat</strong> package for testing you could do something like:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">vals &lt;-<span class="st"> </span>app<span class="op">$</span><span class="kw">getAllValues</span>()</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co"># Another option: save values when setting input values</span></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co"># vals &lt;- app$setInputs(checkbox = TRUE)</span></a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="kw">expect_identical</span>(vals<span class="op">$</span>output<span class="op">$</span>checkboxOut, <span class="st">"[1] TRUE"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">vals</span> <span class="kw">&lt;-</span> <span class="no">app</span>$<span class="fu">getAllValues</span>()
+<span class="co"># Another option: save values when setting input values</span>
+<span class="co"># vals &lt;- app$setInputs(checkbox = TRUE)</span>
+
+<span class="fu">expect_identical</span>(<span class="no">vals</span>$<span class="no">output</span>$<span class="no">checkboxOut</span>, <span class="st">"[1] TRUE"</span>)</pre></body></html></div>
+</div>
+<div id="wait-for-value" class="section level3">
+<h3 class="hasAnchor">
+<a href="#wait-for-value" class="anchor"></a>Waiting for an <code>input</code> (or <code>output</code>) value</h3>
+<p>In most situations, when an input value is set, <code>app$setInputs</code> will wait up to 3 seconds (default) for the next value to be sent to the server. If, however, you have an application that does not immediately send the value you are interested in, you will need to insert at <code>app$waitForValue</code> function call. This is readily useful for htmlwidgets or anything that involves javascript code for values to be set. This method can also be used to determine when <code>input</code> (or <code>output</code>) values have been set after the initial output values have been set or for when reactivity is done in two or more stages.</p>
+<p>For example, when checking a checkbox that adds dynamic UI, such as the old faithful Shiny example, three round trips from the browser to the Shiny server will need to occur.</p>
+<ol style="list-style-type: decimal">
+<li>Checking the checkbox</li>
+<li>Putting the slider and plot placeholder into the app’s UI</li>
+<li>Once the slider is recognized by the browser, it will send information back to Shiny causing the plot to be rendered and placed in the browser</li>
+</ol>
+<p>If we were to only use <code>app$setInput("chkbx", TRUE)</code> and immediately take a snapshot, we would most likely miss the correct plot value.</p>
+<p>To dig into this further, we can look at this situation’s example code:</p>
+<p><strong><code>app.R</code>:</strong></p>
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
+
+<span class="no">ui</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/checkboxInput.html">checkboxInput</a></span>(<span class="st">"chkbx"</span>, <span class="st">"Display Graph?"</span>, <span class="fl">FALSE</span>),
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html">uiOutput</a></span>(<span class="st">"dynamic_output"</span>)
+)
+
+<span class="no">server</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>) {
+  <span class="no">output</span>$<span class="no">dynamic_output</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderUI.html">renderUI</a></span>({
+    <span class="kw">if</span>(!<span class="no">input</span>$<span class="no">chkbx</span>) {
+      <span class="fu"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="kw">NULL</span>)
+    }
+    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">tagList</a></span>(
+      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html">sliderInput</a></span>(<span class="kw">inputId</span> <span class="kw">=</span> <span class="st">"bins"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"Number of bins:"</span>, <span class="kw">min</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">max</span> <span class="kw">=</span> <span class="fl">50</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="fl">30</span>),
+      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html">plotOutput</a></span>(<span class="kw">outputId</span> <span class="kw">=</span> <span class="st">"distPlot"</span>)
+    )
+  })
+
+  <span class="co"># will not execute until `input$bins` is available</span>
+  <span class="co"># `input$bins` is not available until `chkbx` is checked</span>
+  <span class="no">output</span>$<span class="no">distPlot</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot</a></span>({
+    <span class="co"># artificially slow the plot</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span>(<span class="fl">5</span>)
+
+    <span class="no">x</span>    <span class="kw">&lt;-</span> <span class="no">faithful</span>$<span class="no">waiting</span>
+    <span class="no">bins</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="no">x</span>), <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">x</span>), <span class="kw">length.out</span> <span class="kw">=</span> <span class="no">input</span>$<span class="no">bins</span> + <span class="fl">1</span>)
+    <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span>(<span class="no">x</span>, <span class="kw">breaks</span> <span class="kw">=</span> <span class="no">bins</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"#75AADB"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"white"</span>,
+         <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"Waiting time to next eruption (in mins)"</span>,
+         <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Histogram of waiting times"</span>)
+  })
+}
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span> <span class="kw">=</span> <span class="no">ui</span>, <span class="kw">server</span> <span class="kw">=</span> <span class="no">server</span>)</pre></body></html></div>
+<p>Typically we would add <code><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep()</a></code> function calls to slow down <code>shinytest</code> testing to hope that the Shiny application is in a stable state.</p>
+<p><strong><code>./tests/mytest-sleep-bad.R</code>:</strong></p>
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">app</span> <span class="kw">&lt;-</span> <span class="no">ShinyDriver</span>$<span class="fu">new</span>(<span class="st">"../"</span>)
+<span class="no">app</span>$<span class="fu">snapshotInit</span>(<span class="st">"mytest"</span>)
+
+<span class="co"># Check the box to display the slider and plot</span>
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="st">'chkbx'</span>, <span class="fl">TRUE</span>)
+<span class="co"># Hope that the plot appears within 7 seconds</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span>(<span class="fl">7</span>)
+
+<span class="no">app</span>$<span class="fu">snapshot</span>()
+
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">bins</span> <span class="kw">=</span> <span class="fl">40</span>)
+<span class="co"># Hope the newer plot appears within 7 seconds</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span>(<span class="fl">7</span>)
+
+<span class="no">app</span>$<span class="fu">snapshot</span>()</pre></body></html></div>
+<p>The above pattern could fail if executed on a slower machine. As of <code>shinytest</code> v1.4.0, we can wait for <code>input</code> (or <code>output</code>) values using <code>app$waitForValue</code>. The pattern of <em>sleeping and hoping</em> can now be replaced with <code>app$waitForValue</code>.</p>
+<p><strong><code>./tests/mytest-waitForValue-good.R</code>:</strong></p>
+<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">app</span> <span class="kw">&lt;-</span> <span class="no">ShinyDriver</span>$<span class="fu">new</span>(<span class="st">"../"</span>)
+<span class="no">app</span>$<span class="fu">snapshotInit</span>(<span class="st">"mytest"</span>)
+
+<span class="co"># Check the box to display the slider and plot</span>
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">chkbx</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+
+<span class="co"># Wait until `input$bins` is not `NULL`</span>
+<span class="no">app</span>$<span class="fu">waitForValue</span>(<span class="st">"bins"</span>, <span class="kw">ignore</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">NULL</span>))
+
+<span class="co"># Wait until `output$distPlot` is not `NULL`</span>
+<span class="co"># (Store the retrieved plot value for later comparison)</span>
+<span class="no">priorPlotValue</span> <span class="kw">&lt;-</span> <span class="no">app</span>$<span class="fu">waitForValue</span>(<span class="st">"distPlot"</span>, <span class="kw">iotype</span> <span class="kw">=</span> <span class="st">"output"</span>, <span class="kw">ignore</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">NULL</span>))
+
+<span class="no">app</span>$<span class="fu">snapshot</span>()
+
+
+<span class="co"># Change slider value to 40</span>
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">bins</span> <span class="kw">=</span> <span class="fl">40</span>, <span class="kw">wait_</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">values_</span><span class="kw">=</span><span class="fl">FALSE</span>)
+<span class="co"># Wait until plot does not equal the plot with 30 bins</span>
+<span class="no">app</span>$<span class="fu">waitForValue</span>(<span class="st">"distPlot"</span>, <span class="kw">iotype</span> <span class="kw">=</span> <span class="st">"output"</span>, <span class="kw">ignore</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">priorPlotValue</span>))
+
+<span class="no">app</span>$<span class="fu">snapshot</span>()</pre></body></html></div>
+<p>Note: The <code>app$waitForValue("bins", ignore = list(NULL))</code> is not necessarily needed as <code>output$distPlot</code> depends upon <code>input$bins</code>.</p>
 </div>
 </div>
 <div id="dealing-with-dynamic-data" class="section level2">
@@ -303,11 +394,11 @@
 <a href="#dealing-with-dynamic-data" class="anchor"></a>Dealing with dynamic data</h2>
 <p>If your application uses a data source that changes over time, then a snapshot taken yesterday may not match a snapshot taken today, even if the app itself hasn’t changed. Dynamic data inherently poses a challenge for snapshot-based testing.</p>
 <p>This problem can be avoided by detecting when the application is being tested, and in that case use a static data set instead. To do the detection, you can do something like the following:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption</a></span>(<span class="st">"shiny.testmode"</span>))) {</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">  <span class="co"># Load static/dummy data here</span></a>
-<a class="sourceLine" id="cb26-3" data-line-number="3">} <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="co"># Load normal dynamic data here</span></a>
-<a class="sourceLine" id="cb26-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/Logic.html">isTRUE</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/options.html">getOption</a></span>(<span class="st">"shiny.testmode"</span>))) {
+  <span class="co"># Load static/dummy data here</span>
+} <span class="kw">else</span> {
+  <span class="co"># Load normal dynamic data here</span>
+}</pre></body></html></div>
 </div>
 <div id="limitations" class="section level2">
 <h2 class="hasAnchor">
@@ -316,19 +407,19 @@
 <h3 class="hasAnchor">
 <a href="#inputs-without-input-bindings" class="anchor"></a>Inputs without input bindings</h3>
 <p>Most input components in Shiny set their values by communicating through something called an <em>input binding</em>. Shinytest works well with input values that are set via input bindings.</p>
-<p>However, there are some components that set input values without using an input binding. These include some <a href="http://www.htmlwidgets.org/">htmlwidgets</a>, such as <a href="http://rstudio.github.io/DT/">DT</a> and <a href="https://github.com/ropensci/plotly/">plotly</a>, as well as Shiny’s built-in plot interactions with <code>renderPlot()</code>.</p>
+<p>However, there are some components that set input values without using an input binding. These include some <a href="http://www.htmlwidgets.org/">htmlwidgets</a>, such as <a href="http://rstudio.github.io/DT/">DT</a> and <a href="https://github.com/ropensci/plotly/">plotly</a>, as well as Shiny’s built-in plot interactions with <code><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot()</a></code>.</p>
 <p>As of shinytest 1.3.0.9001, inputs without a binding can be recorded and replayed, although with some limitations. (Prior to that version, inputs without a binding could not be recorded or replated at all.)</p>
 <p>To enable recording of these inputs in the recorder, you must enable the option labeled <em>Save inputs that do not have a binding</em>. The resulting test script code will look something like this:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">table_rows_selected =</span> <span class="dv">1</span>, <span class="dt">allowInputNoBinding_ =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">table_row_last_clicked =</span> <span class="dv">1</span>, <span class="dt">allowInputNoBinding_ =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">table_rows_selected</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">allowInputNoBinding_</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">table_row_last_clicked</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">allowInputNoBinding_</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p>Note: If you don’t enable that option, you will see this:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co"># Input 'table_rows_selected' was set, but doesn't have an input binding.</span></a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="co"># Input 'table_row_last_clicked' was set, but doesn't have an input binding.</span></a></code></pre></div>
+<div class="sourceCode" id="cb31"><html><body><pre class="r"># Input 'table_rows_selected' was set, but doesn't have an input binding.
+# Input 'table_row_last_clicked' was set, but doesn't have an input binding.</pre></body></html></div>
 <p>When the test script is replayed, the headless browser will set these inputs to the specified values and send them to the server running Shiny in R. However, the browser will not be able to tell the input object to do the exact same behaviors. For example, with DT, when a row is selected, the mouse click event in the browser triggers the DataTable to highlight the row in the browser and also set the input value for Shiny. When shinytest plays the script, it can only do the latter part, setting the input value. The result is that when a screenshot is taken, it won’t have highlighted rows. For components that have internal state that is updated in response to user interaction, that internal state will not be updated when the test script is played. In some cases, this may mean that when the script is played, the behavior when the script is played will not be the same as when a user actually interacts with the application.</p>
 <p>If the input component sets multiple input values (without bindings) in response to a single user event, it may make sense to coalesce them into a single <code>setInputs</code> call, such as this:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">app<span class="op">$</span><span class="kw">setInputs</span>(<span class="dt">table_rows_selected =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2">              <span class="dt">table_row_last_clicked =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb29-3" data-line-number="3">              <span class="dt">allowInputNoBinding_ =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">setInputs</span>(<span class="kw">table_rows_selected</span> <span class="kw">=</span> <span class="fl">1</span>,
+              <span class="kw">table_row_last_clicked</span> <span class="kw">=</span> <span class="fl">1</span>,
+              <span class="kw">allowInputNoBinding_</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 </div>
 </div>
 <div id="next" class="section level2">
@@ -338,35 +429,29 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#customizing-test-scripts">Customizing test scripts</a></li>
-      <li><a href="#widgets">Widgets</a></li>
-      <li><a href="#debugging-test-scripts">Debugging test scripts</a></li>
-      <li><a href="#dealing-with-dynamic-data">Dealing with dynamic data</a></li>
-      <li><a href="#limitations">Limitations</a></li>
-      <li><a href="#next">Next</a></li>
-      </ul>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
-  <p>Developed by Winston Chang, Gábor Csárdi.</p>
+  <p>Developed by Winston Chang, Gábor Csárdi, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

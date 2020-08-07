@@ -36,6 +36,7 @@ widget_getValueFuncs <- list(
   textOutput = function(self, private) {
     private$element$getText()
   }
+
 )
 
 widget_getValuePostprocess <- list(

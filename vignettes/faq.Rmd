@@ -3,7 +3,7 @@ title: "Frequently Asked Questions"
 output:
   html_document: default
   pdf_document: default
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -27,6 +27,11 @@ Shinytest normally assumes that when you call `app$setInput()`, the setting of a
 If, in your application, you expect that setting a particular input does not immediately result in any output changes, then you should call `app$setInput()` with `wait_=FALSE, values_=FALSE)`.
 
 On the other hand, if you expect that setting the input should result in an output change, but the time exceeds the timeout, then you can call `app$setInput()` with, for example, `timeout_=10`.
+
+
+## Some input values are not set right after calling `app$setInput()`. How do I wait for them?
+
+In most situations, when an `input` value is set, `shinytest` will wait for the next value to be sent to the server. (See question above and [this section in Testing in depth](in-depth.html#wait-for-value).  However, when dealing with dynamic UI inputs, htmlwidgets, or even selectize inputs, `input` values are not set on the first `output` change.  Use `app$waitForValue(NAME, ignore = list(VALUE_1, ...., VALUE_N), iotype = "input")` to wait until a particular `input` (or `output`) value is available (or has a non-invalid value).
 
 
 ## How can my app detect if it's running in shinytest?

@@ -64,7 +64,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     if (!dir_exists(save_dir)) {
       dir.create(save_dir, recursive=TRUE)
 
-      # findTestsDir would return the nested shinytests/ directory if the dir didn't exist,
+      # findTestsDir would return the nested shinytest/ directory if the dir didn't exist,
       # so since we're creating the nested structure, we should leave behind the top-
       # level runner, too.
       runner <- paste0("library(shinytest)\nshinytest::testApp(\"../\")\n")
@@ -131,3 +131,33 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
   invisible(res$file)
 }
 
+
+#' Register an input processor for the test recorder
+#'
+#' @description
+#' `registerInputProcessor()` registers an input processor which will be used by
+#' the test recorder. The input processor function should take one parameter,
+#' `value`, and return a string of R code which returns the desired value.
+#'
+#' `getInputProcessors()` returns a named list of all registered input processor
+#' functions.
+#'
+#' @param inputType The name of an input type, for example,
+#'   `"mypkg.numberinput"`.
+#' @param processor An input processor function.
+#' @export
+registerInputProcessor <- function(inputType, processor) {
+  if (!is.function(processor) || !identical(names(formals(processor)), "value")) {
+    stop("`processor` must be a function that takes one parameter, `value`")
+  }
+  recorder_input_processors[[inputType]] <- processor
+}
+
+#' @rdname registerInputProcessor
+#' @export
+getInputProcessors <- function() {
+  as.list(recorder_input_processors)
+}
+
+# This environment holds input processors registered by other packages on load.
+recorder_input_processors <- new.env(parent = emptyenv())

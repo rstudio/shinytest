@@ -1,13 +1,26 @@
 {
   "input": {
     "bw_adjust": 1.8,
-    "n_breaks": "35",
-    "n_breaks-selectized": ""
+    "n_breaks": "35"
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 9b2def6aec925a776ba86a184c4f7ab347fdd4b1]",
+      "html": "[html data sha1: 8bb765462387db5e4338c66634c24b7a2a8e7c4e]",
       "deps": [
+        {
+          "name": "header-attrs",
+          "version": "2.3",
+          "src": {
+            "href": "header-attrs-2.3"
+          },
+          "meta": null,
+          "script": "header-attrs.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
         {
           "name": "jquery",
           "version": "1.11.3",
@@ -117,8 +130,8 @@
         }
       ]
     },
-    "out4cb05256550523c6": {
-      "src": "[image data sha1: 22a3902d264c305c16fc20447292d3e7da130c61]",
+    "out6e1a6d8785f04cf5": {
+      "src": "[image data sha1: 21caf800f16b630a5ae4897f1f609b023c4e62ab]",
       "width": 738,
       "height": 626,
       "coordmap": {

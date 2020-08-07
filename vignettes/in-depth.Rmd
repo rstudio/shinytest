@@ -199,6 +199,8 @@ In some cases, you may need to wait for some amount of time between steps. You c
 Sys.sleep(0.5)
 ```
 
+If you are waiting for some reactives to be calculated, please read more in the [Waiting for an `input` (or `output`) value](#wait-for-value) section.
+
 
 ### Controlling randomness
 
@@ -314,6 +316,108 @@ vals <- app$getAllValues()
 
 expect_identical(vals$output$checkboxOut, "[1] TRUE")
 ```
+
+### Waiting for an `input` (or `output`) value {#wait-for-value}
+
+In most situations, when an input value is set, `app$setInputs` will wait up to 3 seconds (default) for the next value to be sent to the server.  If, however, you have an application that does not immediately send the value you are interested in, you will need to insert at `app$waitForValue` function call.  This is readily useful for htmlwidgets or anything that involves javascript code for values to be set. This method can also be used to determine when `input` (or `output`) values have been set after the initial output values have been set or for when reactivity is done in two or more stages.
+
+For example, when checking a checkbox that adds dynamic UI, such as the old faithful Shiny example, three round trips from the browser to the Shiny server will need to occur.
+
+1. Checking the checkbox
+2. Putting the slider and plot placeholder into the app's UI
+3. Once the slider is recognized by the browser, it will send information back to Shiny causing the plot to be rendered and placed in the browser
+
+If we were to only use `app$setInput("chkbx", TRUE)` and immediately take a snapshot, we would most likely miss the correct plot value.
+
+To dig into this further, we can look at this situation's example code:
+
+**`app.R`:**
+```r
+library(shiny)
+
+ui <- fluidPage(
+  checkboxInput("chkbx", "Display Graph?", FALSE),
+  uiOutput("dynamic_output")
+)
+
+server <- function(input, output) {
+  output$dynamic_output <- renderUI({
+    if(!input$chkbx) {
+      return(NULL)
+    }
+    tagList(
+      sliderInput(inputId = "bins", label = "Number of bins:", min = 1, max = 50, value = 30),
+      plotOutput(outputId = "distPlot")
+    )
+  })
+
+  # will not execute until `input$bins` is available
+  # `input$bins` is not available until `chkbx` is checked
+  output$distPlot <- renderPlot({
+    # artificially slow the plot
+    Sys.sleep(5)
+
+    x    <- faithful$waiting
+    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    hist(x, breaks = bins, col = "#75AADB", border = "white",
+         xlab = "Waiting time to next eruption (in mins)",
+         main = "Histogram of waiting times")
+  })
+}
+shinyApp(ui = ui, server = server)
+```
+
+Typically we would add `Sys.sleep()` function calls to slow down `shinytest` testing to hope that the Shiny application is in a stable state.
+
+**`./tests/mytest-sleep-bad.R`:**
+```r
+app <- ShinyDriver$new("../")
+app$snapshotInit("mytest")
+
+# Check the box to display the slider and plot
+app$setInputs('chkbx', TRUE)
+# Hope that the plot appears within 7 seconds
+Sys.sleep(7)
+
+app$snapshot()
+
+app$setInputs(bins = 40)
+# Hope the newer plot appears within 7 seconds
+Sys.sleep(7)
+
+app$snapshot()
+```
+
+The above pattern could fail if executed on a slower machine. As of `shinytest` v1.4.0, we can wait for `input` (or `output`) values using `app$waitForValue`.  The pattern of _sleeping and hoping_ can now be replaced with `app$waitForValue`.
+
+
+**`./tests/mytest-waitForValue-good.R`:**
+```r
+app <- ShinyDriver$new("../")
+app$snapshotInit("mytest")
+
+# Check the box to display the slider and plot
+app$setInputs(chkbx = TRUE)
+
+# Wait until `input$bins` is not `NULL`
+app$waitForValue("bins", ignore = list(NULL))
+
+# Wait until `output$distPlot` is not `NULL`
+# (Store the retrieved plot value for later comparison)
+priorPlotValue <- app$waitForValue("distPlot", iotype = "output", ignore = list(NULL))
+
+app$snapshot()
+
+
+# Change slider value to 40
+app$setInputs(bins = 40, wait_ = FALSE, values_=FALSE)
+# Wait until plot does not equal the plot with 30 bins
+app$waitForValue("distPlot", iotype = "output", ignore = list(priorPlotValue))
+
+app$snapshot()
+```
+
+Note: The `app$waitForValue("bins", ignore = list(NULL))` is not necessarily needed as `output$distPlot` depends upon `input$bins`.
 
 
 ## Dealing with dynamic data

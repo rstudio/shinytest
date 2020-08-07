@@ -294,8 +294,23 @@ window.shinytest = (function() {
         };
     };
 
+    var jquery_message_shown = false;
     // This sets shinytest.ready to true when the Shiny application is ready.
     function waitForReady() {
+        // It's possible (though unusual) to get here before jQuery is
+        // loaded. In that case, wait until jQuery is loaded before doing the
+        // rest of the stuff in this function.
+        if (typeof window.jQuery === "undefined") {
+            if (!jquery_message_shown) {
+                shinytest.log("jQuery not loaded yet");
+                jquery_message_shown = true;
+            }
+            setTimeout(waitForReady, 50);
+            return;
+        }
+
+        createShinyEventHandlers();
+
         // Check if we're already connected and the Shiny session has been
         // initialized by the time this code executes. If not, set up a callback
         // for the shiny:sessioninitialized event.
@@ -304,8 +319,8 @@ window.shinytest = (function() {
         {
             shinytest.log("already connected");
             waitForHtmlOutput();
-        }
-        else {
+
+        } else {
             shinytest.log("waiting for shiny session to connect");
             $(document).one("shiny:sessioninitialized", function(e) {
                 shinytest.log("connected");
@@ -336,30 +351,32 @@ window.shinytest = (function() {
     waitForReady();
 
 
-    $(document).on("shiny:busy", function(e) {
-        shinytest.busy = true;
-        shinytest.log("busy");
-    });
+    function createShinyEventHandlers() {
+        $(document).on("shiny:busy", function(e) {
+            shinytest.busy = true;
+            shinytest.log("busy");
+        });
 
-    $(document).on("shiny:idle", function(e) {
-        shinytest.busy = false;
-        shinytest.log("idle");
-    });
+        $(document).on("shiny:idle", function(e) {
+            shinytest.busy = false;
+            shinytest.log("idle");
+        });
 
-    $(document).on("shiny:message", function(e) {
-        if (shinytest.log_messages)
-            shinytest.log("message: " + JSON.stringify(e.message));
-    });
+        $(document).on("shiny:message", function(e) {
+            if (shinytest.log_messages)
+                shinytest.log("message: " + JSON.stringify(e.message));
+        });
 
-    $(document).on("shiny:value", function(e) {
-        shinytest.log("value " + e.name);
+        $(document).on("shiny:value", function(e) {
+            shinytest.log("value " + e.name);
 
-        // Clear up updates
-        var idx = shinytest.updating.indexOf(e.name);
-        if (idx != -1) {
-            shinytest.updating.splice(idx, 1);
-        }
-    });
+            // Clear up updates
+            var idx = shinytest.updating.indexOf(e.name);
+            if (idx != -1) {
+                shinytest.updating.splice(idx, 1);
+            }
+        });
+    };
 
 
     // Escape meta characters in jQuery selectors: !"#$%&'()*+,-./:;<=>?@[\]^`{|}~

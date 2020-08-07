@@ -154,6 +154,11 @@ read_utf8 <- function(file) {
   raw_to_utf8(res)
 }
 
+# write text as UTF-8
+write_utf8 <- function(text, ...) {
+  writeBin(charToRaw(enc2utf8(text)), ...)
+}
+
 normalize_suffix <- function(suffix) {
   if (is.null(suffix) || suffix == "") {
     ""

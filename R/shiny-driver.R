@@ -31,6 +31,8 @@
 #'
 #' app$waitFor(expr, checkInterval = 100, timeout = 3000)
 #'
+#' app$waitForValue(name, ignore = list(NULL, ""), iotype = "input", timeout = 10000, checkInterval = 400)
+#'
 #' app$listWidgets()
 #'
 #' app$checkUniqueWidgetNames()
@@ -84,6 +86,9 @@
 #'     evaluates to the condition to wait for.}
 #'   \item{checkInterval}{How often to check for the condition, in
 #'     milliseconds.}
+#'   \item{ignore}{List of possible values that are to not be
+#'     considered valid.  \code{app$waitForValue} will continue to poll until
+#'     it finds a value not contained in \code{ignore}.}
 #'   \item{timeout}{Timeout for the condition, in milliseconds.}
 #'   \item{output}{Character vector, the name(s) of the Shiny output
 #'     widgets that should be updated.}
@@ -169,6 +174,13 @@
 #' to \code{true}, or a timeout happens. It returns \code{TRUE} is the
 #' expression evaluated to \code{true}, possible after some waiting.
 #'
+#' \code{app$waitForValue()} waits until the current application's
+#' \code{input} (or \code{output}) value is not one of the supplied invalid
+#' values.  The function returns the value found if the time limit has not
+#' been reached (default is 10 seconds).  This function can be useful in
+#' helping determine if an application has initialized or finished
+#' processing a complex reactive situation.
+#'
 #' \code{app$listWidgets()} lists the names of all input and output
 #' widgets. It returns a list of two character vectors, named \code{input}
 #' and \code{output}.
@@ -220,12 +232,14 @@ ShinyDriver <- R6Class(
     stop = function()
       sd_stop(self, private),
 
+    # Note: This queries the **browser**
     getValue = function(name, iotype = c("auto", "input", "output"))
       sd_getValue(self, private, name, match.arg(iotype)),
 
     setValue = function(name, value, iotype = c("auto", "input", "output"))
       sd_setValue(self, private, name, value, match.arg(iotype)),
 
+    # Note: This queries the server
     getAllValues = function(input = TRUE, output = TRUE, export = TRUE)
       sd_getAllValues(self, private, input, output, export),
 
@@ -287,6 +301,9 @@ ShinyDriver <- R6Class(
     waitFor = function(expr, checkInterval = 100, timeout = 3000)
       sd_waitFor(self, private, expr, checkInterval, timeout),
 
+    waitForValue = function(name, ignore = list(NULL, ""), iotype = c("input", "output", "export"), timeout = 10000, checkInterval = 400) {
+      sd_waitForValue(self, private, name = name, ignore = ignore, iotype = match.arg(iotype), timeout = timeout, checkInterval = checkInterval)
+    },
 
     listWidgets = function()
       sd_listWidgets(self, private),
@@ -408,6 +425,7 @@ ShinyDriver$debugLogTypes <- c(
   "shinytest"
 )
 
+# Note: This queries the **browser**
 sd_getValue <- function(self, private, name, iotype) {
   "!DEBUG sd_getValue `name` (`iotype`)"
   self$findWidget(name, iotype)$getValue()
@@ -468,6 +486,54 @@ sd_stop <- function(self, private) {
 sd_waitFor <- function(self, private, expr, checkInterval, timeout) {
   "!DEBUG sd_waitFor"
   private$web$waitFor(expr, checkInterval, timeout)
+}
+
+sd_waitForValue <- function(self, private, name, ignore = list(NULL, ""), iotype = "input", timeout = 10000, checkInterval = 400) {
+  "!DEBUG sd_waitForValue"
+
+  timeoutSec <- as.numeric(timeout) / 1000
+  if (!is.numeric(timeoutSec) || is.na(timeoutSec) || is.nan(timeoutSec)) {
+    stop("timeout must be numeric")
+  }
+  checkInterval <- as.numeric(checkInterval)
+  if (!is.numeric(checkInterval) || is.na(checkInterval) || is.nan(checkInterval)) {
+    stop("checkInterval must be numeric")
+  }
+
+  now <- function() {
+    as.numeric(Sys.time())
+  }
+
+  endTime <- now() + timeoutSec
+
+  while (TRUE) {
+    value <- try({
+      # by default, do not retrieve anything
+      args <- list(input = FALSE, output = FALSE, export = FALSE)
+      # only retrieve `name` from `iotype`
+      args[[iotype]] <- name
+      do.call(self$getAllValues, args)[[iotype]][[name]]
+    }, silent = TRUE)
+
+    # if no error when trying ot retrieve the value..
+    if (!inherits(value, "try-error")) {
+      # check against all invalid values
+      isInvalid <- vapply(ignore, identical, logical(1), x = value)
+      # if no matches, then it's a success!
+      if (!any(isInvalid)) {
+        return(value)
+      }
+    }
+
+    # if too much time has elapsed... throw
+    if (now() > endTime) {
+      stop("timeout reached when waiting for value: ", name)
+    }
+
+    # wait a little bit for shiny to do some work
+    Sys.sleep(checkInterval / 1000)
+  }
+
 }
 
 sd_listWidgets <- function(self, private) {
@@ -546,7 +612,7 @@ sd_getAppDir <- function(self, private) {
     private$path
 }
 
-# Returns the tests/ or tests/shinytests/ dir otherwise, based on
+# Returns the tests/ or tests/shinytest/ dir otherwise, based on
 # what it finds in each dir.
 sd_getTestsDir <- function(self, private) {
   # private$path can be a directory (for a normal Shiny app) or path to a .Rmd

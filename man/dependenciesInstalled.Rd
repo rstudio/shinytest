@@ -8,7 +8,7 @@ dependenciesInstalled()
 }
 \value{
 \code{TRUE} when all dependencies are fulfilled; otherwise,
-  \code{FALSE}.
+\code{FALSE}.
 }
 \description{
 Checks that all the required system dependencies are installed properly,

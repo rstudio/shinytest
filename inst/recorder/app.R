@@ -64,7 +64,8 @@ tooltip <- function(text, placement = "top") {
     `data-toggle` = "tooltip",
     title = text,
     icon("question-sign", lib = "glyphicon"),
-    `data-placement` = placement
+    `data-placement` = placement,
+    `data-html` = "true"
   )
 }
 
@@ -72,6 +73,33 @@ enable_tooltip_script <- function() {
   tags$script("$('a[data-toggle=\"tooltip\"]').tooltip({ delay: 250 });")
 }
 
+# Given a vector/list, return TRUE if any elements are unnamed, FALSE otherwise.
+anyUnnamed <- function(x) {
+  # Zero-length vector
+  if (length(x) == 0) return(FALSE)
+
+  nms <- names(x)
+
+  # List with no name attribute
+  if (is.null(nms)) return(TRUE)
+
+  # List with name attribute; check for any ""
+  any(!nzchar(nms))
+}
+
+# Given two named vectors, join them together, and keep only the last element
+# with a given name in the resulting vector. If b has any elements with the same
+# name as elements in a, the element in a is dropped. Also, if there are any
+# duplicated names in a or b, only the last one with that name is kept.
+mergeVectors <- function(a, b) {
+  if (anyUnnamed(a) || anyUnnamed(b)) {
+    stop("Vectors must be either NULL or have names for all elements")
+  }
+
+  x <- c(a, b)
+  drop_idx <- duplicated(names(x), fromLast = TRUE)
+  x[!drop_idx]
+}
 
 inputProcessors <- list(
   default = function(value) {
@@ -112,15 +140,46 @@ inputProcessors <- list(
   }
 )
 
+# Add in input processors registered by other packages.
+inputProcessors <- mergeVectors(inputProcessors, shinytest::getInputProcessors())
+
 # Given an input value taken from the client, return the value that would need
 # to be passed to app$set_input() to set the input to that value.
 processInputValue <- function(value, inputType) {
-  if (is.null(inputProcessors[[inputType]]))
+  if (is.null(inputProcessors[[inputType]])) {
+    # For input with type "mypkg.foo", get "mypkg", and then try to load it.
+    # This is helpful in cases where the R session running `recordTest()` has
+    # not loaded the package with the input type. (There's a separate R session
+    # running the Shiny app.) See https://github.com/rstudio/learnr/pull/407 for
+    # more info.
+    pkg <- strsplit(inputType, ".", fixed = TRUE)[[1]][1]
+
+    if (tryLoadPackage(pkg)) {
+      # The set of inputProcessors may have changed by loading the package, so
+      # re-merge the registered input processors.
+      inputProcessors <<- mergeVectors(inputProcessors, shinytest::getInputProcessors())
+    }
+  }
+
+  # Check again if the input type is now registered.
+  if (is.null(inputProcessors[[inputType]])) {
     inputType <- "default"
+  }
 
   inputProcessors[[inputType]](value)
 }
 
+# Try to load a package, but only once; subsequent calls with the same value of
+# `pkg` will do nothing. Returns TRUE if the package is successfully loaded,
+# FALSE otherwise.
+triedPackages <- character()
+tryLoadPackage <- function(pkg) {
+  if (pkg %in% triedPackages) {
+    return(FALSE)
+  }
+  triedPackages <<- c(triedPackages, pkg)
+  requireNamespace(pkg, quietly = TRUE)
+}
 
 # Quote variable/argument names. Normal names like x, x1, or x_y will not be changed, but
 # if there are any strange characters, it will be quoted; x-1 will return `x-1`.
@@ -172,9 +231,9 @@ codeGenerators <- list(
       # Check that all files exist. If not, add a message and don't run test
       # automatically on exit.
       if (!all(file.exists(filepaths))) {
-        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/shinytests directory, or copy the file to the app's tests/shinytests directory.")
+        add_dont_run_reason("An uploadFile() must be updated: use the correct path relative to the app's tests/shinytest directory, or copy the file to the app's tests/shinytest directory.")
         code <- paste0(code,
-          " # <-- This should be the path to the file, relative to the app's tests/shinytests directory"
+          " # <-- This should be the path to the file, relative to the app's tests/shinytest directory"
         )
       }
 
@@ -331,7 +390,7 @@ shinyApp(
               style = "display: inline;"
             ),
             tooltip(
-              "You can also Ctrl-click or ⌘-click on an output to snapshot just that one output.\n To trigger a snapshot via the keyboard, press Ctrl-shift-S or ⌘-shift-S",
+              HTML("You can also Ctrl-click or &#8984;-click on an output to snapshot just that one output.<br> To trigger a snapshot via the keyboard, press Ctrl-shift-S or &#8984;-shift-S"),
               placement = "bottom"
             ),
             hr()

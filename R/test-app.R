@@ -109,17 +109,17 @@ testApp <- function(
 #' Identify in which directory the tests are contained.
 #'
 #' Prior to 1.3.1.9999, tests were stored directly in `tests/` rather than
-#' nested in `tests/shinytests/`.
+#' nested in `tests/shinytest/`.
 #'
 #' @param mustExist If TRUE, will error if we can't find a test directory.
 #' @param quiet If we see that the tests are stored in the top-level tests/ directory as we used to
 #'   recommend, we will note the new recommendation in a message to the user if this is FALSE.
 #'
 #' This function does the following:
-#'  1. Check to see if `tests/shinytests/` exists. If so, use it.
-#'  2. Check to see if all the top-level R files in `tests/` appear to be shinytests. If
+#'  1. Check to see if `tests/shinytest/` exists. If so, use it.
+#'  2. Check to see if all the top-level R files in `tests/` appear to be shinytest. If
 #'     some are and some aren't, throw an error.
-#'  3. Assuming all top-level R files in `tests/` appear to be shinytests, return that dir.
+#'  3. Assuming all top-level R files in `tests/` appear to be shinytest, return that dir.
 #' @noRd
 findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
   if (basename(appDir) == "tests"){
@@ -140,7 +140,7 @@ findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
     stop("tests/ directory doesn't exist")
   } else if (!dir_exists(testsDir) && !mustExist) {
     # Use the preferred directory if nothing exists yet.
-    return(file.path(testsDir, "shinytests"))
+    return(file.path(testsDir, "shinytest"))
   }
 
   r_files <- list.files(testsDir, pattern = "\\.[rR]$", full.names = TRUE)
@@ -148,32 +148,44 @@ findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
     isShinyTest(readLines(f, warn=FALSE))
   }, logical(1))
 
-  shinytestsDir <- file.path(testsDir, "shinytests")
-  if (dir_exists(shinytestsDir)) {
+  if (dir_exists(file.path(testsDir, "shinytests"))) {
+    message(
+      "tests/shinytests/ directory found.",
+      " Please rename this directory to tests/shinytest/.",
+      " (The tests/shinytests/ directory was used only in an unreleased version of the shinytest package.)"
+    )
+  }
+
+  shinytestDir <- file.path(testsDir, "shinytest")
+  if (dir_exists(shinytestDir)) {
     # We'll want to use this dir. But as a courtesy, let's warn if we find anything
     # that appears to be a shinytest in the top-level; it's possible that someone
     # using the old layout (tests at the top-level) might have just had a directory
-    # named shinytests. Let's leave them a clue.
+    # named shinytest. Let's leave them a clue.
     if (any(is_test) && !quiet) {
-      warning("Assuming that the shinytests are stored in tests/shinytests, but it appears that there are some ",
-              "shinytests in the top-level tests/ directory. All shinytests should be placed in the tests/shinytests directory.")
+      warning("Assuming that the shinytests are stored in tests/shinytest, but it appears that there are some ",
+              "shinytests in the top-level tests/ directory. All shinytests should be placed in the tests/shinytest/ directory.")
     }
 
-    return(shinytestsDir)
+    return(shinytestDir)
   }
 
   if (!any(is_test) && !mustExist){
     # There may be some stuff in the tests directory, but if it's not shinytest-related...
     # Ignore and just use the nested dir
-    return(shinytestsDir)
+    return(shinytestDir)
   }
 
   if (!all(is_test)) {
-    stop("Found R files that don't appear to be shinytests in the tests/ directory. shinytests should be placed in tests/shinytests/")
+    stop("Found R files that don't appear to be shinytests in the tests/ directory. shinytests should be placed in tests/shinytest/")
   }
 
   if (!quiet) {
-    message("shinytests should be placed in the tests/shinytests directory. Storing them in the top-level tests/ directory will be deprecated in the future.")
+    message(
+      "Shinytest scripts found in tests/.\n",
+      "As of shinytest 1.4.0, shinytests should be placed in the tests/shinytest/ directory.\n",
+      "Please use migrateShinytestDir(), or see ?migrateShinytestDir for more information."
+    )
   }
   testsDir
 }
