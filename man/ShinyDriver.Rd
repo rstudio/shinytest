@@ -3,6 +3,9 @@
 \name{ShinyDriver}
 \alias{ShinyDriver}
 \title{Class to manage a shiny app and a phantom.js headless browser}
+\value{
+All functions that modify the object return the object invisibly.
+}
 \description{
 Class to manage a shiny app and a phantom.js headless browser
 }

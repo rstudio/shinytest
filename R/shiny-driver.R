@@ -197,6 +197,7 @@
 #' all specified output widgets are updated before the timeout. For
 #' updates that involve a lot of computation, you increase the timeout.
 #'
+#' @return All functions that modify the object return the object invisibly.
 #' @name ShinyDriver
 #' @examples
 #' \dontrun{
@@ -576,11 +577,13 @@ sd_checkUniqueWidgetNames <- function(self, private) {
 sd_executeScript <- function(self, private, script, ...) {
   "!DEBUG sd_executeScript"
   private$web$executeScript(script, ...)
+  invisible(self)
 }
 
 sd_executeScriptAsync <- function(self, private, script, ...) {
   "!DEBUG sd_executeScriptAsync"
   private$web$executeScriptAsync(script, ...)
+  invisible(self)
 }
 
 sd_getTestSnapshotUrl = function(self, private, input, output, export,
