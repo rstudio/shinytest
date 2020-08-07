@@ -1,4 +1,4 @@
-#' @importFrom xml2 read_html,as_list
+#' @importFrom xml2 read_html as_list
 
 sd_snapshot <- function(self, private, items, filename, screenshot, exclude, stop_on_error=TRUE)
 {
