@@ -10,6 +10,15 @@
 #' @param compareImages Should screenshots be compared? It can be useful to set
 #'   this to \code{FALSE} when the expected results were taken on a different
 #'   platform from the one currently being used to test the application.
+#' @param normalizeContent This will pre-process the pages content to
+#'   canonicalize it (alphabetical order), so changes of JSON objects order will
+#'   no longer be considered as differences. It can be useful to set
+#'   this to \code{TRUE} when the content of snapshot is quite heavy
+#'   (which means that the snapshooted page may be loaded hieratically).
+#' @param ignoreContent This will pre-process the pages content to ignore text
+#'   matching these patterns (using gsub to replace it by arbitrary value).
+#' @param ignoreElement This will pre-process the pages elements to remove those
+#'   matching these patterns.
 #' @param interactive If there are any differences between current results and
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
@@ -28,6 +37,7 @@ testApp <- function(
   testnames = NULL,
   quiet = FALSE,
   compareImages = TRUE,
+  normalizeContent = FALSE, ignoreElement = NULL, ignoreContent = NULL,
   interactive = base::interactive(),
   suffix = NULL
 )
@@ -89,6 +99,7 @@ testApp <- function(
       testnames = found_testnames_no_ext,
       quiet = quiet,
       images = compareImages,
+      normalize_data = normalizeContent, ignore_keys = ignoreElement, ignore_text = ignoreContent,
       interactive = interactive,
       suffix = suffix
     )

@@ -1,3 +1,5 @@
+library(testthat)
+library(shinytest)
 
 context("ShinyDriver")
 
@@ -37,3 +39,11 @@ test_that("window size", {
     list(width = 1200L, height = 800L)
   )
 })
+
+
+test_that("loadTimeout", {
+  expect_error(ShinyDriver$new(test_path("apps/long-loading"), loadTimeout=20000))
+  ShinyDriver$new(test_path("apps/long-loading"), loadTimeout=40000)
+})
+
+

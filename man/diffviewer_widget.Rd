@@ -4,7 +4,8 @@
 \alias{diffviewer_widget}
 \title{Creat an htmlwidget that shows differences between files or directories}
 \usage{
-diffviewer_widget(old, new, width = NULL, height = NULL, pattern = NULL)
+diffviewer_widget(old, new, width = NULL, height = NULL, pattern = NULL,
+                  preprocess = NULL)
 }
 \arguments{
 \item{old, new}{Names of the old and new directories to compare.
@@ -16,6 +17,8 @@ compare.}
 \item{height}{Height of the htmlwidget}
 
 \item{pattern}{A filter to apply to the old and new directories.}
+
+\item{preprocess}{Preliminary processing for content filtering.}
 }
 \description{
 This function can be used for viewing differences between current test

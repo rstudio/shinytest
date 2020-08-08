@@ -1,5 +1,6 @@
 app_dir   <- getOption("shinytest.app.dir")
 test_name <- getOption("shinytest.test.name")
+preprocess <- getOption("shinytest.preprocess")
 suffix    <- getOption("shinytest.suffix")
 
 msg_suffix <- shinytest:::normalize_suffix(suffix)
@@ -38,7 +39,7 @@ shinyApp(
     ),
     div(
       class = "content",
-      shinytest::viewTestDiffWidget(app_dir, test_name, suffix)
+      shinytest::viewTestDiffWidget(app_dir, test_name, preprocess, suffix)
     )
   ),
 

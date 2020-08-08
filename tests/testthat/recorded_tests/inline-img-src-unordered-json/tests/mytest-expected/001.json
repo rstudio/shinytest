@@ -1,0 +1,84 @@
+{
+  "input": {
+
+  },
+  "output": {
+    "image": {
+      "html": "<img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAJ0lEQVQoU2Ps6Oj4z4AGXFxc0IUYGIeCwjNnzmB4Zs+ePZieGQIKAZKhLO1oE8Z/AAAAAElFTkSuQmCC\"/>",
+      "deps": [
+
+      ]
+    },
+    "plot1": {
+      "src": "[image data sha1: 22c2949ed4c7518fbeafff975d3d5780e1bbf04f]",
+      "height": 30,
+      "width": 30,
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 0.84,
+              "right": 5.16,
+              "bottom": 0.84,
+              "top": 5.16
+            },
+            "range": {
+              "left": 0,
+              "right": 30,
+              "bottom": 29,
+              "top": -1
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 30,
+          "height": 30
+        }
+      }
+    },
+    "plot2": {
+      "src": "[image data sha1: de8245a8a5d95796ade12f6dae6a23b28e11a2a0]",
+      "width": 30,
+      "height": 30,
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 0.84,
+              "right": 5.16,
+              "bottom": 0.84,
+              "top": 5.16
+            },
+            "range": {
+              "left": 0,
+              "right": 30,
+              "bottom": 29,
+              "top": -1
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 30,
+          "height": 30
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

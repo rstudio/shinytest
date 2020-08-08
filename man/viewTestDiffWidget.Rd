@@ -4,13 +4,14 @@
 \alias{viewTestDiffWidget}
 \title{Interactive viewer widget for changes in test results}
 \usage{
-viewTestDiffWidget(appDir = ".", testname = NULL, suffix = NULL)
+viewTestDiffWidget(appDir = ".", testname = NULL, preprocess = NULL, suffix = NULL)
 }
 \arguments{
 \item{appDir}{Directory of the Shiny application that was tested.}
 
 \item{testname}{Name of test to compare.}
 
+\item{preprocess}{Preliminary processing for content filtering.}
 \item{suffix}{An optional suffix for the expected results directory. For
 example, if the suffix is \code{"mac"}, the expected directory would be
 \code{mytest-expected-mac}.}

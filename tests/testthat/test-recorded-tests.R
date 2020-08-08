@@ -35,7 +35,7 @@ if (dir.exists("recorded_tests")) {
       # If the dir contains an .Rmd, add that to the path
       path <- append_rmd(app_dir)
       test_that(basename(path), {
-        shinytest::expect_pass(shinytest::testApp(path, compareImages = FALSE))
+        shinytest::expect_pass(shinytest::testApp(path, compareImages = FALSE, normalizeContent = T))
       })
     }
   }
