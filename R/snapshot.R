@@ -285,7 +285,7 @@ snapshotCompareSingle <- function(
 
   } else {
     if (!quiet) {
-      message("\n  No existing snapshots at ", basename(expected_dir), "/.",
+      message("\n  No existing snapshot at '", expected_dir, "/'",
               " This is a first run of tests.\n")
     }
 
