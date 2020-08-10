@@ -17,6 +17,8 @@ append_rmd <- function(path) {
 }
 
 if (dir.exists("recorded_tests")) {
+  skip_on_os("windows")
+
   app_dirs <- Filter(dir.exists, dir("recorded_tests", full.names = TRUE))
   if (length(app_dirs) > 0) {
     for (app_dir in app_dirs) {
