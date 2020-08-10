@@ -16,27 +16,15 @@ append_rmd <- function(path) {
   }
 }
 
-if (dir.exists("recorded_tests")) {
-  app_dirs <- Filter(dir.exists, dir("recorded_tests", full.names = TRUE))
-  if (length(app_dirs) > 0) {
-    for (app_dir in app_dirs) {
-      if (grepl("^rmd", basename(app_dir))) {
-        if (!requireNamespace("rmarkdown", quietly = TRUE)) {
-          # rmarkdown is not installed... skip app!
-          next
-        }
-      }
-      if (basename(app_dir) == "rmd") {
-        # https://github.com/rstudio/rmarkdown/blob/7f51e232c98b2f7db40b40cd593385fe76b3189b/R/html_dependencies.R#L317-L328
-        if (!rmarkdown::pandoc_available('2.9')) {
-          next
-        }
-      }
-      # If the dir contains an .Rmd, add that to the path
-      path <- append_rmd(app_dir)
-      test_that(basename(path), {
-        shinytest::expect_pass(shinytest::testApp(path, compareImages = FALSE))
-      })
-    }
+test_that("prerecorded tests return expected results", {
+  skip_on_os("windows")
+
+  app_dirs <- Filter(dir.exists, dir(test_path("recorded_tests"), full.names = TRUE))
+  if (length(app_dirs) == 0) {
+    skip("No pre-recorded tests found")
   }
-}
+  for (app_dir in app_dirs) {
+    path <- append_rmd(app_dir)
+    shinytest::expect_pass(shinytest::testApp(path, compareImages = FALSE))
+  }
+})
