@@ -1,118 +1,60 @@
-
-#' Class for a Shiny widget
+#' A Shiny Widget
 #'
-#' @section Usage:
-#' \preformatted{w <- app$findWidget(name,
-#'     iotype = c("auto", "input", "output"))
+#' A `Widget` object represents a Shiny input or output control.
 #'
-#' w$getName()
-#' w$getElement()
-#' w$getType()
-#' w$getIoType()
-#' w$isInput()
-#' w$isOutput()
-#'
-#' w$getValue()
-#' w$setValue(value)
-#'
-#' w$sendKeys(keys)
-#'
-#' w$listTabs()
-#' }
-#'
-#' @section Arguments:
-#' \describe{
-#'   \item{app}{A [ShinyDriver()] object.}
-#'   \item{w}{A `Widget` object.}
-#'   \item{name}{Name of a Shiny widget.}
-#'   \item{iotype}{Character scalar, whether the widget is \sQuote{input}
-#'     or \sQuote{output}. The default \sQuote{auto} value works well,
-#'     provided that widgets have unique names. (Shiny allows an input
-#'     and an output widget with the same name.)}
-#'   \item{value}{Value to set for the widget. Its interpretation depends
-#'     on the type of the widget, see details below.}
-#'   \item{keys}{Keys to send to the widget. See the `sendKeys`
-#'     method of the [webdriver::Element()] class in the
-#'     `webdriver` package.}
-#' }
-#'
-#' @section Details:
-#'
-#' A `Widget` object represents a Shiny input or output widget.
-#' `app$findWidget` creates a widget object from a
-#' [ShinyDriver()] object.
-#'
-#' `w$getName()` returns the name of the widget.
-#'
-#' `w$getElement()` returns an HTML element. This is an
-#' [webdriver::Element()] object from the `webdriver`
-#' package.
-#'
-#' `w$getType()` returns the type of the widget, possible values
-#' are `textInput`, `selectInput`, etc.
-#'
-#' `w$getIoType()` returns \sQuote{input} or \sQuote{output},
-#' whether the widget is an input or output widget.
-#'
-#' `w$isInput()` returns `TRUE` for input widgets, `FALSE`
-#' otherwise.
-#'
-#' `w$isOutput()` returns `TRUE` for output widgets, `FALSE`
-#' otherwise.
-#'
-#' `w$getValue()` returns the value of the widget. The exact type
-#' returned depends on the type of the widget. TODO: list widgets and their
-#' return types.
-#'
-#' `w$setValue()` sets the value of the widget, through the web
-#' browser. Different widget types expect different different `value`
-#' arguments. TODO: list widgets and types.
-#'
-#' `w$sendKeys` sends the specified keys to the HTML element of the
-#' widget.
-#'
-#' `w$listTabs` lists the tab names of a `tabsetPanel` widget.
-#' It fails for other types of widgets.
-#'
-#' @name Widget
-#' @examples{
-#'
-#' }
-NULL
-
 #' @importFrom R6 R6Class
-
 Widget <- R6Class(
   "Widget",
 
   public = list(
-    initialize = function(name, element, type,
-      iotype = c("input", "output"))
+    #' @description Create new `Widget`
+    #' @param name Name of a Shiny widget.
+    #' @param element [webdriver::Element]
+    #' @param type Widget type
+    #' @param iotype Input/output type.
+    initialize = function(name, element, type, iotype = c("input", "output"))
       widget_initialize(self, private, name, element, type,
                         match.arg(iotype)),
 
+    #' @description Control id (i.e. `inputId` or `outputId` that control
+    #'   was created with).
     getName = function() private$name,
+    #' @description Underlying [webdriver::Element()] object.
     getElement = function() private$element,
+    #' @description Widget type, e.g. `textInput`, `selectInput`.
     getType = function() private$type,
+    #' @description Is this an input or output control?
     getIoType = function() private$iotype,
+    #' @description Is this an input control?
     isInput = function() private$iotype == "input",
+    #' @description Is this an output control?
     isOutput = function() private$iotype == "output",
 
+    #' @description Get current value of control.
     getValue = function()
       widget_getValue(self, private),
 
+    #' @description Set value of control.
+    #' @param value Value to set for the widget.
     setValue = function(value)
       widget_setValue(self, private, value),
 
+    #' @description Send specified key presses to control.
+    #' @param keys Keys to send to the widget or the app. See [webdriver::key]
+    #'   for how to specific special keys.
     sendKeys = function(keys)
       widget_sendKeys(self, private, keys),
 
+    #' @description Lists the tab names of a [shiny::tabsetPanel()].
+    #'  It fails for other types of widgets.
     listTabs = function()
       widget_listTabs(self, private),
 
+    #' @description Upload a file to a [shiny::fileInput()].
+    #'  It fails for other types of widgets.
+    #' @param filename Path to file to upload
     uploadFile = function(filename)
       widget_uploadFile(self, private, filename)
-
   ),
 
   private = list(
