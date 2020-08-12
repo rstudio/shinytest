@@ -1,6 +1,6 @@
 #' Launch test event recorder for a Shiny app
 #'
-#' @param app A \code{\link{ShinyDriver}} object, or path to a Shiny
+#' @param app A [ShinyDriver()] object, or path to a Shiny
 #'   application.
 #' @param save_dir A directory to save stuff.
 #' @param load_mode A boolean that determines whether or not the resulting test
@@ -9,13 +9,13 @@
 #'   be used in the test script.
 #' @param loadTimeout Maximum time to wait for the Shiny application to load, in
 #'   milliseconds. If a value is provided, it will be saved in the test script.
-#' @param debug start the underlying \code{\link{ShinyDriver}} in \code{debug}
+#' @param debug start the underlying [ShinyDriver()] in `debug`
 #'   mode and print those debug logs to the R console once recording is
-#'   finished. The default, \code{'shiny_console'}, captures and prints R
+#'   finished. The default, `'shiny_console'`, captures and prints R
 #'   console output from the recorded R shiny process. Any value that the
-#'   \code{debug} argument in \code{\link{ShinyDriver}} accepts may be used
-#'   (e.g., \code{'none'} may be used to completely suppress the driver logs).
-#' @param shinyOptions A list of options to pass to \code{runApp()}. If a value
+#'   `debug` argument in [ShinyDriver()] accepts may be used
+#'   (e.g., `'none'` may be used to completely suppress the driver logs).
+#' @param shinyOptions A list of options to pass to `runApp()`. If a value
 #'   is provided, it will be saved in the test script.
 #' @export
 recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NULL,

@@ -16,5 +16,5 @@ returns. If dependencies are missing, consider running
 \link{installDependencies}.
 }
 \seealso{
-\code{\link{installDependencies}} to install missing dependencies.
+\code{\link[=installDependencies]{installDependencies()}} to install missing dependencies.
 }

@@ -30,7 +30,7 @@ w$listTabs()
 \section{Arguments}{
 
 \describe{
-\item{app}{A \code{\link{ShinyDriver}} object.}
+\item{app}{A \code{\link[=ShinyDriver]{ShinyDriver()}} object.}
 \item{w}{A \code{Widget} object.}
 \item{name}{Name of a Shiny widget.}
 \item{iotype}{Character scalar, whether the widget is \sQuote{input}
@@ -40,7 +40,7 @@ and an output widget with the same name.)}
 \item{value}{Value to set for the widget. Its interpretation depends
 on the type of the widget, see details below.}
 \item{keys}{Keys to send to the widget. See the \code{sendKeys}
-method of the \code{\link[webdriver]{Element}} class in the
+method of the \code{\link[webdriver:Element]{webdriver::Element()}} class in the
 \code{webdriver} package.}
 }
 }
@@ -50,12 +50,12 @@ method of the \code{\link[webdriver]{Element}} class in the
 
 A \code{Widget} object represents a Shiny input or output widget.
 \code{app$findWidget} creates a widget object from a
-\code{\link{ShinyDriver}} object.
+\code{\link[=ShinyDriver]{ShinyDriver()}} object.
 
 \code{w$getName()} returns the name of the widget.
 
 \code{w$getElement()} returns an HTML element. This is an
-\code{\link[webdriver]{Element}} object from the \code{webdriver}
+\code{\link[webdriver:Element]{webdriver::Element()}} object from the \code{webdriver}
 package.
 
 \code{w$getType()} returns the type of the widget, possible values

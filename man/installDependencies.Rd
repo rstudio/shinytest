@@ -22,7 +22,7 @@ if (!dependenciesInstalled() &&
 
 }
 \seealso{
-\code{\link{dependenciesInstalled}} to check if dependencies are
+\code{\link[=dependenciesInstalled]{dependenciesInstalled()}} to check if dependencies are
 missing. For more information about where PhantomJS will be installed, see
-\code{\link[webdriver]{install_phantomjs}}.
+\code{\link[webdriver:install_phantomjs]{webdriver::install_phantomjs()}}.
 }

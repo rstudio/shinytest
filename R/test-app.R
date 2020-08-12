@@ -2,22 +2,22 @@
 #'
 #' @param appDir Path to the Shiny application to be tested.
 #' @param testnames Test script(s) to run. The .R extension of the filename is
-#'   optional. For example, \code{"mytest"} or \code{c("mytest", "mytest2.R")}.
-#'   If \code{NULL} (the default), all scripts in the tests/ directory will be
+#'   optional. For example, `"mytest"` or `c("mytest", "mytest2.R")`.
+#'   If `NULL` (the default), all scripts in the tests/ directory will be
 #'   run.
 #' @param quiet Should output be suppressed? This is useful for automated
 #'   testing.
 #' @param compareImages Should screenshots be compared? It can be useful to set
-#'   this to \code{FALSE} when the expected results were taken on a different
+#'   this to `FALSE` when the expected results were taken on a different
 #'   platform from the one currently being used to test the application.
 #' @param interactive If there are any differences between current results and
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
 #' @param suffix An optional suffix for the expected results directory. For
-#'   example, if the suffix is \code{"mac"}, the expected directory would be
-#'   \code{mytest-expected-mac}.
+#'   example, if the suffix is `"mac"`, the expected directory would be
+#'   `mytest-expected-mac`.
 #'
-#' @seealso \code{\link{snapshotCompare}} and \code{\link{snapshotUpdate}} if
+#' @seealso [snapshotCompare()] and [snapshotUpdate()] if
 #'   you want to compare or update snapshots after testing. In most cases, the
 #'   user is prompted to do these tasks interactively, but there are also times
 #'   where it is useful to call these functions from the console.

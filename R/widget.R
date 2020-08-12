@@ -22,8 +22,8 @@
 #'
 #' @section Arguments:
 #' \describe{
-#'   \item{app}{A \code{\link{ShinyDriver}} object.}
-#'   \item{w}{A \code{Widget} object.}
+#'   \item{app}{A [ShinyDriver()] object.}
+#'   \item{w}{A `Widget` object.}
 #'   \item{name}{Name of a Shiny widget.}
 #'   \item{iotype}{Character scalar, whether the widget is \sQuote{input}
 #'     or \sQuote{output}. The default \sQuote{auto} value works well,
@@ -31,47 +31,47 @@
 #'     and an output widget with the same name.)}
 #'   \item{value}{Value to set for the widget. Its interpretation depends
 #'     on the type of the widget, see details below.}
-#'   \item{keys}{Keys to send to the widget. See the \code{sendKeys}
-#'     method of the \code{\link[webdriver]{Element}} class in the
-#'     \code{webdriver} package.}
+#'   \item{keys}{Keys to send to the widget. See the `sendKeys`
+#'     method of the [webdriver::Element()] class in the
+#'     `webdriver` package.}
 #' }
 #'
 #' @section Details:
 #'
-#' A \code{Widget} object represents a Shiny input or output widget.
-#' \code{app$findWidget} creates a widget object from a
-#' \code{\link{ShinyDriver}} object.
+#' A `Widget` object represents a Shiny input or output widget.
+#' `app$findWidget` creates a widget object from a
+#' [ShinyDriver()] object.
 #'
-#' \code{w$getName()} returns the name of the widget.
+#' `w$getName()` returns the name of the widget.
 #'
-#' \code{w$getElement()} returns an HTML element. This is an
-#' \code{\link[webdriver]{Element}} object from the \code{webdriver}
+#' `w$getElement()` returns an HTML element. This is an
+#' [webdriver::Element()] object from the `webdriver`
 #' package.
 #'
-#' \code{w$getType()} returns the type of the widget, possible values
-#' are \code{textInput}, \code{selectInput}, etc.
+#' `w$getType()` returns the type of the widget, possible values
+#' are `textInput`, `selectInput`, etc.
 #'
-#' \code{w$getIoType()} returns \sQuote{input} or \sQuote{output},
+#' `w$getIoType()` returns \sQuote{input} or \sQuote{output},
 #' whether the widget is an input or output widget.
 #'
-#' \code{w$isInput()} returns \code{TRUE} for input widgets, \code{FALSE}
+#' `w$isInput()` returns `TRUE` for input widgets, `FALSE`
 #' otherwise.
 #'
-#' \code{w$isOutput()} returns \code{TRUE} for output widgets, \code{FALSE}
+#' `w$isOutput()` returns `TRUE` for output widgets, `FALSE`
 #' otherwise.
 #'
-#' \code{w$getValue()} returns the value of the widget. The exact type
+#' `w$getValue()` returns the value of the widget. The exact type
 #' returned depends on the type of the widget. TODO: list widgets and their
 #' return types.
 #'
-#' \code{w$setValue()} sets the value of the widget, through the web
-#' browser. Different widget types expect different different \code{value}
+#' `w$setValue()` sets the value of the widget, through the web
+#' browser. Different widget types expect different different `value`
 #' arguments. TODO: list widgets and types.
 #'
-#' \code{w$sendKeys} sends the specified keys to the HTML element of the
+#' `w$sendKeys` sends the specified keys to the HTML element of the
 #' widget.
 #'
-#' \code{w$listTabs} lists the tab names of a \code{tabsetPanel} widget.
+#' `w$listTabs` lists the tab names of a `tabsetPanel` widget.
 #' It fails for other types of widgets.
 #'
 #' @name Widget

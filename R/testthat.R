@@ -2,7 +2,7 @@
 #'
 #' This returns an testthat expectation object.
 #'
-#' @param object The results returned by \code{\link{testApp}}.
+#' @param object The results returned by [testApp()].
 #' @param info Extra information to be included in the message (useful when
 #'   writing tests in loops).
 #'

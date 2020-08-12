@@ -13,7 +13,7 @@ expectUpdate(
 )
 }
 \arguments{
-\item{app}{A \code{\link{ShinyDriver}} object.}
+\item{app}{A \code{\link[=ShinyDriver]{ShinyDriver()}} object.}
 
 \item{output}{Character vector, the name(s) of the output widgets
 that are required to update for the test to succeed.}

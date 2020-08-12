@@ -107,13 +107,13 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 #' @param quiet Should output be suppressed? This is useful for automated
 #'   testing.
 #' @param images Should screenshots and PNG images be compared? It can be useful
-#'   to set this to \code{FALSE} when the expected results were taken on a
+#'   to set this to `FALSE` when the expected results were taken on a
 #'   different platform from the current results.
 #' @param suffix An optional suffix for the expected results directory. For
-#'   example, if the suffix is \code{"mac"}, the expected directory would be
-#'   \code{mytest-expected-mac}.
+#'   example, if the suffix is `"mac"`, the expected directory would be
+#'   `mytest-expected-mac`.
 #'
-#' @seealso \code{\link{testApp}}
+#' @seealso [testApp()]
 #'
 #' @export
 snapshotCompare <- function(

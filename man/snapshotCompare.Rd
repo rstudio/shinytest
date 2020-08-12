@@ -46,5 +46,5 @@ This compares current and expected snapshots for a test set, and prints any
 differences to the console.
 }
 \seealso{
-\code{\link{testApp}}
+\code{\link[=testApp]{testApp()}}
 }
