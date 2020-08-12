@@ -7,6 +7,9 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
                           shinyOptions) {
 
   private$cleanLogs <- cleanLogs
+  if (is.null(loadTimeout)) {
+    loadTimeout <- if (on_ci()) 10000 else 5000
+  }
 
   self$logEvent("Start ShinyDriver initialization")
 

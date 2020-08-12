@@ -87,7 +87,7 @@ with a live app.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$new(
   path = ".",
-  loadTimeout = 5000,
+  loadTimeout = NULL,
   checkNames = TRUE,
   debug = c("none", "all", shinytest::ShinyDriver$debugLogTypes),
   phantomTimeout = 5000,
@@ -104,7 +104,8 @@ with a live app.
 single \code{app.R} file or a \code{server.R}-\code{ui.R} pair.}
 
 \item{\code{loadTimeout}}{How long to wait for the app to load, in ms.
-This includes the time to start R.}
+This includes the time to start R. Defaults to 5s when running
+locally and 10s when running on CI.}
 
 \item{\code{checkNames}}{Check if widget names are unique?}
 

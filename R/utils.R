@@ -205,3 +205,7 @@ png_res_header_data <- as.raw(c(
   0x01,                    # Unit specifier: meters
   0x00, 0x9a, 0x9c, 0x18   # Checksum
 ))
+
+on_ci <- function() {
+ isTRUE(as.logical(Sys.getenv("CI")))
+}
