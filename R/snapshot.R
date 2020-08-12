@@ -1,3 +1,16 @@
+sd_snapshotInit <- function(self, private, path, screenshot) {
+  if (grepl("^/", path)) {
+    stop("Snapshot dir must be a relative path.")
+  }
+
+  # Strip off trailing slash if present
+  path <- sub("/$", "", path)
+
+  private$snapshotCount <- 0
+  private$snapshotDir <- path
+  private$snapshotScreenshot <- screenshot
+}
+
 sd_snapshot <- function(self, private, items, filename, screenshot)
 {
   if (!is.list(items) && !is.null(items))
@@ -89,6 +102,26 @@ sd_snapshotDownload <- function(self, private, id, filename) {
   writeBin(req$content, file.path(current_dir, filename))
 
   invisible(req$content)
+}
+
+sd_getTestSnapshotUrl = function(self, private, input, output, export,
+                                 format) {
+  reqString <- function(group, value) {
+    if (isTRUE(value))
+      paste0(group, "=1")
+    else if (is.character(value))
+      paste0(group, "=", paste(value, collapse = ","))
+    else
+      ""
+  }
+  paste(
+    private$shinyTestSnapshotBaseUrl,
+    reqString("input", input),
+    reqString("output", output),
+    reqString("export", export),
+    paste0("format=", format),
+    sep = "&"
+  )
 }
 
 #' Compare current and expected snapshots
