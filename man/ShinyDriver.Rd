@@ -2,222 +2,854 @@
 % Please edit documentation in R/shiny-driver.R
 \name{ShinyDriver}
 \alias{ShinyDriver}
-\title{Class to manage a shiny app and a phantom.js headless browser}
+\title{Class to manage a shiny app and a \code{phantom.js} headless browser.}
 \value{
-All functions that modify the object return the object invisibly.
+Self, invisibly.
+
+Self, invisibly.
+
+Self, invisibly.
+
+Self, invisibly.
+
+Self, invisibly.
+
+Self, invisibly.
+
+A \link[webdriver:Element]{webdriver::Element}.
+
+A list of \link[webdriver:Element]{webdriver::Element}s.
+
+\code{TRUE} if expression evaluates to \code{true} without error, before
+timeout. Otherwise returns \code{NA}.
+
+Self, invisibly.
+
+Self, invisibly.
 }
 \description{
-Class to manage a shiny app and a phantom.js headless browser
+This class starts a Shiny app in a new R session, along with a \code{phantom.js}
+headless browser that can be used to simulate user actions. This provides
+a full simulation of a Shiny app so that you can test user interactions
+with a live app.
 }
-\section{Usage}{
-
-\preformatted{app <- ShinyDriver$new(path = ".", loadTimeout = 5000,
-              checkNames = TRUE, debug = c("none", "all",
-              ShinyDriver$debugLogTypes), phantomTimeout = 5000,
-              seed = NULL, cleanLogs = TRUE, shinyOptions = list()))
-app$stop()
-app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
-
-app$getValue(name, iotype = c("auto", "input", "output"))
-app$setValue(name, value, iotype = c("auto", "input", "output"))
-app$setInputs(...)
-app$sendKeys(name = NULL, keys)
-
-app$getWindowSize()
-app$setWindowSize(width, height)
-
-app$getUrl()
-app$goBack()
-app$refresh()
-app$getTitle()
-app$getSource()
-app$takeScreenshot(file = NULL)
-
-app$findElement(css = NULL, linkText = NULL,
-     partialLinkText = NULL, xpath = NULL)
-
-app$findElements(css = NULL, linkText = NULL,
-     partialLinkText = NULL, xpath = NULL)
-
-app$waitFor(expr, checkInterval = 100, timeout = 3000)
-
-app$waitForValue(name, ignore = list(NULL, ""), iotype = "input", timeout = 10000, checkInterval = 400)
-
-app$listWidgets()
-
-app$checkUniqueWidgetNames()
-
-app$findWidget(name, iotype = c("auto", "input", "output"))
-
-app$expectUpdate(output, ..., timeout = 3000,
-    iotype = c("auto", "input", "output"))
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{ShinyDriver$new()}}
+\item \href{#method-finalize}{\code{ShinyDriver$finalize()}}
+\item \href{#method-stop}{\code{ShinyDriver$stop()}}
+\item \href{#method-getValue}{\code{ShinyDriver$getValue()}}
+\item \href{#method-setValue}{\code{ShinyDriver$setValue()}}
+\item \href{#method-getAllValues}{\code{ShinyDriver$getAllValues()}}
+\item \href{#method-sendKeys}{\code{ShinyDriver$sendKeys()}}
+\item \href{#method-setWindowSize}{\code{ShinyDriver$setWindowSize()}}
+\item \href{#method-getWindowSize}{\code{ShinyDriver$getWindowSize()}}
+\item \href{#method-getDebugLog}{\code{ShinyDriver$getDebugLog()}}
+\item \href{#method-enableDebugLogMessages}{\code{ShinyDriver$enableDebugLogMessages()}}
+\item \href{#method-logEvent}{\code{ShinyDriver$logEvent()}}
+\item \href{#method-getEventLog}{\code{ShinyDriver$getEventLog()}}
+\item \href{#method-getUrl}{\code{ShinyDriver$getUrl()}}
+\item \href{#method-getTitle}{\code{ShinyDriver$getTitle()}}
+\item \href{#method-getSource}{\code{ShinyDriver$getSource()}}
+\item \href{#method-goBack}{\code{ShinyDriver$goBack()}}
+\item \href{#method-refresh}{\code{ShinyDriver$refresh()}}
+\item \href{#method-takeScreenshot}{\code{ShinyDriver$takeScreenshot()}}
+\item \href{#method-findElement}{\code{ShinyDriver$findElement()}}
+\item \href{#method-findElements}{\code{ShinyDriver$findElements()}}
+\item \href{#method-waitFor}{\code{ShinyDriver$waitFor()}}
+\item \href{#method-waitForValue}{\code{ShinyDriver$waitForValue()}}
+\item \href{#method-listWidgets}{\code{ShinyDriver$listWidgets()}}
+\item \href{#method-checkUniqueWidgetNames}{\code{ShinyDriver$checkUniqueWidgetNames()}}
+\item \href{#method-executeScript}{\code{ShinyDriver$executeScript()}}
+\item \href{#method-executeScriptAsync}{\code{ShinyDriver$executeScriptAsync()}}
+\item \href{#method-findWidget}{\code{ShinyDriver$findWidget()}}
+\item \href{#method-expectUpdate}{\code{ShinyDriver$expectUpdate()}}
+\item \href{#method-setInputs}{\code{ShinyDriver$setInputs()}}
+\item \href{#method-uploadFile}{\code{ShinyDriver$uploadFile()}}
+\item \href{#method-snapshotInit}{\code{ShinyDriver$snapshotInit()}}
+\item \href{#method-snapshot}{\code{ShinyDriver$snapshot()}}
+\item \href{#method-snapshotCompare}{\code{ShinyDriver$snapshotCompare()}}
+\item \href{#method-snapshotDownload}{\code{ShinyDriver$snapshotDownload()}}
+\item \href{#method-getAppDir}{\code{ShinyDriver$getAppDir()}}
+\item \href{#method-getAppFilename}{\code{ShinyDriver$getAppFilename()}}
+\item \href{#method-getTestsDir}{\code{ShinyDriver$getTestsDir()}}
+\item \href{#method-getRelativePathToApp}{\code{ShinyDriver$getRelativePathToApp()}}
+\item \href{#method-getSnapshotDir}{\code{ShinyDriver$getSnapshotDir()}}
+\item \href{#method-isRmd}{\code{ShinyDriver$isRmd()}}
+\item \href{#method-clone}{\code{ShinyDriver$clone()}}
 }
 }
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$new(
+  path = ".",
+  loadTimeout = 5000,
+  checkNames = TRUE,
+  debug = c("none", "all", shinytest::ShinyDriver$debugLogTypes),
+  phantomTimeout = 5000,
+  seed = NULL,
+  cleanLogs = TRUE,
+  shinyOptions = list()
+)}\if{html}{\out{</div>}}
+}
 
-\section{Arguments}{
-
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
 \describe{
-\item{app}{A \code{ShinyDriver} instance.}
-\item{path}{Path to a directory containing a Shiny app, i.e. a
-single \code{app.R} file or a \code{server.R} and \code{ui.R}
-pair.}
-\item{loadTimeout}{How long to wait for the app to load, in ms.
+\item{\code{path}}{Path to a directory containing a Shiny app, i.e. a
+single \code{app.R} file or a \code{server.R}-\code{ui.R} pair.}
+
+\item{\code{loadTimeout}}{How long to wait for the app to load, in ms.
 This includes the time to start R.}
-\item{phantomTimeout}{How long to wait when connecting to phantomJS
-process, in ms.}
-\item{checkNames}{Whether to check if widget names are unique in the
-app.}
-\item{debug}{Whether to start the app in debugging mode. In debugging
-mode debug messages are printed to the console.}
-\item{seed}{An optional random seed to use before starting the
-application. For apps that use R's random number generator, this
-can make their behavior repeatable.}
-\item{cleanLogs}{Whether to remove the stdout and stderr logs when the
+
+\item{\code{checkNames}}{Check if widget names are unique?}
+
+\item{\code{debug}}{Start the app in debugging mode? In debugging mode debug
+messages are printed to the console.}
+
+\item{\code{phantomTimeout}}{How long to wait when connecting to phantomJS
+process, in ms}
+
+\item{\code{seed}}{An optional random seed to use before starting the application.
+For apps that use R's random number generator, this can make their
+behavior repeatable.}
+
+\item{\code{cleanLogs}}{Whether to remove the stdout and stderr logs when the
 Shiny process object is garbage collected.}
-\item{shinyOptions}{A list of options to pass to \code{runApp()}.}
-\item{name}{Name of a shiny widget. For \code{$sendKeys} it can
-be \code{NULL}, in which case the keys are sent to the active
-HTML element.}
-\item{iotype}{Type of the Shiny widget. Usually \code{shinytest}
-finds the widgets by their name, so this need not be specified,
-but Shiny allows input and output widgets with identical names.}
-\item{keys}{Keys to send to the widget or the app. See the
-\code{sendKeys} method of the \code{webdriver} package.}
-\item{width}{Scalar integer, the desired width of the browser window.}
-\item{height}{Scalar integer, the desired height of the browser
-window.}
-\item{file}{File name to save the screenshot to. If \code{NULL}, then
+
+\item{\code{shinyOptions}}{A list of options to pass to \code{\link[shiny:runApp]{shiny::runApp()}}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-finalize"></a>}}
+\if{latex}{\out{\hypertarget{method-finalize}{}}}
+\subsection{Method \code{finalize()}}{
+Stop app and clean up logs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$finalize()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-stop"></a>}}
+\if{latex}{\out{\hypertarget{method-stop}{}}}
+\subsection{Method \code{stop()}}{
+Stop the app, the terminate external R process that runs the app and
+the phantomjs instance.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$stop()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getValue"></a>}}
+\if{latex}{\out{\hypertarget{method-getValue}{}}}
+\subsection{Method \code{getValue()}}{
+Finds a widget and queries its value. See the \code{getValue()} method of
+\link{Widget} for more details.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getValue(name, iotype = c("auto", "input", "output"))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of a shiny widget.}
+
+\item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
+by their name, so this is only needed if you use the same name for an
+input and output widget.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-setValue"></a>}}
+\if{latex}{\out{\hypertarget{method-setValue}{}}}
+\subsection{Method \code{setValue()}}{
+Finds a widget and sets its value. It's a shortcut for \code{findElement()}
+plus \code{setValue()}; see the \link{Widget} documentation for more details.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$setValue(name, value, iotype = c("auto", "input", "output"))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of a shiny widget.}
+
+\item{\code{value}}{New value.}
+
+\item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
+by their name, so this is only needed if you use the same name for an
+input and output widget.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getAllValues"></a>}}
+\if{latex}{\out{\hypertarget{method-getAllValues}{}}}
+\subsection{Method \code{getAllValues()}}{
+Returns a named list of all inputs, outputs, and export values.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getAllValues(input = TRUE, output = TRUE, export = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{input, output, export}}{Either \code{TRUE} to return all
+input/output/exported values, or a character vector of specific
+controls.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-sendKeys"></a>}}
+\if{latex}{\out{\hypertarget{method-sendKeys}{}}}
+\subsection{Method \code{sendKeys()}}{
+Sends the specified keys to specific HTML element. Shortcut for
+\code{findWidget()} plus \code{sendKeys()}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$sendKeys(name, keys)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of a shiny widget.}
+
+\item{\code{keys}}{Keys to send to the widget or the app. See \link[webdriver:key]{webdriver::key}
+for how to specific special keys.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-setWindowSize"></a>}}
+\if{latex}{\out{\hypertarget{method-setWindowSize}{}}}
+\subsection{Method \code{setWindowSize()}}{
+Sets size of the browser window.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$setWindowSize(width, height)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{width, height}}{Height and width of browser, in pixels.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getWindowSize"></a>}}
+\if{latex}{\out{\hypertarget{method-getWindowSize}{}}}
+\subsection{Method \code{getWindowSize()}}{
+Get current size of the browser window, as list of integer scalars
+named \code{width} and \code{height}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getWindowSize()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getDebugLog"></a>}}
+\if{latex}{\out{\hypertarget{method-getDebugLog}{}}}
+\subsection{Method \code{getDebugLog()}}{
+Query one or more of the debug logs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{Log type: \code{"all"}, \code{"shiny_console"}, \code{"browser"},
+or \code{"shinytest"}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-enableDebugLogMessages"></a>}}
+\if{latex}{\out{\hypertarget{method-enableDebugLogMessages}{}}}
+\subsection{Method \code{enableDebugLogMessages()}}{
+Enable/disable debugging messages
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$enableDebugLogMessages(enable = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{enable}}{New value.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-logEvent"></a>}}
+\if{latex}{\out{\hypertarget{method-logEvent}{}}}
+\subsection{Method \code{logEvent()}}{
+Add event to log.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$logEvent(event, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{event}}{Event name}
+
+\item{\code{...}}{Addition data to store for event}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getEventLog"></a>}}
+\if{latex}{\out{\hypertarget{method-getEventLog}{}}}
+\subsection{Method \code{getEventLog()}}{
+Retrieve event log.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getEventLog()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getUrl"></a>}}
+\if{latex}{\out{\hypertarget{method-getUrl}{}}}
+\subsection{Method \code{getUrl()}}{
+Get current url
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getUrl()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getTitle"></a>}}
+\if{latex}{\out{\hypertarget{method-getTitle}{}}}
+\subsection{Method \code{getTitle()}}{
+Get page title
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getTitle()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getSource"></a>}}
+\if{latex}{\out{\hypertarget{method-getSource}{}}}
+\subsection{Method \code{getSource()}}{
+Get complete source of current page.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getSource()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-goBack"></a>}}
+\if{latex}{\out{\hypertarget{method-goBack}{}}}
+\subsection{Method \code{goBack()}}{
+Return to previous page
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$goBack()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-refresh"></a>}}
+\if{latex}{\out{\hypertarget{method-refresh}{}}}
+\subsection{Method \code{refresh()}}{
+Refresh the browser
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$refresh()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-takeScreenshot"></a>}}
+\if{latex}{\out{\hypertarget{method-takeScreenshot}{}}}
+\subsection{Method \code{takeScreenshot()}}{
+Takes a screenshot of the current page and writes it to a PNG file or
+shows on current graphics device.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$takeScreenshot(file = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{file}}{File name to save the screenshot to. If \code{NULL}, then
 it will be shown on the R graphics device.}
-\item{css}{CSS selector to find an HTML element.}
-\item{linkText}{Find \code{<a>} HTML elements based on their
-\code{innerText}.}
-\item{partialLinkText}{Find \code{<a>} HTML elements based on their
-\code{innerText}. It uses partial matching.}
-\item{xpath}{Find HTML elements using XPath expressions.}
-\item{expr}{A string scalar containing JavaScript code that
-evaluates to the condition to wait for.}
-\item{checkInterval}{How often to check for the condition, in
-milliseconds.}
-\item{ignore}{List of possible values that are to not be
-considered valid.  \code{app$waitForValue} will continue to poll until
-it finds a value not contained in \code{ignore}.}
-\item{timeout}{Timeout for the condition, in milliseconds.}
-\item{output}{Character vector, the name(s) of the Shiny output
-widgets that should be updated.}
-\item{allowInputNoBinding_}{When setting the value of an input, allow
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-findElement"></a>}}
+\if{latex}{\out{\hypertarget{method-findElement}{}}}
+\subsection{Method \code{findElement()}}{
+Find an HTML element on the page, using a CSS selector, XPath expression,
+or link text (for \verb{<a>} tags). If multiple elements are matched, only
+the first is returned.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$findElement(
+  css = NULL,
+  linkText = NULL,
+  partialLinkText = NULL,
+  xpath = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{css}}{CSS selector to find an HTML element.}
+
+\item{\code{linkText}}{Find \verb{<a>} HTML elements based on exact \code{innerText}}
+
+\item{\code{partialLinkText}}{Find \verb{<a>} HTML elements based on partial \code{innerText}}
+
+\item{\code{xpath}}{Find HTML elements using XPath expressions.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-findElements"></a>}}
+\if{latex}{\out{\hypertarget{method-findElements}{}}}
+\subsection{Method \code{findElements()}}{
+Find all elements matching CSS selection, xpath, or link text.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$findElements(
+  css = NULL,
+  linkText = NULL,
+  partialLinkText = NULL,
+  xpath = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{css}}{CSS selector to find an HTML element.}
+
+\item{\code{linkText}}{Find \verb{<a>} HTML elements based on exact \code{innerText}}
+
+\item{\code{partialLinkText}}{Find \verb{<a>} HTML elements based on partial \code{innerText}}
+
+\item{\code{xpath}}{Find HTML elements using XPath expressions.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-waitFor"></a>}}
+\if{latex}{\out{\hypertarget{method-waitFor}{}}}
+\subsection{Method \code{waitFor()}}{
+Waits until a JavaScript \code{expr}ession evaluates to \code{true} or the
+\code{timeout} is exceeded.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$waitFor(expr, checkInterval = 100, timeout = 3000)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{expr}}{A string containing JavaScript code. Will wait until the
+condition returns \code{true}.}
+
+\item{\code{checkInterval}}{How often to check for the condition, in ms.}
+
+\item{\code{timeout}}{Amount of time to wait before giving up (milliseconds).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-waitForValue"></a>}}
+\if{latex}{\out{\hypertarget{method-waitForValue}{}}}
+\subsection{Method \code{waitForValue()}}{
+Waits until the \code{input} or \code{output} with name \code{name} is not one of
+\code{ignore}d values, or the timeout is reached.
+
+This function can be useful in helping determine if an application
+has initialized or finished processing a complex reactive situation.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$waitForValue(
+  name,
+  ignore = list(NULL, ""),
+  iotype = c("input", "output", "export"),
+  timeout = 10000,
+  checkInterval = 400
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of a shiny widget.}
+
+\item{\code{ignore}}{List of possible values to ignore when checking for
+updates.}
+
+\item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
+by their name, so this is only needed if you use the same name for an
+input and output widget.}
+
+\item{\code{timeout}}{Amount of time to wait before giving up (milliseconds).}
+
+\item{\code{checkInterval}}{How often to check for the condition, in ms.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-listWidgets"></a>}}
+\if{latex}{\out{\hypertarget{method-listWidgets}{}}}
+\subsection{Method \code{listWidgets()}}{
+Lists the names of all input and output widgets
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$listWidgets()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A list of two character vectors, named \code{input} and \code{output}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-checkUniqueWidgetNames"></a>}}
+\if{latex}{\out{\hypertarget{method-checkUniqueWidgetNames}{}}}
+\subsection{Method \code{checkUniqueWidgetNames()}}{
+Check if Shiny widget names are unique.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$checkUniqueWidgetNames()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-executeScript"></a>}}
+\if{latex}{\out{\hypertarget{method-executeScript}{}}}
+\subsection{Method \code{executeScript()}}{
+Execute JS code
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$executeScript(script, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{script}}{JS to execute.}
+
+\item{\code{...}}{Additional arguments to script.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-executeScriptAsync"></a>}}
+\if{latex}{\out{\hypertarget{method-executeScriptAsync}{}}}
+\subsection{Method \code{executeScriptAsync()}}{
+Execute JS code asynchronously.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$executeScriptAsync(script, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{script}}{JS to execute.}
+
+\item{\code{...}}{Additional arguments to script.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-findWidget"></a>}}
+\if{latex}{\out{\hypertarget{method-findWidget}{}}}
+\subsection{Method \code{findWidget()}}{
+Finds the a Shiny input or output control.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$findWidget(name, iotype = c("auto", "input", "output"))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of a shiny widget.}
+
+\item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
+by their name, so this is only needed if you use the same name for an
+input and output widget.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A \link{Widget}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-expectUpdate"></a>}}
+\if{latex}{\out{\hypertarget{method-expectUpdate}{}}}
+\subsection{Method \code{expectUpdate()}}{
+It performs one or more update operations via the browser, thens
+waits for the specified output(s) to update. The test succeeds if
+all specified output widgets are updated before the \code{timeout}.
+For updates that involve a lot of computation, increase the timeout.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$expectUpdate(
+  output,
+  ...,
+  timeout = 3000,
+  iotype = c("auto", "input", "output")
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{output}}{Name of output control to check.}
+
+\item{\code{...}}{Name-value pairs used to update inputs.}
+
+\item{\code{timeout}}{Amount of time to wait before giving up (milliseconds).}
+
+\item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
+by their name, so this is only needed if you use the same name for an
+input and output widget.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-setInputs"></a>}}
+\if{latex}{\out{\hypertarget{method-setInputs}{}}}
+\subsection{Method \code{setInputs()}}{
+Sets input values.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$setInputs(
+  ...,
+  wait_ = TRUE,
+  values_ = TRUE,
+  timeout_ = 3000,
+  allowInputNoBinding_ = FALSE,
+  priority_ = c("input", "event")
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{Name-value pairs, \verb{name1 = value1, name2 = value2} etc.
+Enput with name \code{name1} will be assigned value \code{value1}.}
+
+\item{\code{wait_}}{Wait until all reactive updates have completed?}
+
+\item{\code{values_}}{If \code{TRUE}, will return final updated values of inputs.}
+
+\item{\code{timeout_}}{Amount of time to wait before giving up (milliseconds).}
+
+\item{\code{allowInputNoBinding_}}{When setting the value of an input, allow
 it to set the value of an input even if that input does not have
 an input binding.}
-\item{...}{For \code{expectUpdate} these can be named arguments.
-The argument names correspond to Shiny input widgets: each input
-widget will be set to the specified value.}
+
+\item{\code{priority_}}{Sets the event priority. For expert use only: see
+\url{https://shiny.rstudio.com/articles/communicating-with-js.html#values-vs-events} for details.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns update values, invisibly.
 }
 }
-
-\section{Details}{
-
-
-\code{ShinyDriver$new()} function creates a \code{ShinyDriver} object. It starts
-the Shiny app in a new R session, and it also starts a \code{phantomjs}
-headless browser that connects to the app. It waits until the app is
-ready to use. It waits at most \code{loadTimeout} milliseconds, and if
-the app is not ready, then it throws an error. You can increase
-\code{loadTimeout} for slow loading apps. Currently it supports apps
-that are defined in a single \code{app.R} file, or in a \code{server.R}
-and \code{ui.R} pair.
-
-\code{app$stop()} stops the app, i.e. the external R process that runs
-the app, and also the phantomjs instance.
-
-\code{app$getDebugLog()} queries one or more of the debug logs:
-\code{shiny_console}, \code{browser} or \code{shinytest}.
-
-\code{app$getValue()} finds a widget and queries its value. See
-the \code{getValue} method of the \code{\link{Widget}} class.
-
-\code{app$setInputs()} sets the value of inputs. The arguments must all
-be named; an input with each name will be assigned the given value.
-
-\code{app$uploadFile()} uploads a file to a file input. The argument must
-be named and the value must be the path to a local file; that file will be
-uploaded to a file input with that name.
-
-\code{app$getAllValues()} returns a named list of all inputs, outputs,
-and export values.
-
-\code{app$setValue()} finds a widget and sets its value. See the
-\code{setValue} method of the \code{\link{Widget}} class.
-
-\code{app$sendKeys} sends the specified keys to the HTML element of the
-widget.
-
-\code{app$getWindowSize()} returns the current size of the browser
-window, in a list of two integer scalars named \sQuote{width} and
-\sQuote{height}.
-
-\code{app$setWindowSize()} sets the size of the browser window to the
-specified width and height.
-
-\code{app$getUrl()} returns the current URL.
-
-\code{app$goBack()} \dQuote{presses} the browser's \sQuote{back}
-button.
-
-\code{app$refresh()} \dQuote{presses} the browser's \sQuote{refresh}
-button.
-
-\code{app$getTitle()} returns the title of the page. (More precisely
-the document title.)
-
-\code{app$getSource()} returns the complete HTML source of the current
-page, in a character scalar.
-
-\code{app$takeScreenshot()} takes a screenshot of the current page
-and writes it to a file, or (if \code{file} is \code{NULL}) shows it
-on the R graphics device. The output file has PNG format.
-
-\code{app$findElement()} find an HTML element on the page, using a
-CSS selector or an XPath expression. The return value is an
-\code{\link[webdriver]{Element}} object from the \code{webdriver}
-package.
-
-\code{app$findElements()} finds potentially multiple HTML elements,
-and returns them in a list of \code{\link[webdriver]{Element}} objects
-from the \code{webdriver} package.
-
-\code{app$waitFor()} waits until a JavaScript expression evaluates
-to \code{true}, or a timeout happens. It returns \code{TRUE} is the
-expression evaluated to \code{true}, possible after some waiting.
-
-\code{app$waitForValue()} waits until the current application's
-\code{input} (or \code{output}) value is not one of the supplied invalid
-values.  The function returns the value found if the time limit has not
-been reached (default is 10 seconds).  This function can be useful in
-helping determine if an application has initialized or finished
-processing a complex reactive situation.
-
-\code{app$listWidgets()} lists the names of all input and output
-widgets. It returns a list of two character vectors, named \code{input}
-and \code{output}.
-
-\code{app$checkUniqueWidgetNames()} checks if Shiny widget names
-are unique.
-
-\code{app$findWidget()} finds the corresponding HTML element of a Shiny
-widget. It returns a \code{\link{Widget}} object.
-
-\code{expectUpdate()} is one of the main functions to test Shiny apps.
-It performs one or more update operations via the browser, and then
-waits for the specified output widgets to update. The test succeeds if
-all specified output widgets are updated before the timeout. For
-updates that involve a lot of computation, you increase the timeout.
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-uploadFile"></a>}}
+\if{latex}{\out{\hypertarget{method-uploadFile}{}}}
+\subsection{Method \code{uploadFile()}}{
+Uploads a file to a file input.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$uploadFile(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000)}\if{html}{\out{</div>}}
 }
 
-\examples{
-\dontrun{
-## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
-app <- ShinyDriver$new("050-kmeans-example")
-expectUpdate(app, xcol = "Sepal.Width", output = "plot1")
-expectUpdate(app, ycol = "Petal.Width", output = "plot1")
-expectUpdate(app, clusters = 4, output = "plot1")
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{Name-path pairs, e.g. \code{name1 = path1}. The file located at
+\code{path1} will be uploaded to file input with name \code{name1}.}
+
+\item{\code{wait_}}{Wait until all reactive updates have completed?}
+
+\item{\code{values_}}{If \code{TRUE}, will return final updated values of download
+control.}
+
+\item{\code{timeout_}}{Amount of time to wait before giving up (milliseconds).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-snapshotInit"></a>}}
+\if{latex}{\out{\hypertarget{method-snapshotInit}{}}}
+\subsection{Method \code{snapshotInit()}}{
+Download a snapshot. Generally, you should not call this function
+yourself; it will be generated by \code{\link[=recordTest]{recordTest()}} as needed.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$snapshotInit(path, screenshot = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Directory to save snapshots.}
+
+\item{\code{screenshot}}{Take screenshots for each snapshot?}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-snapshot"></a>}}
+\if{latex}{\out{\hypertarget{method-snapshot}{}}}
+\subsection{Method \code{snapshot()}}{
+Take a snapshot. Generally, you should not call this function
+yourself; it will be generated by \code{\link[=recordTest]{recordTest()}} as needed.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$snapshot(items = NULL, filename = NULL, screenshot = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{items}}{Elements to include in snapshot}
+
+\item{\code{filename}}{Filename to use}
+
+\item{\code{screenshot}}{Take a screenshot? Overrides value set by
+\verb{$snapshotInit()}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-snapshotCompare"></a>}}
+\if{latex}{\out{\hypertarget{method-snapshotCompare}{}}}
+\subsection{Method \code{snapshotCompare()}}{
+Deprecated
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$snapshotCompare(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{Ignored}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-snapshotDownload"></a>}}
+\if{latex}{\out{\hypertarget{method-snapshotDownload}{}}}
+\subsection{Method \code{snapshotDownload()}}{
+Download a snapshot. Generally, you should not call this function
+yourself; it will be generated by \code{\link[=recordTest]{recordTest()}} as needed.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$snapshotDownload(id, filename = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id, filename}}{Internal use only}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getAppDir"></a>}}
+\if{latex}{\out{\hypertarget{method-getAppDir}{}}}
+\subsection{Method \code{getAppDir()}}{
+Directory where app is located
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getAppDir()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getAppFilename"></a>}}
+\if{latex}{\out{\hypertarget{method-getAppFilename}{}}}
+\subsection{Method \code{getAppFilename()}}{
+App file name, i.e. \code{app.R} or \code{server.R}. \code{NULL} for Rmds.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getAppFilename()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getTestsDir"></a>}}
+\if{latex}{\out{\hypertarget{method-getTestsDir}{}}}
+\subsection{Method \code{getTestsDir()}}{
+Directory where tests are located
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getTestsDir()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getRelativePathToApp"></a>}}
+\if{latex}{\out{\hypertarget{method-getRelativePathToApp}{}}}
+\subsection{Method \code{getRelativePathToApp()}}{
+Relative path to app from current directory.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getRelativePathToApp()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getSnapshotDir"></a>}}
+\if{latex}{\out{\hypertarget{method-getSnapshotDir}{}}}
+\subsection{Method \code{getSnapshotDir()}}{
+Directory where snapshots are located.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$getSnapshotDir()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-isRmd"></a>}}
+\if{latex}{\out{\hypertarget{method-isRmd}{}}}
+\subsection{Method \code{isRmd()}}{
+Is this app an Shiny Rmd document?
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$isRmd()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

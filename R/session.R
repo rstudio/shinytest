@@ -36,6 +36,8 @@ sd_takeScreenshot <- function(self, private, file) {
   if (is_windows()) {
     normalize_png_res_header(file)
   }
+
+  invisible(self)
 }
 
 sd_findElement <- function(self, private, css, linkText,

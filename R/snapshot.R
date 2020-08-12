@@ -63,11 +63,6 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   invisible(raw_to_utf8(req$content))
 }
 
-
-sd_snapshotCompare <- function(self, private, autoremove) {
-  message("app$snapshotCompare() no longer used")
-}
-
 sd_snapshotDownload <- function(self, private, id, filename) {
 
   current_dir <- paste0(self$getSnapshotDir(), "-current")
