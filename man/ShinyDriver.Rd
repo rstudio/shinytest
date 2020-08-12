@@ -17,6 +17,7 @@ app$getDebugLog(type = c("all", ShinyDriver$debugLogTypes))
 
 app$getValue(name, iotype = c("auto", "input", "output"))
 app$setValue(name, value, iotype = c("auto", "input", "output"))
+app$setInputs(...)
 app$sendKeys(name = NULL, keys)
 
 app$getWindowSize()
