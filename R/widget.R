@@ -5,16 +5,27 @@
 #' @importFrom R6 R6Class
 Widget <- R6Class(
   "Widget",
-
+  private = list(
+    name = NULL,     # name in shiny
+    element = NULL,  # HTML element with name as id
+    type = NULL,     # e.g. selectInput
+    iotype = NULL    # "input" or "output"
+  ),
   public = list(
     #' @description Create new `Widget`
     #' @param name Name of a Shiny widget.
     #' @param element [webdriver::Element]
     #' @param type Widget type
     #' @param iotype Input/output type.
-    initialize = function(name, element, type, iotype = c("input", "output"))
-      widget_initialize(self, private, name, element, type,
-                        match.arg(iotype)),
+    initialize = function(name, element, type, iotype = c("input", "output")) {
+      iotype <- match.arg(iotype)
+
+      private$name <- name
+      private$element <- element
+      private$type <- type
+      private$iotype <- iotype
+      invisible(self)
+    },
 
     #' @description Control id (i.e. `inputId` or `outputId` that control
     #'   was created with).
@@ -42,52 +53,26 @@ Widget <- R6Class(
     #' @description Send specified key presses to control.
     #' @param keys Keys to send to the widget or the app. See [webdriver::key]
     #'   for how to specific special keys.
-    sendKeys = function(keys)
-      widget_sendKeys(self, private, keys),
+    sendKeys = function(keys) {
+      "!DEBUG widget_sendKeys `private$name`"
+      private$element$sendKeys(keys)
+    },
 
     #' @description Lists the tab names of a [shiny::tabsetPanel()].
     #'  It fails for other types of widgets.
-    listTabs = function()
-      widget_listTabs(self, private),
+    listTabs = function() {
+      if (private$type != "tabsetPanel") {
+        stop("'listTabs' only works for 'tabsetPanel' Widgets")
+      }
+      tabs <- private$element$findElements("li a")
+      vapply(tabs, function(t) t$getData("value"), "")
+    },
 
     #' @description Upload a file to a [shiny::fileInput()].
     #'  It fails for other types of widgets.
     #' @param filename Path to file to upload
-    uploadFile = function(filename)
-      widget_uploadFile(self, private, filename)
-  ),
-
-  private = list(
-    name = NULL,                        # name in shiny
-    element = NULL,                     # HTML element with name as id
-    type = NULL,                        # e.g. selectInput
-    iotype = NULL                       # "input" or "output"
+    uploadFile = function(filename) {
+      private$element$uploadFile(filename = filename)
+    }
   )
 )
-
-widget_initialize <- function(self, private, name, element, type, iotype) {
-  private$name <- name
-  private$element <- element
-  private$type <- type
-  private$iotype <- iotype
-  invisible(self)
-}
-
-widget_sendKeys <- function(self, private, keys) {
-  "!DEBUG widget_sendKeys `private$name`"
-  private$element$sendKeys(keys)
-}
-
-widget_listTabs <- function(self, private) {
-  if (private$type != "tabsetPanel") {
-    stop("'listTabs' only works for 'tabsetPanel' Widgets")
-  }
-  tabs <- private$element$findElements("li a")
-  vapply(tabs, function(t) t$getData("value"), "")
-}
-
-widget_uploadFile <- function(self, private, filename) {
-  private$element$uploadFile(
-    filename = filename
-  )
-}
