@@ -14,7 +14,8 @@ testApp(
 )
 }
 \arguments{
-\item{appDir}{Path to the Shiny application to be tested.}
+\item{appDir}{Path to directory containing a Shiny app (e.g. \code{app.R}) or
+single interactive \code{.Rmd}.}
 
 \item{testnames}{Test script(s) to run. The .R extension of the filename is
 optional. For example, \code{"mytest"} or \code{c("mytest", "mytest2.R")}.

@@ -116,6 +116,18 @@ is_rmd <- function(path) {
   }
 }
 
+is_app <- function(path) {
+  tryCatch(
+    {
+      shiny::shinyAppDir(path)
+      TRUE
+    },
+    error = function(e) {
+      FALSE
+    }
+  )
+}
+
 # Given a path, return a path that can be passed to ShinyDriver$new()
 # * If it is a path to an Rmd file including filename (like foo/doc.Rmd), return path unchanged.
 # * If it is a dir containing app.R, server.R, return path unchanged.
