@@ -28,7 +28,8 @@ ShinyDriver <- R6Class(
     #' @param path Path to a directory containing a Shiny app, i.e. a
     #'   single `app.R` file or a `server.R`-`ui.R` pair.
     #' @param loadTimeout How long to wait for the app to load, in ms.
-    #'   This includes the time to start R.
+    #'   This includes the time to start R. Defaults to 5s when running
+    #'   locally and 10s when running on CI.
     #' @param phantomTimeout How long to wait when connecting to phantomJS
     #'  process, in ms
     #' @param checkNames Check if widget names are unique?
@@ -40,7 +41,7 @@ ShinyDriver <- R6Class(
     #' @param cleanLogs Whether to remove the stdout and stderr logs when the
     #'     Shiny process object is garbage collected.
     #' @param shinyOptions A list of options to pass to [shiny::runApp()].
-    initialize = function(path = ".", loadTimeout = 5000, checkNames = TRUE,
+    initialize = function(path = ".", loadTimeout = NULL, checkNames = TRUE,
       debug = c("none", "all", shinytest::ShinyDriver$debugLogTypes),
       phantomTimeout = 5000, seed = NULL, cleanLogs = TRUE,
       shinyOptions = list())

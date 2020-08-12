@@ -138,6 +138,9 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
   }
 
   "!DEBUG finding shiny port"
+  if (is.null(loadTimeout)) {
+    loadTimeout <- if (on_ci()) 10000 else 5000
+  }
   ## Try to read out the port. Try 5 times/sec, until timeout.
   max_i <- loadTimeout / 1000 * 5
   for (i in seq_len(max_i)) {
