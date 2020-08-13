@@ -34,6 +34,7 @@ with a live app.
 \item \href{#method-findElement}{\code{ShinyDriver$findElement()}}
 \item \href{#method-findElements}{\code{ShinyDriver$findElements()}}
 \item \href{#method-waitFor}{\code{ShinyDriver$waitFor()}}
+\item \href{#method-waitForShiny}{\code{ShinyDriver$waitForShiny()}}
 \item \href{#method-waitForValue}{\code{ShinyDriver$waitForValue()}}
 \item \href{#method-listWidgets}{\code{ShinyDriver$listWidgets()}}
 \item \href{#method-checkUniqueWidgetNames}{\code{ShinyDriver$checkUniqueWidgetNames()}}
@@ -374,7 +375,7 @@ Self, invisibly.
 Takes a screenshot of the current page and writes it to a PNG file or
 shows on current graphics device.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$takeScreenshot(file = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$takeScreenshot(file = NULL, timeout = 3000)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -382,6 +383,8 @@ shows on current graphics device.
 \describe{
 \item{\code{file}}{File name to save the screenshot to. If \code{NULL}, then
 it will be shown on the R graphics device.}
+
+\item{\code{timeout}}{Amount of time to wait before giving up (milliseconds).}
 }
 \if{html}{\out{</div>}}
 }
@@ -478,6 +481,22 @@ condition returns \code{true}.}
 \subsection{Returns}{
 \code{TRUE} if expression evaluates to \code{true} without error, before
 timeout. Otherwise returns \code{NA}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-waitForShiny"></a>}}
+\if{latex}{\out{\hypertarget{method-waitForShiny}{}}}
+\subsection{Method \code{waitForShiny()}}{
+Waits until Shiny is not busy, i.e. the reactive graph has finished
+updating. This is useful, for example, if you've resized the window with
+\code{setWindowSize()} and want to make sure all plot redrawing is complete
+before take a screenshot.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$waitForShiny()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{TRUE} if done before before timeout; \code{NA} otherwise.
 }
 }
 \if{html}{\out{<hr>}}

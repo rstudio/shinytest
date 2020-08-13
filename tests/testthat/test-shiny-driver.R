@@ -7,8 +7,8 @@ test_that("able to initialize ShinyDriver", {
 })
 
 test_that("getValue", {
-
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
+  expect_true(app$waitForShiny())
 
   expect_true(app$getValue("checkbox"))
   expect_identical(app$getValue("checkGroup"), "1")

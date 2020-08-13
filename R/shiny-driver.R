@@ -187,7 +187,7 @@ ShinyDriver <- R6Class(
     #' @param file File name to save the screenshot to. If `NULL`, then
     #'   it will be shown on the R graphics device.
     #' @return Self, invisibly.
-    takeScreenshot = function(file = NULL) {
+    takeScreenshot = function(file = NULL, timeout = 3000) {
       "!DEBUG sd_takeScreenshot"
       self$logEvent("Taking screenshot")
       private$web$takeScreenshot(file)
@@ -229,6 +229,19 @@ ShinyDriver <- R6Class(
     waitFor = function(expr, checkInterval = 100, timeout = 3000)  {
       "!DEBUG sd_waitFor"
       private$web$waitFor(expr, checkInterval, timeout)
+    },
+
+    #' @description
+    #' Waits until Shiny is not busy, i.e. the reactive graph has finished
+    #' updating. This is useful, for example, if you've resized the window with
+    #' `setWindowSize()` and want to make sure all plot redrawing is complete
+    #' before take a screenshot.
+    #' @return `TRUE` if done before before timeout; `NA` otherwise.
+    waitForShiny = function()  {
+      # Shiny automatically sets using busy/idle events:
+      # https://github.com/rstudio/shiny/blob/e2537d/srcjs/shinyapp.js#L647-L655
+      # Details of busy event: https://shiny.rstudio.com/articles/js-events.html
+      private$web$waitFor("!$('html').first().hasClass('shiny-busy')")
     },
 
     #' @description
