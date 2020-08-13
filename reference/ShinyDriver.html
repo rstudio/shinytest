@@ -157,20 +157,6 @@ with a live app.</p>
 
 
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Self, invisibly.</p>
-<p>Self, invisibly.</p>
-<p>Self, invisibly.</p>
-<p>Self, invisibly.</p>
-<p>Self, invisibly.</p>
-<p>Self, invisibly.</p>
-<p>A <a href='https://rdrr.io/pkg/webdriver/man/Element.html'>webdriver::Element</a>.</p>
-<p>A list of <a href='https://rdrr.io/pkg/webdriver/man/Element.html'>webdriver::Element</a>s.</p>
-<p><code>TRUE</code> if expression evaluates to <code>true</code> without error, before
-timeout. Otherwise returns <code>NA</code>.</p>
-<p>Self, invisibly.</p>
-<p>Self, invisibly.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -305,6 +291,8 @@ by their name, so this is only needed if you use the same name for an
 input and output widget.</p></dd>
 
 </dl><p></div></p>
+<h3>Returns</h3>
+<p>Self, invisibly.</p>
 <p><hr>
 <a id="method-getAllValues"></a></p><h3>Method <code>getAllValues()</code></h3>
 <p>Returns a named list of all inputs, outputs, and export values.</p><h3>Usage</h3>
@@ -331,6 +319,8 @@ controls.</p></dd>
 for how to specific special keys.</p></dd>
 
 </dl><p></div></p>
+<h3>Returns</h3>
+<p>Self, invisibly.</p>
 <p><hr>
 <a id="method-setWindowSize"></a></p><h3>Method <code>setWindowSize()</code></h3>
 <p>Sets size of the browser window.</p><h3>Usage</h3>
@@ -341,6 +331,8 @@ for how to specific special keys.</p></dd>
 <dt><code>width, height</code></dt><dd><p>Height and width of browser, in pixels.</p></dd>
 
 </dl><p></div></p>
+<h3>Returns</h3>
+<p>Self, invisibly.</p>
 <p><hr>
 <a id="method-getWindowSize"></a></p><h3>Method <code>getWindowSize()</code></h3>
 <p>Get current size of the browser window, as list of integer scalars
@@ -405,11 +397,15 @@ or <code>"shinytest"</code>.</p></dd>
 <p>Return to previous page</p><h3>Usage</h3>
 <p><div class="r"></p><pre><span class='no'>ShinyDriver</span>$<span class='fu'>goBack</span>()</pre><p></div></p>
 
+<h3>Returns</h3>
+<p>Self, invisibly.</p>
 <p><hr>
 <a id="method-refresh"></a></p><h3>Method <code>refresh()</code></h3>
 <p>Refresh the browser</p><h3>Usage</h3>
 <p><div class="r"></p><pre><span class='no'>ShinyDriver</span>$<span class='fu'>refresh</span>()</pre><p></div></p>
 
+<h3>Returns</h3>
+<p>Self, invisibly.</p>
 <p><hr>
 <a id="method-takeScreenshot"></a></p><h3>Method <code>takeScreenshot()</code></h3>
 <p>Takes a screenshot of the current page and writes it to a PNG file or
@@ -422,6 +418,8 @@ shows on current graphics device.</p><h3>Usage</h3>
 it will be shown on the R graphics device.</p></dd>
 
 </dl><p></div></p>
+<h3>Returns</h3>
+<p>Self, invisibly.</p>
 <p><hr>
 <a id="method-findElement"></a></p><h3>Method <code>findElement()</code></h3>
 <p>Find an HTML element on the page, using a CSS selector, XPath expression,
@@ -445,6 +443,8 @@ the first is returned.</p><h3>Usage</h3>
 <dt><code>xpath</code></dt><dd><p>Find HTML elements using XPath expressions.</p></dd>
 
 </dl><p></div></p>
+<h3>Returns</h3>
+<p>A <a href='https://rdrr.io/pkg/webdriver/man/Element.html'>webdriver::Element</a>.</p>
 <p><hr>
 <a id="method-findElements"></a></p><h3>Method <code>findElements()</code></h3>
 <p>Find all elements matching CSS selection, xpath, or link text.</p><h3>Usage</h3>
@@ -466,6 +466,8 @@ the first is returned.</p><h3>Usage</h3>
 <dt><code>xpath</code></dt><dd><p>Find HTML elements using XPath expressions.</p></dd>
 
 </dl><p></div></p>
+<h3>Returns</h3>
+<p>A list of <a href='https://rdrr.io/pkg/webdriver/man/Element.html'>webdriver::Element</a>s.</p>
 <p><hr>
 <a id="method-waitFor"></a></p><h3>Method <code>waitFor()</code></h3>
 <p>Waits until a JavaScript <code>expr</code>ession evaluates to <code>true</code> or the
@@ -482,6 +484,9 @@ condition returns <code>true</code>.</p></dd>
 <dt><code>timeout</code></dt><dd><p>Amount of time to wait before giving up (milliseconds).</p></dd>
 
 </dl><p></div></p>
+<h3>Returns</h3>
+<p><code>TRUE</code> if expression evaluates to <code>true</code> without error, before
+timeout. Otherwise returns <code>NA</code>.</p>
 <p><hr>
 <a id="method-waitForValue"></a></p><h3>Method <code>waitForValue()</code></h3>
 <p>Waits until the <code>input</code> or <code>output</code> with name <code>name</code> is not one of
@@ -536,6 +541,8 @@ input and output widget.</p></dd>
 <dt><code>...</code></dt><dd><p>Additional arguments to script.</p></dd>
 
 </dl><p></div></p>
+<h3>Returns</h3>
+<p>Self, invisibly.</p>
 <p><hr>
 <a id="method-executeScriptAsync"></a></p><h3>Method <code>executeScriptAsync()</code></h3>
 <p>Execute JS code asynchronously.</p><h3>Usage</h3>
@@ -548,6 +555,8 @@ input and output widget.</p></dd>
 <dt><code>...</code></dt><dd><p>Additional arguments to script.</p></dd>
 
 </dl><p></div></p>
+<h3>Returns</h3>
+<p>Self, invisibly.</p>
 <p><hr>
 <a id="method-findWidget"></a></p><h3>Method <code>findWidget()</code></h3>
 <p>Finds the a Shiny input or output control.</p><h3>Usage</h3>
