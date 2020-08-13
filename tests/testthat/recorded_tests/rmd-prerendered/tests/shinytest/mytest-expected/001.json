@@ -5,7 +5,7 @@
   },
   "output": {
     "eruptions": {
-      "src": "[image data sha1: 8554df9319457ff72ea982943aac5fef6598daf1]",
+      "src": "[image data sha1: 54623768a7ae24b438b2654dc58218a15e5d6deb]",
       "width": 738,
       "height": 626,
       "coordmap": {
@@ -14,8 +14,8 @@
             "domain": {
               "left": 1.456,
               "right": 5.344,
-              "bottom": -0.038,
-              "top": 0.988
+              "bottom": -0.0300000000000001,
+              "top": 0.780000000000003
             },
             "range": {
               "left": 59.04,
