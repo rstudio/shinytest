@@ -47,8 +47,6 @@ package_version <- function(pkg = packageName()) {
   paste0(l, r)
 }
 
-str <- function(x) as.character(x)
-
 is_windows <- function() .Platform$OS.type == "windows"
 
 is_osx     <- function() Sys.info()[['sysname']] == 'Darwin'
