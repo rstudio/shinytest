@@ -159,7 +159,8 @@ read_raw <- function(file) {
 
 read_utf8 <- function(file) {
   res <- read_raw(file)
-  raw_to_utf8(res)
+  res <- raw_to_utf8(res)
+  gsub("\r", "", res, fixed = TRUE)
 }
 
 # write text as UTF-8

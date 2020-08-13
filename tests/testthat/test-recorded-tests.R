@@ -1,6 +1,5 @@
 test_that("pre-recorded tests still pass", {
   skip_on_cran()
-  skip_on_os("windows") # https://github.com/rstudio/shinytest/issues/270
 
   test_app <- function(x) {
     testApp(test_path(x), compareImages = FALSE, interactive = FALSE, quiet = TRUE)
