@@ -74,7 +74,7 @@ ShinyDriver <- R6Class(
     #' plus `setValue()`; see the [Widget] documentation for more details.
     #'
     #' @param value New value.
-    #' @returns Self, invisibly.
+    #' @return Self, invisibly.
     setValue = function(name, value, iotype = c("auto", "input", "output")) {
       "!DEBUG sd_setValue `name`"
       self$findWidget(name, iotype)$setValue(value)
@@ -95,7 +95,7 @@ ShinyDriver <- R6Class(
     #' `findWidget()` plus `sendKeys()`.
     #' @param keys Keys to send to the widget or the app. See [webdriver::key]
     #'   for how to specific special keys.
-    #' @returns Self, invisibly.
+    #' @return Self, invisibly.
     sendKeys = function(name, keys) {
       "!DEBUG sd_sendKeys `name`"
       self$findWidget(name)$sendKeys(keys)
@@ -105,7 +105,7 @@ ShinyDriver <- R6Class(
     #' @description
     #' Sets size of the browser window.
     #' @param width,height Height and width of browser, in pixels.
-    #' @returns Self, invisibly.
+    #' @return Self, invisibly.
     setWindowSize = function(width, height) {
       "!DEBUG sd_setWindowSize `width`x`height`"
       private$web$getWindow()$setSize(width, height)
@@ -166,7 +166,7 @@ ShinyDriver <- R6Class(
     },
 
     #' @description Return to previous page
-    #' @returns Self, invisibly.
+    #' @return Self, invisibly.
     goBack = function() {
       "!DEBUG sd_goBack"
       private$web$goBack()
@@ -174,7 +174,7 @@ ShinyDriver <- R6Class(
     },
 
     #' @description Refresh the browser
-    #' @returns Self, invisibly.
+    #' @return Self, invisibly.
     refresh = function() {
       "!DEBUG refresh"
       private$web$refresh()
@@ -186,7 +186,7 @@ ShinyDriver <- R6Class(
     #' shows on current graphics device.
     #' @param file File name to save the screenshot to. If `NULL`, then
     #'   it will be shown on the R graphics device.
-    #' @returns Self, invisibly.
+    #' @return Self, invisibly.
     takeScreenshot = function(file = NULL) {
       "!DEBUG sd_takeScreenshot"
       self$logEvent("Taking screenshot")
@@ -205,7 +205,7 @@ ShinyDriver <- R6Class(
     #' Find an HTML element on the page, using a CSS selector, XPath expression,
     #' or link text (for `<a>` tags). If multiple elements are matched, only
     #' the first is returned.
-    #' @returns A [webdriver::Element].
+    #' @return A [webdriver::Element].
     findElement = function(css = NULL, linkText = NULL, partialLinkText = NULL, xpath = NULL) {
       "!DEBUG sd_findElement '`css %||% linkText %||% partialLinkText %||% xpath`'"
       private$web$findElement(css, linkText, partialLinkText, xpath)
@@ -213,7 +213,7 @@ ShinyDriver <- R6Class(
 
     #' @description
     #' Find all elements matching CSS selection, xpath, or link text.
-    #' @returns A list of [webdriver::Element]s.
+    #' @return A list of [webdriver::Element]s.
     findElements = function(css = NULL, linkText = NULL, partialLinkText = NULL, xpath = NULL) {
       "!DEBUG sd_findElements '`css %||% linkText %||% partialLinkText %||% xpath`'"
       private$web$findElements(css, linkText, partialLinkText, xpath)
@@ -224,7 +224,7 @@ ShinyDriver <- R6Class(
     #' `timeout` is exceeded.
     #' @param expr A string containing JavaScript code. Will wait until the
     #'   condition returns `true`.
-    #' @returns `TRUE` if expression evaluates to `true` without error, before
+    #' @return `TRUE` if expression evaluates to `true` without error, before
     #'   timeout. Otherwise returns `NA`.
     waitFor = function(expr, checkInterval = 100, timeout = 3000)  {
       "!DEBUG sd_waitFor"
@@ -257,7 +257,7 @@ ShinyDriver <- R6Class(
     #' @description Execute JS code
     #' @param script JS to execute.
     #' @param ... Additional arguments to script.
-    #' @returns Self, invisibly.
+    #' @return Self, invisibly.
     executeScript = function(script, ...) {
       "!DEBUG sd_executeScript"
       private$web$executeScript(script, ...)
@@ -267,7 +267,7 @@ ShinyDriver <- R6Class(
     #' @description Execute JS code asynchronously.
     #' @param script JS to execute.
     #' @param ... Additional arguments to script.
-    #' @returns Self, invisibly.
+    #' @return Self, invisibly.
     executeScriptAsync = function(script, ...) {
       "!DEBUG sd_executeScriptAsync"
       private$web$executeScriptAsync(script, ...)

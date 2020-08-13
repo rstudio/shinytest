@@ -3,30 +3,6 @@
 \name{ShinyDriver}
 \alias{ShinyDriver}
 \title{Class to manage a shiny app and a \code{phantom.js} headless browser.}
-\value{
-Self, invisibly.
-
-Self, invisibly.
-
-Self, invisibly.
-
-Self, invisibly.
-
-Self, invisibly.
-
-Self, invisibly.
-
-A \link[webdriver:Element]{webdriver::Element}.
-
-A list of \link[webdriver:Element]{webdriver::Element}s.
-
-\code{TRUE} if expression evaluates to \code{true} without error, before
-timeout. Otherwise returns \code{NA}.
-
-Self, invisibly.
-
-Self, invisibly.
-}
 \description{
 This class starts a Shiny app in a new R session, along with a \code{phantom.js}
 headless browser that can be used to simulate user actions. This provides
@@ -193,6 +169,9 @@ input and output widget.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+Self, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-getAllValues"></a>}}
@@ -233,6 +212,9 @@ for how to specific special keys.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+Self, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-setWindowSize"></a>}}
@@ -249,6 +231,9 @@ Sets size of the browser window.
 \item{\code{width, height}}{Height and width of browser, in pixels.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
@@ -365,6 +350,9 @@ Return to previous page
 \if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$goBack()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+Self, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-refresh"></a>}}
@@ -375,6 +363,9 @@ Refresh the browser
 \if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$refresh()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+Self, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-takeScreenshot"></a>}}
@@ -393,6 +384,9 @@ shows on current graphics device.
 it will be shown on the R graphics device.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
@@ -424,6 +418,9 @@ the first is returned.
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+A \link[webdriver:Element]{webdriver::Element}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-findElements"></a>}}
@@ -452,6 +449,9 @@ Find all elements matching CSS selection, xpath, or link text.
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+A list of \link[webdriver:Element]{webdriver::Element}s.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-waitFor"></a>}}
@@ -474,6 +474,10 @@ condition returns \code{true}.}
 \item{\code{timeout}}{Amount of time to wait before giving up (milliseconds).}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} if expression evaluates to \code{true} without error, before
+timeout. Otherwise returns \code{NA}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -555,6 +559,9 @@ Execute JS code
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+Self, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-executeScriptAsync"></a>}}
@@ -573,6 +580,9 @@ Execute JS code asynchronously.
 \item{\code{...}}{Additional arguments to script.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
