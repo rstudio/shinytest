@@ -1,0 +1,2773 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class=""><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <script type="application/shiny-singletons"></script>
+  <script type="application/html-dependencies">json2[2014.02.04];jquery[3.5.1];shiny[1.5.0];shiny-testmode[1.5.0];header-attrs[2.3];bootstrap[3.3.5];stickytableheaders[0.1.19];selectize[0.11.2];ionrangeslider[2.1.6];strftime[0.9.2]</script>
+<script src="shared/json2-min.js"></script>
+<script src="shared/jquery.min.js"></script>
+<link href="shared/shiny.css" rel="stylesheet">
+<script src="shared/shiny.min.js"></script>
+<script src="shared/shiny-testmode.js"></script>
+<script src="header-attrs-2.3/header-attrs.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet">
+<script src="bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="stickytableheaders-0.1.19/jquery.stickytableheaders.min.js"></script>
+<link href="shared/selectize/css/selectize.bootstrap3.css" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="shared/selectize/js/es5-shim.min.js"></script>
+<![endif]-->
+<script src="shared/selectize/js/selectize.min.js"></script>
+<link href="shared/ionrangeslider/css/ion.rangeSlider.css" rel="stylesheet">
+<link href="shared/ionrangeslider/css/ion.rangeSlider.skinShiny.css" rel="stylesheet">
+<script src="shared/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+<script src="shared/strftime/strftime-min.js"></script>
+<script type="text/javascript" src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+
+
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="pandoc">
+
+
+
+<title>Old Faithful Eruptions</title>
+
+<meta property="og:title" content="Old Faithful Eruptions">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="icon" href="data:image/x-icon;" type="image/x-icon">
+
+
+<script type="text/javascript">
+window.FlexDashboardComponents = [];
+</script>
+
+<style type="text/css">
+
+/*
+ Dashboard CSS from Keen IO Dashboards
+ (https://github.com/keen/dashboards)
+*/
+
+body {
+  background: #f2f2f2;
+  padding: 60px 0 0 8px; /* padding-top overridden by theme */
+}
+
+body hr {
+  border-color: #d7d7d7;
+  margin: 10px 0;
+}
+
+.navbar-inverse .navbar-nav > li > a,
+.navbar .navbar-brand {
+  text-decoration: none;
+}
+
+.navbar-logo {
+  margin-top: 1px;
+}
+
+.navbar-logo img {
+  margin-right: 12px;
+}
+
+.navbar-author {
+  margin-left: 10px;
+  font-size: 15px;
+}
+
+.navbar .dropdown-menu .fa {
+  min-width: 20px;
+}
+
+.navbar .dropdown-menu {
+  min-width: 150px;
+  max-height: 500px;
+  overflow: auto;
+}
+
+.chart-wrapper,
+.nav-tabs-custom,
+.sbframe-commentary
+{
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+}
+
+.chart-title {
+  border-bottom: 1px solid #d7d7d7;
+  color: #666;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 7px 10px 4px;
+}
+
+.chart-wrapper .chart-title:empty {
+  display: none;
+}
+
+.chart-wrapper .chart-stage {
+  overflow: hidden;
+  padding: 5px 10px;
+  position: relative;
+}
+
+.chart-wrapper .chart-notes {
+  background: #fbfbfb;
+  border-top: 1px solid #e2e2e2;
+  color: #808080;
+  font-size: 12px;
+  padding: 8px 10px 5px;
+}
+
+/*
+ CSS for handling flexbox layout
+*/
+
+#dashboard-container {
+  visibility: hidden;
+}
+
+.tab-content>.dashboard-page-wrapper.active {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.dashboard-page-wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.dashboard-row-orientation {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.dashboard-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.dashboard-row-flex {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.dashboard-column-orientation {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.dashboard-column {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.chart-wrapper-flex {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.chart-stage-flex {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  position: relative;
+}
+
+.chart-shim {
+  position: absolute;
+  left: 8px; top: 8px; right: 8px; bottom: 8px;
+}
+
+.no-padding .chart-shim {
+  left: 0; top: 0; right: 0; bottom: 0;
+}
+
+.flowing-content-shim {
+  overflow: auto;
+  left: 0; top: 0; right: 0; bottom: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.flowing-content-container {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.chart-stage .table-bordered {
+  border: none;
+}
+
+.chart-stage .table-bordered > tbody > tr > th,
+.chart-stage .table-bordered > tfoot > tr > th,
+.chart-stage .table-bordered > tbody > tr > td,
+.chart-stage .table-bordered > tfoot > tr > td {
+  border: none;
+}
+
+.chart-stage .table-bordered > tbody > tr > td {
+  border-top: 1px solid #dddddd;
+}
+
+.chart-stage .table-bordered > thead > tr > th {
+  border: none;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bootstrap-table table>thead {
+  background-color: #fff;
+}
+
+.bootstrap-table table.data,
+.bootstrap-table table.shiny-table {
+  width: inherit !important;
+}
+
+.bootstrap-table table.data>tbody>tr>th,
+.bootstrap-table table.shiny-table>tbody>tr>th {
+  border-top: none;
+  border-bottom: 2px solid #dddddd;
+  padding: 5px;
+}
+
+.bootstrap-table .data td[align=right] {
+  font-family: inherit;
+}
+
+.chart-wrapper form {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.shiny-input-container label {
+  font-weight: normal;
+}
+
+.chart-stage .html-widget {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.chart-stage .html-widget-static-bound {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.chart-stage .shiny-bound-output {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Omit display of empty paragraphs */
+
+.chart-shim>p:empty {
+  display: none;
+}
+
+.chart-stage>p:empty {
+  display: none;
+}
+
+/* Omit display of special knitr options div*/
+
+.chart-stage .knitr-options {
+  display: none;
+}
+
+/* Automatically resizing images */
+
+.image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+}
+
+.image-container img {
+  opacity: 0;
+  overflow: hidden;
+}
+
+/* Value box */
+
+.value-box {
+  border-radius: 2px;
+  position: relative;
+  display: block;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.value-box > .inner {
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.value-box .value {
+  font-size: 38px;
+  font-weight: bold;
+  margin: 0 0 3px 0;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.value-box .caption {
+  font-size: 15px;
+}
+.value-box .caption > small {
+  display: block;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.value-box .icon i {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 80px;
+  color: rgba(0, 0, 0, 0.15);
+}
+
+.linked-value:hover {
+  cursor: pointer;
+}
+
+.value-box.linked-value:hover {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* STORYBOARD */
+
+.storyboard-nav button {
+  background: transparent;
+  border: 0;
+  opacity: .3;
+  outline: none;
+  padding: 0;
+}
+
+.storyboard-nav button:hover,
+.storyboard-nav button:hover {
+  opacity: .5;
+}
+
+.storyboard-nav button:disabled,
+.storyboard-nav button:disabled {
+  opacity: .1;
+}
+
+.storyboard-nav .sbnext,
+.storyboard-nav .sbprev {
+  float: left;
+  width: 2%;
+  height: 120px;
+  font-size: 50px;
+}
+
+.storyboard-nav .sbprev {
+  text-align: left;
+  width: 2%;
+}
+
+.storyboard-nav .sbnext {
+  float: right;
+  text-align: right;
+  margin-right: 8px;
+}
+
+.storyboard-nav .sbframelist {
+  margin: 0 auto;
+  width: 94%;
+  height: 120px;
+  overflow: hidden;
+  text-shadow: none;
+  margin-bottom: 8px;
+}
+
+.storyboard-nav .sbframelist ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.storyboard-nav .sbframelist ul li {
+  float: left;
+  width: 270px;
+  height: 100%;
+  padding: 10px 10px 10px 10px;
+  margin-right: 8px;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  color: #3a3c47;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.storyboard-nav .sbframelist ul li:last-child {
+  margin-right: 0px;
+}
+
+.storyboard-nav .sbframelist ul li.active {
+  color: #fff;
+  background: #B8B8B8;
+}
+
+.sbframe-commentary {
+  width: 300px;
+  background: #fbfbfb;
+  font-size: 14px;
+}
+
+.sbframe-commentary ul {
+  padding-left: 22px;
+}
+
+.sbframe.active {
+  display: flex;
+}
+
+.sbframe:not(.active) {
+  display: none;
+}
+
+/* NAV TABS */
+
+.nav-tabs-custom > .nav-tabs {
+  margin: 0;
+  border-bottom: 1px solid #d7d7d7;
+  color: #666;
+  font-size: 14px;
+  font-weight: 300;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.nav-tabs-custom > .nav-tabs > li {
+  border-top: 3px solid transparent;
+  margin-bottom: -1px;
+  margin-right: 5px;
+}
+.nav-tabs-custom > .nav-tabs > li > a,
+.nav-tabs-custom > .nav-tabs > li > a:active {
+  color: #666;
+  font-weight: 300;
+  font-size: 14px;
+  border-radius: 0;
+  padding: 3px 10px 5px;
+  text-transform: none;
+}
+
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a {
+  border-bottom-color: transparent;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a.text-muted {
+  color: #999;
+}
+.nav-tabs-custom > .nav-tabs > li > a,
+.nav-tabs-custom > .nav-tabs > li > a:hover {
+  background: transparent;
+  margin: 0;
+}
+.nav-tabs-custom > .nav-tabs > li > a:hover {
+  color: #999;
+}
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a:hover,
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a:focus,
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a:active {
+  border-color: transparent;
+}
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: #3c8dbc;
+}
+.nav-tabs-custom > .nav-tabs > li.active > a,
+.nav-tabs-custom > .nav-tabs > li.active:hover > a {
+  background-color: #fff;
+  color: #666;
+}
+.nav-tabs-custom > .nav-tabs > li.active > a {
+  border-top-color: transparent;
+  border-left-color: #d7d7d7;
+  border-right-color: #d7d7d7;
+}
+.nav-tabs-custom > .nav-tabs > li:first-of-type {
+  margin-left: 0;
+}
+.nav-tabs-custom > .nav-tabs > li:first-of-type.active > a {
+  border-left-color: transparent;
+}
+.nav-tabs-custom > .nav-tabs.pull-right {
+  float: none !important;
+}
+.nav-tabs-custom > .nav-tabs.pull-right > li {
+  float: right;
+}
+.nav-tabs-custom > .nav-tabs.pull-right > li:first-of-type {
+  margin-right: 0;
+}
+.nav-tabs-custom > .nav-tabs.pull-right > li:first-of-type > a {
+  border-left-width: 1px;
+}
+.nav-tabs-custom > .nav-tabs.pull-right > li:first-of-type.active > a {
+  border-left-color: #d7d7d7;
+  border-right-color: transparent;
+}
+.nav-tabs-custom > .nav-tabs > li.header {
+  line-height: 35px;
+  padding: 0 10px;
+  font-size: 20px;
+  color: #666;
+}
+.nav-tabs-custom > .nav-tabs > li.header > .fa,
+.nav-tabs-custom > .nav-tabs > li.header > .glyphicon,
+.nav-tabs-custom > .nav-tabs > li.header > .ion {
+  margin-right: 5px;
+}
+.nav-tabs-custom > .tab-content {
+  background: #fff;
+  padding: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.nav-tabs-custom > .tab-content > .chart-wrapper {
+  background: #fff;
+  border: none;
+  margin: 0;
+}
+
+
+.nav-tabs-custom > .tab-content > .active {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.nav-tabs-custom .dropdown.open > a:active,
+.nav-tabs-custom .dropdown.open > a:focus {
+  background: transparent;
+  color: #999;
+}
+
+
+@media (max-width: 767px) {
+  .value-box {
+    text-align: center;
+    margin-right: 8px;
+  }
+  .value-box .icon {
+    display: none;
+  }
+}
+
+/* Fixed position sidebar */
+
+.section.sidebar {
+  position: fixed;
+  top: 51px; /* overridden by theme */
+  left: 0;
+  bottom: 0;
+  border-right: 1px solid #e2e2e2;
+  background-color: white; /* overridden by theme */
+  padding-left: 10px;
+  padding-right: 10px;
+  visibility: hidden;
+  overflow: auto;
+}
+
+.section.sidebar form p:first-child {
+  margin-top: 10px;
+}
+
+/* Embedded source code */
+
+#flexdashboard-source-code {
+  display: none;
+}
+
+.featherlight-content #flexdashboard-source-code {
+  display: inline-block;
+}
+
+.featherlight-content {
+  width: 80%;
+  max-width: 800px;
+  padding: 0 !important;
+  border-bottom: none !important;
+}
+
+.featherlight:last-of-type {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.featherlight-inner {
+  width: 100%;
+}
+
+.featherlight-content pre {
+  margin: 0;
+  border: 0;
+  background: #fff;
+  font-size: 12px;
+}
+
+.unselectable {
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+#flexdashboard-source-code code {
+  -ms-user-select: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -o-user-select: text;
+  user-select: text;
+}
+
+/* DataTables Tweaks */
+
+.dataTables_filter input[type="search"] {
+  -webkit-appearance: searchfield;
+  outline: none;
+}
+
+.dataTables_wrapper.no-footer
+.dataTables_info {
+  padding-top: 0;
+}
+
+
+table.dataTable thead th {
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+  border-bottom: 1px solid #d7d7d7;
+}
+
+/* Mobile phone only CSS */
+
+.desktop-layout div.section.mobile {
+  display: none;
+}
+
+.mobile-layout div.section.no-mobile {
+  display: none;
+}
+
+.mobile-figure {
+  display: none;
+}
+
+
+
+body {
+  padding-top: 60px;
+}
+
+.section.sidebar {
+  top: 51px;
+  background-color: rgba(39, 128, 227, 0.1);
+}
+
+.value-box {
+  color: #f9f9f9;
+}
+
+.bg-primary {
+  background-color: rgba(39, 128, 227, 0.7);
+}
+
+.storyboard-nav .sbframelist ul li.active {
+  background-color: rgba(39, 128, 227, 0.7);
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: rgba(39, 128, 227, 0.7);
+}
+
+.bg-info {
+  background-color: rgba(153, 84, 187, 0.7);
+}
+
+.bg-warning {
+  background-color: rgba(255, 117, 24, 0.7);
+}
+
+.bg-danger {
+  background-color: rgba(255, 0, 57, 0.7);
+}
+
+.bg-success {
+  background-color: rgba(63, 182, 24, 0.7);
+}
+
+.chart-title {
+  font-weight: 500;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a,
+.nav-tabs-custom > .nav-tabs > li > a:active {
+  font-weight: 500;
+}
+
+@media only screen and (min-width: 768px) {
+html, body {
+  height: 100%;
+}
+
+#dashboard-container {
+  height: 100%;
+}
+}
+</style>
+
+
+
+
+
+
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="container-fluid">
+<div class="navbar-header">
+
+
+
+<span class="navbar-logo pull-left">
+  
+</span>
+<span class="navbar-brand">
+  Old Faithful Eruptions
+  <span class="navbar-author">
+        </span>
+</span>
+
+</div>
+<!--/.nav-collapse-->
+</div><!--/.container-->
+</div><!--/.navbar-->
+
+<script type="text/javascript">
+
+
+var FlexDashboard = (function () {
+
+  // initialize options
+  var _options = {};
+
+  var FlexDashboard = function() {
+
+    // default options
+    _options = $.extend(_options, {
+      theme: "cosmo",
+      fillPage: false,
+      orientation: 'columns',
+      storyboard: false,
+      defaultFigWidth: 576,
+      defaultFigHeight: 461,
+      defaultFigWidthMobile: 360,
+      defaultFigHeightMobile: 461,
+      isMobile: false,
+      isPortrait: false
+    });
+  };
+
+  function init(options) {
+
+    // extend default options
+    $.extend(true, _options, options);
+
+    // add ids to sections that don't have them (pandoc won't assign ids
+    // to e.g. sections with titles consisting of only chinese characters)
+    var nextId = 1;
+    $('.level1:not([id]),.level2:not([id]),.level3:not([id])').each(function() {
+      $(this).attr('id', 'dashboard-' + nextId++);
+    });
+
+    // find navbar items
+    var navbarItems = $('#flexdashboard-navbar');
+    if (navbarItems.length)
+      navbarItems = JSON.parse(navbarItems.html());
+    addNavbarItems(navbarItems);
+
+    // find the main dashboard container
+    var dashboardContainer = $('#dashboard-container');
+
+    // resolve mobile classes
+    resolveMobileClasses(dashboardContainer);
+
+    // one time global initialization for components
+    componentsInit(dashboardContainer);
+
+    // look for a global sidebar
+    var globalSidebar = dashboardContainer.find(".section.level1.sidebar");
+    if (globalSidebar.length > 0) {
+
+      // global layout for fullscreen displays
+      if (!isMobilePhone()) {
+
+         // hoist it up to the top level
+         globalSidebar.insertBefore(dashboardContainer);
+
+         // lay it out (set width/positions)
+         layoutSidebar(globalSidebar, dashboardContainer);
+
+      // tuck sidebar into first page for mobile phones
+      } else {
+
+        // convert it into a level3 section
+        globalSidebar.removeClass('sidebar');
+        globalSidebar.removeClass('level1');
+        globalSidebar.addClass('level3');
+        var h1 = globalSidebar.children('h1');
+        var h3 = $('<h3></h3>');
+        h3.html(h1.html());
+        h3.insertBefore(h1);
+        h1.remove();
+
+        // move it into the first page
+        var page = dashboardContainer.find('.section.level1').first();
+        if (page.length > 0)
+          page.prepend(globalSidebar);
+      }
+    }
+
+    // look for pages to layout
+    var pages = $('div.section.level1');
+    if (pages.length > 0) {
+
+        // find the navbar and collapse on clicked
+        var navbar = $('#navbar');
+        navbar.on("click", "a[data-toggle!=dropdown]", null, function () {
+           navbar.collapse('hide');
+        });
+
+        // envelop the dashboard container in a tab content div
+        dashboardContainer.wrapInner('<div class="tab-content"></div>');
+
+        pages.each(function(index) {
+
+          // lay it out
+          layoutDashboardPage($(this));
+
+          // add it to the navbar
+          addToNavbar($(this), index === 0);
+
+        });
+
+    } else {
+
+      // remove the navbar and navbar button if we don't
+      // have any navbuttons
+      if (navbarItems.length === 0) {
+        $('#navbar').remove();
+        $('#navbar-button').remove();
+      }
+
+      // add the storyboard class if requested
+      if (_options.storyboard)
+        dashboardContainer.addClass('storyboard');
+
+      // layout the entire page
+      layoutDashboardPage(dashboardContainer);
+    }
+
+    // if we are in shiny we need to trigger a window resize event to
+    // force correct layout of shiny-bound-output elements
+    if (isShinyDoc())
+      $(window).trigger('resize');
+
+    // make main components visible
+    $('.section.sidebar').css('visibility', 'visible');
+    dashboardContainer.css('visibility', 'visible');
+
+    // handle location hash
+    handleLocationHash();
+
+    // intialize prism highlighting
+    initPrismHighlighting();
+
+    // record mobile and orientation state then register a handler
+    // to refresh if it changes
+    _options.isMobile = isMobilePhone();
+    _options.isPortrait = isPortrait();
+    $(window).on('resize', function() {
+      if (_options.isMobile !== isMobilePhone() ||
+          _options.isPortrait !== isPortrait()) {
+        window.location.reload();
+      }
+    });
+
+    // trigger layoutcomplete event
+    dashboardContainer.trigger('flexdashboard:layoutcomplete');
+  }
+
+  function resolveMobileClasses(dashboardContainer) {
+     // add top level layout class
+    dashboardContainer.addClass(isMobilePhone() ? 'mobile-layout' :
+                                                  'desktop-layout');
+
+    // look for .mobile sections and add .no-mobile to their peers
+    var mobileSections = $('.section.mobile');
+    mobileSections.each(function() {
+       var id = $(this).attr('id');
+       var nomobileId = id.replace(/-\d+$/, '');
+       $('#' + nomobileId).addClass('no-mobile');
+    });
+  }
+
+  function addNavbarItems(navbarItems) {
+
+    var navbarLeft = $('ul.navbar-left');
+    var navbarRight = $('ul.navbar-right');
+
+    for (var i = 0; i<navbarItems.length; i++) {
+
+      // get the item
+      var item = navbarItems[i];
+
+      // determine the container
+      var container = null;
+      if (item.align === "left")
+        container = navbarLeft;
+      else
+        container = navbarRight;
+
+      // navbar menu if we have multiple items
+      if (item.items) {
+        var menu = navbarMenu(null, item.icon, item.title, container);
+        for (var j = 0; j<item.items.length; j++) {
+          var subItem = item.items[j];
+          var li = $('<li></li>');
+          li.append(navbarLink(subItem.icon, subItem.title, subItem.href, subItem.target));
+          menu.append(li);
+        }
+      } else {
+        var li = $('<li></li>');
+        li.append(navbarLink(item.icon, item.title, item.href, item.target));
+        container.append(li);
+      }
+    }
+  }
+
+  // create or get a reference to an existing dropdown menu
+  function navbarMenu(id, icon, title, container) {
+    var existingMenu = [];
+    if (id)
+      existingMenu = container.children('#' + id);
+    if (existingMenu.length > 0) {
+      return existingMenu.children('ul');
+    } else {
+      var li = $('<li></li>');
+      if (id)
+        li.attr('id', id);
+      li.addClass('dropdown');
+      // auto add "Share" title on mobile if necessary
+      if (!title && icon && (icon === "fa-share-alt") && isMobilePhone())
+        title = "Share";
+      if (title) {
+        title = title + ' <span class="caret"></span>';
+      }
+      var a = navbarLink(icon, title, "#");
+      a.addClass('dropdown-toggle');
+      a.attr('data-toggle', 'dropdown');
+      a.attr('role', 'button');
+      a.attr('aria-expanded', 'false');
+      li.append(a);
+      var ul = $('<ul class="dropdown-menu"></ul>');
+      ul.attr('role', 'menu');
+      li.append(ul);
+      container.append(li);
+      return ul;
+    }
+  }
+
+  function addToNavbar(page, active) {
+
+    // capture the id and data-icon attribute (if any)
+    var id = page.attr('id');
+    var icon = page.attr('data-icon');
+    var navmenu = page.attr('data-navmenu');
+
+    // get hidden state (transfer this to navbar)
+    var hidden = page.hasClass('hidden');
+    page.removeClass('hidden');
+
+    // sanitize the id for use with bootstrap tabs
+    id = id.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_');
+    page.attr('id', id);
+
+    // get the wrapper
+    var wrapper = page.closest('.dashboard-page-wrapper');
+
+    // move the id to the wrapper
+    page.removeAttr('id');
+    wrapper.attr('id', id);
+
+    // add the tab-pane class to the wrapper
+    wrapper.addClass('tab-pane');
+    if (active)
+      wrapper.addClass('active');
+
+    // get a reference to the h1, discover it's id and title, then remove it
+    var h1 = wrapper.find('h1').first();
+    var title = h1.html();
+    h1.remove();
+
+    // create a navbar item
+    var li = $('<li></li>');
+    var a = navbarLink(icon, title, '#' + id);
+    a.attr('data-toggle', 'tab');
+    li.append(a);
+
+    // add it to the navbar (or navbar menu if specified)
+    var container = $('ul.navbar-left');
+    if (navmenu) {
+      var menuId = navmenu.replace(/\s+/g, '');
+      var menu = navbarMenu(menuId, null, navmenu, container);
+      menu.append(li);
+    } else {
+      container.append(li);
+    }
+
+    // hide it if requested
+    if (hidden)
+      li.addClass('hidden');
+  }
+
+  function navbarLink(icon, title, href, target) {
+
+    var a = $('<a></a>');
+    if (icon) {
+
+      // get the name of the icon set and icon
+      var dashPos = icon.indexOf("-");
+      var iconSet = icon.substring(0, dashPos);
+      var iconName = icon.substring(dashPos + 1);
+
+      // create the icon
+      var iconElement = $('<span class="' + iconSet + ' ' + icon + '"></span>');
+      if (title)
+        iconElement.css('margin-right', '7px');
+      a.append(iconElement);
+      // if href is null see if we can auto-generate based on icon (e.g. social)
+      if (!href)
+        maybeGenerateLinkFromIcon(iconName, a);
+    }
+    if (title)
+      a.append(title);
+
+    // add the href.
+    if (href) {
+      if (href === "source_embed") {
+        a.attr('href', '#');
+        a.attr('data-featherlight', "#flexdashboard-source-code");
+        a.featherlight({
+            beforeOpen: function(event){
+              $('body').addClass('unselectable');
+            },
+            afterClose: function(event){
+              $('body').removeClass('unselectable');
+            }
+        });
+      } else {
+        a.attr('href', href);
+      }
+    }
+
+    // add the arget
+    if (target)
+      a.attr('target', target);
+
+    return a;
+  }
+
+  // auto generate a link from an icon name (e.g. twitter) when possible
+  function maybeGenerateLinkFromIcon(iconName, a) {
+
+     var serviceLinks = {
+      "twitter": "https://twitter.com/share?text=" + encodeURIComponent(document.title) + "&url="+encodeURIComponent(location.href),
+      "facebook": "https://www.facebook.com/sharer/sharer.php?s=100&p[url]="+encodeURIComponent(location.href),
+      "google-plus": "https://plus.google.com/share?url="+encodeURIComponent(location.href),
+      "linkedin": "https://www.linkedin.com/shareArticle?mini=true&url="+encodeURIComponent(location.href) + "&title=" + encodeURIComponent(document.title),
+      "pinterest": "https://pinterest.com/pin/create/link/?url="+encodeURIComponent(location.href) + "&description=" + encodeURIComponent(document.title)
+    };
+
+    var makeSocialLink = function(a, href) {
+      a.attr('href', '#');
+      a.on('click', function(e) {
+        e.preventDefault();
+        window.open(href);
+      });
+    };
+
+    $.each(serviceLinks, function(key, value) {
+      if (iconName.indexOf(key) !== -1)
+        makeSocialLink(a, value);
+    });
+  }
+
+  // layout a dashboard page
+  function layoutDashboardPage(page) {
+
+    // use a page wrapper so that free form content above the
+    // dashboard appears at the top rather than the side (as it
+    // would without the wrapper in a column orientation)
+    var wrapper = $('<div class="dashboard-page-wrapper"></div>');
+    page.wrap(wrapper);
+
+    // if there are no level2 or level3 headers synthesize a level3
+    // header to contain the (e.g. frame it, scroll container, etc.)
+    var headers = page.find('h2,h3');
+    if (headers.length === 0)
+      page.wrapInner('<div class="section level3"></div>');
+
+    // hoist up any content before level 2 or level 3 headers
+    var children = page.children();
+    children.each(function(index) {
+      if ($(this).hasClass('level2') || $(this).hasClass('level3'))
+        return false;
+      $(this).insertBefore(page);
+    });
+
+    // determine orientation and fillPage behavior for distinct media
+    var orientation, fillPage, storyboard;
+
+    // media: mobile phone
+    if (isMobilePhone()) {
+
+      // if there is a sidebar we need to ensure it's content
+      // is properly framed as an h3
+      var sidebar = page.find('.section.sidebar');
+      sidebar.removeClass('sidebar');
+      sidebar.wrapInner('<div class="section level3"></div>');
+      var h2 = sidebar.find('h2');
+      var h3 = $('<h3></h3>');
+      h3.html(h2.html());
+      h3.insertBefore(h2);
+      h2.remove();
+
+      // wipeout h2 elements then enclose them in a single h2
+      var level2 = page.find('div.section.level2');
+      level2.each(function() {
+        level2.children('h2').remove();
+        level2.children().unwrap();
+      });
+      page.wrapInner('<div class="section level2"></div>');
+
+      // substitute mobile images
+      if (isPortrait()) {
+        var mobileFigures = $('img.mobile-figure');
+        mobileFigures.each(function() {
+          // get the src (might be base64 encoded)
+          var src = $(this).attr('src');
+
+          // find it's peer
+          var id = $(this).attr('data-mobile-figure-id');
+          var img = $('img[data-figure-id=' + id + "]");
+          img.attr('src', src)
+             .attr('width', _options.defaultFigWidthMobile)
+             .attr('height', _options.defaultFigHeightMobile);
+        });
+      }
+
+      // hoist storyboard commentary into it's own section
+      if (page.hasClass('storyboard')) {
+        var commentaryHR = page.find('div.section.level3 hr');
+        commentaryHR.each(function() {
+          var commentary = $(this).nextAll().detach();
+          var commentarySection = $('<div class="section level3"></div>');
+          commentarySection.append(commentary);
+          commentarySection.insertAfter($(this).closest('div.section.level3'));
+          $(this).remove();
+        });
+      }
+
+      // force a non full screen layout by columns
+      orientation = _options.orientation = 'columns';
+      fillPage = _options.fillPage = false;
+      storyboard = _options.storyboard = false;
+
+    // media: desktop
+    } else {
+
+      // determine orientation
+      orientation = page.attr('data-orientation');
+      if (orientation !== 'rows' && orientation != 'columns')
+        orientation = _options.orientation;
+
+      // determine storyboard mode
+      storyboard = page.hasClass('storyboard');
+
+      // fillPage based on options (force for storyboard)
+      fillPage = _options.fillPage || storyboard;
+
+      // handle sidebar
+      var sidebar = page.find('.section.level2.sidebar');
+      if (sidebar.length > 0)
+        layoutSidebar(sidebar, page);
+    }
+
+    // give it and it's parent divs height: 100% if we are in fillPage mode
+    if (fillPage) {
+      page.addClass('vertical-layout-fill');
+      page.css('height', '100%');
+      page.parents('div').css('height', '100%');
+    } else {
+      page.addClass('vertical-layout-scroll');
+    }
+
+    // perform the layout
+    if (storyboard)
+      layoutPageAsStoryboard(page);
+    else if (orientation === 'rows')
+      layoutPageByRows(page, fillPage);
+    else if (orientation === 'columns')
+      layoutPageByColumns(page, fillPage);
+  }
+
+  function layoutSidebar(sidebar, content) {
+
+    // get it out of the header hierarchy
+    sidebar = sidebar.first();
+    if (sidebar.hasClass('level1')) {
+      sidebar.removeClass('level1');
+      sidebar.children('h1').remove();
+    } else if (sidebar.hasClass('level2')) {
+      sidebar.removeClass('level2');
+      sidebar.children('h2').remove();
+    }
+
+    // determine width
+    var sidebarWidth = isTablet() ? 220 : 250;
+    var dataWidth = parseInt(sidebar.attr('data-width'));
+    if (dataWidth)
+      sidebarWidth = dataWidth;
+
+    // set the width and shift the page right to accomodate the sidebar
+    sidebar.css('width', sidebarWidth + 'px');
+    content.css('padding-left', sidebarWidth + 'px');
+
+    // wrap it's contents in a form
+    sidebar.wrapInner($('<form></form>'));
+  }
+
+  function layoutPageAsStoryboard(page) {
+
+    // create storyboard navigation
+    var nav = $('<div class="storyboard-nav"></div>');
+
+    // add navigation buttons
+    var prev = $('<button class="sbprev"><i class="fa fa-angle-left"></i></button>');
+    nav.append(prev);
+    var next= $('<button class="sbnext"><i class="fa fa-angle-right"></i></button>');
+    nav.append(next);
+
+    // add navigation frame
+    var frameList = $('<div class="sbframelist"></div>');
+    nav.append(frameList);
+    var ul = $('<ul></ul>');
+    frameList.append(ul);
+
+     // find all the level3 sections (those are the storyboard frames)
+    var frames = page.find('div.section.level3');
+    frames.each(function() {
+
+      // mark it
+      $(this).addClass('sbframe');
+
+      // divide it into chart content and (optional) commentary
+      $(this).addClass('dashboard-column-orientation');
+
+      // stuff the chart into it's own div w/ flex
+      $(this).wrapInner('<div class="sbframe-component"></div>');
+      setFlex($(this), 1);
+      var frame = $(this).children('.sbframe-component');
+
+      // extract the title from the h3
+      var li = $('<li></li>');
+      var h3 = frame.children('h3');
+      li.html(h3.html());
+      h3.remove();
+      ul.append(li);
+
+      // extract commentary
+      var hr = frame.children('hr');
+      if (hr.length) {
+        var commentary = hr.nextAll().detach();
+        hr.remove();
+        var commentaryFrame = $('<div class="sbframe-commentary"></div>');
+        commentaryFrame.addClass('flowing-content-shim');
+        commentaryFrame.addClass('flowing-content-container');
+        commentaryFrame.append(commentary);
+        $(this).append(commentaryFrame);
+
+        // look for a data-commentary-width attribute
+        var commentaryWidth = $(this).attr('data-commentary-width');
+        if (commentaryWidth)
+          commentaryFrame.css('width', commentaryWidth + 'px');
+      }
+
+      // layout the chart (force flex)
+      var result = layoutChart(frame, true);
+
+      // ice the notes if there are none
+      if (!result.notes)
+        frame.find('.chart-notes').remove();
+
+      // set flex on chart
+      setFlex(frame, 1);
+    });
+
+    // create a div to hold all the frames
+    var frameContent = $('<div class="sbframe-content"></div>');
+    frameContent.addClass('dashboard-row-orientation');
+    frameContent.append(frames.detach());
+
+    // row orientation to stack nav and frame content
+    page.addClass('dashboard-row-orientation');
+    page.append(nav);
+    page.append(frameContent);
+    setFlex(frameContent, 1);
+
+    // initialize sly
+    var sly = new Sly(frameList, {
+    		horizontal: true,
+    		itemNav: 'basic',
+    		smart: true,
+    		activateOn: 'click',
+    		startAt: 0,
+    		scrollBy: 1,
+    		activatePageOn: 'click',
+    		speed: 200,
+    		moveBy: 600,
+    		dragHandle: true,
+    		dynamicHandle: true,
+    		clickBar: true,
+    		keyboardNavBy: 'items',
+    		next: next,
+    		prev: prev
+    	}).init();
+
+    // make first frame active
+    frames.removeClass('active');
+    frames.first().addClass('active');
+
+    // subscribe to frame changed events
+    sly.on('active', function (eventName, itemIndex) {
+      frames.removeClass('active');
+      frames.eq(itemIndex).addClass('active')
+                          .trigger('shown');
+    });
+  }
+
+  function layoutPageByRows(page, fillPage) {
+
+    // row orientation
+    page.addClass('dashboard-row-orientation');
+
+    // find all the level2 sections (those are the rows)
+    var rows = page.find('div.section.level2');
+
+    // if there are no level2 sections then treat the
+    // entire page as if it's a level 2 section
+    if (rows.length === 0) {
+      page.wrapInner('<div class="section level2"></div>');
+      rows = page.find('div.section.level2');
+    }
+
+    rows.each(function () {
+
+      // flags
+      var haveNotes = false;
+      var haveFlexHeight = true;
+
+      // remove the h2
+      $(this).children('h2').remove();
+
+      // check for a tabset
+      var isTabset = $(this).hasClass('tabset');
+      if (isTabset)
+        layoutTabset($(this));
+
+      // give it row layout semantics if it's not a tabset
+      if (!isTabset)
+        $(this).addClass('dashboard-row');
+
+      // find all of the level 3 subheads
+      var columns = $(this).find('div.section.level3');
+
+      // determine figureSizes sizes
+      var figureSizes = chartFigureSizes(columns);
+
+      // fixup the columns
+      columns.each(function(index) {
+
+        // layout the chart (force flex if we are in a tabset)
+        var result = layoutChart($(this), isTabset);
+
+        // update flexHeight state
+        if (!result.flex)
+          haveFlexHeight = false;
+
+        // update state
+        if (result.notes)
+          haveNotes = true;
+
+        // set the column flex based on the figure width
+        // (value boxes will just get the default figure width)
+        var chartWidth = figureSizes[index].width;
+        setFlex($(this), chartWidth + ' ' + chartWidth + ' 0px');
+
+      });
+
+      // remove empty chart note divs
+      if (isTabset)
+        $(this).find('.chart-notes').filter(function() {
+            return $(this).html() === "&nbsp;";
+        }).remove();
+      if (!haveNotes)
+        $(this).find('.chart-notes').remove();
+
+       // make it a flexbox row
+      if (haveFlexHeight)
+        $(this).addClass('dashboard-row-flex');
+
+      // now we can set the height on all the wrappers (based on maximum
+      // figure height + room for title and notes, or data-height on the
+      // container if specified). However, don't do this if there is
+      // no flex on any of the constituent columns
+      var flexHeight = null;
+      var dataHeight = parseInt($(this).attr('data-height'));
+      if (dataHeight)
+        flexHeight = adjustedHeight(dataHeight, columns.first());
+      else if (haveFlexHeight)
+        flexHeight = maxChartHeight(figureSizes, columns);
+      if (flexHeight) {
+        if (fillPage)
+          setFlex($(this), flexHeight + ' ' + flexHeight + ' 0px');
+        else {
+          $(this).css('height', flexHeight + 'px');
+          setFlex($(this), '0 0 ' + flexHeight + 'px');
+        }
+      }
+
+    });
+  }
+
+  function layoutPageByColumns(page, fillPage) {
+
+    // column orientation
+    page.addClass('dashboard-column-orientation');
+
+    // find all the level2 sections (those are the columns)
+    var columns = page.find('div.section.level2');
+
+    // if there are no level2 sections then treat the
+    // entire page as if it's a level 2 section
+    if (columns.length === 0) {
+      page.wrapInner('<div class="section level2"></div>');
+      columns = page.find('div.section.level2');
+    }
+
+    // layout each column
+    columns.each(function (index) {
+
+      // remove the h2
+      $(this).children('h2').remove();
+
+      // make it a flexbox column
+      $(this).addClass('dashboard-column');
+
+      // check for a tabset
+      var isTabset = $(this).hasClass('tabset');
+      if (isTabset)
+        layoutTabset($(this));
+
+      // find all the h3 elements
+      var rows = $(this).find('div.section.level3');
+
+      // get the figure sizes for the rows
+      var figureSizes = chartFigureSizes(rows);
+
+      // column flex is the max row width (or data-width if specified)
+      var flexWidth;
+      var dataWidth = parseInt($(this).attr('data-width'));
+      if (dataWidth)
+        flexWidth = dataWidth;
+      else
+        flexWidth = maxChartWidth(figureSizes);
+      setFlex($(this), flexWidth + ' ' + flexWidth + ' 0px');
+
+      // layout each chart
+      rows.each(function(index) {
+
+        // perform the layout
+        var result = layoutChart($(this), false);
+
+        // ice the notes if there are none
+        if (!result.notes)
+          $(this).find('.chart-notes').remove();
+
+        // set flex height based on figHeight, then adjust
+        if (result.flex) {
+          var chartHeight = figureSizes[index].height;
+          chartHeight = adjustedHeight(chartHeight, $(this));
+          if (fillPage)
+            setFlex($(this), chartHeight + ' ' + chartHeight + ' 0px');
+          else {
+            $(this).css('height', chartHeight + 'px');
+            setFlex($(this), chartHeight + ' ' + chartHeight + ' ' + chartHeight + 'px');
+          }
+        }
+      });
+    });
+  }
+
+  function chartFigureSizes(charts) {
+
+    // sizes
+    var figureSizes = new Array(charts.length);
+
+    // check each chart
+    charts.each(function(index) {
+
+      // start with default
+      figureSizes[index] = {
+        width: _options.defaultFigWidth,
+        height: _options.defaultFigHeight
+      };
+
+      // look for data-height or data-width then knit options
+      var dataWidth = parseInt($(this).attr('data-width'));
+      var dataHeight = parseInt($(this).attr('data-height'));
+      var knitrOptions = $(this).find('.knitr-options:first');
+      var knitrWidth, knitrHeight;
+      if (knitrOptions) {
+        knitrWidth = parseInt(knitrOptions.attr('data-fig-width'));
+        knitrHeight =  parseInt(knitrOptions.attr('data-fig-height'));
+      }
+
+      // width
+      if (dataWidth)
+        figureSizes[index].width = dataWidth;
+      else if (knitrWidth)
+        figureSizes[index].width = knitrWidth;
+
+      // height
+      if (dataHeight)
+        figureSizes[index].height = dataHeight;
+      else if (knitrHeight)
+        figureSizes[index].height = knitrHeight;
+    });
+
+    // return sizes
+    return figureSizes;
+  }
+
+  function maxChartHeight(figureSizes, charts) {
+
+    // first compute the maximum height
+    var maxHeight = _options.defaultFigHeight;
+    for (var i = 0; i<figureSizes.length; i++)
+      if (figureSizes[i].height > maxHeight)
+        maxHeight = figureSizes[i].height;
+
+    // now add offests for chart title and chart notes
+    if (charts.length)
+      maxHeight = adjustedHeight(maxHeight, charts.first());
+
+    return maxHeight;
+  }
+
+  function adjustedHeight(height, chart) {
+    if (chart.length > 0) {
+      var chartTitle = chart.find('.chart-title');
+      if (chartTitle.length)
+        height += chartTitle.first().outerHeight();
+      var chartNotes = chart.find('.chart-notes');
+      if (chartNotes.length)
+        height += chartNotes.first().outerHeight();
+    }
+    return height;
+  }
+
+  function maxChartWidth(figureSizes) {
+    var maxWidth = _options.defaultFigWidth;
+    for (var i = 0; i<figureSizes.length; i++)
+      if (figureSizes[i].width > maxWidth)
+        maxWidth = figureSizes[i].width;
+    return maxWidth;
+  }
+
+  // layout a chart
+  function layoutChart(chart, forceFlex) {
+
+    // state to return
+    var result = {
+      notes: false,
+      flex: false
+    };
+
+    // extract the title
+    var title = extractTitle(chart);
+
+    // find components that apply to this container
+    var components = componentsFind(chart);
+
+    // if it's a custom component then call it and return
+    var customComponents = componentsCustom(components);
+    if (customComponents.length) {
+      componentsLayout(customComponents, title, chart);
+      result.notes = false;
+      result.flex = forceFlex || componentsFlex(customComponents);
+      return result;
+    }
+
+    // put all the content in a chart wrapper div
+    chart.addClass('chart-wrapper');
+    chart.wrapInner('<div class="chart-stage"></div>');
+    var chartContent = chart.children('.chart-stage');
+
+    // flex the content if appropriate
+    result.flex = forceFlex || componentsFlex(components);
+    if (result.flex) {
+      // add flex classes
+      chart.addClass('chart-wrapper-flex');
+      chartContent.addClass('chart-stage-flex');
+
+      // additional shim to break out of flexbox sizing
+      chartContent.wrapInner('<div class="chart-shim"></div>');
+      chartContent = chartContent.children('.chart-shim');
+    }
+
+    // set custom data-padding attribute
+    var pad = chart.attr('data-padding');
+    if (pad) {
+      if (pad === "0")
+        chart.addClass('no-padding');
+      else {
+        pad = pad + 'px';
+        chartContent.css('left', pad)
+                    .css('top', pad)
+                    .css('right', pad)
+                    .css('bottom', pad)
+      }
+    }
+
+    // call compoents
+    componentsLayout(components, title, chartContent);
+
+    // also activate components on shiny output
+    findShinyOutput(chartContent).on('shiny:value',
+      function(event) {
+        var element = $(event.target);
+        setTimeout(function() {
+
+          // see if we opted out of flex based on our output (for shiny
+          // we can't tell what type of output we have until after the
+          // value is bound)
+          var components = componentsFind(element);
+          var flex = forceFlex || componentsFlex(components);
+          if (!flex) {
+            chart.css('height', "");
+            setFlex(chart, "");
+            chart.removeClass('chart-wrapper-flex');
+            chartContent.removeClass('chart-stage-flex');
+            chartContent.children().unwrap();
+          }
+
+          // perform layout
+          componentsLayout(components, title, element.parent());
+        }, 10);
+      });
+
+    // add the title
+    var chartTitle = $('<div class="chart-title"></div>');
+    chartTitle.html(title);
+    chart.prepend(chartTitle);
+
+    // add the notes section
+    var chartNotes = $('<div class="chart-notes"></div>');
+    chartNotes.html('&nbsp;');
+    chart.append(chartNotes);
+
+    // attempt to extract notes if we have a component
+    if (components.length)
+      result.notes = extractChartNotes(chartContent, chartNotes);
+
+    // return result
+    return result;
+  }
+
+  // build a tabset from a section div with the .tabset class
+  function layoutTabset(tabset) {
+
+    // check for fade option
+    var fade = tabset.hasClass("tabset-fade");
+    var navClass = "nav-tabs";
+
+    // determine the heading level of the tabset and tabs
+    var match = tabset.attr('class').match(/level(\d) /);
+    if (match === null)
+      return;
+    var tabsetLevel = Number(match[1]);
+    var tabLevel = tabsetLevel + 1;
+
+    // find all subheadings immediately below
+    var tabs = tabset.find("div.section.level" + tabLevel);
+    if (!tabs.length)
+      return;
+
+    // create tablist and tab-content elements
+    var tabList = $('<ul class="nav ' + navClass + '" role="tablist"></ul>');
+    $(tabs[0]).before(tabList);
+    var tabContent = $('<div class="tab-content"></div>');
+    $(tabs[0]).before(tabContent);
+
+    // build the tabset
+    tabs.each(function(i) {
+
+      // get the tab div
+      var tab = $(tabs[i]);
+
+      // get the id then sanitize it for use with bootstrap tabs
+      var id = tab.attr('id');
+
+      // sanitize the id for use with bootstrap tabs
+      id = id.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_');
+      tab.attr('id', id);
+
+      // get the heading element within it and grab it's text
+      var heading = tab.find('h' + tabLevel + ':first');
+      var headingText = heading.html();
+
+      // build and append the tab list item
+      var a = $('<a role="tab" data-toggle="tab">' + headingText + '</a>');
+      a.attr('href', '#' + id);
+      a.attr('aria-controls', id);
+      var li = $('<li role="presentation"></li>');
+      li.append(a);
+      if (i === 0)
+        li.attr('class', 'active');
+      tabList.append(li);
+
+      // set it's attributes
+      tab.attr('role', 'tabpanel');
+      tab.addClass('tab-pane');
+      tab.addClass('tabbed-pane');
+      tab.addClass('no-title');
+      if (fade)
+        tab.addClass('fade');
+      if (i === 0) {
+        tab.addClass('active');
+        if (fade)
+          tab.addClass('in');
+      }
+
+      // move it into the tab content div
+      tab.detach().appendTo(tabContent);
+    });
+
+    // add nav-tabs-custom
+    tabset.addClass('nav-tabs-custom');
+
+    // internal layout is dashboard-column with tab-content flexing
+    tabset.addClass('dashboard-column');
+    setFlex(tabContent, 1);
+  }
+
+  // one time global initialization for components
+  function componentsInit(dashboardContainer) {
+    for (var i=0; i<window.FlexDashboardComponents.length; i++) {
+      var component = window.FlexDashboardComponents[i];
+      if (component.init)
+        component.init(dashboardContainer);
+    }
+  }
+
+  // find components that apply within a container
+  function componentsFind(container) {
+
+    // look for components
+    var components = [];
+    for (var i=0; i<window.FlexDashboardComponents.length; i++) {
+      var component = window.FlexDashboardComponents[i];
+      if (component.find(container).length)
+        components.push(component);
+    }
+
+    // if there were none then use a special flowing content component
+    // that just adds a scrollbar in fillPage mode
+    if (components.length == 0) {
+      components.push({
+        find: function(container) {
+          return container;
+        },
+
+        flex: function(fillPage) {
+          return fillPage;
+        },
+
+        layout: function(title, container, element, fillPage) {
+          if (fillPage) {
+            container.addClass('flowing-content-shim');
+            container.addClass('flowing-content-container');
+          }
+        }
+      });
+    }
+
+    return components;
+  }
+
+  // if there is a custom component then pick it out
+  function componentsCustom(components) {
+    var customComponent = [];
+    for (var i=0; i<components.length; i++)
+      if (components[i].type === "custom") {
+        customComponent.push(components[i]);
+        break;
+      }
+    return customComponent;
+  }
+
+  // query all components for flex
+  function componentsFlex(components) {
+
+    // no components at all means no flex
+    if (components.length === 0)
+      return false;
+
+    // otherwise query components (assume true unless we see false)
+    var isMobile = isMobilePhone();
+    for (var i=0; i<components.length; i++)
+      if (components[i].flex && !components[i].flex(_options.fillPage))
+        return false;
+    return true;
+  }
+
+  // layout all components
+  function componentsLayout(components, title, container) {
+    var isMobile = isMobilePhone();
+    for (var i=0; i<components.length; i++) {
+      var element = components[i].find(container);
+      if (components[i].layout) {
+        // call layout (don't call other components if it returns false)
+        var result = components[i].layout(title, container, element, _options.fillPage);
+        if (result === false)
+          return;
+      }
+    }
+  }
+
+  // get a reference to the h3, discover it's inner html, and remove it
+  function extractTitle(container) {
+    var h3 = container.children('h3').first();
+    var title = '';
+    if (!container.hasClass('no-title'))
+      title = h3.html();
+    h3.remove();
+    return title;
+  }
+
+  // extract chart notes
+  function extractChartNotes(chartContent, chartNotes) {
+    // look for a terminating blockquote or image caption
+    var blockquote = chartContent.children('blockquote:last-child');
+    var caption = chartContent.children('div.image-container')
+                              .children('p.caption');
+    if (blockquote.length) {
+      chartNotes.html(blockquote.children('p:first-child').html());
+      blockquote.remove();
+      return true;
+    } else if (caption.length) {
+      chartNotes.html(caption.html());
+      caption.remove();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function findShinyOutput(chartContent) {
+    return chartContent.find('.shiny-text-output, .shiny-html-output');
+  }
+
+  // safely detect rendering on a mobile phone
+  function isMobilePhone() {
+    try
+    {
+      return ! window.matchMedia("only screen and (min-width: 768px)").matches;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+
+  function isFillPage() {
+    return _options.fillPage;
+  }
+
+  // detect portrait mode
+  function isPortrait() {
+    return ($(window).width() < $(window).height());
+  }
+
+  // safely detect rendering on a tablet
+  function isTablet() {
+    try
+    {
+      return window.matchMedia("only screen and (min-width: 769px) and (max-width: 992px)").matches;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+
+  // test whether this is a shiny doc
+  function isShinyDoc() {
+    return (typeof(window.Shiny) !== "undefined" && !!window.Shiny.outputBindings);
+  }
+
+  // set flex using vendor specific prefixes
+  function setFlex(el, flex) {
+    el.css('-webkit-box-flex', flex)
+      .css('-webkit-flex', flex)
+      .css('-ms-flex', flex)
+      .css('flex', flex);
+  }
+
+  // support bookmarking of pages
+  function handleLocationHash() {
+
+    // restore tab/page from bookmark
+    var hash = window.location.hash;
+    if (hash.length > 0)
+      $('ul.nav a[href="' + hash + '"]').tab('show');
+    FlexDashboardUtils.manageActiveNavbarMenu();
+
+    // navigate to a tab when the history changes
+    window.addEventListener("popstate", function(e) {
+      var hash = window.location.hash;
+      var activeTab = $('ul.nav a[href="' + hash + '"]');
+      if (activeTab.length) {
+        activeTab.tab('show');
+      } else {
+        $('ul.nav a:first').tab('show');
+      }
+      FlexDashboardUtils.manageActiveNavbarMenu();
+    });
+
+    // add a hash to the URL when the user clicks on a tab/page
+    $('.navbar-nav a[data-toggle="tab"]').on('click', function(e) {
+      var baseUrl = FlexDashboardUtils.urlWithoutHash(window.location.href);
+      var hash = FlexDashboardUtils.urlHash($(this).attr('href'));
+      var href = baseUrl + hash;
+      FlexDashboardUtils.setLocation(href);
+    });
+
+    // handle clicks of other links that should activate pages
+    var navPages = $('ul.navbar-nav li a[data-toggle=tab]');
+    navPages.each(function() {
+      var href =  $(this).attr('href');
+      var links = $('a[href="' + href + '"][data-toggle!=tab]');
+      links.each(function() {
+        $(this).on('click', function(e) {
+          window.FlexDashboardUtils.showPage(href);
+        });
+      });
+    });
+  }
+
+  // tweak Prism highlighting
+  function initPrismHighlighting() {
+
+    if (window.Prism) {
+      Prism.languages.insertBefore('r', 'comment', {
+        'heading': [
+          {
+            // title 1
+        	  // =======
+
+        	  // title 2
+        	  // -------
+        	  pattern: /\w+.*(?:\r?\n|\r)(?:====+|----+)/,
+            alias: 'operator'
+          },
+          {
+            // ### title 3
+            pattern: /(^\s*)###[^#].+/m,
+            lookbehind: true,
+            alias: 'operator'
+          }
+        ]
+      });
+
+      // prism highlight
+      Prism.highlightAll();
+    }
+  }
+
+
+  // get theme color
+  var themeColors = {
+    bootstrap: {
+      primary: "rgba(51, 122, 183, 0.4)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    cerulean: {
+      primary: "rgb(47, 164, 231)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    journal: {
+      primary: "rgba(235, 104, 100, 0.70)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    flatly: {
+      primary: "rgba(44, 62, 80, 0.70)",
+      info: "rgba(52, 152, 219, 0.70)",
+      success: "rgba(24, 188, 156, 0.70)",
+      warning: "rgba(243, 156, 18, 0.70)",
+      danger: "rgba(231, 76, 60, 0.70)"
+    },
+    readable: {
+      primary: "rgba(69, 130, 236, 0.4)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    spacelab: {
+      primary: "rgba(68, 110, 155, 0.25)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    united: {
+      primary: "rgba(221, 72, 20, 0.30)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    cosmo: {
+      primary: "rgba(39, 128, 227, 0.7)",
+      info: "rgba(153, 84, 187, 0.7)",
+      success: "rgba(63, 182, 24, 0.7)",
+      warning: "rgba(255, 117, 24, 0.7)",
+      danger: "rgba(255, 0, 57, 0.7)"
+    },
+    lumen: {
+      primary: "rgba(21, 140, 186, 0.70)",
+      info: "rgba(117, 202, 235, 0.90)",
+      success: "rgba(40, 182, 44, 0.70)",
+      warning: "rgba(255, 133, 27, 0.70)",
+      danger: "rgba(255, 65, 54, 0.70)"
+    },
+    paper: {
+      primary: "rgba(33, 150, 243, 0.35)",
+      info: "rgb(225, 190, 231)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(255, 224, 178)",
+      danger: "rgb(249, 189, 187)"
+    },
+    sandstone: {
+      primary: "rgba(50, 93, 136, 0.3)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    simplex: {
+      primary: "rgba(217, 35, 15, 0.25)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    yeti: {
+      primary: "rgba(0, 140, 186, 0.298039)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    }
+  }
+  function themeColor(color) {
+    return themeColors[_options.theme][color];
+  }
+
+  FlexDashboard.prototype = {
+    constructor: FlexDashboard,
+    init: init,
+    isMobilePhone: isMobilePhone,
+    isFillPage: isFillPage,
+    themeColor: themeColor
+  };
+
+  return FlexDashboard;
+
+})();
+
+// utils
+window.FlexDashboardUtils = {
+  resizableImage: function(img) {
+    var src = img.attr('src');
+    var url = 'url("' + src + '")';
+    img.parent().css('background', url)
+                .css('background-size', 'contain')
+                .css('background-repeat', 'no-repeat')
+                .css('background-position', 'center')
+                .addClass('image-container');
+  },
+  setLocation: function(href) {
+    if (history && history.pushState) {
+      history.pushState(null, null, href);
+    } else {
+      window.location.replace(href);
+    }
+    setTimeout(function() {
+        window.scrollTo(0, 0);
+    }, 10);
+    this.manageActiveNavbarMenu();
+  },
+  showPage: function(href) {
+    $('ul.navbar-nav li a[href="' + href + '"]').tab('show');
+    var baseUrl = this.urlWithoutHash(window.location.href);
+    var loc = baseUrl + href;
+    this.setLocation(loc);
+  },
+  showLinkedValue: function(href) {
+    // check for a page link
+    if ($('ul.navbar-nav li a[data-toggle=tab][href="' + href + '"]').length > 0)
+      this.showPage(href);
+    else
+      window.open(href);
+  },
+  urlWithoutHash: function(url) {
+    var hashLoc = url.indexOf('#');
+    if (hashLoc != -1)
+      return url.substring(0, hashLoc);
+    else
+      return url;
+  },
+  urlHash: function(url) {
+    var hashLoc = url.indexOf('#');
+    if (hashLoc != -1)
+      return url.substring(hashLoc);
+    else
+      return "";
+  },
+  manageActiveNavbarMenu: function () {
+    // remove active from anyone currently active
+    $('.navbar ul.nav').find('li').removeClass('active');
+    // find the active tab
+    var activeTab = $('.dashboard-page-wrapper.tab-pane.active');
+    if (activeTab.length > 0) {
+      var tabId = activeTab.attr('id');
+      if (tabId)
+        $(".navbar ul.nav a[href='#" + tabId + "']").parents('li').addClass('active');
+    }
+  }
+};
+
+window.FlexDashboard = new FlexDashboard();
+
+// empty content
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    if (container.find('p').length == 0)
+      return container;
+    else
+      return $();
+  }
+})
+
+// plot image
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('p')
+                    .children('img:only-child');
+  },
+
+  layout: function(title, container, element, fillPage) {
+    FlexDashboardUtils.resizableImage(element);
+  }
+});
+
+// plot image (figure style)
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('div.figure').children('img');
+  },
+
+  layout: function(title, container, element, fillPage) {
+    FlexDashboardUtils.resizableImage(element);
+  }
+});
+
+// htmlwidget
+window.FlexDashboardComponents.push({
+
+  init: function(dashboardContainer) {
+    // trigger "shown" after initial layout to force static htmlwidgets
+    // in runtime: shiny to be resized after the dom has been transformed
+    dashboardContainer.on('flexdashboard:layoutcomplete', function(event) {
+      setTimeout(function() {
+        dashboardContainer.trigger('shown');
+      }, 200);
+    });
+  },
+
+  find: function(container) {
+    return container.children('div[id^="htmlwidget-"],div.html-widget');
+  }
+});
+
+// gauge
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('div.html-widget.gauge');
+  },
+
+  flex: function(fillPage) {
+    return false;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+
+  }
+
+});
+
+// shiny output
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    return container.children('div[class^="shiny-"]');
+  }
+});
+
+// datatables
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    return container.find('.datatables');
+  },
+  flex: function(fillPage) {
+    return fillPage;
+  }
+});
+
+// bootstrap table
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    var bsTable = container.find('table.table');
+    if (bsTable.length !== 0)
+      return bsTable;
+    else
+      return container.find('tr.header').parent('thead').parent('table');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+    // alias variables
+    var bsTable = element;
+
+    // fixup xtable generated tables with a proper thead
+    var headerRow = bsTable.find('tbody > tr:first-child > th').parent();
+    if (headerRow.length > 0) {
+      var thead = $('<thead></thead>');
+      bsTable.prepend(thead);
+      headerRow.detach().appendTo(thead);
+    }
+
+    // improve appearance
+    container.addClass('bootstrap-table');
+
+    // for fill page provide scrolling w/ sticky headers
+    if (fillPage) {
+      // force scrollbar on overflow
+      container.addClass('flowing-content-shim');
+
+      // stable table headers when scrolling
+      bsTable.stickyTableHeaders({
+        scrollableArea: container
+      });
+    }
+  }
+});
+
+// embedded shiny app
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.find('iframe.shiny-frame');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+    if (fillPage) {
+      element.attr('height', '100%');
+    } else {
+      // provide default height if necessary
+      var height = element.get(0).style.height;
+      if (!height)
+        height = element.attr('height');
+      if (!height)
+        element.attr('height', 500);
+    }
+  }
+});
+
+// shiny fillRow or fillCol
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.find('.flexfill-container');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+    if (fillPage)
+      element.css('height', '100%');
+    else {
+      // provide default height if necessary
+      var height = element.get(0).style.height;
+      if (height === "100%" || height === "auto" || height === "initial" ||
+          height === "inherit" || !height) {
+        element.css('height', 500);
+      }
+    }
+  }
+});
+
+// valueBox
+window.FlexDashboardComponents.push({
+
+  type: "custom",
+
+  find: function(container) {
+    if (container.find('span.value-output, .shiny-valuebox-output').length)
+      return container;
+    else
+      return $();
+  },
+
+  flex: function(fillPage) {
+    return false;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+    // alias variables
+    var chartTitle = title;
+    var valueBox = element;
+
+    // add value-box class to container
+    container.addClass('value-box');
+
+    // value paragraph
+    var value = $('<p class="value"></p>');
+
+    // if we have shiny-text-output then just move it in
+    var valueOutputSpan = [];
+    var shinyOutput = valueBox.find('.shiny-valuebox-output').detach();
+    if (shinyOutput.length) {
+      valueBox.children().remove();
+      shinyOutput.html("&mdash;");
+      value.append(shinyOutput);
+    } else {
+      // extract the value (remove leading vector index)
+      var chartValue = valueBox.text().trim();
+      chartValue = chartValue.replace("[1] ", "");
+      valueOutputSpan = valueBox.find('span.value-output').detach();
+      valueBox.children().remove();
+      value.text(chartValue);
+    }
+
+    // caption
+    var caption = $('<p class="caption"></p>');
+    caption.html(chartTitle);
+
+    // build inner div for value box and add it
+    var inner = $('<div class="inner"></div>');
+    inner.append(value);
+    inner.append(caption);
+    valueBox.append(inner);
+
+    // add icon if specified
+    var icon = $('<div class="icon"><i></i></div>');
+    valueBox.append(icon);
+    function setIcon(chartIcon) {
+      var iconLib = "";
+      var components = chartIcon.split("-");
+      if (components.length > 1)
+        iconLib = components[0];
+      icon.children('i').attr('class', iconLib + ' ' + chartIcon);
+    }
+    var chartIcon = valueBox.attr('data-icon');
+    if (chartIcon)
+      setIcon(chartIcon);
+
+    // set color based on data-background if necessary
+    var dataBackground = valueBox.attr('data-background');
+    if (dataBackground)
+      valueBox.css('background-color', bgColor);
+    else {
+      // default to bg-primary if no other background is specified
+      if (!valueBox.hasClass('bg-primary') &&
+          !valueBox.hasClass('bg-info') &&
+          !valueBox.hasClass('bg-warning') &&
+          !valueBox.hasClass('bg-success') &&
+          !valueBox.hasClass('bg-danger')) {
+        valueBox.addClass('bg-primary');
+      }
+    }
+
+    // handle data attributes in valueOutputSpan
+    function handleValueOutput(valueOutput) {
+
+      // caption
+      var dataCaption = valueOutput.attr('data-caption');
+      if (dataCaption)
+        caption.html(dataCaption);
+
+      // icon
+      var dataIcon = valueOutput.attr('data-icon');
+      if (dataIcon)
+        setIcon(dataIcon);
+
+      // color
+      var dataColor = valueOutput.attr('data-color');
+      if (dataColor) {
+        if (dataColor.indexOf('bg-') === 0) {
+          valueBox.css('background-color', '');
+          if (!valueBox.hasClass(dataColor)) {
+             valueBox.removeClass('bg-primary bg-info bg-warning bg-danger bg-success');
+             valueBox.addClass(dataColor);
+          }
+        } else {
+          valueBox.removeClass('bg-primary bg-info bg-warning bg-danger bg-success');
+          valueBox.css('background-color', dataColor);
+        }
+      }
+
+      // url
+      var dataHref = valueOutput.attr('data-href');
+      if (dataHref) {
+        valueBox.addClass('linked-value');
+        valueBox.off('click.value-box');
+        valueBox.on('click.value-box', function(e) {
+          window.FlexDashboardUtils.showLinkedValue(dataHref);
+        });
+      }
+    }
+
+    // check for a valueOutputSpan
+    if (valueOutputSpan.length > 0) {
+      handleValueOutput(valueOutputSpan);
+    }
+
+    // if we have a shinyOutput then bind a listener to handle
+    // new valueOutputSpan values
+    shinyOutput.on('shiny:value',
+      function(event) {
+        var element = $(event.target);
+        setTimeout(function() {
+          var valueOutputSpan = element.find('span.value-output');
+          if (valueOutputSpan.length > 0)
+            handleValueOutput(valueOutputSpan);
+        }, 10);
+      }
+    );
+  }
+});
+
+
+</script>
+
+<div class="dashboard-page-wrapper" style="height: 100%;"><div id="dashboard-container" class="desktop-layout vertical-layout-fill dashboard-column-orientation" style="padding-left: 220px; height: 100%; visibility: visible;">
+
+<div id="section-column" class="section sidebar" style="width: 220px; visibility: visible;"><form>
+
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<p></p><div class="form-group shiny-input-container">
+<label class="control-label" for="n_breaks-selectized">Number of bins:</label>
+<div>
+<select id="n_breaks" tabindex="-1" class="selectized shiny-bound-input" style="display: none;"><option value="35" selected="selected">35</option></select><div class="selectize-control single"><div class="selectize-input items has-options full has-items"><div class="item" data-value="35">35</div><input type="text" autocomplete="off" tabindex="" id="n_breaks-selectized" style="width: 4px; opacity: 0; position: absolute; left: -10000px;"></div><div class="selectize-dropdown single" style="display: none;"><div class="selectize-dropdown-content"><div class="option" data-selectable="" data-value="10">10</div><div class="option" data-selectable="" data-value="20">20</div><div class="option selected" data-selectable="" data-value="35">35</div><div class="option" data-selectable="" data-value="50">50</div></div></div></div>
+<script type="application/json" data-for="n_breaks" data-nonempty="">{}</script>
+</div>
+</div><div class="form-group shiny-input-container">
+<label class="control-label" for="bw_adjust">Bandwidth adjustment:</label>
+<span class="irs js-irs-0 irs-with-grid"><span class="irs"><span class="irs-line" tabindex="0"><span class="irs-line-left"></span><span class="irs-line-mid"></span><span class="irs-line-right"></span></span><span class="irs-min" style="visibility: visible;">0.2</span><span class="irs-max" style="visibility: visible;">2</span><span class="irs-from" style="visibility: hidden;">0</span><span class="irs-to" style="visibility: hidden;">0</span><span class="irs-single" style="left: 79.65478433835845%;">1.8</span></span><span class="irs-grid" style="width: 88.94472361809045%; left: 5.427638190954775%;"><span class="irs-grid-pol" style="left: 0%"></span><span class="irs-grid-text js-grid-text-0" style="left: 0%; margin-left: -4.314541457286432%;">0.2</span><span class="irs-grid-pol small" style="left: 7.4074074074074066%"></span><span class="irs-grid-pol small" style="left: 3.7037037037037033%"></span><span class="irs-grid-pol" style="left: 11.11111111111111%"></span><span class="irs-grid-text js-grid-text-1" style="left: 11.11111111111111%; visibility: visible; margin-left: -4.314541457286432%;">0.4</span><span class="irs-grid-pol small" style="left: 18.51851851851852%"></span><span class="irs-grid-pol small" style="left: 14.814814814814813%"></span><span class="irs-grid-pol" style="left: 22.22222222222222%"></span><span class="irs-grid-text js-grid-text-2" style="left: 22.22222222222222%; visibility: visible; margin-left: -4.314541457286432%;">0.6</span><span class="irs-grid-pol small" style="left: 29.629629629629626%"></span><span class="irs-grid-pol small" style="left: 25.925925925925924%"></span><span class="irs-grid-pol" style="left: 33.33333333333333%"></span><span class="irs-grid-text js-grid-text-3" style="left: 33.33333333333333%; visibility: visible; margin-left: -4.314541457286432%;">0.8</span><span class="irs-grid-pol small" style="left: 40.74074074074074%"></span><span class="irs-grid-pol small" style="left: 37.03703703703703%"></span><span class="irs-grid-pol" style="left: 44.44444444444444%"></span><span class="irs-grid-text js-grid-text-4" style="left: 44.44444444444444%; margin-left: -2.6303391959798996%;">1</span><span class="irs-grid-pol small" style="left: 51.851851851851855%"></span><span class="irs-grid-pol small" style="left: 48.148148148148145%"></span><span class="irs-grid-pol" style="left: 55.55555555555556%"></span><span class="irs-grid-text js-grid-text-5" style="left: 55.55555555555556%; visibility: visible; margin-left: -4.314541457286432%;">1.2</span><span class="irs-grid-pol small" style="left: 62.962962962962955%"></span><span class="irs-grid-pol small" style="left: 59.25925925925926%"></span><span class="irs-grid-pol" style="left: 66.66666666666666%"></span><span class="irs-grid-text js-grid-text-6" style="left: 66.66666666666666%; visibility: visible; margin-left: -4.314541457286432%;">1.4</span><span class="irs-grid-pol small" style="left: 74.07407407407406%"></span><span class="irs-grid-pol small" style="left: 70.37037037037037%"></span><span class="irs-grid-pol" style="left: 77.77777777777777%"></span><span class="irs-grid-text js-grid-text-7" style="left: 77.77777777777777%; visibility: visible; margin-left: -4.314541457286432%;">1.6</span><span class="irs-grid-pol small" style="left: 85.18518518518518%"></span><span class="irs-grid-pol small" style="left: 81.48148148148148%"></span><span class="irs-grid-pol" style="left: 88.88888888888889%"></span><span class="irs-grid-text js-grid-text-8" style="left: 88.88888888888889%; margin-left: -4.314541457286432%;">1.8</span><span class="irs-grid-pol small" style="left: 96.29629629629629%"></span><span class="irs-grid-pol small" style="left: 92.5925925925926%"></span><span class="irs-grid-pol" style="left: 100%"></span><span class="irs-grid-text js-grid-text-9" style="left: 100%; visibility: visible; margin-left: -2.6303391959798996%;">2</span></span><span class="irs-bar" style="left: 5.527638190954774%; width: 79.06197654941373%;"></span><span class="irs-bar-edge"></span><span class="irs-shadow shadow-single" style="display: none;"></span><span class="irs-slider single" style="left: 79.06197654941373%;"></span></span><input class="js-range-slider shiny-bound-input irs-hidden-input" id="bw_adjust" data-min="0.2" data-max="2" data-from="1" data-step="0.2" data-grid="true" data-grid-num="9" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number" tabindex="-1" readonly="">
+</div><p></p>
+</form></div>
+<div id="section-column-1" class="section level2 dashboard-column" style="-webkit-flex: 576 576 0px;">
+
+<div id="section-geyser-eruption-duration" class="section level3 chart-wrapper chart-wrapper-flex" style="-webkit-flex: 492 492 0px;"><div class="chart-title">Geyser Eruption Duration</div><div class="chart-stage chart-stage-flex"><div class="chart-shim">
+
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div id="eruptions" class="shiny-plot-output shiny-bound-output" style="width: 100% ; height: 400px"><img src="data:image/png;base64,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sMPcdqxVq1bO+pJ4kLvuc+fOtZUrV9rxxx9vjRo1KomX5zUQQAABV6BMtrNggQACCARZ4K9//av94Q9/OKCICpADBw60hx566ID1Qf+hd+/eNmrUqITF3L17t1WsWDHh86l4YuvWrfbAAw+4Afi2225zD1mlShXbtWuX7d+/Pyecp+K1ch9j4sSJ1q1bt9yrcl5b7XvvvfeawnlxLvHqft1119lLL71kr776ql111VXF+fIcGwEEEDhAgB7xAzj4AQEEgiZw//332+DBg009pgMGDLCmTZvaJ598Ys8995z97W9/M/Ugn3TSSUErdoHlUbnPPPPMPNuVL1/8/y3/5S9/sWHDhrm3WAF+//vf2969e0ukN/7www9321Kvt2jRIjcEDxo0yGrWrGm33nprrEjFch+v7voWoEmTJtamTZtieU0OigACCCQSKP7/8RO9MusRQACBAgTWrFnjhnD1EM+YMcOOPPJId49f//rX1rhxY3v77bfts88+ywniP/30kxvQNXylWbNmpu0aNmxomzdvtmeeecYqVapk/fv3z3lV7a8gqFCsELZhwwa3t3rp0qVu4D/55JOtc+fOB/QQT5gwwT744AOrWrWqnX/++Xbqqae6x9uzZ48bbPV6zZs3tzFjxth5553n3nJeMNcD7XfnnXfmWvPzw0TH0oeQd955x9q2bZvTszxt2jTX5owzzrATTjjB3nrrLfv+++/thhtuMPVAf/HFF9a+fXv3Z/U2z549O2d4yIcffuh+wFGP8CGHHGL79u37uRDOIzlMmjTJvv32W2vZsqVdc8017rCg2EZ///vfrUaNGnbFFVfY888/b//73//stNNOsyuvvDK2Sdz7+vXrH1B3OV1++eX2xz/+0X7zm9+YPow8/PDD7v3dd9/tHmP9+vVu28j32muvtURGOpbqKBeVX+W+8MILrVWrVgnrrm8Dqlev7r5erMDbtm1z6673l+p4wQUX2Iknnhh72pKte84BeIAAAghIQENTWBBAAIEgCrz++usaOpd92WWXFVi8zMzMbCdMu9s7wcq9r127dvZXX32V7YwHznbCsbvuyy+/dI/lDMHIdsYnZzvhNHv16tXuNq1bt852hrxkO4E/2wlm7vbOsJic13Z65N11TlDM1s0Zy5392GOPuc87wc19rkGDBtnVqlVzHzvDLXL2jT1wArL73I033pj9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IIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACAYJ4CBqJIiKAAAIIIIAAAghET4AgHr02pUYIIIAAAggggAACIRAgiIegkSgiAggggAACCCCAQPQECOLRa1NqhAACCCCAAAIIIBACgcAF8X379tnmzZtDQEcREUAAAQQQQAABBBBIXiAQQXzPnj123333WZMmTaxixYpWq1Yty8jIsLZt29qoUaOSrx17IoAAAggggAACCCAQUIHyQShXv379bO3atTZhwgRr3ry5G8IzMzNt/vz51r9/f9u1a5f17ds3CEWlDAgggAACCCCAAAIIpEQgED3ikydPtqefftratWtn1apVszJlyliNGjWsU6dONnz4cBs7dmxKKstBEEAAAQQQQAABBBAIikAggriGoEyZMiWuyfjx461u3bpxn2MlAggggAACCCCAAAJhFQjE0JTBgwdbz549bdiwYdaiRQurXr26bd261RYsWGA6eXPixIlh9aXcCCCAAAIIIIAAAgjEFQhEEO/YsaPNnTvXZsyYYcuWLXPHi6sXXOPCO3fu7A5ViVt6ViKAAAIIIIAAAgggEFKBQARx2VWuXNm6du0aUkaKjQACCCCAAAIIIIBA0QQCE8QTFXvhwoW2c+dOU695QcszzzxjL7/8ctzNNmzYYKeeemrc51iJAAIIIIAAAggggEBJCwQ+iI8ZM8aWL19uI0eOLNCmT58+plu8RcdRGGdBAAEEEEAAAQQQQCAIAoEP4oMGDQqCE2VAAAEEEEAAAQQQQCClAoGYvjClNeJgCCCAAAIIIIAAAgiEQCAQPeKPPvqo7d27NyHX0Ucfbd27d0/4PE8ggAACCCCAAAIIIBA2gUAEcU1Z+MQTT1ivXr3cy9sfjMgFfQ4W4WcEEEAAAQQQQACBsAsEIoiPGDHCsrKy3NuTTz4ZdlPKjwACCCCAAAIIIIBAgQKBGSM+dOhQy8zMtO3btxdYaDZAAAEEEEAAAQQQQCDsAoHoERditWrVbPTo0WH3pPwIIIAAAggggAACCBRKIDA94oUqLRshgAACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCAAAIIIBARAYJ4RBqSaiCAAAIIIIAAAgiES4AgHq72orQIIIAAAggggAACEREgiEekIakGAggggAACCCCAQLgECOLhai9KiwACCCCA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T58+SR9m3rx5NmnSJIJ40oLh2pEgHq72KrHSlilTxlq0aGFVq1ZN+jUrVaqU9L7siAACCCAQfIHKlSv7CozqVfcTnmNC5cuXt8aNG1vt2rVjq4p876fjKfZi+tupv31+erO///5703FY0kMg+XEH6eFDLRFAAAEEEEAAAQQQKBYBgnixsHJQBBBAAAEEEEAAAQTyFyCI5+/DswgggAACCCCAAAIIFIsAQbxYWDkoAggggAACCCCAAAL5CxDE8/fhWQQQQAABBBBAAAEEikWAIF4srBwUAQQQQAABBBBAAIH8BQji+fvwLAIIIIAAAggggAACxSJAEC8WVg6KAAIIIIAAAggggED+AgTx/H14FgEEEEAAAQQQQACBYhEgiBcLKwdFAAEEEEAAAQQQQCB/AYJ4/j48iwACCCCAAAIIIIBAsQgQxIuFlYMigAACCCCAAAIIIJC/AEE8fx+eRQABBBBAAAEEEECgWAQI4sXCykERQAABBBBAAAEEEMhfgCCevw/PIoAAAggggAACCCBQLAIE8WJh5aAIIIAAAggggAACCOQvUD7R048//rht3brVrrvuOmvWrFmizViPAAIIIIAAAggggAACSQgk7BHv1q2bbdu2zU499VTr0qWLPf/887Z9+/YkXoJdEEAAAQQQQAABBBBA4GCBhEG8VatW9sgjj9iKFSts4MCBNm3aNGvdurVdf/319vnnnx98HH5GAAEEEEAAAQQQQACBIggkDOKxY2zatMkWLVrk3sqXL2+1a9e2/v3729VXXx3bhHsEEEAAAQQQQAABBBAookDCMeKffPKJDRkyxHR/4YUX2v33329nnnmmlS1b1rKysqxRo0a2bNkya9q0aRFfks0RQAABBBBAAAEEEEAgYRBXL/hFF11kL7/8stWoUeMAKYXxUaNGuWH8gCf4AQEEEEAAAQQQQAABBAolkDCIX3nllVapUiWrWLFizoF27dpla9ascWdROe+883LW8wABBBBAAAEEEEAAAQSKJpBnjPiePXtMgXvQoEH24Ycfuo/1s25jx46122+/vWivwNYIIIAAAggggAACCCCQRyBPj/i//vUv69u3r7vhP/7xjwN2OOSQQ9xx4wes5AcEEEAAAQQQQAABBBAoskCeHvFbbrnF9u7da48++qjNmDHDfayf9+3bZ5mZmXbrrbcW+UXYAQEEEEAAAQQQQAABBA4UyNMjftJJJ9nDDz9su3fvdq+qeeDmZueff74NHz784NX8jAACCCCAAAIIIIAAAkUQyBPEn3nmGXdKwhYtWtg555yT51A1a9bMs44VCCCAAAIIIIAAAgggUDSBPEG8ffv27hE0ZWGZMmXssMMOc0/U1Njxww8/3I4//viivUKSW+vk0HLlylmFChWSPAK7IYAAAggggAACCCAQXIE8Y8RjRZ0+fbodeeSRtm7dOrv77rvthRdesD/+8Y/23HPPxTZJ2f2KFSvcYTBz5syxDRs22I033mj169e3Qw891Hr37m2ayYUFAQQQQAABBBBAAIEoCSQM4v/+97/t2WeftXr16tnrr79uL774omndG2+8kfL6/+lPf3J724855hgbMWKEe2Lot99+a19//bVt27bNHnzwwZS/JgdEAAEEEEAAAQQQQKA0BfIMTYkVZuvWrVa3bl33EvcantK2bVubOXOmVa9ePbZJyu6nTZtm3333nXvxoLffftudr7xx48bu8RXCNZMLCwIIIIAAAggggAACURJI2CPerVs369+/v9122212/fXX2/z5861Xr1524YUXprz+GgKjHnctXbp0sYkTJ+a8xvjx461Vq1Y5P/MAAQQQQAABBBBAAIEoCCTsEe/Zs6fVqVPHtmzZYldccYUtXbrUnnrqKevatWvK6/3kk0+6AV/jz1u2bGn33HOP6eTQsmXLunOXq8ecBQEEEEAAAQQQQACBKAkkDOKqZO7pCxWQdSuORVMlqsf9/ffft4ULF7rjxTVNonrC1TNfvny+xSyOInFMBBBAAAEEEEAAAQSKVSBhwlVPuK6i+c033xwwa4ku6PP444+nvFCaKlHBP3f414somO/cudM6duxY4GuOGzfODfPxNly8eLG1bt063lOsQwABBBBAoEQEZs2aZaNHj7aqVasm/Xrbt2+3wYMHG9f1SJqQHREIjEDCIK6ra+qEzX/84x9WrVq1nALXqlUr53FJPBgzZowtX77cRo4cWeDL6aqgzZs3j7vdpEmTLCsrK+5zrEQAAQQQQKAkBDTz2AUXXOBr4gMN15w8ebJdddVVJVFkXgMBBIpRIGEQX7VqldsjXhxjwotSn0GDBhV6c021qFu8ZcGCBe4c5fGeYx0CCCCAAAIlIaAL1emCeSeffHLSLzdv3ryk92VHBBAIlkDZRMW57LLL7KWX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kHb+8ccfrX///ta7d++ki/Xxxx/bRx99lPT+Udxx//79NnDgQDvttNOSrt7q1asj1THQtGlT3797o0eP9vWtZ9KNwY4IhFigYsWK9uCDD1r16tWTroU6KXfu3Jn0/kHekTHiQW4dyoYAAggggAACCCAQWQGCeGSbloohgAACCCCAAAIIBFmAIB7k1qFsCCCAAAIIIIAAApEVIIhHtmmpGAIIIIAAAggggECQBQjiQW4dyoYAAggggAACCCAQWQGCeGSbloohgAACCCCAAAIIBFmAIB7k1qFsCCCAAAIIIIAAApEVIIhHtmmpGAIIIIAAAggggECQBQjiQW4dyoYAAggggAACCCAQWQGCeGSbloohgAACCCCAAAIIBFmAIB7k1qFsCCCAAAIIIIAAApEVIIhHtmmpGAIIIIAAAggggECQBQjiQW4dyoYAAggggAACCCAQWQGCeGSbloohgAACCCCAAAIIBFmAIB7k1qFsCCCAAAIIIIAAApEVIIhHtmmpGAIIIIAAAggggECQBQjiQW4dyoYAAggggAACCCAQWQGCeGSbloohgAACCCCAAAIIBFmAIB7k1qFsCCCAAAIIIIAAApEVIIhHtmmpGAIIIIAAAggggECQBQjiQW4dyoYAAggggAACCCAQWQGCeGSbloohgAACCCCAAAIIBFmAIB7k1qFsCCCAAAIIIIAAApEVIIhHtmmpGAIIIIAAAggggECQBQjiQW4dyoYAAggggAACCCAQWQGCeGSbloohgAACCCCAAAIIBFmAIB7k1qFsCCCAAAIIIIAAApEVIIhHtmmpGAIIIIAAAggggECQBQIXxPft22ebN28OshllQwABBBBAAAEEEEDAt0AggviePXvsvvvusyZNmljFihWtVq1alpGRYW3btrVRo0b5riQHQAABBBBAAAEEEEAgaALlg1Cgfv362dq1a23ChAnWvHlzN4RnZmba/PnzrX///rZr1y7r27dvEIpKGRBAAAEEEEAAAQQQSIlAIHrEJ0+ebE8//bS1a9fOqlWrZmXKlLEaNWpYp06dbPjw4TZ27NiUVJaDIIAAAggggAACCCAQFIFABHENQZkyZUpck/Hjx1vdunXjPsdKBBBAAAEEEEAAAQTCKhCIoSmDBw+2nj172rBhw6xFixZWvXp127p1qy1YsMB08ubEiRPD6ku5EUAAAQQQQAAB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" width="738" height="626"></div>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+
+ 
+ 
+ <!--html_preserve-->
+<script type="application/shiny-prerendered" data-context="dependencies">
+{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["header-attrs"]},{"type":"character","attributes":{},"value":["2.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pandoc"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["header-attrs.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.3"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.3"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootstrap"]},{"type":"character","attributes":{},"value":["3.3.5"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/bootstrap"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["viewport"]}},"value":[{"type":"character","attributes":{},"value":["width=device-width, initial-scale=1"]}]},{"type":"character","attributes":{},"value":["js/bootstrap.min.js","shim/html5shiv.min.js","shim/respond.min.js"]},{"type":"character","attributes":{},"value":["css/cosmo.min.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.3"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.3"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["stickytableheaders"]},{"type":"character","attributes":{},"value":["0.1.19"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["www/stickytableheaders"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.stickytableheaders.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["flexdashboard"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.5.1.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["selectize"]},{"type":"character","attributes":{},"value":["0.11.2"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["href"]}},"value":[{"type":"character","attributes":{},"value":["shared/selectize"]}]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["css/selectize.bootstrap3.css"]},{"type":"character","attributes":{},"value":["<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>"]},{"type":"NULL"},{"type":"NULL"},{"type":"logical","attributes":{},"value":[true]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ionrangeslider"]},{"type":"character","attributes":{},"value":["2.1.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["href"]}},"value":[{"type":"character","attributes":{},"value":["shared/ionrangeslider"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["js/ion.rangeSlider.min.js"]},{"type":"character","attributes":{},"value":["css/ion.rangeSlider.css","css/ion.rangeSlider.skinShiny.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"logical","attributes":{},"value":[true]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["strftime"]},{"type":"character","attributes":{},"value":["0.9.2"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["href"]}},"value":[{"type":"character","attributes":{},"value":["shared/strftime"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["strftime-min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"logical","attributes":{},"value":[true]}]}]}
+</script>
+<!--/html_preserve-->
+<!--html_preserve-->
+<script type="application/shiny-prerendered" data-context="execution_dependencies">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},"value":[{"type":"character","attributes":{},"value":["base","compiler","datasets","digest","evaluate","fastmap","flexdashboard","graphics","grDevices","htmltools","httpuv","jsonlite","knitr","later","magrittr","methods","mime","promises","R6","Rcpp","rlang","rmarkdown","shiny","stats","stringi","stringr","tools","utils","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["3.6.3","3.6.3","3.6.3","0.6.25","0.14","1.0.1","0.5.1.1","3.6.3","3.6.3","0.5.0","1.5.4","1.7.0","1.29","1.1.0.1","1.5","3.6.3","0.9","1.1.1","2.4.1","1.0.5","0.4.7","2.3","1.5.0","3.6.3","1.4.6","1.4.0","3.6.3","3.6.3","0.15","1.8-4","2.2.1"]}]}]}
+</script>
+<!--/html_preserve-->
+</div></div></div>
+</div>
+
+</div></div>
+
+<script>
+
+$(document).ready(function () {
+
+  // add bootstrap table styles to pandoc tables
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+
+  // initialize mathjax
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+  document.getElementsByTagName("head")[0].appendChild(script);
+
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+  FlexDashboard.init({
+    theme: "cosmo",
+    fillPage: true,
+    orientation: "columns",
+    storyboard: false,
+    defaultFigWidth: 576,
+    defaultFigHeight: 460,
+    defaultFigWidthMobile: 360,
+    defaultFigHeightMobile: 460
+  });
+});
+</script>
+
+
+
+
+</body></html>

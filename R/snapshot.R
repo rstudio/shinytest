@@ -59,6 +59,11 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
     self$takeScreenshot(file.path(current_dir, scr_filename))
   }
 
+  if (self$isRmd()) {
+    scr_filename <- paste0(sub("\\.[^.]*$", "", filename), ".html")
+    writeLines(self$getSource(), file.path(current_dir, scr_filename))
+  }
+
   # Invisibly return JSON content as a string
   invisible(raw_to_utf8(req$content))
 }
