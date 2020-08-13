@@ -102,15 +102,13 @@ parse_url <- function(url) {
   )
 }
 
-# If it's a directory, return FALSE. If it's a file ending with .Rmd, return TRUE.
-# For other cases, throw error.
 is_rmd <- function(path) {
   if (utils::file_test('-d', path)) {
     FALSE
   } else if (grepl("\\.Rmd", path, ignore.case = TRUE)) {
     TRUE
   } else {
-    stop("Unknown whether app is a regular Shiny app or .Rmd: ", path)
+    FALSE
   }
 }
 
