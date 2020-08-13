@@ -37,3 +37,12 @@ test_that("window size", {
     list(width = 1200L, height = 800L)
   )
 })
+
+
+test_that("can change pass render_args to rmarkdown::run()", {
+  doc <- ShinyDriver$new(
+    test_path("apps/render-args/doc.Rmd"),
+    renderArgs = list(params = list(name = "Mary"))
+  )
+  expect_equal(doc$getValue("test"), "Mary")
+})

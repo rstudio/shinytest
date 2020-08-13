@@ -1,6 +1,10 @@
 shinytest 1.4.0.9002
 ===============
 
+* `ShinyDriver$intialize()` gains a `renderArgs` method which is passed along
+  to `rmarkdown::run()` for interactive Rmds (#249); this makes it possible
+  to set parameters for parameterised reports.
+
 * `testApp()` can now take a path to a directory containing a single 
   interactive `.Rmd` (#334).
 
