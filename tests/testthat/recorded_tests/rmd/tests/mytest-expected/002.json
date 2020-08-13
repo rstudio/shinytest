@@ -5,7 +5,7 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 8bb765462387db5e4338c66634c24b7a2a8e7c4e]",
+      "html": "[html data sha1: 761475b402f39b646b9b58097869e31ab641c91d]",
       "deps": [
         {
           "name": "header-attrs",
@@ -131,7 +131,7 @@
       ]
     },
     "out6e1a6d8785f04cf5": {
-      "src": "[image data sha1: 21caf800f16b630a5ae4897f1f609b023c4e62ab]",
+      "src": "[image data sha1: bc8b067dcc9c1b814ac089f8efddd0ef8925191e]",
       "width": 738,
       "height": 626,
       "coordmap": {
