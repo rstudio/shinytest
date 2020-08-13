@@ -1,6 +1,7 @@
 #' Run tests for a Shiny application
 #'
-#' @param appDir Path to the Shiny application to be tested.
+#' @param appDir Path to directory containing a Shiny app (e.g. `app.R`) or
+#'   single interactive `.Rmd`.
 #' @param testnames Test script(s) to run. The .R extension of the filename is
 #'   optional. For example, `"mytest"` or `c("mytest", "mytest2.R")`.
 #'   If `NULL` (the default), all scripts in the tests/ directory will be
@@ -36,15 +37,26 @@ testApp <- function(
 
   # appDir could be the path to an .Rmd file. If so, make it point to the actual
   # directory.
-  if (is_rmd(appDir)) {
+  if (is_app(appDir)) {
+    app_filename <- NULL
+    appDir       <- appDir
+  } else if (is_rmd(appDir)) {
+    # Fallback for old behaviour
     app_filename <- basename(appDir)
     appDir       <- dirname(appDir)
     if (length(dir(appDir, pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
       stop("For testing, only one .Rmd file is allowed per directory.")
     }
   } else {
-    app_filename <- NULL
-    appDir       <- appDir
+    rmds <- dir(appDir, pattern = "\\.Rmd$")
+    if (length(rmds) == 1) {
+      app_filename <- rmds
+    } else {
+      stop(
+        "`appDir` doesn't contain 'app.R', 'server.R', or exactly one '.Rmd'",
+        call. = FALSE
+      )
+    }
   }
 
   testsDir <- findTestsDir(appDir, quiet=FALSE)

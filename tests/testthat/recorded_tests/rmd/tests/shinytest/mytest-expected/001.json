@@ -1,7 +1,7 @@
 {
   "input": {
-    "bw_adjust": 1.8,
-    "n_breaks": "35"
+    "bw_adjust": 1,
+    "n_breaks": "20"
   },
   "output": {
     "__reactivedoc__": {
@@ -131,17 +131,17 @@
       ]
     },
     "out6e1a6d8785f04cf5": {
-      "src": "[image data sha1: 21caf800f16b630a5ae4897f1f609b023c4e62ab]",
+      "src": "[image data sha1: 8a50cfe9e476183fb6d189d594fb4f4e6b1ee270]",
       "width": 738,
       "height": 626,
       "coordmap": {
         "panels": [
           {
             "domain": {
-              "left": 1.46,
-              "right": 5.24,
-              "bottom": -0.0352941176470588,
-              "top": 0.917647058823529
+              "left": 1.456,
+              "right": 5.344,
+              "bottom": -0.0286764705882353,
+              "top": 0.745588235294118
             },
             "range": {
               "left": 59.04,

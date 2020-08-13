@@ -1,4 +1,4 @@
-app <- ShinyDriver$new("../")
+app <- ShinyDriver$new("../../")
 app$snapshotInit("mytest")
 
 app$uploadFile(file1 = "mtcars.csv")

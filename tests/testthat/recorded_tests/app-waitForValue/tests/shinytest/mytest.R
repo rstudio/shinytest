@@ -1,4 +1,4 @@
-app <- ShinyDriver$new("../")
+app <- ShinyDriver$new("../../")
 app$snapshotInit("mytest")
 
 # Check the box to display the slider and plot
