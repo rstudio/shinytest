@@ -50,6 +50,14 @@ Widget <- R6Class(
     setValue = function(value)
       widget_setValue(self, private, value),
 
+    #' @description scrolls the element into view, then clicks the in-view
+    #'   centre point of it.
+    #' @return self, invisibly.
+    click = function() {
+      private$element$click()
+      invisible(self)
+    },
+
     #' @description Send specified key presses to control.
     #' @param keys Keys to send to the widget or the app. See [webdriver::key]
     #'   for how to specific special keys.
