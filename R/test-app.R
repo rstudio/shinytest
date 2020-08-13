@@ -53,7 +53,7 @@ testApp <- function(
       app_filename <- rmds
     } else {
       stop(
-        "`appDir` doesn't contain 'app.R', 'server.R', or a single '.Rmd'",
+        "`appDir` doesn't contain 'app.R', 'server.R', or exactly one '.Rmd'",
         call. = FALSE
       )
     }
