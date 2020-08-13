@@ -374,7 +374,7 @@ Self, invisibly.
 Takes a screenshot of the current page and writes it to a PNG file or
 shows on current graphics device.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$takeScreenshot(file = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$takeScreenshot(file = NULL, id = NULL, parent = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -382,6 +382,12 @@ shows on current graphics device.
 \describe{
 \item{\code{file}}{File name to save the screenshot to. If \code{NULL}, then
 it will be shown on the R graphics device.}
+
+\item{\code{id}}{If not-\code{NULL}, will take a screenshot of element with this id.}
+
+\item{\code{parent}}{If \code{TRUE}, will take screenshot of parent of \code{id}; this
+is useful if you also want to capture the label attached to a Shiny
+control.}
 }
 \if{html}{\out{</div>}}
 }

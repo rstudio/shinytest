@@ -186,16 +186,40 @@ ShinyDriver <- R6Class(
     #' shows on current graphics device.
     #' @param file File name to save the screenshot to. If `NULL`, then
     #'   it will be shown on the R graphics device.
+    #' @param id If not-`NULL`, will take a screenshot of element with this id.
+    #' @param parent If `TRUE`, will take screenshot of parent of `id`; this
+    #'   is useful if you also want to capture the label attached to a Shiny
+    #'   control.
     #' @return Self, invisibly.
-    takeScreenshot = function(file = NULL) {
+    takeScreenshot = function(file = NULL, id = NULL, parent = FALSE) {
       "!DEBUG sd_takeScreenshot"
       self$logEvent("Taking screenshot")
-      private$web$takeScreenshot(file)
+      path <- tempfile()
+      private$web$takeScreenshot(path)
 
-      # On Windows, need to fix up the PNG resolution header to make it
-      # consistent.
+      # Fix up the PNG resolution header on windows
       if (is_windows()) {
-        normalize_png_res_header(file)
+        normalize_png_res_header(path)
+      }
+
+      png <- png::readPNG(path)
+      if (!is.null(id)) {
+        element <- self$findElement(paste0("#", id))
+        if (parent) {
+          element <- element$findElement(xpath = "..")
+        }
+        pos <- element$getRect()
+        pos$x2 <- pos$x + pos$width
+        pos$y2 <- pos$y + pos$height
+
+        png <- png[pos$y:pos$y2, pos$x:pos$x2, ]
+      }
+
+      if (is.null(file)) {
+        withr::local_par(list(bg = "grey90"))
+        plot(as.raster(png))
+      } else {
+        png::writePNG(png, file)
       }
 
       invisible(self)

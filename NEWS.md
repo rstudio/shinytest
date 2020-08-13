@@ -1,6 +1,9 @@
 shinytest 1.4.0.9002
 ===============
 
+* `ShinyDriver$takeSnapshot()` gains ability to take a snapshot of a single
+  element (#260).
+
 * `testApp()` can now take a path to a directory containing a single 
   interactive `.Rmd` (#334).
 
