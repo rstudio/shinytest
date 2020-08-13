@@ -2,7 +2,7 @@
 % Please edit documentation in R/testthat.R
 \name{expect_pass}
 \alias{expect_pass}
-\title{Expectation: shinytest object passed snapshot tests}
+\title{Expectation: \code{testApp()} passes snapshot tests}
 \usage{
 expect_pass(object, info = NULL)
 }
@@ -19,5 +19,4 @@ This returns an testthat expectation object.
 \dontrun{
 expect_pass(testApp("path/to/app/"))
 }
-
 }
