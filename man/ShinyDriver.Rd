@@ -375,7 +375,7 @@ Self, invisibly.
 Takes a screenshot of the current page and writes it to a PNG file or
 shows on current graphics device.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$takeScreenshot(file = NULL, timeout = 3000)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$takeScreenshot(file = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -383,8 +383,6 @@ shows on current graphics device.
 \describe{
 \item{\code{file}}{File name to save the screenshot to. If \code{NULL}, then
 it will be shown on the R graphics device.}
-
-\item{\code{timeout}}{Amount of time to wait before giving up (milliseconds).}
 }
 \if{html}{\out{</div>}}
 }

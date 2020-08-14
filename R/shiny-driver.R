@@ -187,7 +187,7 @@ ShinyDriver <- R6Class(
     #' @param file File name to save the screenshot to. If `NULL`, then
     #'   it will be shown on the R graphics device.
     #' @return Self, invisibly.
-    takeScreenshot = function(file = NULL, timeout = 3000) {
+    takeScreenshot = function(file = NULL) {
       "!DEBUG sd_takeScreenshot"
       self$logEvent("Taking screenshot")
       private$web$takeScreenshot(file)
