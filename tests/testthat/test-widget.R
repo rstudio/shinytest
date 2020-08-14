@@ -4,5 +4,7 @@ test_that("can click buttons", {
   w <- app$findWidget("click")
   w$click()
   w$click()
+
+  app$waitForShiny()
   expect_equal(app$getValue("i"), "2")
 })
