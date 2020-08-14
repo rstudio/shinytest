@@ -185,6 +185,7 @@ with a live app.</p>
 <li><p><a href='#method-findElement'><code>ShinyDriver$findElement()</code></a></p></li>
 <li><p><a href='#method-findElements'><code>ShinyDriver$findElements()</code></a></p></li>
 <li><p><a href='#method-waitFor'><code>ShinyDriver$waitFor()</code></a></p></li>
+<li><p><a href='#method-waitForShiny'><code>ShinyDriver$waitForShiny()</code></a></p></li>
 <li><p><a href='#method-waitForValue'><code>ShinyDriver$waitForValue()</code></a></p></li>
 <li><p><a href='#method-listWidgets'><code>ShinyDriver$listWidgets()</code></a></p></li>
 <li><p><a href='#method-checkUniqueWidgetNames'><code>ShinyDriver$checkUniqueWidgetNames()</code></a></p></li>
@@ -487,6 +488,16 @@ condition returns <code>true</code>.</p></dd>
 <h3>Returns</h3>
 <p><code>TRUE</code> if expression evaluates to <code>true</code> without error, before
 timeout. Otherwise returns <code>NA</code>.</p>
+<p><hr>
+<a id="method-waitForShiny"></a></p><h3>Method <code>waitForShiny()</code></h3>
+<p>Waits until Shiny is not busy, i.e. the reactive graph has finished
+updating. This is useful, for example, if you've resized the window with
+<code>setWindowSize()</code> and want to make sure all plot redrawing is complete
+before take a screenshot.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>ShinyDriver</span>$<span class='fu'>waitForShiny</span>()</pre><p></div></p>
+
+<h3>Returns</h3>
+<p><code>TRUE</code> if done before before timeout; <code>NA</code> otherwise.</p>
 <p><hr>
 <a id="method-waitForValue"></a></p><h3>Method <code>waitForValue()</code></h3>
 <p>Waits until the <code>input</code> or <code>output</code> with name <code>name</code> is not one of

@@ -148,6 +148,7 @@
 <a href="#shinytest-1409002" class="anchor"></a>shinytest 1.4.0.9002<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>New <code>ShinyDriver$waitForShiny()</code> that waits until Shiny is done computing on the reactive graph (<a href='https://github.com/rstudio/shinytest/issues/327'>#327</a>).</p></li>
 <li><p><code><a href="../reference/testApp.html">testApp()</a></code> can now take a path to a directory containing a single interactive <code>.Rmd</code> (<a href='https://github.com/rstudio/shinytest/issues/334'>#334</a>).</p></li>
 <li><p>Fixed <a href="https://github.com/rstudio/shinytest/issues/206"><a href='https://github.com/rstudio/shinytest/issues/206'>#206</a></a>: On Windows, non-ASCII characters in JSON snapshots were written using the native encoding, instead of UTF-8. (<a href="https://github.com/rstudio/shinytest/pull/318"><a href='https://github.com/rstudio/shinytest/issues/318'>#318</a></a>, <a href="https://github.com/rstudio/shinytest/pull/320"><a href='https://github.com/rstudio/shinytest/issues/320'>#320</a></a>)</p></li>
 <li><p>Added <code><a href="../reference/registerInputProcessor.html">registerInputProcessor()</a></code>, which allows other packages to control how code is generated when recording input values from input bindings from that package. ([<a href='https://github.com/rstudio/shinytest/issues/321'>#321</a>])</p></li>
