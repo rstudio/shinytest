@@ -1,6 +1,9 @@
 app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
 test_that("getValue", {
+  app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
+  expect_true(app$waitForShiny())
+
   expect_true(app$getValue("checkbox"))
   expect_identical(app$getValue("checkGroup"), "1")
   expect_identical(app$getValue("date"), as.Date("2014-01-01"))
