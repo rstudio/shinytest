@@ -37,3 +37,9 @@ test_that("window size", {
     list(width = 1200L, height = 800L)
   )
 })
+
+test_that("useful error message if app terminated", {
+  app <- ShinyDriver$new(test_path("apps/stopApp"))
+  app$findWidget("quit")$click()
+  expect_error(app$getAllValues(), "no longer running")
+})
