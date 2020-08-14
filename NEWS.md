@@ -1,6 +1,8 @@
 shinytest 1.4.0.9002
 ===============
 
+* New `Widget$click()` method to click buttons (#325).
+
 * New `ShinyDriver$waitForShiny()` that waits until Shiny is done computing
   on the reactive graph (#327). 
 
