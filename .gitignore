@@ -3,5 +3,5 @@
 .RData
 docs
 .Rprofile
-renv
-renv.lock
+/renv
+/renv.lock

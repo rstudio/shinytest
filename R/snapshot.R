@@ -1,5 +1,3 @@
-#' @importFrom xml2 read_html as_list
-
 sd_snapshotInit <- function(self, private, path, screenshot) {
   if (grepl("^/", path)) {
     stop("Snapshot dir must be a relative path.")
