@@ -218,7 +218,7 @@ on_ci <- function() {
  isTRUE(as.logical(Sys.getenv("CI")))
 }
 
-httr_get <- function(url) {
+httr_get <- function(url, stop_on_error=TRUE) {
   pieces <- httr::parse_url(url)
 
   if (!pingr::is_up(pieces$hostname, pieces$port)) {
@@ -231,8 +231,19 @@ httr_get <- function(url) {
     return(req)
   }
 
-  cat("Query failed (", status, ")----------------------\n", sep = "")
-  cat(httr::content(req, "text"), "\n")
-  cat("----------------------------------------\n")
-  stop("Unable request data from server")
+  if(stop_on_error)
+    {
+    cat("Query failed (", status, ")----------------------\n", sep = "")
+    cat(httr::content(req, "text"), "\n")
+    cat("----------------------------------------\n")
+    stop("Unable request data from server. HTTP Code", req$status_code, "\n",
+         httr::content(req, "text"))
+    } else {
+      new_content <- list(
+        status_code=req$status_code,
+        html=httr::content(req, "text")
+      )
+      return(jsonlite::toJSON(new_content))
+    }
+
 }

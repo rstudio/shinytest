@@ -87,8 +87,9 @@ ShinyDriver <- R6Class(
     #' @param input,output,export Either `TRUE` to return all
     #'   input/output/exported values, or a character vector of specific
     #'   controls.
-    getAllValues = function(input = TRUE, output = TRUE, export = TRUE)
-      sd_getAllValues(self, private, input, output, export),
+    getAllValues = function(input = TRUE, output = TRUE, export = TRUE,
+                            stop_on_error=TRUE)
+      sd_getAllValues(self, private, input, output, export, stop_on_error),
 
     #' @description
     #' Sends the specified keys to specific HTML element. Shortcut for
@@ -355,8 +356,9 @@ ShinyDriver <- R6Class(
                         filename = NULL,
                         screenshot = NULL,
                         exclude = NULL,
-			stop_on_error = TRUE)
-      sd_snapshot(self, private, items, filename, screenshot, exclude, stop_on_error),
+                        stop_on_error = TRUE)
+      sd_snapshot(self, private, items, filename, screenshot, exclude,
+                  stop_on_error),
 
 
     #' @description Deprecated
@@ -372,8 +374,8 @@ ShinyDriver <- R6Class(
     #' @param filename File name to save file to. The default, `NULL`,
     #'   generates an ascending sequence of names: `001.download`,
     #'   `002.download`, etc.
-    snapshotDownload = function(id, filename = NULL)
-      sd_snapshotDownload(self, private, id, filename),
+    snapshotDownload = function(id, filename = NULL, stop_on_error=TRUE)
+      sd_snapshotDownload(self, private, id, filename, stop_on_error),
 
     #' @description Directory where app is located
     getAppDir = function() {
