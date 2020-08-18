@@ -52,7 +52,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot, exclude, sto
   # Take snapshot -------------------------------------------------------------
   self$logEvent("Taking snapshot")
   url <- private$getTestSnapshotUrl(items$input, items$output, items$export)
-  req <- httr::GET(url)
+  req <- httr_get(url)
 
   # Convert to text, then replace base64-encoded images with hashes of them.
   content <- raw_to_utf8(req$content)
@@ -121,8 +121,10 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 
   # Find the URL to download from (the href of the <a> tag)
   url <- self$findElement(paste0("#", id))$getAttribute("href")
-
-  req <- httr::GET(url)
+  if (identical(url, "")) {
+    stop("Download from '#", id, "' failed")
+  }
+  req <- httr_get(url)
 
   # For first snapshot, create -current snapshot dir.
   if (private$snapshotCount == 1) {
