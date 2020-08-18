@@ -2,91 +2,221 @@
 % Please edit documentation in R/widget.R
 \name{Widget}
 \alias{Widget}
-\title{Class for a Shiny widget}
+\title{A Shiny Widget}
 \description{
-Class for a Shiny widget
+A Shiny Widget
+
+A Shiny Widget
 }
-\section{Usage}{
-
-\preformatted{w <- app$findWidget(name,
-    iotype = c("auto", "input", "output"))
-
-w$getName()
-w$getElement()
-w$getType()
-w$getIoType()
-w$isInput()
-w$isOutput()
-
-w$getValue()
-w$setValue(value)
-
-w$sendKeys(keys)
-
-w$listTabs()
+\details{
+A \code{Widget} object represents a Shiny input or output control.
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{Widget$new()}}
+\item \href{#method-getName}{\code{Widget$getName()}}
+\item \href{#method-getElement}{\code{Widget$getElement()}}
+\item \href{#method-getType}{\code{Widget$getType()}}
+\item \href{#method-getIoType}{\code{Widget$getIoType()}}
+\item \href{#method-isInput}{\code{Widget$isInput()}}
+\item \href{#method-isOutput}{\code{Widget$isOutput()}}
+\item \href{#method-getValue}{\code{Widget$getValue()}}
+\item \href{#method-setValue}{\code{Widget$setValue()}}
+\item \href{#method-click}{\code{Widget$click()}}
+\item \href{#method-sendKeys}{\code{Widget$sendKeys()}}
+\item \href{#method-listTabs}{\code{Widget$listTabs()}}
+\item \href{#method-uploadFile}{\code{Widget$uploadFile()}}
+\item \href{#method-clone}{\code{Widget$clone()}}
 }
 }
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create new \code{Widget}
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$new(name, element, type, iotype = c("input", "output"))}\if{html}{\out{</div>}}
+}
 
-\section{Arguments}{
-
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
 \describe{
-\item{app}{A \code{\link{ShinyDriver}} object.}
-\item{w}{A \code{Widget} object.}
-\item{name}{Name of a Shiny widget.}
-\item{iotype}{Character scalar, whether the widget is \sQuote{input}
-or \sQuote{output}. The default \sQuote{auto} value works well,
-provided that widgets have unique names. (Shiny allows an input
-and an output widget with the same name.)}
-\item{value}{Value to set for the widget. Its interpretation depends
-on the type of the widget, see details below.}
-\item{keys}{Keys to send to the widget. See the \code{sendKeys}
-method of the \code{\link[webdriver]{Element}} class in the
-\code{webdriver} package.}
+\item{\code{name}}{Name of a Shiny widget.}
+
+\item{\code{element}}{\link[webdriver:Element]{webdriver::Element}}
+
+\item{\code{type}}{Widget type}
+
+\item{\code{iotype}}{Input/output type.}
+}
+\if{html}{\out{</div>}}
 }
 }
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getName"></a>}}
+\if{latex}{\out{\hypertarget{method-getName}{}}}
+\subsection{Method \code{getName()}}{
+Control id (i.e. \code{inputId} or \code{outputId} that control
+was created with).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$getName()}\if{html}{\out{</div>}}
+}
 
-\section{Details}{
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getElement"></a>}}
+\if{latex}{\out{\hypertarget{method-getElement}{}}}
+\subsection{Method \code{getElement()}}{
+Underlying \code{\link[webdriver:Element]{webdriver::Element()}} object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$getElement()}\if{html}{\out{</div>}}
+}
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getType"></a>}}
+\if{latex}{\out{\hypertarget{method-getType}{}}}
+\subsection{Method \code{getType()}}{
+Widget type, e.g. \code{textInput}, \code{selectInput}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$getType()}\if{html}{\out{</div>}}
+}
 
-A \code{Widget} object represents a Shiny input or output widget.
-\code{app$findWidget} creates a widget object from a
-\code{\link{ShinyDriver}} object.
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getIoType"></a>}}
+\if{latex}{\out{\hypertarget{method-getIoType}{}}}
+\subsection{Method \code{getIoType()}}{
+Is this an input or output control?
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$getIoType()}\if{html}{\out{</div>}}
+}
 
-\code{w$getName()} returns the name of the widget.
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-isInput"></a>}}
+\if{latex}{\out{\hypertarget{method-isInput}{}}}
+\subsection{Method \code{isInput()}}{
+Is this an input control?
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$isInput()}\if{html}{\out{</div>}}
+}
 
-\code{w$getElement()} returns an HTML element. This is an
-\code{\link[webdriver]{Element}} object from the \code{webdriver}
-package.
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-isOutput"></a>}}
+\if{latex}{\out{\hypertarget{method-isOutput}{}}}
+\subsection{Method \code{isOutput()}}{
+Is this an output control?
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$isOutput()}\if{html}{\out{</div>}}
+}
 
-\code{w$getType()} returns the type of the widget, possible values
-are \code{textInput}, \code{selectInput}, etc.
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getValue"></a>}}
+\if{latex}{\out{\hypertarget{method-getValue}{}}}
+\subsection{Method \code{getValue()}}{
+Get current value of control.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$getValue()}\if{html}{\out{</div>}}
+}
 
-\code{w$getIoType()} returns \sQuote{input} or \sQuote{output},
-whether the widget is an input or output widget.
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-setValue"></a>}}
+\if{latex}{\out{\hypertarget{method-setValue}{}}}
+\subsection{Method \code{setValue()}}{
+Set value of control.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$setValue(value)}\if{html}{\out{</div>}}
+}
 
-\code{w$isInput()} returns \code{TRUE} for input widgets, \code{FALSE}
-otherwise.
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{value}}{Value to set for the widget.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-click"></a>}}
+\if{latex}{\out{\hypertarget{method-click}{}}}
+\subsection{Method \code{click()}}{
+scrolls the element into view, then clicks the in-view
+centre point of it.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$click()}\if{html}{\out{</div>}}
+}
 
-\code{w$isOutput()} returns \code{TRUE} for output widgets, \code{FALSE}
-otherwise.
+\subsection{Returns}{
+self, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-sendKeys"></a>}}
+\if{latex}{\out{\hypertarget{method-sendKeys}{}}}
+\subsection{Method \code{sendKeys()}}{
+Send specified key presses to control.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$sendKeys(keys)}\if{html}{\out{</div>}}
+}
 
-\code{w$getValue()} returns the value of the widget. The exact type
-returned depends on the type of the widget. TODO: list widgets and their
-return types.
-
-\code{w$setValue()} sets the value of the widget, through the web
-browser. Different widget types expect different different \code{value}
-arguments. TODO: list widgets and types.
-
-\code{w$sendKeys} sends the specified keys to the HTML element of the
-widget.
-
-\code{w$listTabs} lists the tab names of a \code{tabsetPanel} widget.
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keys}}{Keys to send to the widget or the app. See \link[webdriver:key]{webdriver::key}
+for how to specific special keys.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-listTabs"></a>}}
+\if{latex}{\out{\hypertarget{method-listTabs}{}}}
+\subsection{Method \code{listTabs()}}{
+Lists the tab names of a \code{\link[shiny:tabsetPanel]{shiny::tabsetPanel()}}.
 It fails for other types of widgets.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$listTabs()}\if{html}{\out{</div>}}
 }
 
-\examples{
-{
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-uploadFile"></a>}}
+\if{latex}{\out{\hypertarget{method-uploadFile}{}}}
+\subsection{Method \code{uploadFile()}}{
+Upload a file to a \code{\link[shiny:fileInput]{shiny::fileInput()}}.
+It fails for other types of widgets.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$uploadFile(filename)}\if{html}{\out{</div>}}
+}
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{filename}}{Path to file to upload}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

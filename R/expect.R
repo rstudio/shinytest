@@ -1,7 +1,7 @@
 
-#' \code{testthat} expectation for a Shiny update
+#' `testthat` expectation for a Shiny update
 #'
-#' @param app A \code{\link{ShinyDriver}} object.
+#' @param app A [ShinyDriver()] object.
 #' @param output Character vector, the name(s) of the output widgets
 #'   that are required to update for the test to succeed.
 #' @param ... Named arguments specifying updates for Shiny input

@@ -22,5 +22,5 @@ example, if the suffix is \code{"mac"}, the expected directory would be
 Get textual diff of test results
 }
 \seealso{
-\code{\link{viewTestDiff}} for interactive diff viewer.
+\code{\link[=viewTestDiff]{viewTestDiff()}} for interactive diff viewer.
 }

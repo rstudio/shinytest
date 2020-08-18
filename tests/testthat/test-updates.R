@@ -4,6 +4,7 @@ context("updates")
 test_that("updates for all widget in the gallery", {
 
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
+  app$waitForValue("checkboxOut", iotype = "output") # ensure app fully initialised
 
   expectUpdate(app, checkbox = FALSE, output = "checkboxOut")
   expect_equal(app$getValue("checkboxOut"), "[1] FALSE")

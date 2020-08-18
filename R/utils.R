@@ -47,8 +47,6 @@ package_version <- function(pkg = packageName()) {
   paste0(l, r)
 }
 
-str <- function(x) as.character(x)
-
 is_windows <- function() .Platform$OS.type == "windows"
 
 is_osx     <- function() Sys.info()[['sysname']] == 'Darwin'
@@ -104,16 +102,26 @@ parse_url <- function(url) {
   )
 }
 
-# If it's a directory, return FALSE. If it's a file ending with .Rmd, return TRUE.
-# For other cases, throw error.
 is_rmd <- function(path) {
   if (utils::file_test('-d', path)) {
     FALSE
   } else if (grepl("\\.Rmd", path, ignore.case = TRUE)) {
     TRUE
   } else {
-    stop("Unknown whether app is a regular Shiny app or .Rmd: ", path)
+    FALSE
   }
+}
+
+is_app <- function(path) {
+  tryCatch(
+    {
+      shiny::shinyAppDir(path)
+      TRUE
+    },
+    error = function(e) {
+      FALSE
+    }
+  )
 }
 
 # Given a path, return a path that can be passed to ShinyDriver$new()
@@ -205,3 +213,7 @@ png_res_header_data <- as.raw(c(
   0x01,                    # Unit specifier: meters
   0x00, 0x9a, 0x9c, 0x18   # Checksum
 ))
+
+on_ci <- function() {
+ isTRUE(as.logical(Sys.getenv("CI")))
+}

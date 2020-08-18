@@ -70,3 +70,10 @@ test_that("app$uploadFile for file inputs", {
   x <- app$uploadFile(file = test_path("apps/081-widgets-gallery/DESCRIPTION"))
   expect_true(grepl("DESCRIPTION", x$output$fileOut))
 })
+
+test_that("numeric input recovers from receiving bad input", {
+  num <- app$findWidget("num")
+  num$setValue("bogus")
+  num$setValue(10)
+  expect_equal(num$getValue(), 10)
+})

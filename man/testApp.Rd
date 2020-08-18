@@ -14,7 +14,8 @@ testApp(
 )
 }
 \arguments{
-\item{appDir}{Path to the Shiny application to be tested.}
+\item{appDir}{Path to directory containing a Shiny app (e.g. \code{app.R}) or
+single interactive \code{.Rmd}.}
 
 \item{testnames}{Test script(s) to run. The .R extension of the filename is
 optional. For example, \code{"mytest"} or \code{c("mytest", "mytest2.R")}.
@@ -40,7 +41,7 @@ example, if the suffix is \code{"mac"}, the expected directory would be
 Run tests for a Shiny application
 }
 \seealso{
-\code{\link{snapshotCompare}} and \code{\link{snapshotUpdate}} if
+\code{\link[=snapshotCompare]{snapshotCompare()}} and \code{\link[=snapshotUpdate]{snapshotUpdate()}} if
 you want to compare or update snapshots after testing. In most cases, the
 user is prompted to do these tasks interactively, but there are also times
 where it is useful to call these functions from the console.

@@ -2,12 +2,12 @@
 #'
 #' Checks that all the required system dependencies are installed properly,
 #' returns. If dependencies are missing, consider running
-#' \link{installDependencies}.
+#' [installDependencies].
 #'
-#' @return \code{TRUE} when all dependencies are fulfilled; otherwise,
-#'   \code{FALSE}.
+#' @return `TRUE` when all dependencies are fulfilled; otherwise,
+#'   `FALSE`.
 #'
-#' @seealso \code{\link{installDependencies}} to install missing dependencies.
+#' @seealso [installDependencies()] to install missing dependencies.
 #'
 #' @export
 dependenciesInstalled <- function() {
@@ -20,9 +20,9 @@ dependenciesInstalled <- function() {
 #' install a headless web browser, PhantomJS.
 #'
 #'
-#' @seealso \code{\link{dependenciesInstalled}} to check if dependencies are
+#' @seealso [dependenciesInstalled()] to check if dependencies are
 #'   missing. For more information about where PhantomJS will be installed, see
-#'   \code{\link[webdriver]{install_phantomjs}}.
+#'   [webdriver::install_phantomjs()].
 #'
 #' @examples
 #' \dontrun{

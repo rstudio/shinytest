@@ -1,15 +1,11 @@
-
 #' Try to deduce the shiny input/output element type from its name
 #'
-#' @param self me
-#' @param private private me
 #' @param name The name of the Shiny input or output to search for.
 #' @param iotype It is possible that an input has the same name as
 #'   an output, and in this case there is no way to get element without
 #'   knowing whether it is an input or output element.
 #'
-#' @keywords internal
-
+#' @noRd
 sd_findWidget <- function(self, private, name, iotype) {
 
   "!DEBUG finding a widget `name` (`iotype`)"
