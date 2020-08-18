@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Checks all dependencies are installed — dependenciesInstalled • shinytest</title>
+<title>Checks for/install dependencies — dependenciesInstalled • shinytest</title>
 
 
 <!-- jquery -->
@@ -41,10 +41,11 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Checks all dependencies are installed — dependenciesInstalled" />
-<meta property="og:description" content="Checks that all the required system dependencies are installed properly,
-returns. If dependencies are missing, consider running
-installDependencies." />
+<meta property="og:title" content="Checks for/install dependencies — dependenciesInstalled" />
+<meta property="og:description" content="dependenciesInstalled() that all the required system dependency,
+PhantomJS, is installed, and installDependencies() installs it if needed.
+For more information about where PhantomJS will be installed
+see webdriver::install_phantomjs()." />
 
 
 
@@ -142,27 +143,26 @@ installDependencies." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Checks all dependencies are installed</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/install.R'><code>R/install.R</code></a></small>
+    <h1>Checks for/install dependencies</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/phantom.R'><code>R/phantom.R</code></a></small>
     <div class="hidden name"><code>dependenciesInstalled.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks that all the required system dependencies are installed properly,
-returns. If dependencies are missing, consider running
-<a href='installDependencies.html'>installDependencies</a>.</p>
+    <p><code>dependenciesInstalled()</code> that all the required system dependency,
+PhantomJS, is installed, and <code>installDependencies()</code> installs it if needed.
+For more information about where PhantomJS will be installed
+see <code><a href='https://rdrr.io/pkg/webdriver/man/install_phantomjs.html'>webdriver::install_phantomjs()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dependenciesInstalled</span>()</pre>
+    <pre class="usage"><span class='fu'>dependenciesInstalled</span>()
+
+<span class='fu'>installDependencies</span>()</pre>
 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TRUE</code> when all dependencies are fulfilled; otherwise,
-<code>FALSE</code>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='installDependencies.html'>installDependencies()</a></code> to install missing dependencies.</p></div>
+    <p><code>TRUE</code> when all dependencies are fulfilled; otherwise, <code>FALSE</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
