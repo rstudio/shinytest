@@ -87,9 +87,14 @@ ShinyDriver <- R6Class(
     #' @param input,output,export Either `TRUE` to return all
     #'   input/output/exported values, or a character vector of specific
     #'   controls.
+    #' @exclude Names of objects to exclude from input, output, and export.
+    #' @param stop_on_error When `TRUE` (the default) error messages from the
+    #'   shiny app are displayed and execution halts. When `FALSE` the HTTP
+    #'   error code and message are included in the returned list.
     getAllValues = function(input = TRUE, output = TRUE, export = TRUE,
-                            stop_on_error=TRUE)
-      sd_getAllValues(self, private, input, output, export, stop_on_error),
+                            exclude=NULL, stop_on_error=TRUE)
+      sd_getAllValues(self, private, input, output, export, exclude,
+                      stop_on_error),
 
     #' @description
     #' Sends the specified keys to specific HTML element. Shortcut for
@@ -352,6 +357,10 @@ ShinyDriver <- R6Class(
     #' @param filename Filename to use
     #' @param screenshot Take a screenshot? Overrides value set by
     #'   `$snapshotInit()`
+    #' @exclude Names of objects to exclude from `input`, `output`, and `export.`
+    #' @param stop_on_error When `TRUE` (the default) error messages from the
+    #'   shiny app are displayed and execution halts. When `FALSE` the HTTP
+    #'   error code and message are included in the snapshot.
     snapshot = function(items = NULL,
                         filename = NULL,
                         screenshot = NULL,
@@ -374,6 +383,9 @@ ShinyDriver <- R6Class(
     #' @param filename File name to save file to. The default, `NULL`,
     #'   generates an ascending sequence of names: `001.download`,
     #'   `002.download`, etc.
+    #' @param stop_on_error When `TRUE` (the default) error messages from the
+    #'   shiny app are displayed and execution halts. When `FALSE` the HTTP
+    #'   error code and message are stored in the download file.
     snapshotDownload = function(id, filename = NULL, stop_on_error=TRUE)
       sd_snapshotDownload(self, private, id, filename, stop_on_error),
 
