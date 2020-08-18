@@ -4,10 +4,12 @@
 \alias{ShinyDriver}
 \title{Class to manage a shiny app and a \code{phantom.js} headless browser.}
 \description{
-This class starts a Shiny app in a new R session, along with a \code{phantom.js}
-headless browser that can be used to simulate user actions. This provides
-a full simulation of a Shiny app so that you can test user interactions
-with a live app.
+This class connects a \code{phantom.js} headless browser to a shiny app to enable
+testing the effect of user interactions with a live app.  Specify \code{url} to
+connect to an existing shiny app, or omit \code{url} and the app located at
+\code{path} will be launched in a separate subprocess.
+
+This provides a full simulation of a Shiny app so that you can
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -70,7 +72,8 @@ with a live app.
   phantomTimeout = 5000,
   seed = NULL,
   cleanLogs = TRUE,
-  shinyOptions = list()
+  shinyOptions = list(),
+  url = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -100,6 +103,8 @@ behavior repeatable.}
 Shiny process object is garbage collected.}
 
 \item{\code{shinyOptions}}{A list of options to pass to \code{\link[shiny:runApp]{shiny::runApp()}}.}
+
+\item{\code{url}}{Optional URL where the shiny app is executing.}
 }
 \if{html}{\out{</div>}}
 }
@@ -141,8 +146,8 @@ Finds a widget and queries its value. See the \code{getValue()} method of
 \item{\code{name}}{Name of a shiny widget.}
 
 \item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
-by their name, so this is only needed if you use the same name for an
-input and output widget.}
+by their name, so this is only needed if you use the same name for an input
+and output widget.}
 }
 \if{html}{\out{</div>}}
 }
@@ -165,8 +170,8 @@ plus \code{setValue()}; see the \link{Widget} documentation for more details.
 \item{\code{value}}{New value.}
 
 \item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
-by their name, so this is only needed if you use the same name for an
-input and output widget.}
+by their name, so this is only needed if you use the same name for an input
+and output widget.}
 }
 \if{html}{\out{</div>}}
 }
@@ -525,8 +530,8 @@ has initialized or finished processing a complex reactive situation.
 updates.}
 
 \item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
-by their name, so this is only needed if you use the same name for an
-input and output widget.}
+by their name, so this is only needed if you use the same name for an input
+and output widget.}
 
 \item{\code{timeout}}{Amount of time to wait before giving up (milliseconds).}
 
@@ -617,8 +622,8 @@ Finds the a Shiny input or output control.
 \item{\code{name}}{Name of a shiny widget.}
 
 \item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
-by their name, so this is only needed if you use the same name for an
-input and output widget.}
+by their name, so this is only needed if you use the same name for an input
+and output widget.}
 }
 \if{html}{\out{</div>}}
 }
@@ -653,8 +658,8 @@ For updates that involve a lot of computation, increase the timeout.
 \item{\code{timeout}}{Amount of time to wait before giving up (milliseconds).}
 
 \item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
-by their name, so this is only needed if you use the same name for an
-input and output widget.}
+by their name, so this is only needed if you use the same name for an input
+and output widget.}
 }
 \if{html}{\out{</div>}}
 }

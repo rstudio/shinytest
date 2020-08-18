@@ -1,14 +1,17 @@
 #' Class to manage a shiny app and a `phantom.js` headless browser.
 #'
 #' @description
-#' This class starts a Shiny app in a new R session, along with a `phantom.js`
-#' headless browser that can be used to simulate user actions. This provides
-#' a full simulation of a Shiny app so that you can test user interactions
-#' with a live app.
+#'
+#' This class connects a `phantom.js` headless browser to a shiny app to enable
+#' testing the effect of user interactions with a live app.  Specify `url` to
+#' connect to an existing shiny app, or omit `url` and the app located at
+#' `path` will be launched in a separate subprocess.
+#'
+#' This provides a full simulation of a Shiny app so that you can
 #'
 #' @param iotype Type of the Shiny widget. Usually shinytest finds the widgets
-#'   by their name, so this is only needed if you use the same name for an
-#'   input and output widget.
+#'   by their name, so this is only needed if you use the same name for an input
+#'   and output widget.
 #' @param timeout Amount of time to wait before giving up (milliseconds).
 #' @param timeout_ Amount of time to wait before giving up (milliseconds).
 #' @param wait_ Wait until all reactive updates have completed?
@@ -41,14 +44,15 @@ ShinyDriver <- R6Class(
     #' @param cleanLogs Whether to remove the stdout and stderr logs when the
     #'     Shiny process object is garbage collected.
     #' @param shinyOptions A list of options to pass to [shiny::runApp()].
+    #' @param url Optional URL where the shiny app is executing.
     initialize = function(path = ".", loadTimeout = NULL, checkNames = TRUE,
       debug = c("none", "all", shinytest::ShinyDriver$debugLogTypes),
       phantomTimeout = 5000, seed = NULL, cleanLogs = TRUE,
-      shinyOptions = list())
+      shinyOptions = list(), url=NULL)
     {
       sd_initialize(self, private, path, loadTimeout, checkNames, debug,
         phantomTimeout = phantomTimeout, seed = seed, cleanLogs = cleanLogs,
-        shinyOptions = shinyOptions)
+        shinyOptions = shinyOptions, url=url)
     },
 
     #' @description Stop app and clean up logs.
