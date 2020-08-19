@@ -7,6 +7,7 @@
 #'
 #' @return `TRUE` when all dependencies are fulfilled; otherwise, `FALSE`.
 #' @export
+#' @keywords internal
 dependenciesInstalled <- function() {
   !is.null(find_phantom(quiet = TRUE))
 }

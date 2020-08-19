@@ -11,6 +11,7 @@
 #' @param height Height of the htmlwidget
 #'
 #' @export
+#' @keywords internal
 diffviewer_widget <- function(old, new, width = NULL, height = NULL,
   pattern = NULL)
 {
@@ -81,6 +82,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 #' @param testname Name of test to compare.
 #'
 #' @export
+#' @keywords internal
 viewTestDiffWidget <- function(appDir = ".", testname = NULL, suffix = NULL) {
   testDir <- findTestsDir(appDir, quiet = TRUE)
   expected <- file.path(testDir, paste0(testname, "-expected", normalize_suffix(suffix)))
@@ -110,6 +112,7 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL, suffix = NULL) {
 #'
 #' @import shiny
 #' @export
+#' @keywords internal
 viewTestDiff <- function(
   appDir = ".",
   testnames = NULL,
@@ -166,6 +169,7 @@ viewTestDiffSingle <- function(appDir = ".", testname = NULL, suffix = NULL) {
 #' @param images Compare screenshot images.
 #' @seealso [viewTestDiff()] for interactive diff viewer.
 #' @export
+#' @keywords internal
 textTestDiff <- function(
   appDir = ".",
   testnames = NULL,
