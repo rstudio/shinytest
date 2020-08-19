@@ -13,4 +13,11 @@ test_that("Exported values", {
   x <- app$getAllValues()
   expect_identical(x$export$x, 3)
   expect_identical(x$export$y, 4)
+
+  app$setInputs(inc = "click")
+  app$setInputs(inc = "click")
+
+  x <- app$getAllValues(exclude="x")
+  expect_null(x$export$x)
+  expect_identical(x$export$y, 6)
 })

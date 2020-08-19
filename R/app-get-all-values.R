@@ -1,17 +1,27 @@
 # Note: This queries the server
-sd_getAllValues <- function(self, private, input, output, export) {
-  "!DEBUG sd_getAllValues"
-  url <- private$getTestSnapshotUrl(input, output, export, format = "rds")
 
+sd_getAllValues <- function(self, private, input, output, export,
+                            exclude=NULL, stop_on_error=TRUE) {
   self$logEvent("Getting all values")
-  tmpfile <- tempfile("shinytest_values", fileext = ".rds")
-  req <- httr::GET(url)
-  if (req$status_code != 200) {
-    stop("Unable to fetch all values from server. Is target app running with options(shiny.testmode=TRUE?)")
+  "!DEBUG sd_getAllValues"
+
+  url <- private$getTestSnapshotUrl(input, output, export, format = "rds")
+  req <- httr_get(url, stop_on_error)
+
+  tmpfile <- tempfile()
+  on.exit(unlink(tmpfile))
+  writeBin(req$content, tmpfile)
+  rObj <- readRDS(tmpfile)
+
+  # Remove any items specified in ignore
+  if(length(exclude)>0)
+  {
+    dropItems <- function(l, i) l[! names(l) %in% i]
+
+    rObj$input <- dropItems(rObj$input, exclude)
+    rObj$output <- dropItems(rObj$output, exclude)
+    rObj$export <- dropItems(rObj$export, exclude)
   }
 
-  writeBin(req$content, tmpfile)
-  on.exit(unlink(tmpfile))
-
-  readRDS(tmpfile)
+  rObj
 }

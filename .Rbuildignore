@@ -1,3 +1,7 @@
+^renv$
+^renv\.lock$
+^\renv$
+^\renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^Makefile$
@@ -7,3 +11,4 @@
 ^vignettes$
 ^pkgdown$
 ^\.github$
+^\.renvignore

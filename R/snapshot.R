@@ -11,7 +11,8 @@ sd_snapshotInit <- function(self, private, path, screenshot) {
   private$snapshotScreenshot <- screenshot
 }
 
-sd_snapshot <- function(self, private, items, filename, screenshot)
+sd_snapshot <- function(self, private, items, filename, screenshot, exclude,
+                        stop_on_error=TRUE)
 {
   if (!is.list(items) && !is.null(items))
     stop("'items' must be NULL or a list.")
@@ -50,7 +51,27 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   # Take snapshot -------------------------------------------------------------
   self$logEvent("Taking snapshot")
   url <- private$getTestSnapshotUrl(items$input, items$output, items$export)
-  req <- httr::GET(url)
+  req <- httr_get(url, stop_on_error)
+
+  # Convert to text, then replace base64-encoded images with hashes of them.
+  content <- raw_to_utf8(req$content)
+  content <- hash_snapshot_image_data(content)
+
+  # Remove any items specified in ignore
+  if(length(exclude)>0)
+  {
+    rObj <- jsonlite::fromJSON(txt=content)
+
+    dropItems <- function(l, i) l[! names(l) %in% i]
+
+    rObj$input <- dropItems(rObj$input, exclude)
+    rObj$output <- dropItems(rObj$output, exclude)
+    rObj$export <- dropItems(rObj$export, exclude)
+
+    content <- jsonlite::toJSON(rObj)
+  }
+
+  content <- jsonlite::prettify(content, indent = 2)
 
   # For first snapshot, create -current snapshot dir.
   if (private$snapshotCount == 1) {
@@ -60,10 +81,6 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
     dir.create(current_dir, recursive = TRUE)
   }
 
-  # Convert to text, then replace base64-encoded images with hashes of them.
-  content <- raw_to_utf8(req$content)
-  content <- hash_snapshot_image_data(content)
-  content <- jsonlite::prettify(content, indent = 2)
   write_utf8(content, file.path(current_dir, filename))
 
   if (screenshot) {
@@ -73,10 +90,10 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   }
 
   # Invisibly return JSON content as a string
-  invisible(raw_to_utf8(req$content))
+  invisible(content)
 }
 
-sd_snapshotDownload <- function(self, private, id, filename) {
+sd_snapshotDownload <- function(self, private, id, filename, stop_on_error=TRUE) {
 
   current_dir <- paste0(self$getSnapshotDir(), "-current")
 
@@ -88,8 +105,10 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 
   # Find the URL to download from (the href of the <a> tag)
   url <- self$findElement(paste0("#", id))$getAttribute("href")
-
-  req <- httr::GET(url)
+  if (identical(url, "")) {
+    stop("Download from '#", id, "' failed")
+  }
+  req <- httr_get(url, stop_on_error)
 
   # For first snapshot, create -current snapshot dir.
   if (private$snapshotCount == 1) {

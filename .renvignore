@@ -1,0 +1,2 @@
+tests/testthat/example_test_dirs/mixed-toplevel/tests/testa.r
+tests/testthat/example_test_dirs/nested/tests/shinytest/whatever.R
