@@ -24,3 +24,4 @@ Get textual diff of test results
 \seealso{
 \code{\link[=viewTestDiff]{viewTestDiff()}} for interactive diff viewer.
 }
+\keyword{internal}

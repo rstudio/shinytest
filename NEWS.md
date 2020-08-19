@@ -5,6 +5,11 @@ shinytest 1.4.0.9002
   to `rmarkdown::run()` for interactive Rmds (#249); this makes it possible
   to set parameters for parameterised reports.
 
+* New `Widget$click()` method to click buttons (#325).
+
+* New `ShinyDriver$waitForShiny()` that waits until Shiny is done computing
+  on the reactive graph (#327). 
+
 * `testApp()` can now take a path to a directory containing a single 
   interactive `.Rmd` (#334).
 

@@ -21,7 +21,7 @@
 #' expectUpdate(app, ycol = "Petal.Width", output = "plot1")
 #' expectUpdate(app, clusters = 4, output = "plot1")
 #' }
-
+#' @keywords internal
 expectUpdate <- function(app, output, ..., timeout = 3000,
                          iotype = c("auto", "input", "output")) {
   app$expectUpdate(
