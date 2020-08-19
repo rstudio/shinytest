@@ -116,7 +116,7 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL, suffix = NULL) {
 viewTestDiff <- function(
   appDir = ".",
   testnames = NULL,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   images = TRUE,
   suffix = NULL
 ) {

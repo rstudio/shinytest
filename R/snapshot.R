@@ -158,7 +158,7 @@ snapshotCompare <- function(
   autoremove = TRUE,
   images = TRUE,
   quiet = FALSE,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   suffix = NULL
 ) {
 
@@ -202,7 +202,7 @@ snapshotCompareSingle <- function(
   autoremove = TRUE,
   quiet = FALSE,
   images = TRUE,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   suffix = NULL
 ) {
   testDir <- findTestsDir(appDir, quiet = TRUE)

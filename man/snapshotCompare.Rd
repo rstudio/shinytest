@@ -11,7 +11,7 @@ snapshotCompare(
   autoremove = TRUE,
   images = TRUE,
   quiet = FALSE,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   suffix = NULL
 )
 

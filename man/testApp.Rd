@@ -9,7 +9,7 @@ testApp(
   testnames = NULL,
   quiet = FALSE,
   compareImages = TRUE,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   suffix = NULL
 )
 }
