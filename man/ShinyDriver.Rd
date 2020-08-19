@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiny-driver.R
 \name{ShinyDriver}
 \alias{ShinyDriver}
-\title{Class to manage a shiny app and a \code{phantom.js} headless browser.}
+\title{Remote control a Shiny app running in a headless browser}
 \description{
 This class starts a Shiny app in a new R session, along with a \code{phantom.js}
 headless browser that can be used to simulate user actions. This provides
@@ -697,7 +697,7 @@ an input binding.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Returns update values, invisibly.
+Returns updated values, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
