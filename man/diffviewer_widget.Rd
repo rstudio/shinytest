@@ -21,3 +21,4 @@ compare.}
 This function can be used for viewing differences between current test
 results and the expected results
 }
+\keyword{internal}

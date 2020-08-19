@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiny-driver.R
 \name{ShinyDriver}
 \alias{ShinyDriver}
-\title{Class to manage a shiny app and a \code{phantom.js} headless browser.}
+\title{Remote control a Shiny app running in a headless browser}
 \description{
 This class starts a Shiny app in a new R session, along with a \code{phantom.js}
 headless browser that can be used to simulate user actions. This provides
@@ -34,6 +34,7 @@ with a live app.
 \item \href{#method-findElement}{\code{ShinyDriver$findElement()}}
 \item \href{#method-findElements}{\code{ShinyDriver$findElements()}}
 \item \href{#method-waitFor}{\code{ShinyDriver$waitFor()}}
+\item \href{#method-waitForShiny}{\code{ShinyDriver$waitForShiny()}}
 \item \href{#method-waitForValue}{\code{ShinyDriver$waitForValue()}}
 \item \href{#method-listWidgets}{\code{ShinyDriver$listWidgets()}}
 \item \href{#method-checkUniqueWidgetNames}{\code{ShinyDriver$checkUniqueWidgetNames()}}
@@ -481,6 +482,22 @@ timeout. Otherwise returns \code{NA}.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-waitForShiny"></a>}}
+\if{latex}{\out{\hypertarget{method-waitForShiny}{}}}
+\subsection{Method \code{waitForShiny()}}{
+Waits until Shiny is not busy, i.e. the reactive graph has finished
+updating. This is useful, for example, if you've resized the window with
+\code{setWindowSize()} and want to make sure all plot redrawing is complete
+before take a screenshot.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$waitForShiny()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{TRUE} if done before before timeout; \code{NA} otherwise.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-waitForValue"></a>}}
 \if{latex}{\out{\hypertarget{method-waitForValue}{}}}
 \subsection{Method \code{waitForValue()}}{
@@ -680,7 +697,7 @@ an input binding.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Returns update values, invisibly.
+Returns updated values, invisibly.
 }
 }
 \if{html}{\out{<hr>}}

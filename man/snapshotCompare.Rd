@@ -48,3 +48,4 @@ differences to the console.
 \seealso{
 \code{\link[=testApp]{testApp()}}
 }
+\keyword{internal}

@@ -1,4 +1,4 @@
-#' Class to manage a shiny app and a `phantom.js` headless browser.
+#' Remote control a Shiny app running in a headless browser
 #'
 #' @description
 #' This class starts a Shiny app in a new R session, along with a `phantom.js`
@@ -232,6 +232,19 @@ ShinyDriver <- R6Class(
     },
 
     #' @description
+    #' Waits until Shiny is not busy, i.e. the reactive graph has finished
+    #' updating. This is useful, for example, if you've resized the window with
+    #' `setWindowSize()` and want to make sure all plot redrawing is complete
+    #' before take a screenshot.
+    #' @return `TRUE` if done before before timeout; `NA` otherwise.
+    waitForShiny = function()  {
+      # Shiny automatically sets using busy/idle events:
+      # https://github.com/rstudio/shiny/blob/e2537d/srcjs/shinyapp.js#L647-L655
+      # Details of busy event: https://shiny.rstudio.com/articles/js-events.html
+      private$web$waitFor("!$('html').first().hasClass('shiny-busy')")
+    },
+
+    #' @description
     #' Waits until the `input` or `output` with name `name` is not one of
     #' `ignore`d values, or the timeout is reached.
     #'
@@ -305,7 +318,7 @@ ShinyDriver <- R6Class(
     #' @param priority_ Sets the event priority. For expert use only: see
     #'   <https://shiny.rstudio.com/articles/communicating-with-js.html#values-vs-events> for details.
     #' @param values_ If `TRUE`, will return final updated values of inputs.
-    #' @return Returns update values, invisibly.
+    #' @return Returns updated values, invisibly.
     setInputs = function(..., wait_ = TRUE, values_ = TRUE, timeout_ = 3000,
       allowInputNoBinding_ = FALSE, priority_ = c("input", "event")) {
       sd_setInputs(self, private, ..., wait_ = wait_, values_ = values_,
