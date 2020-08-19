@@ -14,7 +14,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   self$logEvent("Start ShinyDriver initialization")
 
   if (is.null(find_phantom())) {
-    stop("PhantomJS not found.")
+    abort("PhantomJS not found.")
   }
 
   "!DEBUG get phantom port (starts phantom if not running)"
@@ -55,10 +55,10 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
     timeout = loadTimeout
   )
   if (!load_ok) {
-    stop(
+    abort(paste0(
       "Shiny app did not load in ", loadTimeout, "ms.\n",
       format(self$getDebugLog())
-    )
+    ))
   }
 
   "!DEBUG shiny started"
@@ -134,10 +134,10 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
   )
   "!DEBUG waiting for shiny to start"
   if (! p$is_alive()) {
-    stop(
+    abort(paste0(
       "Failed to start shiny. Error: ",
       strwrap(readLines(p$get_error_file()))
-    )
+    ))
   }
 
   "!DEBUG finding shiny port"
@@ -147,14 +147,18 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
     err_lines <- readLines(p$get_error_file())
 
     if (!p$is_alive()) {
-      stop("Error starting application:\n", paste(err_lines, collapse = "\n"))
+      abort(paste0(
+        "Error starting application:\n", paste(err_lines, collapse = "\n")
+      ))
     }
     if (any(grepl("Listening on http", err_lines))) break
 
     Sys.sleep(0.2)
   }
   if (i == max_i) {
-    stop("Cannot find shiny port number. Error:\n", paste(err_lines, collapse = "\n"))
+    abort(paste0(
+      "Cannot find shiny port number. Error:\n", paste(err_lines, collapse = "\n")
+    ))
   }
 
   line <- err_lines[grepl("Listening on http", err_lines)]

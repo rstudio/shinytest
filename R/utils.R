@@ -18,13 +18,7 @@ random_open_port <- function(min = 3000, max = 9000, n = 20) {
     }
   }
 
-  stop("Cannot find an available port")
-}
-
-check_external <- function(x) {
-  if (Sys.which(x) == "") {
-    stop("Cannot start '", x, "', make sure it is in the path")
-  }
+  abort("Cannot find an available port")
 }
 
 parse_class <- function(x) {
@@ -83,7 +77,7 @@ rel_path <- function(path, base = getwd()) {
 parse_url <- function(url) {
   res <- regexpr("^(?<protocol>https?)://(?<host>[^:/]+)(:(?<port>\\d+))?(?<path>/.*)?$", url, perl = TRUE)
 
-  if (res == -1) stop(url, " is not a valid URL.")
+  if (res == -1) abort(paste0(url, " is not a valid URL."))
 
   start  <- attr(res, "capture.start",  exact = TRUE)[1, ]
   length <- attr(res, "capture.length", exact = TRUE)[1, ]
@@ -142,7 +136,7 @@ app_path <- function(path) {
     }
   }
 
-  stop(path, " must be a directory containing app.R, server.R, or index.Rmd; or path to a .Rmd file (including the filename).")
+  abort(paste0(path, " must be a directory containing app.R, server.R, or index.Rmd; or path to a .Rmd file (including the filename)."))
 }
 
 

@@ -17,7 +17,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 {
 
   if (xor(assertthat::is.dir(old), assertthat::is.dir(new))) {
-      stop("`old` and `new` must both be directories, or character vectors of filenames.")
+      abort("`old` and `new` must both be directories, or character vectors of filenames.")
   }
 
   # If `old` or `new` are directories, get a list of filenames from both directories

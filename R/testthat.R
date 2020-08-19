@@ -13,7 +13,7 @@
 #' @export
 expect_pass <- function(object, info = NULL) {
   if (!inherits(object, "shinytest.results")) {
-    stop("expect_pass() requires results from shinytest::testApp()", call. = FALSE)
+    abort("expect_pass() requires results from shinytest::testApp()")
   }
 
   pass_idx <- vapply(object$results, `[[`, "pass", FUN.VALUE = FALSE)

@@ -57,7 +57,7 @@ Widget <- R6Class(
           htmlOutput = private$element$executeScript("return $(arguments[0]).html();"),
           verbatimTextOutput = private$element$getText(),
           textOutput = private$element$getText(),
-          stop("getValue is not implemented for ", private$type)
+          abort(paste0("getValue is not implemented for ", private$type))
         )
       }
 
@@ -78,7 +78,7 @@ Widget <- R6Class(
     setValue = function(value) {
       "!DEBUG widget_setValue `private$name`"
       if (private$iotype == "output") {
-        stop("Cannot set values of output widgets")
+        abort("Cannot set values of output widgets")
       }
 
       # Preprocess value
@@ -119,7 +119,7 @@ Widget <- R6Class(
     #'  It fails for other types of widgets.
     listTabs = function() {
       if (private$type != "tabsetPanel") {
-        stop("'listTabs' only works for 'tabsetPanel' Widgets")
+        abort("'listTabs' only works for 'tabsetPanel' Widgets")
       }
       tabs <- private$element$findElements("li a")
       vapply(tabs, function(t) t$getData("value"), "")

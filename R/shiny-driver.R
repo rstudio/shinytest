@@ -507,11 +507,11 @@ sd_waitForValue <- function(self, private, name, ignore = list(NULL, ""), iotype
 
   timeoutSec <- as.numeric(timeout) / 1000
   if (!is.numeric(timeoutSec) || is.na(timeoutSec) || is.nan(timeoutSec)) {
-    stop("timeout must be numeric")
+    abort("timeout must be numeric")
   }
   checkInterval <- as.numeric(checkInterval)
   if (!is.numeric(checkInterval) || is.na(checkInterval) || is.nan(checkInterval)) {
-    stop("checkInterval must be numeric")
+    abort("checkInterval must be numeric")
   }
 
   now <- function() {
@@ -541,7 +541,7 @@ sd_waitForValue <- function(self, private, name, ignore = list(NULL, ""), iotype
 
     # if too much time has elapsed... throw
     if (now() > endTime) {
-      stop("timeout reached when waiting for value: ", name)
+      abort(paste0("timeout reached when waiting for value: ", name))
     }
 
     # wait a little bit for shiny to do some work

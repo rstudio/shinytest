@@ -27,7 +27,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     url <- app$getUrl()
   } else if (is.character(app)) {
     if (grepl("^http(s?)://", app)) {
-      stop("Recording tests for remote apps is not yet supported.")
+      abort("Recording tests for remote apps is not yet supported.")
     } else {
       app <- app_path(app)
 
@@ -35,7 +35,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
         # If it's an Rmd file, make sure there aren't multiple Rmds in that
         # directory.
         if (length(dir(dirname(app), pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
-          stop("For testing, only one .Rmd file is allowed per directory.")
+          abort("For testing, only one .Rmd file is allowed per directory.")
         }
 
         # Rmds need a random seed. Automatically create one if needed.
@@ -53,9 +53,9 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
       url <- app$getUrl()
     }
   } else if (inherits(app, "shiny.appobj")) {
-    stop("Recording tests for shiny.appobj objects is not supported.")
+    abort("Recording tests for shiny.appobj objects is not supported.")
   } else {
-    stop("Unknown object type to record tests for.")
+    abort("Unknown object type to record tests for.")
   }
 
   # Create directory if needed
@@ -149,7 +149,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 #' @keywords internal
 registerInputProcessor <- function(inputType, processor) {
   if (!is.function(processor) || !identical(names(formals(processor)), "value")) {
-    stop("`processor` must be a function that takes one parameter, `value`")
+    abort("`processor` must be a function that takes one parameter, `value`")
   }
   recorder_input_processors[[inputType]] <- processor
 }

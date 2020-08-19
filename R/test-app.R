@@ -45,17 +45,14 @@ testApp <- function(
     app_filename <- basename(appDir)
     appDir       <- dirname(appDir)
     if (length(dir(appDir, pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
-      stop("For testing, only one .Rmd file is allowed per directory.")
+      abort("For testing, only one .Rmd file is allowed per directory.")
     }
   } else {
     rmds <- dir(appDir, pattern = "\\.Rmd$")
     if (length(rmds) == 1) {
       app_filename <- rmds
     } else {
-      stop(
-        "`appDir` doesn't contain 'app.R', 'server.R', or exactly one '.Rmd'",
-        call. = FALSE
-      )
+      abort("`appDir` doesn't contain 'app.R', 'server.R', or exactly one '.Rmd'")
     }
   }
 
@@ -64,7 +61,7 @@ testApp <- function(
   found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
 
   if (length(found_testnames) == 0) {
-    stop("No test scripts found in ", testsDir)
+    abort("No test scripts found in ", testsDir)
   }
 
   # Run all the test scripts.
@@ -138,7 +135,7 @@ findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
 
   testsDir <- file.path(appDir, "tests")
   if (!dir_exists(testsDir) && mustExist) {
-    stop("tests/ directory doesn't exist")
+    abort("tests/ directory doesn't exist")
   } else if (!dir_exists(testsDir) && !mustExist) {
     # Use the preferred directory if nothing exists yet.
     return(file.path(testsDir, "shinytest"))
@@ -178,7 +175,7 @@ findTestsDir <- function(appDir, mustExist=TRUE, quiet=TRUE) {
   }
 
   if (!all(is_test)) {
-    stop("Found R files that don't appear to be shinytests in the tests/ directory. shinytests should be placed in tests/shinytest/")
+    abort("Found R files that don't appear to be shinytests in the tests/ directory. shinytests should be placed in tests/shinytest/")
   }
 
   if (!quiet) {
@@ -212,9 +209,7 @@ findTests <- function(testsDir, testnames=NULL) {
     idx <- match(testnames_no_ext, found_testnames_no_ext)
 
     if (any(is.na(idx))) {
-      stop("Test scripts do not exist: ",
-        paste0(testnames[is.na(idx)], collapse =", ")
-      )
+      abort(c("Test scripts do not exist:", testnames[is.na(idx)]))
     }
 
     # Keep only specified files
@@ -242,9 +237,9 @@ validate_testname <- function(testDir, testname) {
   valid_testnames <- all_testnames(testDir)
 
   if (is.null(testname) || !(testname %in% valid_testnames)) {
-    stop('"', testname, '" ',
-      'is not a valid testname for the app. Valid names are: "',
-      paste(valid_testnames, collapse = '", "'), '".'
-    )
+    abort(c(
+      paste0('"', testname, '" is not a valid testname for the app.'),
+      paste0('Valid names are: "', paste(valid_testnames, collapse = '", "'), '".')
+    ))
   }
 }
