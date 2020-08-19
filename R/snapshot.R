@@ -150,6 +150,7 @@ sd_getTestSnapshotUrl = function(self, private, input, output, export,
 #'
 #' @seealso [testApp()]
 #'
+#' @keywords internal
 #' @export
 snapshotCompare <- function(
   appDir,

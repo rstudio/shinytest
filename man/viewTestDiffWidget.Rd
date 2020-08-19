@@ -18,3 +18,4 @@ example, if the suffix is \code{"mac"}, the expected directory would be
 \description{
 Interactive viewer widget for changes in test results
 }
+\keyword{internal}

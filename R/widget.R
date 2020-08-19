@@ -1,6 +1,8 @@
 #' A Shiny Widget
 #'
-#' A `Widget` object represents a Shiny input or output control.
+#' @description
+#' A `Widget` object represents a Shiny input or output control, and provides
+#' methods for finer grained interaction.
 #'
 #' @importFrom R6 R6Class
 Widget <- R6Class(
@@ -42,13 +44,60 @@ Widget <- R6Class(
     isOutput = function() private$iotype == "output",
 
     #' @description Get current value of control.
-    getValue = function()
-      widget_getValue(self, private),
+    getValue = function(){
+      "!DEBUG widget_getValue `private$name`"
+
+      if (private$iotype == "input") {
+        res <- private$element$executeScript(
+          "var el = $(arguments[0]);
+           return el.data('shinyInputBinding').getValue(el[0]);"
+        )
+      } else {
+        res <- switch(private$type,
+          htmlOutput = private$element$executeScript("return $(arguments[0]).html();"),
+          verbatimTextOutput = private$element$getText(),
+          textOutput = private$element$getText(),
+          stop("getValue is not implemented for ", private$type)
+        )
+      }
+
+      # Post-process, if needed
+      res <- switch(private$type,
+        checkboxGroupInput = as.character(unlist(res)),
+        dateInput = as.Date(res),
+        dateRangeInput = as.Date(unlist(res)),
+        sliderInput = as.numeric(unlist(res)),
+        res
+      )
+
+      res
+    },
 
     #' @description Set value of control.
     #' @param value Value to set for the widget.
-    setValue = function(value)
-      widget_setValue(self, private, value),
+    setValue = function(value) {
+      "!DEBUG widget_setValue `private$name`"
+      if (private$iotype == "output") {
+        stop("Cannot set values of output widgets")
+      }
+
+      # Preprocess value
+      value <- switch(private$type,
+        dateRangeInput = list(start = value[1], end = value[2]),
+        radioButtons = if (!is.null(value)) as.character(value),
+        value
+      )
+
+      setValueScript <-"
+        var el = $(arguments[0]);
+        var val = arguments[1];
+        el.data('shinyInputBinding').setValue(el[0], val);
+        el.trigger('change');
+      "
+      private$element$executeScript(setValueScript, value)
+
+      invisible(self)
+    },
 
     #' @description scrolls the element into view, then clicks the in-view
     #'   centre point of it.

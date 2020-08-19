@@ -4,12 +4,8 @@
 \alias{Widget}
 \title{A Shiny Widget}
 \description{
-A Shiny Widget
-
-A Shiny Widget
-}
-\details{
-A \code{Widget} object represents a Shiny input or output control.
+A \code{Widget} object represents a Shiny input or output control, and provides
+methods for finer grained interaction.
 }
 \section{Methods}{
 \subsection{Public methods}{

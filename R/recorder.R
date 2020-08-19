@@ -146,6 +146,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 #'   `"mypkg.numberinput"`.
 #' @param processor An input processor function.
 #' @export
+#' @keywords internal
 registerInputProcessor <- function(inputType, processor) {
   if (!is.function(processor) || !identical(names(formals(processor)), "value")) {
     stop("`processor` must be a function that takes one parameter, `value`")

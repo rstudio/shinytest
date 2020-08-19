@@ -23,3 +23,4 @@ the test recorder. The input processor function should take one parameter,
 \code{getInputProcessors()} returns a named list of all registered input processor
 functions.
 }
+\keyword{internal}
