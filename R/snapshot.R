@@ -223,12 +223,12 @@ snapshotCompareSingle <- function(
   if (dir_exists(expected_dir)) {
 
     if (images) {
-      filter_fun <- NULL
+      file_preprocess <- NULL
     } else {
-      filter_fun <- remove_image_hashes_json
+      file_preprocess <- remove_image_hashes_json
     }
 
-    res <- dirs_differ(expected_dir, current_dir, filter_fun)
+    res <- dirs_differ(expected_dir, current_dir, file_preprocess = file_preprocess)
 
     if (!images) {
       res <- res[!grepl(".*\\.png$", res$name), ]

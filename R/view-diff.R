@@ -232,12 +232,12 @@ textTestDiffSingle <- function(
   }
 
   if (images) {
-    filter_fun <- NULL
+    file_preprocess <- NULL
   } else {
     # If we're not using images, then delete PNG files and remove the
     # hashes from JSON.
-    filter_fun <- remove_image_hashes_and_files
+    file_preprocess <- remove_image_hashes_and_files
   }
 
-  diff_files(expected_dir, current_dir, filter_fun)
+  diff_files(expected_dir, current_dir, file_preprocess = file_preprocess)
 }
