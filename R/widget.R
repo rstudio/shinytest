@@ -1,6 +1,8 @@
 #' A Shiny Widget
 #'
-#' A `Widget` object represents a Shiny input or output control.
+#' @description
+#' A `Widget` object represents a Shiny input or output control, and provides
+#' methods for finer grained interaction.
 #'
 #' @importFrom R6 R6Class
 Widget <- R6Class(
