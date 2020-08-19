@@ -37,3 +37,11 @@ test_that("window size", {
     list(width = 1200L, height = 800L)
   )
 })
+
+test_that("useful error message if app terminated", {
+  skip_on_os("windows") # errors with "Empty reply from server"
+
+  app <- ShinyDriver$new(test_path("apps/stopApp"))
+  app$findWidget("quit")$click()
+  expect_error(app$getAllValues(), "no longer running")
+})
