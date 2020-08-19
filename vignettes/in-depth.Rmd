@@ -269,6 +269,32 @@ app <- ShinyDriver$new("path/to/app")
 
 The rest of the test script can be run unchanged.
 
+## Debugging app issues
+
+IF you need to debug an issue in the application that is triggered by a test
+script, you can start the shiny app in one R session, and then run the test
+script in another R session by providing the URL to the ShinyDriver constructor.
+
+For example:
+
+In one R session, set breakpoints and then launch the app it on a
+specific port:
+```{r}
+shiny::runApp(".", port=4040)
+```
+
+Modify the ShinyDriver instantiation in the test script to provide the host and port in the `url` parameter :
+```{r}
+...
+client <- ShinyDriver$new(test_path("apps/outputs"),
+                            url = "http://localhost:4040"
+                            )
+...
+```
+
+You can now single-step through the test script in a new R session and see it's 
+effect on the app in the first session.
+
 
 ### Screenshots
 
