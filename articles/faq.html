@@ -127,9 +127,11 @@
 <h2 class="hasAnchor">
 <a href="#how-can-my-app-detect-if-its-running-in-shinytest" class="anchor"></a>How can my app detect if it’s running in shinytest?</h2>
 <p>Sometimes it can be useful to alter the behavior of your application when it’s being tested. To detect when it’s being tested, you can use <code><a href="https://rdrr.io/r/base/Logic.html">isTRUE(getOption("shiny.testmode"))</a></code>, as in:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/Logic.html">isTRUE</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/options.html">getOption</a></span>(<span class="st">"shiny.testmode"</span>))) {
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/Logic.html">isTRUE</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/options.html">getOption</a></span>(<span class="st">"shiny.testmode"</span>))) {
    <span class="co"># Do something special here</span>
-}</pre></body></html></div>
+}
+</pre></div>
 </div>
 <div id="can-i-modify-the-output-and-input-values-that-are-recorded-in-snapshots" class="section level2">
 <h2 class="hasAnchor">
@@ -139,21 +141,23 @@
 <p>To add an output preprocessor, use <code><a href="https://shiny.rstudio.com/reference/shiny/latest/snapshotPreprocessOutput.html">shiny::snapshotPreprocessOutput()</a></code> to modify an output renderer. For example, see <a href="https://github.com/rstudio/shiny/blob/81cc7c5/R/shinywrappers.R#L656-L663">this section</a> of the <code>renderDataTable()</code> function. It takes the object that <em>would be</em> returned by <code>renderDataTable()</code>, and modifies it by adding an output preprocessor which removes strings that contain random values.</p>
 <p>For some outputs (notably htmlwidgets), the output value is text string containing JSON, and if you want to modify the JSON, you will have to either (1) do text processing on the JSON, or (2) convert the JSON to an R object, modify the R object, and convert the R object back to JSON. The plotly R package uses this method in <a href="https://github.com/ropensci/plotly/blob/2eef4ab/R/shiny.R#L46-L53"><code>renderPlotly()</code></a>.</p>
 <p>The examples above modify the output renderer from inside the output renderer function, and this would have to be done by the author of the component. It is also possible for an application author to modify a renderer with something like the following:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu">shinyApp</span>(
-  <span class="kw">ui</span> <span class="kw">=</span> <span class="fu">fluidPage</span>(
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu">shinyApp</span>(
+  ui = <span class="fu">fluidPage</span>(
     <span class="fu">verbatimTextOutput</span>(<span class="st">"random"</span>)
   ),
-  <span class="kw">server</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>, <span class="no">session</span>) {
-    <span class="no">output</span>$<span class="no">random</span> <span class="kw">&lt;-</span> <span class="fu">snapshotPreprocessOutput</span>(
+  server = <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">output</span>, <span class="kw">session</span>) {
+    <span class="kw">output</span><span class="op">$</span><span class="kw">random</span> <span class="op">&lt;-</span> <span class="fu">snapshotPreprocessOutput</span>(
       <span class="fu">renderText</span>({
         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"This is a random number:"</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">1</span>))
       }),
-      <span class="kw">function</span>(<span class="no">value</span>) {
-        <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span>(<span class="st">"[0-9.]+$"</span>, <span class="st">"&lt;a random number&gt;"</span>, <span class="no">value</span>)
+      <span class="fu">function</span>(<span class="kw">value</span>) {
+        <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span>(<span class="st">"[0-9.]+$"</span>, <span class="st">"&lt;a random number&gt;"</span>, <span class="kw">value</span>)
       }
     )
   }
-)</pre></body></html></div>
+)
+</pre></div>
 <p>The output in the JSON snapshot will be:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="er">"output":</span> <span class="fu">{</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="dt">"random"</span><span class="fu">:</span> <span class="st">"This is a random number: &lt;a random number&gt;"</span></span>
@@ -178,7 +182,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

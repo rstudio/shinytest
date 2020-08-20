@@ -149,8 +149,8 @@
 </h1>
 <ul>
 <li><p><code>ShinyDriver$intialize()</code> gains a <code>renderArgs</code> method which is passed along to <code><a href="https://rdrr.io/pkg/rmarkdown/man/run.html">rmarkdown::run()</a></code> for interactive Rmds (<a href='https://github.com/rstudio/shinytest/issues/249'>#249</a>); this makes it possible to set parameters for parameterised reports.</p></li>
-<li><p><code>ShinyDriver$getAllValues()</code>, <code>ShinyDriver$snapshot()</code>, and <code>ShinyDriver$snapshotDownload()</code> give clear errors messages if the Shiny app is no longer running (e.g. because you’ve trigged a <code>stopApp()</code>) (<a href='https://github.com/rstudio/shinytest/issues/192'>#192</a>).</p></li>
-<li><p><code>ShinyDriver$snapshotDownload()</code> gives a clear error message if the <code>fileInput()</code> does not exist (<a href='https://github.com/rstudio/shinytest/issues/191'>#191</a>)</p></li>
+<li><p><code>ShinyDriver$getAllValues()</code>, <code>ShinyDriver$snapshot()</code>, and <code>ShinyDriver$snapshotDownload()</code> give clear errors messages if the Shiny app is no longer running (e.g. because you’ve trigged a <code><a href="https://shiny.rstudio.com/reference/shiny/latest/stopApp.html">stopApp()</a></code>) (<a href='https://github.com/rstudio/shinytest/issues/192'>#192</a>).</p></li>
+<li><p><code>ShinyDriver$snapshotDownload()</code> gives a clear error message if the <code><a href="https://shiny.rstudio.com/reference/shiny/latest/fileInput.html">fileInput()</a></code> does not exist (<a href='https://github.com/rstudio/shinytest/issues/191'>#191</a>)</p></li>
 <li><p>New <code>Widget$click()</code> method to click buttons (<a href='https://github.com/rstudio/shinytest/issues/325'>#325</a>).</p></li>
 <li><p>New <code>ShinyDriver$waitForShiny()</code> that waits until Shiny is done computing on the reactive graph (<a href='https://github.com/rstudio/shinytest/issues/327'>#327</a>).</p></li>
 <li><p><code><a href="../reference/testApp.html">testApp()</a></code> can now take a path to a directory containing a single interactive <code>.Rmd</code> (<a href='https://github.com/rstudio/shinytest/issues/334'>#334</a>).</p></li>
@@ -224,7 +224,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

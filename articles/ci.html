@@ -203,15 +203,17 @@
 <a href="#run_tests-r" class="anchor"></a><code>run_tests.R</code>
 </h3>
 <p>The <code>run_tests.R</code> script should look like this. It simply runs the tests for the app, and if the tests fail, it raises error (so that Travis knows the test failed) and outputs logging information:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">testthat</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shinytest</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://testthat.r-lib.org">testthat</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/rstudio/shinytest">shinytest</a></span>)
 
 <span class="fu"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"Application works"</span>, {
   <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span>
   <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span>
   <span class="co"># which runs on Linux.</span>
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"."</span>, <span class="kw">compareImages</span> <span class="kw">=</span> <span class="fl">FALSE</span>))
-})</pre></body></html></div>
+  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"."</span>, compareImages = <span class="fl">FALSE</span>))
+})
+</pre></div>
 <p>Notice the use of <code>compareImages=FALSE</code>. When the expected results are generated on one platform (like Mac or Windows) and then tested on another (Travis uses Linux), this option is needed to avoid spurious test failures. This is because R’s plot rendering engine generates slightly different results across platforms, and also because the headless browser generates slightly different results across platforms. When this option is used, the test will only compare the JSON representation of application state, and not the screenshots or plots.</p>
 <p>If you develop on Linux and create the expected test results on Linux, then you should be able to leave out the <code>compareImages</code> argument; it defaults to <code>TRUE</code>.</p>
 </div>
@@ -221,7 +223,9 @@
 </h3>
 <p>This file contains a list of packages used by your application, and the version of each package that you currently have installed on your system. It is the same mechanism that is used by shinyapps.io and RStudio Connect. This file ensures that Travis will use the same versions of packages that you are using locally.</p>
 <p>To create the <code>packrat/packrat.lock</code> file, run:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="kw pkg">packrat</span><span class="kw ns">::</span><span class="fu">.snapshotImpl</span>(<span class="st">"."</span>, <span class="kw">snapshot.sources</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">packrat</span>::<span class="fu">.snapshotImpl</span>(<span class="st">"."</span>, snapshot.sources = <span class="fl">FALSE</span>)
+</pre></div>
 <p>NOTE: Future versions of packrat (0.4.8-15 and higher) will be able to use use <code>snapshot(snapshot.sources=FALSE)</code> instead of <code>.snapshotImpl</code>.</p>
 <p><strong>Whenever you update packages on your development machine, you should run this command again to make sure the packages used on Travis stay in sync.</strong></p>
 <p>An alternative to using packrat is to create a DESCRIPTION file. This will not lock package versions; instead, it will use the latest version of each package from CRAN.</p>
@@ -272,13 +276,15 @@
 <a href="#run_tests-r-1" class="anchor"></a><code>run_tests.R</code>
 </h3>
 <p>The <code>run_tests.R</code> script should test each application in the respective directory, instead of testing just one application in the current directory.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">testthat</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shinytest</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://testthat.r-lib.org">testthat</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/rstudio/shinytest">shinytest</a></span>)
 
 <span class="fu"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"Application works"</span>, {
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"01_hello"</span>, <span class="kw">compareImages</span> <span class="kw">=</span> <span class="fl">FALSE</span>))
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"06_tabsets"</span>, <span class="kw">compareImages</span> <span class="kw">=</span> <span class="fl">FALSE</span>))
-})</pre></body></html></div>
+  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"01_hello"</span>, compareImages = <span class="fl">FALSE</span>))
+  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"06_tabsets"</span>, compareImages = <span class="fl">FALSE</span>))
+})
+</pre></div>
 </div>
 </div>
 <div id="testing-applications-in-a-package" class="section level2">
@@ -338,7 +344,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

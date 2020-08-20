@@ -132,21 +132,23 @@
     └── testthat.R</code></pre>
 <p>In this case, you can run <code><a href="../reference/recordTest.html">recordTest()</a></code> and <code><a href="../reference/testApp.html">testApp()</a></code> as normal. After you create and run the tests, there will be a tests/ subdirectory in the application directory that stores the test scripts and results.</p>
 <p>Assuming you are using testthat for automated tests, you would create a test driver script in tests/testthat/. In this example, it’s named test-app-file.R and contains the following:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu">context</span>(<span class="st">"app-file"</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://testthat.r-lib.org/reference/context.html">context</a></span>(<span class="st">"app-file"</span>)
 <span class="co"># This file is for testing the applications in the inst/ directory.</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shinytest</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/rstudio/shinytest">shinytest</a></span>)
 
-<span class="fu">test_that</span>(<span class="st">"sampleapp works"</span>, {
+<span class="fu"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"sampleapp works"</span>, {
   <span class="co"># Don't run these tests on the CRAN build servers</span>
-  <span class="fu">skip_on_cran</span>()
+  <span class="fu"><a href="https://testthat.r-lib.org/reference/skip.html">skip_on_cran</a></span>()
 
   <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span>
   <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span>
   <span class="co"># which runs on Linux.</span>
-  <span class="no">appdir</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="kw">package</span> <span class="kw">=</span> <span class="st">"shinytestPackageExample"</span>, <span class="st">"sampleapp"</span>)
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="no">appdir</span>, <span class="kw">compareImages</span> <span class="kw">=</span> <span class="fl">FALSE</span>))
-})</pre></body></html></div>
+  <span class="kw">appdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(package = <span class="st">"shinytestPackageExample"</span>, <span class="st">"sampleapp"</span>)
+  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="kw">appdir</span>, compareImages = <span class="fl">FALSE</span>))
+})
+</pre></div>
 <p>For more information about this script, see the <a href="#Test-driver-script-notes">Test driver script notes</a> section below.</p>
 </div>
 <div id="application-objects-created-by-functions" class="section level2">
@@ -167,41 +169,47 @@
     |   |     └── app.R
     │   └── test-app-function.R
     └── testthat.R</code></pre>
-<p>The function simply returns an object from <code>shinyApp()</code>:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">helloWorldApp</span> <span class="kw">&lt;-</span> <span class="kw">function</span>() {
-  <span class="kw pkg">utils</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">cars</span>)
-  <span class="fu">shinyApp</span>(
-    <span class="kw">ui</span> <span class="kw">=</span> <span class="fu">fluidPage</span>(
-      <span class="fu">sliderInput</span>(<span class="st">"n"</span>, <span class="st">"n"</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">cars</span>), <span class="fl">10</span>),
-      <span class="fu">plotOutput</span>(<span class="st">"plot"</span>)
+<p>The function simply returns an object from <code><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp()</a></code>:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">helloWorldApp</span> <span class="op">&lt;-</span> <span class="fu">function</span>() {
+  <span class="kw">utils</span>::<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">cars</span>)
+  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(
+    ui = <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
+      <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html">sliderInput</a></span>(<span class="st">"n"</span>, <span class="st">"n"</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">cars</span>), <span class="fl">10</span>),
+      <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/plotOutput.html">plotOutput</a></span>(<span class="st">"plot"</span>)
     ),
-    <span class="kw">server</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>) {
-      <span class="no">output</span>$<span class="no">plot</span> <span class="kw">&lt;-</span> <span class="fu">renderPlot</span>({
-        <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cars</span>, <span class="no">input</span>$<span class="no">n</span>), <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="no">cars</span><span class="kw">[[</span><span class="fl">1</span>]]), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="no">cars</span><span class="kw">[[</span><span class="fl">2</span>]]))
+    server = <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">output</span>) {
+      <span class="kw">output</span><span class="op">$</span><span class="kw">plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderPlot.html">renderPlot</a></span>({
+        <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">cars</span>, <span class="kw">input</span><span class="op">$</span><span class="kw">n</span>), xlim = <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="kw">cars</span>[[<span class="fl">1</span>]]), ylim = <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="kw">cars</span>[[<span class="fl">2</span>]]))
       })
     }
   )
-}</pre></body></html></div>
+}
+</pre></div>
 <p>To use shinytest to test the application, the key is to add an app.R file that simply calls the function, and then use shinytest on that app.R. You can see the example application. In this case, the application lives at tests/testthat/apps/helloworld/app.R, and contains the following:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shinytestPackageExample</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">shinytestPackageExample</span>)
 
-<span class="fu">helloWorldApp</span>()</pre></body></html></div>
+<span class="fu">helloWorldApp</span>()
+</pre></div>
 <p>You can call <code>recordApp()</code> and <code><a href="../reference/testApp.html">testApp()</a></code> on this application as normal to create the test script and expected results.</p>
 <p>Assuming you are using testthat for automated tests, you would then create a test driver script in tests/testthat/. In this example, it’s named test-app-function.R and contains the following:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">context</span>(<span class="st">"app-function"</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://testthat.r-lib.org/reference/context.html">context</a></span>(<span class="st">"app-function"</span>)
 <span class="co"># This file is for testing the applications in the apps/ directory.</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shinytest</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/rstudio/shinytest">shinytest</a></span>)
 
-<span class="fu">test_that</span>(<span class="st">"helloWorldApp() works"</span>, {
+<span class="fu"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"helloWorldApp() works"</span>, {
   <span class="co"># Don't run these tests on the CRAN build servers</span>
-  <span class="fu">skip_on_cran</span>()
+  <span class="fu"><a href="https://testthat.r-lib.org/reference/skip.html">skip_on_cran</a></span>()
 
   <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span>
   <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span>
   <span class="co"># which runs on Linux.</span>
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, <span class="kw">compareImages</span> <span class="kw">=</span> <span class="fl">FALSE</span>))
-})</pre></body></html></div>
+  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, compareImages = <span class="fl">FALSE</span>))
+})
+</pre></div>
 <p>For more information about this script, see the <a href="#Test-driver-script-notes">Test driver script notes</a> section below.</p>
 </div>
 <div id="other-setup-steps" class="section level2">
@@ -217,22 +225,24 @@
 <h2 class="hasAnchor">
 <a href="#test-driver-script-notes" class="anchor"></a>Test driver script notes</h2>
 <p>Here is one of the test driver scripts (which lives in tests/testthat/) from above:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu">context</span>(<span class="st">"app-function"</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="https://testthat.r-lib.org/reference/context.html">context</a></span>(<span class="st">"app-function"</span>)
 <span class="co"># This file is for testing the applications in the apps/ directory.</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shinytest</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/rstudio/shinytest">shinytest</a></span>)
 
-<span class="fu">test_that</span>(<span class="st">"helloWorldApp() works"</span>, {
+<span class="fu"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"helloWorldApp() works"</span>, {
   <span class="co"># Don't run these tests on the CRAN build servers</span>
-  <span class="fu">skip_on_cran</span>()
+  <span class="fu"><a href="https://testthat.r-lib.org/reference/skip.html">skip_on_cran</a></span>()
 
   <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span>
   <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span>
   <span class="co"># which runs on Linux.</span>
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, <span class="kw">compareImages</span> <span class="kw">=</span> <span class="fl">FALSE</span>))
-})</pre></body></html></div>
+  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span>(<span class="fu"><a href="../reference/testApp.html">testApp</a></span>(<span class="st">"apps/helloworld/"</span>, compareImages = <span class="fl">FALSE</span>))
+})
+</pre></div>
 <p>It has a few unusual features:</p>
-<p>If you will submit the package to CRAN, it is best to configure the application tests to <strong>not</strong> run on the CRAN build servers. If you are using testthat, use <code>skip_on_cran()</code> in the test block, as in the example.</p>
+<p>If you will submit the package to CRAN, it is best to configure the application tests to <strong>not</strong> run on the CRAN build servers. If you are using testthat, use <code><a href="https://testthat.r-lib.org/reference/skip.html">skip_on_cran()</a></code> in the test block, as in the example.</p>
 <p>If you will be testing the package on multiple different platforms, then when calling <code><a href="../reference/testApp.html">testApp()</a></code>, use <code>compareImages = FALSE</code>. This is because the the screenshots on will likely have small differences across different platforms, and result in spurious test failures.</p>
 <p>You may have noticed the <code><a href="../reference/expect_pass.html">expect_pass()</a></code> function, which is from the shinytest package (instead of most <code>expect_</code> functions, which are from the testthat package).</p>
 </div>
@@ -258,7 +268,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

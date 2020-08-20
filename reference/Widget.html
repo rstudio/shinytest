@@ -176,11 +176,11 @@ methods for finer grained interaction.</p>
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Create new <code>Widget</code></p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>new</span>(<span class='no'>name</span>, <span class='no'>element</span>, <span class='no'>type</span>, <span class='kw'>iotype</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"input"</span>, <span class='st'>"output"</span>))</pre><p></div></p>
+<p>Create new <code>Widget</code></p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>name</span>, <span class='kw'>element</span>, <span class='kw'>type</span>, iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"input"</span>, <span class='st'>"output"</span>))</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>name</code></dt><dd><p>Name of a Shiny widget.</p></dd>
 
 <dt><code>element</code></dt><dd><p><a href='https://rdrr.io/pkg/webdriver/man/Element.html'>webdriver::Element</a></p></dd>
@@ -193,64 +193,64 @@ methods for finer grained interaction.</p>
 <p><hr>
 <a id="method-getName"></a></p><h3>Method <code>getName()</code></h3>
 <p>Control id (i.e. <code>inputId</code> or <code>outputId</code> that control
-was created with).</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>getName</span>()</pre><p></div></p>
+was created with).</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>getName</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-getElement"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/Extract.html'>getElement()</a></code></h3>
-<p>Underlying <code><a href='https://rdrr.io/pkg/webdriver/man/Element.html'>webdriver::Element()</a></code> object.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'><a href='https://rdrr.io/r/base/Extract.html'>getElement</a></span>()</pre><p></div></p>
+<p>Underlying <code><a href='https://rdrr.io/pkg/webdriver/man/Element.html'>webdriver::Element()</a></code> object.</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/Extract.html'>getElement</a></span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-getType"></a></p><h3>Method <code>getType()</code></h3>
-<p>Widget type, e.g. <code>textInput</code>, <code>selectInput</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>getType</span>()</pre><p></div></p>
+<p>Widget type, e.g. <code>textInput</code>, <code>selectInput</code>.</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>getType</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-getIoType"></a></p><h3>Method <code>getIoType()</code></h3>
-<p>Is this an input or output control?</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>getIoType</span>()</pre><p></div></p>
+<p>Is this an input or output control?</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>getIoType</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-isInput"></a></p><h3>Method <code>isInput()</code></h3>
-<p>Is this an input control?</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>isInput</span>()</pre><p></div></p>
+<p>Is this an input control?</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>isInput</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-isOutput"></a></p><h3>Method <code>isOutput()</code></h3>
-<p>Is this an output control?</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>isOutput</span>()</pre><p></div></p>
+<p>Is this an output control?</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>isOutput</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-getValue"></a></p><h3>Method <code>getValue()</code></h3>
-<p>Get current value of control.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>getValue</span>()</pre><p></div></p>
+<p>Get current value of control.</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>getValue</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-setValue"></a></p><h3>Method <code>setValue()</code></h3>
-<p>Set value of control.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>setValue</span>(<span class='no'>value</span>)</pre><p></div></p>
+<p>Set value of control.</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>setValue</span>(<span class='kw'>value</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>value</code></dt><dd><p>Value to set for the widget.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-click"></a></p><h3>Method <code>click()</code></h3>
 <p>scrolls the element into view, then clicks the in-view
-centre point of it.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>click</span>()</pre><p></div></p>
+centre point of it.</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>click</span>()</pre><p></div></p>
 
-<h3>Returns</h3>
+<h4>Returns</h4>
 <p>self, invisibly.</p>
 <p><hr>
 <a id="method-sendKeys"></a></p><h3>Method <code>sendKeys()</code></h3>
-<p>Send specified key presses to control.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>sendKeys</span>(<span class='no'>keys</span>)</pre><p></div></p>
+<p>Send specified key presses to control.</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>sendKeys</span>(<span class='kw'>keys</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>keys</code></dt><dd><p>Keys to send to the widget or the app. See <a href='https://rdrr.io/pkg/webdriver/man/key.html'>webdriver::key</a>
 for how to specific special keys.</p></dd>
 
@@ -258,27 +258,27 @@ for how to specific special keys.</p></dd>
 <p><hr>
 <a id="method-listTabs"></a></p><h3>Method <code>listTabs()</code></h3>
 <p>Lists the tab names of a <code><a href='https://shiny.rstudio.com/reference/shiny/latest/tabsetPanel.html'>shiny::tabsetPanel()</a></code>.
-It fails for other types of widgets.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>listTabs</span>()</pre><p></div></p>
+It fails for other types of widgets.</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>listTabs</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-uploadFile"></a></p><h3>Method <code>uploadFile()</code></h3>
 <p>Upload a file to a <code><a href='https://shiny.rstudio.com/reference/shiny/latest/fileInput.html'>shiny::fileInput()</a></code>.
-It fails for other types of widgets.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>uploadFile</span>(<span class='no'>filename</span>)</pre><p></div></p>
+It fails for other types of widgets.</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>uploadFile</span>(<span class='kw'>filename</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>filename</code></dt><dd><p>Path to file to upload</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Widget</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p>The objects of this class are cloneable with this method.</p><h4>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -300,7 +300,7 @@ It fails for other types of widgets.</p><h3>Usage</h3>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

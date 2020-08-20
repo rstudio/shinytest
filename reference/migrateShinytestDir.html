@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Migrate legacy <span class="pkg">shinytest</span> files to new test directory structure — migrateShinytestDir • shinytest</title>
+<title>Migrate legacy shinytest files to new test directory structure — migrateShinytestDir • shinytest</title>
 
 
 <!-- jquery -->
@@ -41,7 +41,7 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Migrate legacy <span class="pkg">shinytest</span> files to new test directory structure — migrateShinytestDir" />
+<meta property="og:title" content="Migrate legacy shinytest files to new test directory structure — migrateShinytestDir" />
 <meta property="og:description" content="This function migrates the old-style directory structure used by
 shinytest (versions 1.3.1 and below) to new test directory structure
 used in shinytest 1.4.0 and above." />
@@ -153,7 +153,7 @@ used in shinytest 1.4.0 and above." />
 used in shinytest 1.4.0 and above.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>migrateShinytestDir</span>(<span class='no'>appdir</span>, <span class='kw'>dryrun</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>migrateShinytestDir</span>(<span class='kw'>appdir</span>, dryrun = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,9 +177,10 @@ the tests are put in <code>tests/shinytest/</code>, so that it works with the
 <code>runTests()</code> function shiny package (added in <span class="pkg">shiny</span> 1.5.0).</p>
 <p>With <span class="pkg">shinytest</span> 1.3.1 and below, the tests/ subdirectory of the
 application was used specifically for <span class="pkg">shinytest</span>, and could not be used
-for other types of tests. So the directory structure would look like this:</p><pre><span class='no'>appdir</span>/
- <span class='no'>`- tests
-     `</span>- <span class='no'>mytest.R</span></pre>
+for other types of tests. So the directory structure would look like this:</p><pre><span class='kw'>appdir</span><span class='op'>/</span>
+ <span class='kw'>`- tests
+     `</span>sts
+     `<span class='op'>-</span> <span class='kw'>mytest.R</span></pre>
 
 <p>In Shiny 1.5.0, the <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runTests.html'>shiny::runTests()</a></code> function was added, and it will run
 test scripts tests/ subdirectory of the application. This makes it possible
@@ -218,7 +219,7 @@ structure.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
