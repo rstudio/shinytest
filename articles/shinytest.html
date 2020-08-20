@@ -113,9 +113,9 @@
 <a href="#why-test-shiny-applications" class="anchor"></a>Why test Shiny applications?</h2>
 <p>After you get your Shiny application to a state where it works, it’s often useful to have an automated system that checks that it continues to work as expected. There are many possible reasons for an application to stop working. These reasons include:</p>
 <ul>
-<li>An upgraded R package has different behavior. (This could include Shiny itself!)</li>
-<li>You make modifications to your application.</li>
-<li>An external data source stops working, or returns data in a changed format.</li>
+<li><p>An upgraded R package has different behavior. (This could include Shiny itself!)</p></li>
+<li><p>You make modifications to your application.</p></li>
+<li><p>An external data source stops working, or returns data in a changed format.</p></li>
 </ul>
 <p>One way to detect these problems is with manual testing – in other words, by having a person interact with the app in a browser – but this can be time-intensive, inconsistent, and imprecise. Having automated tests can alert you to these kinds of problems quickly and with almost zero effort, after the tests have been created.</p>
 </div>
@@ -137,13 +137,14 @@
 <a href="#recording-tests" class="anchor"></a>Recording tests</h3>
 <p>This is the general procedure for recording tests:</p>
 <ul>
-<li>Run <code><a href="../reference/recordTest.html">recordTest()</a></code> to launch the app in a test recorder.</li>
-<li>Create the tests by interacting with the application and telling the recorder to snapshot the state at various points.</li>
-<li>Quit the test recorder. When you do this, three things will happen:
+<li><p>Run <code><a href="../reference/recordTest.html">recordTest()</a></code> to launch the app in a test recorder.</p></li>
+<li><p>Create the tests by interacting with the application and telling the recorder to snapshot the state at various points.</p></li>
+<li>
+<p>Quit the test recorder. When you do this, three things will happen:</p>
 <ul>
-<li>The test script will be saved in a .R file in a subdirectory of the application named <code>tests/</code>.</li>
-<li>If you are running in the RStudio IDE, it will automatically open this file in the editor.</li>
-<li>The test script will be run, and the snapshots will be saved in a subdirectory of the <code>tests/</code> directory.</li>
+<li><p>The test script will be saved in a .R file in a subdirectory of the application named <code>tests/</code>.</p></li>
+<li><p>If you are running in the RStudio IDE, it will automatically open this file in the editor.</p></li>
+<li><p>The test script will be run, and the snapshots will be saved in a subdirectory of the <code>tests/</code> directory.</p></li>
 </ul>
 </li>
 </ul>
