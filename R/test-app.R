@@ -33,33 +33,10 @@ testApp <- function(
   suffix = NULL
 )
 {
-  library(shinytest)
+  path <- app_path(appDir, "appDir")
 
-  # appDir could be the path to an .Rmd file. If so, make it point to the actual
-  # directory.
-  if (is_app(appDir)) {
-    app_filename <- NULL
-    appDir       <- appDir
-  } else if (is_rmd(appDir)) {
-    # Fallback for old behaviour
-    app_filename <- basename(appDir)
-    appDir       <- dirname(appDir)
-    if (length(dir(appDir, pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
-      abort("For testing, only one .Rmd file is allowed per directory.")
-    }
-  } else {
-    rmds <- dir(appDir, pattern = "\\.Rmd$")
-    if (length(rmds) == 1) {
-      app_filename <- rmds
-    } else {
-      abort("`appDir` doesn't contain 'app.R', 'server.R', or exactly one '.Rmd'")
-    }
-  }
-
-  testsDir <- findTestsDir(appDir, quiet=FALSE)
+  testsDir <- findTestsDir(path$dir, quiet=FALSE)
   found_testnames <- findTests(testsDir, testnames)
-  found_testnames_no_ext <- sub("\\.[rR]$", "", found_testnames)
-
   if (length(found_testnames) == 0) {
     abort("No test scripts found in ", testsDir)
   }
@@ -80,27 +57,24 @@ testApp <- function(
     # in case they're using some of the same resources.
     gc()
 
-    env <- new.env(parent = .GlobalEnv)
     if (!quiet) {
       message(testname, " ", appendLF = FALSE)
     }
+    env <- new.env(parent = .GlobalEnv)
     source(testname, local = env)
   })
 
   gc()
-
   if (!quiet) message("")  # New line
 
   # Compare all results
-  return(
-    snapshotCompare(
-      appDir,
-      testnames = found_testnames_no_ext,
-      quiet = quiet,
-      images = compareImages,
-      interactive = interactive,
-      suffix = suffix
-    )
+  snapshotCompare(
+    path$dir,
+    testnames = sub("\\.[rR]$", "", found_testnames),
+    quiet = quiet,
+    images = compareImages,
+    interactive = interactive,
+    suffix = suffix
   )
 }
 
