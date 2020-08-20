@@ -361,7 +361,7 @@ ShinyDriver <- R6Class(
     #' @description Deprecated
     #' @param ... Ignored
     snapshotCompare = function(...) {
-      message("app$snapshotCompare() no longer used")
+      inform("app$snapshotCompare() no longer used")
     },
 
     #' @description

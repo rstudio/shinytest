@@ -127,10 +127,10 @@ viewTestDiff <- function(
       testnames <- all_testnames(testDir, "-current")
     }
 
-    message("Differences in current results found for: ", paste(testnames, collapse = " "))
+    inform(c("Differences in current results found for: ", testnames))
 
     results <- lapply(testnames, function(testname) {
-      message("Viewing diff for ", testname)
+      inform(paste0("Viewing diff for ", testname))
       viewTestDiffSingle(appDir, testname, suffix)
     })
 

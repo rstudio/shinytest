@@ -183,7 +183,7 @@ snapshotCompare <- function(
     relativeAppDir <- getOption("shinytest.app.dir", default = appDir)
 
     if (!all_pass) {
-      message('\nTo view a textual diff, run:\n  viewTestDiff("', relativeAppDir, '", interactive = FALSE)')
+      inform(paste0('\nTo view a textual diff, run:\n  viewTestDiff("', relativeAppDir, '", interactive = FALSE)'))
     }
   }
 

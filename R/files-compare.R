@@ -1,10 +1,10 @@
 files_identical <- function(a, b, preprocess = NULL) {
   if (!file.exists(a)) {
-    message("File ", a, " not found.")
+    inform(paste0("File ", a, " not found."))
     return(FALSE)
   }
   if (!file.exists(b)) {
-    message("File ", b, " not found.")
+    inform(message("File ", b, " not found."))
     return(FALSE)
   }
 

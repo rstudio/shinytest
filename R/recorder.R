@@ -107,13 +107,10 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 
   } else {
     if (length(res$dont_run_reasons) > 0) {
-      message(
-        "Not running test script because:\n  ",
-        paste(res$dont_run_reasons, collapse = "\n  "), "\n"
-      )
+      inform(c("Not running test script because", res$dont_run_reasons))
     }
 
-    message(sprintf(
+    inform(sprintf(
       'After making changes to the test script, run it with:\n  testApp("%s", "%s")',
       rel_path(res$appDir), res$file
     ))
