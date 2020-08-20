@@ -70,7 +70,8 @@ with a live app.
   phantomTimeout = 5000,
   seed = NULL,
   cleanLogs = TRUE,
-  shinyOptions = list()
+  shinyOptions = list(),
+  renderArgs = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -100,6 +101,8 @@ behavior repeatable.}
 Shiny process object is garbage collected.}
 
 \item{\code{shinyOptions}}{A list of options to pass to \code{\link[shiny:runApp]{shiny::runApp()}}.}
+
+\item{\code{renderArgs}}{Passed to \code{rmarkdown::run()} for interactive \code{.Rmd}s.}
 }
 \if{html}{\out{</div>}}
 }
