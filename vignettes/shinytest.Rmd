@@ -40,12 +40,10 @@ These interactions are saved in a .R file, and are run using the strategy descri
 
 ## Getting started
 
-**Shinytest** is in active development.
-To install it, run:
+Begin by installing shinytest from CRAN:
 
 ```{r}
-library(devtools)
-install_github("rstudio/shinytest")
+install.packages("shinytest")
 ```
 
 ### Recording tests
@@ -65,13 +63,17 @@ This is the general procedure for recording tests:
 
     -   The test script will be run, and the snapshots will be saved in a subdirectory of the `tests/` directory.
 
-To record tests, run the following:
+To record tests, we first need an app.
+Here is a simple app that I've placed in `simple-app/app.R`:
+
+```{r, code = readLines('simple-app/app.R')}
+```
+
+To test it, I now load shinytest, and call `recordTest()` with the path to my app:
 
 ```{r}
 library(shinytest)
-
-# Launch the target app (replace with the correct path)
-recordTest("path/to/app")
+recordTest("simple-app/")
 ```
 
 In a separate R process, this launches the Shiny application to be tested.
@@ -110,14 +112,13 @@ If you are in the RStudio IDE, it will open the test script in the `tests/` subd
 In this case, the name of the script is `mytest.R`:
 
 ```{r}
-app <- ShinyDriver$new("..")
+app <- ShinyDriver$new("../../")
 app$snapshotInit("mytest")
 
+app$setInputs(name = "Hadley")
+app$setInputs(greet = "click")
 app$snapshot()
-app$setInputs(checkGroup = c("1", "2"))
-app$setInputs(checkGroup = c("1", "2", "3"))
-app$setInputs(action = "click")
-app$snapshot()
+app$snapshot(list(output = "greeting"))
 ```
 
 ### Running tests
