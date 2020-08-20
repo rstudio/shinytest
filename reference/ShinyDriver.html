@@ -219,7 +219,8 @@ with a live app.</p>
   <span class='kw'>phantomTimeout</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>cleanLogs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>shinyOptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+  <span class='kw'>shinyOptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>renderArgs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -247,6 +248,8 @@ behavior repeatable.</p></dd>
 Shiny process object is garbage collected.</p></dd>
 
 <dt><code>shinyOptions</code></dt><dd><p>A list of options to pass to <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runApp.html'>shiny::runApp()</a></code>.</p></dd>
+
+<dt><code>renderArgs</code></dt><dd><p>Passed to <code><a href='https://rdrr.io/pkg/rmarkdown/man/run.html'>rmarkdown::run()</a></code> for interactive <code>.Rmd</code>s.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
