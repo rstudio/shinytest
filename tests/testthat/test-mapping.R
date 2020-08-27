@@ -1,6 +1,3 @@
-
-context("mapping")
-
 test_that("input widgets", {
 
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
@@ -17,7 +14,7 @@ test_that("input widgets", {
   expect_equal(app$findWidget("slider1")$getType(),    "sliderInput")
   expect_equal(app$findWidget("slider2")$getType(),    "sliderInput")
   expect_equal(app$findWidget("text")$getType(),       "textInput")
-  
+
 })
 
 test_that("output widgets with the same name", {

@@ -1,6 +1,3 @@
-
-context("ShinyDriver")
-
 test_that("able to initialize ShinyDriver", {
   #Very basic check to make sure that we can actually create a ShinyDriver
   expect_error(ShinyDriver$new(test_path("apps/081-widgets-gallery")), NA)

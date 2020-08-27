@@ -1,5 +1,3 @@
-context("utils")
-
 test_that("rel_path works", {
   # Basic tests
   expect_identical(rel_path("/a/b/c", "/a/b"), "c")
