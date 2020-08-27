@@ -148,6 +148,7 @@
 <a href="#shinytest-1409002" class="anchor"></a>shinytest 1.4.0.9002<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code>ShinyDriver$takeSnapshot()</code> gains ability to take a snapshot of a single element (<a href='https://github.com/rstudio/shinytest/issues/260'>#260</a>).</p></li>
 <li><p>New <code>Widget$getHtml()</code> returns the complete HTML of the selected widget (<a href='https://github.com/rstudio/shinytest/issues/347'>#347</a>).</p></li>
 <li><p><code>ShinyDriver$intialize()</code> gains a <code>renderArgs</code> method which is passed along to <code><a href="https://rdrr.io/pkg/rmarkdown/man/run.html">rmarkdown::run()</a></code> for interactive Rmds (<a href='https://github.com/rstudio/shinytest/issues/249'>#249</a>); this makes it possible to set parameters for parameterised reports.</p></li>
 <li><p><code>ShinyDriver$getAllValues()</code>, <code>ShinyDriver$snapshot()</code>, and <code>ShinyDriver$snapshotDownload()</code> give clear errors messages if the Shiny app is no longer running (e.g. because you’ve trigged a <code><a href="https://shiny.rstudio.com/reference/shiny/latest/stopApp.html">stopApp()</a></code>) (<a href='https://github.com/rstudio/shinytest/issues/192'>#192</a>).</p></li>
