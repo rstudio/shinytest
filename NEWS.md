@@ -4,6 +4,19 @@ shinytest 1.4.0.9002
 * `ShinyDriver$takeSnapshot()` gains ability to take a snapshot of a single
   element (#260).
 
+* `ShinyDriver$intialize()` gains a `renderArgs` method which is passed along
+  to `rmarkdown::run()` for interactive Rmds (#249); this makes it possible
+  to set parameters for parameterised reports.
+
+* `ShinyDriver$getAllValues()`, `ShinyDriver$snapshot()`, and
+  `ShinyDriver$snapshotDownload()` give clear errors messages if the Shiny
+  app is no longer running (e.g. because you've trigged a `stopApp()`) (#192).
+
+* `ShinyDriver$snapshotDownload()` gives a clear error message if the 
+  `fileInput()` does not exist (#191)
+
+* New `Widget$click()` method to click buttons (#325).
+
 * New `ShinyDriver$waitForShiny()` that waits until Shiny is done computing
   on the reactive graph (#327). 
 

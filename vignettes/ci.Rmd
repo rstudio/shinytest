@@ -11,10 +11,11 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Shinytest can be used not only when developing applications locally -- it can also be used with continuous integration (CI) platforms, such as [Travis](https://travis-ci.org/). If your project uses CI, then every commit of the project can be automatically tested on a CI server. This can help you detect problems quickly and automatically during development.
+Shinytest can be used not only when developing applications locally -- it can also be used with continuous integration (CI) platforms, such as [GitHub Actions](https://help.github.com/en/actions) or [Travis CI](https://travis-ci.org/). 
 
-This document explains how to use shinytest with GitHub and Travis CI in two use cases: with applications that stand alone (are not part of an R package), and with an application that are part of an R package.
+Our recommendation nowadays is to use Github Actions over Travis CI, especially if testing on Windows is important. To learn about Shiny testing with Github Actions, see <https://github.com/rstudio/shiny-testing-gha-example>. 
 
+The rest of this document explains how to use shinytest with GitHub and Travis CI in two use cases: with applications that stand alone (are not part of an R package), and with an application that are part of an R package.
 
 ## Overview
 

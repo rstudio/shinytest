@@ -4,12 +4,8 @@
 \alias{Widget}
 \title{A Shiny Widget}
 \description{
-A Shiny Widget
-
-A Shiny Widget
-}
-\details{
-A \code{Widget} object represents a Shiny input or output control.
+A \code{Widget} object represents a Shiny input or output control, and provides
+methods for finer grained interaction.
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -23,6 +19,7 @@ A \code{Widget} object represents a Shiny input or output control.
 \item \href{#method-isOutput}{\code{Widget$isOutput()}}
 \item \href{#method-getValue}{\code{Widget$getValue()}}
 \item \href{#method-setValue}{\code{Widget$setValue()}}
+\item \href{#method-click}{\code{Widget$click()}}
 \item \href{#method-sendKeys}{\code{Widget$sendKeys()}}
 \item \href{#method-listTabs}{\code{Widget$listTabs()}}
 \item \href{#method-uploadFile}{\code{Widget$uploadFile()}}
@@ -138,6 +135,20 @@ Set value of control.
 \item{\code{value}}{Value to set for the widget.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-click"></a>}}
+\if{latex}{\out{\hypertarget{method-click}{}}}
+\subsection{Method \code{click()}}{
+scrolls the element into view, then clicks the in-view
+centre point of it.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$click()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}

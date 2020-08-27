@@ -1,0 +1,10 @@
+---
+title: "Parameterised report"
+runtime: shiny
+params:
+   name: John
+---
+
+```{r}
+textInput("test", "Your name", value = params$name)
+```

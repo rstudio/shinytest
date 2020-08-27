@@ -29,23 +29,14 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     if (grepl("^http(s?)://", app)) {
       stop("Recording tests for remote apps is not yet supported.")
     } else {
-      app <- app_path(app)
+      path <- app_path(app, "app")$app
 
-      if (is_rmd(app)) {
-        # If it's an Rmd file, make sure there aren't multiple Rmds in that
-        # directory.
-        if (length(dir(dirname(app), pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
-          stop("For testing, only one .Rmd file is allowed per directory.")
-        }
-
-        # Rmds need a random seed. Automatically create one if needed.
-        if (is.null(seed)) {
-          seed <- floor(stats::runif(1, min = 0, max = 1e5))
-        }
+      # Rmds need a random seed
+      if (is_rmd(path) && is.null(seed)) {
+        seed <- floor(stats::runif(1, min = 0, max = 1e5))
       }
 
-      # It's a path to an app; start the app
-      app <- ShinyDriver$new(app, seed = seed, loadTimeout = loadTimeout, shinyOptions = shinyOptions)
+      app <- ShinyDriver$new(path, seed = seed, loadTimeout = loadTimeout, shinyOptions = shinyOptions)
       on.exit({
         rm(app)
         gc()
@@ -146,6 +137,7 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 #'   `"mypkg.numberinput"`.
 #' @param processor An input processor function.
 #' @export
+#' @keywords internal
 registerInputProcessor <- function(inputType, processor) {
   if (!is.function(processor) || !identical(names(formals(processor)), "value")) {
     stop("`processor` must be a function that takes one parameter, `value`")

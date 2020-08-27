@@ -32,3 +32,19 @@ test_that("window size", {
   app$setWindowSize(1200, 800)
   expect_identical(app$getWindowSize(), list(width = 1200L, height = 800L))
 })
+
+test_that("can change pass render_args to rmarkdown::run()", {
+  doc <- ShinyDriver$new(
+    test_path("apps/render-args/doc.Rmd"),
+    renderArgs = list(params = list(name = "Mary"))
+  )
+  expect_equal(doc$getValue("test"), "Mary")
+})
+
+test_that("useful error message if app terminated", {
+  skip_on_os("windows") # errors with "Empty reply from server"
+
+  app <- ShinyDriver$new(test_path("apps/stopApp"))
+  app$findWidget("quit")$click()
+  expect_error(app$getAllValues(), "no longer running")
+})

@@ -50,7 +50,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   # Take snapshot -------------------------------------------------------------
   self$logEvent("Taking snapshot")
   url <- private$getTestSnapshotUrl(items$input, items$output, items$export)
-  req <- httr::GET(url)
+  req <- httr_get(url)
 
   # For first snapshot, create -current snapshot dir.
   if (private$snapshotCount == 1) {
@@ -88,8 +88,10 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 
   # Find the URL to download from (the href of the <a> tag)
   url <- self$findElement(paste0("#", id))$getAttribute("href")
-
-  req <- httr::GET(url)
+  if (identical(url, "")) {
+    stop("Download from '#", id, "' failed")
+  }
+  req <- httr_get(url)
 
   # For first snapshot, create -current snapshot dir.
   if (private$snapshotCount == 1) {
@@ -148,6 +150,7 @@ sd_getTestSnapshotUrl = function(self, private, input, output, export,
 #'
 #' @seealso [testApp()]
 #'
+#' @keywords internal
 #' @export
 snapshotCompare <- function(
   appDir,

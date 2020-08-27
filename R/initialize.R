@@ -4,7 +4,7 @@
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
                           debug, phantomTimeout, seed, cleanLogs,
-                          shinyOptions) {
+                          shinyOptions, renderArgs) {
 
   private$cleanLogs <- cleanLogs
   if (is.null(loadTimeout)) {
@@ -27,7 +27,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   } else {
     "!DEBUG starting shiny app from path"
     self$logEvent("Starting Shiny app")
-    private$startShiny(path, seed, loadTimeout, shinyOptions)
+    private$startShiny(path, seed, loadTimeout, shinyOptions, renderArgs)
   }
 
   "!DEBUG create new phantomjs session"
@@ -89,7 +89,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) {
+sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions, renderArgs) {
 
   assert_that(is_string(path))
 
@@ -107,7 +107,7 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
   p <- with_envvar(
     c("R_TESTS" = NA),
     callr::r_bg(
-      function(path, shinyOptions, rmd, seed, rng_kind) {
+      function(path, shinyOptions, rmd, seed, rng_kind, renderArgs) {
 
         if (!is.null(seed)) {
           # Prior to R 3.6, RNGkind has 2 args, otherwise it has 3
@@ -120,13 +120,20 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
 
         if (rmd) {
           # Shiny document
-          rmarkdown::run(path, shiny_args = shinyOptions)
+          rmarkdown::run(path, shiny_args = shinyOptions, render_args = renderArgs)
         } else {
           # Normal shiny app
           do.call(shiny::runApp, c(path, shinyOptions))
         }
       },
-      args = list(path, shinyOptions, is_rmd(path), seed, rng_kind),
+      args = list(
+        path = path,
+        shinyOptions = shinyOptions,
+        rmd = is_rmd(path),
+        seed = seed,
+        rng_kind = rng_kind,
+        renderArgs = renderArgs
+      ),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
       stderr = sprintf(tempfile_format, "shiny-stderr"),
       supervise = TRUE
@@ -211,36 +218,6 @@ phantom_paths <- function() {
   }
   path <- c(path, system.file('PhantomJS', package = 'webdriver'))
   path
-}
-
-# Find PhantomJS from PATH, APPDATA, system.file('webdriver'), ~/bin, etc
-find_phantom <- function(quiet = FALSE) {
-  path <- Sys.which( "phantomjs" )
-  if (path != "") return(path)
-
-  for (d in phantom_paths()) {
-    exec <- if (is_windows()) "phantomjs.exe" else "phantomjs"
-    path <- file.path(d, exec)
-    if (utils::file_test("-x", path)) break else path <- ""
-  }
-
-  if (path == "") {
-    if (!quiet) {
-      # It would make the most sense to throw an error here. However, that would
-      # cause problems with CRAN. The CRAN checking systems may not have phantomjs
-      # and may not be capable of installing phantomjs (like on Solaris), and any
-      # packages which use webdriver in their R CMD check (in examples or vignettes)
-      # will get an ERROR. We'll issue a message and return NULL; other
-      message(
-        "shinytest requires a headless web browser (PhantomJS) to record and run tests.\n",
-        "To install it, run shinytest::installDependencies()\n",
-        "If it is installed, please make sure the phantomjs executable ",
-        "can be found via the PATH variable."
-      )
-    }
-    return(NULL)
-  }
-  path.expand(path)
 }
 
 

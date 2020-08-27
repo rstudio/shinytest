@@ -39,3 +39,4 @@ View differences in test results
 \seealso{
 \code{\link[=textTestDiff]{textTestDiff()}} to get a text diff as a string.
 }
+\keyword{internal}

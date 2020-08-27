@@ -3,7 +3,6 @@ Version: 1.0
 RestoreWorkspace: Default
 SaveWorkspace: Default
 AlwaysSaveHistory: Default
-QuitChildProcessesOnExit: Default
 
 EnableCodeIndexing: Yes
 UseSpacesForTab: Yes
@@ -13,6 +12,7 @@ Encoding: UTF-8
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
+AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
 
 BuildType: Package
