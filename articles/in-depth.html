@@ -202,49 +202,47 @@
 <h3 class="hasAnchor">
 <a href="#exported-values" class="anchor"></a>Exported values</h3>
 <p>In some cases, it’s useful to snapshot some bits of internal state of an application – state that’s not reflected directly in the inputs or outputs. This can be done by <em>exporting</em> values.</p>
-<p>Consider this toy example where an application displays a cumulative sum, and also internally keeps track of all numbers that have been added, in a numeric vector named <code>nums</code>.</p>
+<p>Consider this toy example where an application has an internal reactive expression that would be convenient to capture.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="fu">shinyApp</span>(
   <span class="fu">fluidPage</span>(
-    <span class="fu">numericInput</span>(<span class="st">"n"</span>, <span class="st">"Number to add"</span>, <span class="fl">4</span>),
-    <span class="fu">actionButton</span>(<span class="st">"add"</span>, <span class="st">"Add"</span>),
-    <span class="fu">verbatimTextOutput</span>(<span class="st">"sum"</span>, placeholder = <span class="fl">TRUE</span>)
+    <span class="fu">numericInput</span>(<span class="st">"x"</span>, <span class="st">"x"</span>, <span class="fl">4</span>),
+    <span class="fu">numericInput</span>(<span class="st">"y"</span>, <span class="st">"y"</span>, <span class="fl">10</span>),
+    <span class="fu">numericInput</span>(<span class="st">"z"</span>, <span class="st">"z"</span>, <span class="fl">100</span>),
+    <span class="fu">verbatimTextOutput</span>(<span class="st">"result"</span>, placeholder = <span class="fl">TRUE</span>)
   ),
   <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">output</span>, <span class="kw">session</span>) {
-    <span class="kw">nums</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span>()
+    <span class="kw">xy</span> <span class="op">&lt;-</span> <span class="fu">reactive</span>(<span class="kw">input</span><span class="op">$</span><span class="kw">x</span> <span class="op">*</span> <span class="kw">input</span><span class="op">$</span><span class="kw">y</span>)
+    <span class="kw">yz</span> <span class="op">&lt;-</span> <span class="fu">reactive</span>(<span class="kw">input</span><span class="op">$</span><span class="kw">y</span> <span class="op">+</span> <span class="kw">input</span><span class="op">$</span><span class="kw">z</span>)
 
-    <span class="kw">c_sum</span> <span class="op">&lt;-</span> <span class="fu">eventReactive</span>(<span class="kw">input</span><span class="op">$</span><span class="kw">add</span>, {
-      <span class="kw">nums</span> <span class="op">&lt;&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">nums</span>, <span class="kw">input</span><span class="op">$</span><span class="kw">n</span>)
-      <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">nums</span>)
+    <span class="kw">output</span><span class="op">$</span><span class="kw">result</span> <span class="op">&lt;-</span> <span class="fu">renderText</span>({
+      <span class="fu">xy</span>() <span class="op">/</span> <span class="fu">yz</span>()
     })
 
-    <span class="kw">output</span><span class="op">$</span><span class="kw">sum</span> <span class="op">&lt;-</span> <span class="fu">renderText</span>({
-      <span class="fu">c_sum</span>()
-    })
-
-    <span class="fu">exportTestValues</span>(nums = { <span class="kw">nums</span> })
+    <span class="fu">exportTestValues</span>(xy = <span class="fu">xy</span>(), yz = <span class="fu">yz</span>())
   }
 )
 </pre></div>
-<p><img src="screenshot-exports-app.png" width="408"></p>
 <p>Notice this line:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
-    <span class="fu">exportTestValues</span>(nums = { <span class="kw">nums</span> })
+    <span class="fu">exportTestValues</span>(xy = <span class="fu">xy</span>(), yz = <span class="fu">yz</span>())
 </pre></div>
-<p>This creates an export value named <code>nums</code>. When a test snapshot is taken, it evaluates the expression <code>{ nums }</code>, and the returned value is included in the snapshot. Here’s what the snapshot would look like if we add a few numbers and then take the snapshot:</p>
+<p>This creates exported values called <code>xy</code> and <code>yz</code>. When a test snapshot is taken, it evaluates the reactive expression and inserts their values in the snapshot:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">{</span></span>
 <span id="cb15-2"><a href="#cb15-2"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>    <span class="dt">"add"</span><span class="fu">:</span> <span class="dv">4</span><span class="fu">,</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a>    <span class="dt">"n"</span><span class="fu">:</span> <span class="dv">0</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a>  <span class="fu">},</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a>  <span class="dt">"output"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a>    <span class="dt">"sum"</span><span class="fu">:</span> <span class="st">"14"</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a>  <span class="fu">},</span></span>
-<span id="cb15-9"><a href="#cb15-9"></a>  <span class="dt">"export"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb15-10"><a href="#cb15-10"></a>    <span class="dt">"nums"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">4</span><span class="ot">,</span> <span class="dv">7</span><span class="ot">,</span> <span class="dv">3</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">]</span></span>
-<span id="cb15-11"><a href="#cb15-11"></a>  <span class="fu">}</span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="fu">}</span></span></code></pre></div>
-<p>The curly braces around <code>{ nums }</code> are not strictly necessary, but they are in this example to make it clear that, when <code><a href="https://shiny.rstudio.com/reference/shiny/latest/exportTestValues.html">exportTestValues()</a></code> is called, it is the expression that is stored for later use, not the value. If the value of <code>nums</code> were saved immediately, then it would be an empty vector, and every time a snapshot is taken, it would simply return that empty vector.</p>
+<span id="cb15-3"><a href="#cb15-3"></a>    <span class="dt">"x"</span><span class="fu">:</span> <span class="dv">4</span><span class="fu">,</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>    <span class="dt">"y"</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a>    <span class="dt">"z"</span><span class="fu">:</span> <span class="dv">100</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a>  <span class="fu">},</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a>  <span class="dt">"output"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>    <span class="dt">"result"</span><span class="fu">:</span> <span class="st">"0.3636364"</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a>  <span class="fu">},</span></span>
+<span id="cb15-10"><a href="#cb15-10"></a>  <span class="dt">"export"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a>    <span class="dt">"xy"</span><span class="fu">:</span> <span class="dv">40</span><span class="fu">,</span></span>
+<span id="cb15-12"><a href="#cb15-12"></a>    <span class="dt">"yz"</span><span class="fu">:</span> <span class="dv">110</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>  <span class="fu">}</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="fu">}</span> </span></code></pre></div>
+<p>Note that the expression (i.e. <code>xy()</code> and <code>yz()</code>) is saved <code><a href="https://shiny.rstudio.com/reference/shiny/latest/exportTestValues.html">exportTestValues()</a></code> is called, not the specific values. Generally, you should keep these expressions as simple as possible so that test failures yield informative outputs. Note that any value here has to be serializable to JSON, so it’s not suitable for testing complex objects.</p>
 </div>
 <div id="adding-delays" class="section level3">
 <h3 class="hasAnchor">
