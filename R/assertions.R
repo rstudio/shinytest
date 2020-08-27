@@ -92,7 +92,7 @@ as_debug <- function(x) {
   miss <- ! x %in% c(ShinyDriver$debugLogTypes, c("all", "none"))
 
   if (any(miss)) {
-    stop("Unknown debug types: ", paste(x[miss], collapse = ", "))
+    abort(paste0("Unknown debug types: ", paste(x[miss], collapse = ", ")))
   }
 
   if ("all" %in% x) x <- ShinyDriver$debugLogTypes

@@ -4,6 +4,9 @@ shinytest 1.4.0.9002
 * `ShinyDriver$takeSnapshot()` gains ability to take a snapshot of a single
   element (#260).
 
+* New `Widget$getHtml()` returns the complete HTML of the selected widget 
+  (#347).
+
 * `ShinyDriver$intialize()` gains a `renderArgs` method which is passed along
   to `rmarkdown::run()` for interactive Rmds (#249); this makes it possible
   to set parameters for parameterised reports.

@@ -1,5 +1,3 @@
-context("app$setInputs")
-
 app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
 test_that("app$setInputs for all input widgets", {

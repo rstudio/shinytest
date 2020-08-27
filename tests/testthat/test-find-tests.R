@@ -1,6 +1,3 @@
-
-context("Find tests")
-
 test_that("Finds test files", {
   expect_equal(findTests("example_test_dirs/simple/tests"), c("testa.r", "testb.R"))
 

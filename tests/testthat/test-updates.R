@@ -1,6 +1,3 @@
-
-context("updates")
-
 test_that("updates for all widget in the gallery", {
 
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))

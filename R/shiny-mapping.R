@@ -23,11 +23,11 @@ sd_findWidget <- function(self, private, name, iotype) {
   els <- self$findElements(css = css)
 
   if (length(els) == 0) {
-    stop(
+    abort(paste0(
       "Cannot find ",
       if (iotype != "auto") paste0(iotype, " "),
       "widget ", name
-    )
+    ))
 
   } else if (length(els) > 1) {
     warning(

@@ -38,12 +38,11 @@ find_phantom <- function(quiet = FALSE) {
       # and may not be capable of installing phantomjs (like on Solaris), and any
       # packages which use webdriver in their R CMD check (in examples or vignettes)
       # will get an ERROR. We'll issue a message and return NULL; other
-      message(
-        "shinytest requires a headless web browser (PhantomJS) to record and run tests.\n",
-        "To install it, run shinytest::installDependencies()\n",
-        "If it is installed, please make sure the phantomjs executable ",
-        "can be found via the PATH variable."
-      )
+      inform(c(
+        "shinytest requires PhantomJS to record and run tests.",
+        "To install it, run shinytest::installDependencies()",
+        "If it is installed, please check it is available on the PATH"
+      ))
     }
     return(NULL)
   }

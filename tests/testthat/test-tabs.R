@@ -1,6 +1,3 @@
-
-context("tabs")
-
 test_that("tabs are found, names are good", {
   app <- ShinyDriver$new(test_path("apps/embedded-tabs"))
 
