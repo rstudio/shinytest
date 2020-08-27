@@ -203,8 +203,8 @@ ShinyDriver <- R6Class(
         normalize_png_res_header(path)
       }
 
-      png <- png::readPNG(path)
       if (!is.null(id)) {
+        png <- png::readPNG(path)
         element <- self$findElement(paste0("#", id))
         if (parent) {
           element <- element$findElement(xpath = "..")
@@ -214,13 +214,15 @@ ShinyDriver <- R6Class(
         pos$y2 <- pos$y + pos$height
 
         png <- png[pos$y:pos$y2, pos$x:pos$x2, ]
+        png::writePNG(png, path)
       }
 
       if (is.null(file)) {
         withr::local_par(list(bg = "grey90"))
+        png <- png::readPNG(path)
         plot(as.raster(png))
       } else {
-        png::writePNG(png, file)
+        file.copy(path, file)
       }
 
       invisible(self)
