@@ -1,6 +1,9 @@
 shinytest 1.4.0.9002
 ===============
 
+* `ShinyDriver$takeSnapshot()` gains ability to take a snapshot of a single
+  element (#260).
+
 * New `Widget$getHtml()` returns the complete HTML of the selected widget 
   (#347).
 
