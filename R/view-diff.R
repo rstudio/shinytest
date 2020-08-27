@@ -17,7 +17,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 {
 
   if (xor(assertthat::is.dir(old), assertthat::is.dir(new))) {
-      stop("`old` and `new` must both be directories, or character vectors of filenames.")
+      abort("`old` and `new` must both be directories, or character vectors of filenames.")
   }
 
   # If `old` or `new` are directories, get a list of filenames from both directories
@@ -116,7 +116,7 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL, suffix = NULL) {
 viewTestDiff <- function(
   appDir = ".",
   testnames = NULL,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   images = TRUE,
   suffix = NULL
 ) {
@@ -127,10 +127,10 @@ viewTestDiff <- function(
       testnames <- all_testnames(testDir, "-current")
     }
 
-    message("Differences in current results found for: ", paste(testnames, collapse = " "))
+    inform(c("Differences in current results found for: ", testnames))
 
     results <- lapply(testnames, function(testname) {
-      message("Viewing diff for ", testname)
+      inform(paste0("Viewing diff for ", testname))
       viewTestDiffSingle(appDir, testname, suffix)
     })
 

@@ -1,10 +1,10 @@
 files_identical <- function(a, b, preprocess = NULL) {
   if (!file.exists(a)) {
-    message("File ", a, " not found.")
+    inform(paste0("File ", a, " not found."))
     return(FALSE)
   }
   if (!file.exists(b)) {
-    message("File ", b, " not found.")
+    inform(message("File ", b, " not found."))
     return(FALSE)
   }
 
@@ -33,8 +33,8 @@ files_identical <- function(a, b, preprocess = NULL) {
 dirs_differ <- function(expected, current, file_preprocess = NULL) {
   diff_found <- FALSE
 
-  if (!dir_exists(expected)) stop("Directory ", expected, " not found.")
-  if (!dir_exists(current))  stop("Directory ", current, " not found.")
+  if (!dir_exists(expected)) abort(paste0("Directory ", expected, " not found."))
+  if (!dir_exists(current))  abort(paste0("Directory ", current, " not found."))
 
   expected_files <- list.files(expected)
   current_files  <- list.files(current)
@@ -81,9 +81,9 @@ which_diff <- function() {
     if (path != "")
       return(path)
 
-    stop("No program named `diff` or `fc` found in path.")
+    abort("No program named `diff` or `fc` found in path.")
   }
-  stop("No program named `diff` found in path.")
+  abort("No program named `diff` found in path.")
 }
 
 

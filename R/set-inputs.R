@@ -1,8 +1,10 @@
 sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
                          timeout_ = 3000, allowInputNoBinding_ = FALSE, priority_ = c("input", "event")) {
   if (values_ && !wait_) {
-    stop("values_=TRUE and wait_=FALSE are not compatible.",
-      "Can't return all values without waiting for update.")
+    abort(c(
+      "values_=TRUE and wait_=FALSE are not compatible.",
+      "Can't return all values without waiting for update."
+    ))
   }
 
   priority_ <- match.arg(priority_)
@@ -27,12 +29,12 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     calls <- sys.calls()
     call_text <- deparse(calls[[length(calls) - 1]])
 
-    message(
-      "setInputs(",
-      call_text,
-      "): Server did not update any output values within ",
-      format(timeout_/1000, digits = 2),
-      " seconds. If this is expected, use `wait_=FALSE, values_=FALSE`, or increase the value of timeout_.")
+    inform(paste0(
+      "setInputs(", call_text, "): ",
+      "Server did not update any output values within ",
+      format(timeout_/1000, digits = 2), " seconds. ",
+      "If this is expected, use `wait_=FALSE, values_=FALSE`, or increase the value of timeout_."
+    ))
   }
 
   self$logEvent("Finished setting inputs", timedout = res$timedOut)
@@ -73,13 +75,15 @@ sd_flushInputs <- function(self, private, wait, timeout) {
 sd_uploadFile <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
                           timeout_ = 3000) {
   if (values_ && !wait_) {
-    stop("values_=TRUE and wait_=FALSE are not compatible.",
-      "Can't return all values without waiting for update.")
+    abort(c(
+      "values_=TRUE and wait_=FALSE are not compatible.",
+      "Can't return all values without waiting for update."
+    ))
   }
 
   inputs <- list(...)
   if (length(inputs) != 1 || !is_all_named(inputs)) {
-    stop("Can only upload file to exactly one input, and input must be named")
+    abort("Can only upload file to exactly one input, and input must be named")
   }
 
   # Wait for two messages by calling `.start(timeout, 2)`. This is because
