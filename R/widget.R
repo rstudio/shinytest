@@ -34,6 +34,10 @@ Widget <- R6Class(
     getName = function() private$name,
     #' @description Underlying [webdriver::Element()] object.
     getElement = function() private$element,
+    #' @description retrieve the underlying HTML for a widget
+    getHtml = function() {
+      private$element$executeScript("return arguments[0].outerHTML;")
+    },
     #' @description Widget type, e.g. `textInput`, `selectInput`.
     getType = function() private$type,
     #' @description Is this an input or output control?

@@ -66,7 +66,6 @@ test_that("parse_url", {
 })
 
 test_that("can find three styles of app", {
-  local_edition(3)
   expect_error(app_path(test_path("apps/foofability")), "doesn't exist")
 
   expect_equal(
