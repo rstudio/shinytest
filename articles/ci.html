@@ -108,8 +108,9 @@
 
     
     
-<p>Shinytest can be used not only when developing applications locally – it can also be used with continuous integration (CI) platforms, such as <a href="https://travis-ci.org/">Travis</a>. If your project uses CI, then every commit of the project can be automatically tested on a CI server. This can help you detect problems quickly and automatically during development.</p>
-<p>This document explains how to use shinytest with GitHub and Travis CI in two use cases: with applications that stand alone (are not part of an R package), and with an application that are part of an R package.</p>
+<p>Shinytest can be used not only when developing applications locally – it can also be used with continuous integration (CI) platforms, such as <a href="https://help.github.com/en/actions">GitHub Actions</a> or <a href="https://travis-ci.org/">Travis CI</a>.</p>
+<p>Our recommendation nowadays is to use Github Actions over Travis CI, especially if testing on Windows is important. To learn about Shiny testing with Github Actions, see <a href="https://github.com/rstudio/shiny-testing-gha-example" class="uri">https://github.com/rstudio/shiny-testing-gha-example</a>.</p>
+<p>The rest of this document explains how to use shinytest with GitHub and Travis CI in two use cases: with applications that stand alone (are not part of an R package), and with an application that are part of an R package.</p>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
