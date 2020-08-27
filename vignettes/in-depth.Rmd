@@ -134,62 +134,59 @@ app$snapshot(items = list(output = TRUE, export = TRUE))
 
 In some cases, it's useful to snapshot some bits of internal state of an application -- state that's not reflected directly in the inputs or outputs. This can be done by *exporting* values.
 
-Consider this toy example where an application displays a cumulative sum, and also internally keeps track of all numbers that have been added, in a numeric vector named `nums`.
-
+Consider this toy example where an application has an internal reactive expression that would be convenient to capture.
 
 ```{r}
 shinyApp(
   fluidPage(
-    numericInput("n", "Number to add", 4),
-    actionButton("add", "Add"),
-    verbatimTextOutput("sum", placeholder = TRUE)
+    numericInput("x", "x", 4),
+    numericInput("y", "y", 10),
+    numericInput("z", "z", 100),
+    verbatimTextOutput("result", placeholder = TRUE)
   ),
   function(input, output, session) {
-    nums <- numeric()
+    xy <- reactive(input$x * input$y)
+    yz <- reactive(input$y + input$z)
 
-    c_sum <- eventReactive(input$add, {
-      nums <<- c(nums, input$n)
-      sum(nums)
+    output$result <- renderText({
+      xy() / yz()
     })
 
-    output$sum <- renderText({
-      c_sum()
-    })
-
-    exportTestValues(nums = { nums })
+    exportTestValues(xy = xy(), yz = yz())
   }
 )
 ```
 
-```{r echo=FALSE, eval=TRUE}
+```{r echo=FALSE}
 knitr::include_graphics("screenshot-exports-app.png")
 ```
 
 Notice this line:
 
 ```{r}
-    exportTestValues(nums = { nums })
+    exportTestValues(xy = xy(), yz = yz())
 ```
 
-This creates an export value named `nums`. When a test snapshot is taken, it evaluates the expression `{ nums }`, and the returned value is included in the snapshot. Here's what the snapshot would look like if we add a few numbers and then take the snapshot:
+This creates exported values called `xy` and `yz`. When a test snapshot is taken, it evaluates the reactive expression and inserts their values in the snapshot:
 
 ```json
 {
   "input": {
-    "add": 4,
-    "n": 0
+    "x": 4,
+    "y": 10,
+    "z": 100
   },
   "output": {
-    "sum": "14"
+    "result": "0.3636364"
   },
   "export": {
-    "nums": [4, 7, 3, 0]
+    "xy": 40,
+    "yz": 110
   }
-}
+} 
 ```
 
-The curly braces around `{ nums }` are not strictly necessary, but they are in this example to make it clear that, when `exportTestValues()` is called, it is the expression that is stored for later use, not the value. If the value of `nums` were saved immediately, then it would be an empty vector, and every time a snapshot is taken, it would simply return that empty vector.
-
+Note that the expression (i.e. `xy()` and `yz()`) is saved `exportTestValues()` is called, not the specific values. Generally, you should keep these expressions as simple as possible so that test failures yield informative outputs. Note that any value here has to be serializable to JSON, so it's not suitable for testing complex objects.
 
 ### Adding delays
 
