@@ -237,3 +237,10 @@ httr_get <- function(url) {
   cat("----------------------------------------\n")
   stop("Unable request data from server")
 }
+
+inform_where <- function(message) {
+  bt <- trace_back(bottom = parent.frame())
+  bt_string <- paste0(format(bt), collapse = "\n")
+
+  inform(paste0(message, "\n", bt_string))
+}
