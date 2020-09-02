@@ -17,6 +17,7 @@ with a live app.
 \item \href{#method-stop}{\code{ShinyDriver$stop()}}
 \item \href{#method-getValue}{\code{ShinyDriver$getValue()}}
 \item \href{#method-setValue}{\code{ShinyDriver$setValue()}}
+\item \href{#method-click}{\code{ShinyDriver$click()}}
 \item \href{#method-getAllValues}{\code{ShinyDriver$getAllValues()}}
 \item \href{#method-sendKeys}{\code{ShinyDriver$sendKeys()}}
 \item \href{#method-setWindowSize}{\code{ShinyDriver$setWindowSize()}}
@@ -175,6 +176,28 @@ input and output widget.}
 }
 \subsection{Returns}{
 Self, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-click"></a>}}
+\if{latex}{\out{\hypertarget{method-click}{}}}
+\subsection{Method \code{click()}}{
+Find a widget and click it. It's a shortcut for \code{findElement()}
+plus \code{click()}; see the \link{Widget} documentation for more details.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$click(name, iotype = c("auto", "input", "output"))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of a shiny widget.}
+
+\item{\code{iotype}}{Type of the Shiny widget. Usually shinytest finds the widgets
+by their name, so this is only needed if you use the same name for an
+input and output widget.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

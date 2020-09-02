@@ -83,6 +83,13 @@ ShinyDriver <- R6Class(
     },
 
     #' @description
+    #' Find a widget and click it. It's a shortcut for `findElement()`
+    #' plus `click()`; see the [Widget] documentation for more details.
+    click = function(name, iotype = c("auto", "input", "output")) {
+      self$findWidget(name, iotype)$click()
+    },
+
+    #' @description
     #' Returns a named list of all inputs, outputs, and export values.
     #'
     #' @param input,output,export Either `TRUE` to return all
