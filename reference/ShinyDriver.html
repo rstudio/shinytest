@@ -168,6 +168,7 @@ with a live app.</p>
 <li><p><a href='#method-stop'><code>ShinyDriver$stop()</code></a></p></li>
 <li><p><a href='#method-getValue'><code>ShinyDriver$getValue()</code></a></p></li>
 <li><p><a href='#method-setValue'><code>ShinyDriver$setValue()</code></a></p></li>
+<li><p><a href='#method-click'><code>ShinyDriver$click()</code></a></p></li>
 <li><p><a href='#method-getAllValues'><code>ShinyDriver$getAllValues()</code></a></p></li>
 <li><p><a href='#method-sendKeys'><code>ShinyDriver$sendKeys()</code></a></p></li>
 <li><p><a href='#method-setWindowSize'><code>ShinyDriver$setWindowSize()</code></a></p></li>
@@ -297,6 +298,21 @@ input and output widget.</p></dd>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Self, invisibly.</p>
+<p><hr>
+<a id="method-click"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>click()</code></h3>
+<p>Find a widget and click it. It's a shortcut for <code>findElement()</code>
+plus <code>click()</code>; see the <a href='Widget.html'>Widget</a> documentation for more details.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>click</span>(<span class='kw'>name</span>, iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span>))</pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>name</code></dt><dd><p>Name of a shiny widget.</p></dd>
+
+<dt><code>iotype</code></dt><dd><p>Type of the Shiny widget. Usually shinytest finds the widgets
+by their name, so this is only needed if you use the same name for an
+input and output widget.</p></dd>
+
+</dl><p></div></p>
 <p><hr>
 <a id="method-getAllValues"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getAllValues()</code></h3>
 <p>Returns a named list of all inputs, outputs, and export values.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
