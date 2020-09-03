@@ -46,6 +46,7 @@ Imports:
     withr
 Suggests:
     flexdashboard,
+    globals,
     rmarkdown
 Encoding: UTF-8
 LazyData: true

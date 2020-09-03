@@ -1,4 +1,11 @@
 app_save <- function(app, path = tempfile(), env = parent.frame()) {
+  if (!is_installed("globals")) {
+    abort(c(
+      "globals package required to test app object",
+      i = "Do you need to run `install.packages('globals')`"
+    ))
+  }
+
   if (!dir.exists(path)) {
     dir.create(path)
   }
