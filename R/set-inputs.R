@@ -29,7 +29,7 @@ sd_setInputs <- function(self, private, ..., wait_ = TRUE, values_ = TRUE,
     calls <- sys.calls()
     call_text <- deparse(calls[[length(calls) - 1]])
 
-    inform(paste0(
+    inform_where(paste0(
       "setInputs(", call_text, "): ",
       "Server did not update any output values within ",
       format(timeout_/1000, digits = 2), " seconds. ",
