@@ -14,6 +14,8 @@ app_save <- function(app, path = tempfile(), env = parent.frame()) {
   path
 }
 
+# Open questions:
+# * what happen if app uses non-exported function?
 app_data <- function(app, env = parent.frame()) {
   server <- app$serverFuncSource()
   globals <- app_server_globals(server, env)
