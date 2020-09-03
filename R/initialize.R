@@ -21,9 +21,12 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   self$logEvent("Getting PhantomJS port")
   private$phantomPort <- get_phantomPort(timeout = phantomTimeout)
 
+  if (is.shiny.appobj(path)) {
+    path <- app_save(path)
+  }
+
   if (grepl("^http(s?)://", path)) {
     private$setShinyUrl(path)
-
   } else {
     "!DEBUG starting shiny app from path"
     self$logEvent("Starting Shiny app")

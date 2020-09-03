@@ -48,3 +48,11 @@ test_that("useful error message if app terminated", {
   app$findWidget("quit")$click()
   expect_error(app$getAllValues(), "no longer running")
 })
+
+test_that("can test app object", {
+  ui <- fluidPage(textInput("x", "x", "value"))
+  server <- function(input, output, session) {}
+
+  app <- ShinyDriver$new(shinyApp(ui, server))
+  expect_equal(app$getValue("x"), "value")
+})
