@@ -1,6 +1,6 @@
 sd_snapshotInit <- function(self, private, path, screenshot) {
   if (grepl("^/", path)) {
-    stop("Snapshot dir must be a relative path.")
+    abort("Snapshot dir must be a relative path.")
   }
 
   # Strip off trailing slash if present
@@ -14,7 +14,7 @@ sd_snapshotInit <- function(self, private, path, screenshot) {
 sd_snapshot <- function(self, private, items, filename, screenshot)
 {
   if (!is.list(items) && !is.null(items))
-    stop("'items' must be NULL or a list.")
+    abort("'items' must be NULL or a list.")
 
   private$snapshotCount <- private$snapshotCount + 1
 
@@ -38,9 +38,11 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
 
   extra_names <- setdiff(names(items), c("input", "output", "export"))
   if (length(extra_names) > 0) {
-    stop("'items' must be a list containing one or more items named",
+    abort(paste0(
+      "'items' must be a list containing one or more items named",
       "'input', 'output' and 'export'. Each of these can be TRUE, FALSE, ",
-      " or a character vector.")
+      " or a character vector."
+    ))
   }
 
   if (is.null(items$input))  items$input  <- FALSE
@@ -50,7 +52,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   # Take snapshot -------------------------------------------------------------
   self$logEvent("Taking snapshot")
   url <- private$getTestSnapshotUrl(items$input, items$output, items$export)
-  req <- httr::GET(url)
+  req <- httr_get(url)
 
   # For first snapshot, create -current snapshot dir.
   if (private$snapshotCount == 1) {
@@ -88,8 +90,10 @@ sd_snapshotDownload <- function(self, private, id, filename) {
 
   # Find the URL to download from (the href of the <a> tag)
   url <- self$findElement(paste0("#", id))$getAttribute("href")
-
-  req <- httr::GET(url)
+  if (identical(url, "")) {
+    stop("Download from '#", id, "' failed")
+  }
+  req <- httr_get(url)
 
   # For first snapshot, create -current snapshot dir.
   if (private$snapshotCount == 1) {
@@ -148,6 +152,7 @@ sd_getTestSnapshotUrl = function(self, private, input, output, export,
 #'
 #' @seealso [testApp()]
 #'
+#' @keywords internal
 #' @export
 snapshotCompare <- function(
   appDir,
@@ -155,7 +160,7 @@ snapshotCompare <- function(
   autoremove = TRUE,
   images = TRUE,
   quiet = FALSE,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   suffix = NULL
 ) {
 
@@ -178,7 +183,7 @@ snapshotCompare <- function(
     relativeAppDir <- getOption("shinytest.app.dir", default = appDir)
 
     if (!all_pass) {
-      message('\nTo view a textual diff, run:\n  viewTestDiff("', relativeAppDir, '", interactive = FALSE)')
+      inform(paste0('\nTo view a textual diff, run:\n  viewTestDiff("', relativeAppDir, '", interactive = FALSE)'))
     }
   }
 
@@ -199,7 +204,7 @@ snapshotCompareSingle <- function(
   autoremove = TRUE,
   quiet = FALSE,
   images = TRUE,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   suffix = NULL
 ) {
   testDir <- findTestsDir(appDir, quiet = TRUE)
@@ -368,7 +373,7 @@ snapshotUpdateSingle <- function(
   expected_dir <- paste0(expected_dir, normalize_suffix(suffix))
 
   if (!dir_exists(current_dir)) {
-    stop("Current result directory not found: ", current_dir)
+    abort(paste0("Current result directory not found: ", current_dir))
   }
 
   if (!quiet) {

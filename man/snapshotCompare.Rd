@@ -11,7 +11,7 @@ snapshotCompare(
   autoremove = TRUE,
   images = TRUE,
   quiet = FALSE,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   suffix = NULL
 )
 
@@ -48,3 +48,4 @@ differences to the console.
 \seealso{
 \code{\link[=testApp]{testApp()}}
 }
+\keyword{internal}

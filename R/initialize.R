@@ -4,7 +4,7 @@
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
                           debug, phantomTimeout, seed, cleanLogs,
-                          shinyOptions) {
+                          shinyOptions, renderArgs) {
 
   private$cleanLogs <- cleanLogs
   if (is.null(loadTimeout)) {
@@ -14,7 +14,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   self$logEvent("Start ShinyDriver initialization")
 
   if (is.null(find_phantom())) {
-    stop("PhantomJS not found.")
+    abort("PhantomJS not found.")
   }
 
   "!DEBUG get phantom port (starts phantom if not running)"
@@ -30,7 +30,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   } else {
     "!DEBUG starting shiny app from path"
     self$logEvent("Starting Shiny app")
-    private$startShiny(path, seed, loadTimeout, shinyOptions)
+    private$startShiny(path, seed, loadTimeout, shinyOptions, renderArgs)
   }
 
   "!DEBUG create new phantomjs session"
@@ -58,10 +58,10 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
     timeout = loadTimeout
   )
   if (!load_ok) {
-    stop(
+    abort(paste0(
       "Shiny app did not load in ", loadTimeout, "ms.\n",
       format(self$getDebugLog())
-    )
+    ))
   }
 
   "!DEBUG shiny started"
@@ -92,7 +92,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) {
+sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions, renderArgs) {
 
   assert_that(is_string(path))
 
@@ -110,7 +110,7 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
   p <- with_envvar(
     c("R_TESTS" = NA),
     callr::r_bg(
-      function(path, shinyOptions, rmd, seed, rng_kind) {
+      function(path, shinyOptions, rmd, seed, rng_kind, renderArgs) {
 
         if (!is.null(seed)) {
           # Prior to R 3.6, RNGkind has 2 args, otherwise it has 3
@@ -123,13 +123,20 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
 
         if (rmd) {
           # Shiny document
-          rmarkdown::run(path, shiny_args = shinyOptions)
+          rmarkdown::run(path, shiny_args = shinyOptions, render_args = renderArgs)
         } else {
           # Normal shiny app
           do.call(shiny::runApp, c(path, shinyOptions))
         }
       },
-      args = list(path, shinyOptions, is_rmd(path), seed, rng_kind),
+      args = list(
+        path = path,
+        shinyOptions = shinyOptions,
+        rmd = is_rmd(path),
+        seed = seed,
+        rng_kind = rng_kind,
+        renderArgs = renderArgs
+      ),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
       stderr = sprintf(tempfile_format, "shiny-stderr"),
       supervise = TRUE
@@ -137,10 +144,10 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
   )
   "!DEBUG waiting for shiny to start"
   if (! p$is_alive()) {
-    stop(
+    abort(paste0(
       "Failed to start shiny. Error: ",
       strwrap(readLines(p$get_error_file()))
-    )
+    ))
   }
 
   "!DEBUG finding shiny port"
@@ -150,14 +157,18 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions) 
     err_lines <- readLines(p$get_error_file())
 
     if (!p$is_alive()) {
-      stop("Error starting application:\n", paste(err_lines, collapse = "\n"))
+      abort(paste0(
+        "Error starting application:\n", paste(err_lines, collapse = "\n")
+      ))
     }
     if (any(grepl("Listening on http", err_lines))) break
 
     Sys.sleep(0.2)
   }
   if (i == max_i) {
-    stop("Cannot find shiny port number. Error:\n", paste(err_lines, collapse = "\n"))
+    abort(paste0(
+      "Cannot find shiny port number. Error:\n", paste(err_lines, collapse = "\n")
+    ))
   }
 
   line <- err_lines[grepl("Listening on http", err_lines)]

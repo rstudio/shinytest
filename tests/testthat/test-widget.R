@@ -83,3 +83,8 @@ test_that("can click buttons", {
   expect_equal(app$getValue("i"), "2")
 })
 
+test_that("can retrieve widget metadata", {
+  app <- ShinyDriver$new(test_path("apps/click-me"))
+  w <- app$findWidget("click")
+  expect_match(w$getHtml(), "<button")
+})

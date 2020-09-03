@@ -1,6 +1,8 @@
 #' A Shiny Widget
 #'
-#' A `Widget` object represents a Shiny input or output control.
+#' @description
+#' A `Widget` object represents a Shiny input or output control, and provides
+#' methods for finer grained interaction.
 #'
 #' @importFrom R6 R6Class
 Widget <- R6Class(
@@ -32,6 +34,10 @@ Widget <- R6Class(
     getName = function() private$name,
     #' @description Underlying [webdriver::Element()] object.
     getElement = function() private$element,
+    #' @description retrieve the underlying HTML for a widget
+    getHtml = function() {
+      private$element$executeScript("return arguments[0].outerHTML;")
+    },
     #' @description Widget type, e.g. `textInput`, `selectInput`.
     getType = function() private$type,
     #' @description Is this an input or output control?
@@ -55,7 +61,7 @@ Widget <- R6Class(
           htmlOutput = private$element$executeScript("return $(arguments[0]).html();"),
           verbatimTextOutput = private$element$getText(),
           textOutput = private$element$getText(),
-          stop("getValue is not implemented for ", private$type)
+          abort(paste0("getValue is not implemented for ", private$type))
         )
       }
 
@@ -76,7 +82,7 @@ Widget <- R6Class(
     setValue = function(value) {
       "!DEBUG widget_setValue `private$name`"
       if (private$iotype == "output") {
-        stop("Cannot set values of output widgets")
+        abort("Cannot set values of output widgets")
       }
 
       # Preprocess value
@@ -117,7 +123,7 @@ Widget <- R6Class(
     #'  It fails for other types of widgets.
     listTabs = function() {
       if (private$type != "tabsetPanel") {
-        stop("'listTabs' only works for 'tabsetPanel' Widgets")
+        abort("'listTabs' only works for 'tabsetPanel' Widgets")
       }
       tabs <- private$element$findElements("li a")
       vapply(tabs, function(t) t$getData("value"), "")

@@ -27,25 +27,16 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
     url <- app$getUrl()
   } else if (is.character(app)) {
     if (grepl("^http(s?)://", app)) {
-      stop("Recording tests for remote apps is not yet supported.")
+      abort("Recording tests for remote apps is not yet supported.")
     } else {
-      app <- app_path(app)
+      path <- app_path(app, "app")$app
 
-      if (is_rmd(app)) {
-        # If it's an Rmd file, make sure there aren't multiple Rmds in that
-        # directory.
-        if (length(dir(dirname(app), pattern = "\\.Rmd$", ignore.case = TRUE)) > 1) {
-          stop("For testing, only one .Rmd file is allowed per directory.")
-        }
-
-        # Rmds need a random seed. Automatically create one if needed.
-        if (is.null(seed)) {
-          seed <- floor(stats::runif(1, min = 0, max = 1e5))
-        }
+      # Rmds need a random seed
+      if (is_rmd(path) && is.null(seed)) {
+        seed <- floor(stats::runif(1, min = 0, max = 1e5))
       }
 
-      # It's a path to an app; start the app
-      app <- ShinyDriver$new(app, seed = seed, loadTimeout = loadTimeout, shinyOptions = shinyOptions)
+      app <- ShinyDriver$new(path, seed = seed, loadTimeout = loadTimeout, shinyOptions = shinyOptions)
       on.exit({
         rm(app)
         gc()
@@ -53,9 +44,9 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
       url <- app$getUrl()
     }
   } else if (inherits(app, "shiny.appobj")) {
-    stop("Recording tests for shiny.appobj objects is not supported.")
+    abort("Recording tests for shiny.appobj objects is not supported.")
   } else {
-    stop("Unknown object type to record tests for.")
+    abort("Unknown object type to record tests for.")
   }
 
   # Create directory if needed
@@ -116,13 +107,10 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 
   } else {
     if (length(res$dont_run_reasons) > 0) {
-      message(
-        "Not running test script because:\n  ",
-        paste(res$dont_run_reasons, collapse = "\n  "), "\n"
-      )
+      inform(c("Not running test script because", res$dont_run_reasons))
     }
 
-    message(sprintf(
+    inform(sprintf(
       'After making changes to the test script, run it with:\n  testApp("%s", "%s")',
       rel_path(res$appDir), res$file
     ))
@@ -146,9 +134,10 @@ recordTest <- function(app = ".", save_dir = NULL, load_mode = FALSE, seed = NUL
 #'   `"mypkg.numberinput"`.
 #' @param processor An input processor function.
 #' @export
+#' @keywords internal
 registerInputProcessor <- function(inputType, processor) {
   if (!is.function(processor) || !identical(names(formals(processor)), "value")) {
-    stop("`processor` must be a function that takes one parameter, `value`")
+    abort("`processor` must be a function that takes one parameter, `value`")
   }
   recorder_input_processors[[inputType]] <- processor
 }

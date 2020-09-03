@@ -1,1 +1,14 @@
 url: https://rstudio.github.io/shinytest
+
+reference:
+- title: Record and replay tests
+  contents:
+  - recordTest
+  - testApp
+  - migrateShinytestDir
+  - expect_pass
+
+- title: Remote control
+  contents:
+  - Widget
+  - ShinyDriver

@@ -53,17 +53,17 @@
 migrateShinytestDir <- function(appdir, dryrun = FALSE) {
   tests_dir <- file.path(appdir, "tests")
   if (!file.exists(tests_dir)) {
-    message(tests_dir, " does not exist; doing nothing.")
+    inform(paste0(tests_dir, " does not exist; doing nothing."))
     return(invisible(FALSE))
   }
 
   shinytest_dir <- file.path(tests_dir, "shinytest")
   if (file.exists(shinytest_dir)) {
-    message(shinytest_dir, " exists; doing nothing.")
+    inform(paste0(shinytest_dir, " exists; doing nothing."))
     return(invisible(FALSE))
   }
 
-  message("Moving tests from ", tests_dir, " to ", shinytest_dir)
+  inform(paste0("Moving tests from ", tests_dir, " to ", shinytest_dir))
   if (!dryrun) {
     shinytest_temp_dir <- file.path(appdir, "shinytest")
     file.rename(tests_dir, shinytest_temp_dir)
@@ -72,7 +72,7 @@ migrateShinytestDir <- function(appdir, dryrun = FALSE) {
   }
 
   update_test_script <- function(file) {
-    message("Updating test script ", file)
+    inform(paste0("Updating test script ", file))
     if (!dryrun) {
       txt <- readLines(file)
       txt <- sub('ShinyDriver$new("../', 'ShinyDriver$new("../../', txt, fixed = TRUE)
@@ -91,7 +91,7 @@ migrateShinytestDir <- function(appdir, dryrun = FALSE) {
   # Create tests/shinytest.R
   shinytest_script <- file.path(tests_dir, "shinytest.R")
   if (!file.exists(shinytest_script)) {
-    message("Creating ", shinytest_script)
+    inform(paste0("Creating ", shinytest_script))
     if (!dryrun) {
       writeLines(
         c('library(shinytest)', 'shinytest::testApp("../")'),

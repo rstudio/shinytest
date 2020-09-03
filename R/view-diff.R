@@ -11,12 +11,13 @@
 #' @param height Height of the htmlwidget
 #'
 #' @export
+#' @keywords internal
 diffviewer_widget <- function(old, new, width = NULL, height = NULL,
   pattern = NULL)
 {
 
   if (xor(assertthat::is.dir(old), assertthat::is.dir(new))) {
-      stop("`old` and `new` must both be directories, or character vectors of filenames.")
+      abort("`old` and `new` must both be directories, or character vectors of filenames.")
   }
 
   # If `old` or `new` are directories, get a list of filenames from both directories
@@ -81,6 +82,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
 #' @param testname Name of test to compare.
 #'
 #' @export
+#' @keywords internal
 viewTestDiffWidget <- function(appDir = ".", testname = NULL, suffix = NULL) {
   testDir <- findTestsDir(appDir, quiet = TRUE)
   expected <- file.path(testDir, paste0(testname, "-expected", normalize_suffix(suffix)))
@@ -110,10 +112,11 @@ viewTestDiffWidget <- function(appDir = ".", testname = NULL, suffix = NULL) {
 #'
 #' @import shiny
 #' @export
+#' @keywords internal
 viewTestDiff <- function(
   appDir = ".",
   testnames = NULL,
-  interactive = base::interactive(),
+  interactive = is_interactive(),
   images = TRUE,
   suffix = NULL
 ) {
@@ -124,10 +127,10 @@ viewTestDiff <- function(
       testnames <- all_testnames(testDir, "-current")
     }
 
-    message("Differences in current results found for: ", paste(testnames, collapse = " "))
+    inform(c("Differences in current results found for: ", testnames))
 
     results <- lapply(testnames, function(testname) {
-      message("Viewing diff for ", testname)
+      inform(paste0("Viewing diff for ", testname))
       viewTestDiffSingle(appDir, testname, suffix)
     })
 
@@ -166,6 +169,7 @@ viewTestDiffSingle <- function(appDir = ".", testname = NULL, suffix = NULL) {
 #' @param images Compare screenshot images.
 #' @seealso [viewTestDiff()] for interactive diff viewer.
 #' @export
+#' @keywords internal
 textTestDiff <- function(
   appDir = ".",
   testnames = NULL,

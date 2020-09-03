@@ -1,5 +1,3 @@
-context("utils")
-
 test_that("rel_path works", {
   # Basic tests
   expect_identical(rel_path("/a/b/c", "/a/b"), "c")
@@ -63,4 +61,35 @@ test_that("parse_url", {
   expect_error(parse_url("http:/a.b.com/"))
   expect_error(parse_url("http://a.b.com:12ab/"))
   expect_error(parse_url("ftp://a.b.com/"))
+})
+
+test_that("can find three styles of app", {
+  expect_error(app_path(test_path("apps/foofability")), "doesn't exist")
+
+  expect_equal(
+    app_path(test_path("apps/click-me")),
+    list(
+      app = test_path("apps/click-me"),
+      dir = test_path("apps/click-me")
+    )
+  )
+
+  expect_equal(
+    app_path(test_path("recorded_tests/rmd")),
+    list(
+      app = test_path("recorded_tests/rmd/doc.Rmd"),
+      dir = test_path("recorded_tests/rmd")
+    )
+  )
+
+  expect_equal(
+    app_path(test_path("recorded_tests/rmd/doc.Rmd")),
+    list(
+      app = test_path("recorded_tests/rmd/doc.Rmd"),
+      dir = test_path("recorded_tests/rmd")
+    )
+  )
+
+  expect_error(app_path(test_path("apps/two-rmd")), "exactly one")
+  expect_error(app_path(test_path("apps/two-rmd/doc1.Rmd")), "only one")
 })

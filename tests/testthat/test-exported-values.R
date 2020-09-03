@@ -1,5 +1,3 @@
-context("Exported values")
-
 app <- ShinyDriver$new(test_path("apps/test-exports/"))
 
 test_that("Exported values", {

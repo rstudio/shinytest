@@ -18,13 +18,7 @@ random_open_port <- function(min = 3000, max = 9000, n = 20) {
     }
   }
 
-  stop("Cannot find an available port")
-}
-
-check_external <- function(x) {
-  if (Sys.which(x) == "") {
-    stop("Cannot start '", x, "', make sure it is in the path")
-  }
+  abort("Cannot find an available port")
 }
 
 parse_class <- function(x) {
@@ -83,7 +77,7 @@ rel_path <- function(path, base = getwd()) {
 parse_url <- function(url) {
   res <- regexpr("^(?<protocol>https?)://(?<host>[^:/]+)(:(?<port>\\d+))?(?<path>/.*)?$", url, perl = TRUE)
 
-  if (res == -1) stop(url, " is not a valid URL.")
+  if (res == -1) abort(paste0(url, " is not a valid URL."))
 
   start  <- attr(res, "capture.start",  exact = TRUE)[1, ]
   length <- attr(res, "capture.length", exact = TRUE)[1, ]
@@ -124,28 +118,35 @@ is_app <- function(path) {
   )
 }
 
-# Given a path, return a path that can be passed to ShinyDriver$new()
-# * If it is a path to an Rmd file including filename (like foo/doc.Rmd), return path unchanged.
-# * If it is a dir containing app.R, server.R, return path unchanged.
-# * If it is a dir containing index.Rmd, return the path with index.Rmd at the end.
-# * Otherwise, throw error.
-app_path <- function(path) {
-  if (grepl("\\.Rmd", path, ignore.case = TRUE)) {
-    return(path)
+app_path <- function(path, arg = "path") {
+  if (!file.exists(path)) {
+    stop(paste0("'", path, "' doesn't exist"), call. = FALSE)
   }
-  if (dir_exists(path)) {
-    if (any(c("app.r", "server.r") %in% tolower(dir(path)))) {
-      return(path)
+
+  if (is_app(path)) {
+    app <- path
+    dir <- path
+  } else if (is_rmd(path)) {
+    # Fallback for old behaviour
+    if (length(dir(dirname(path), pattern = "\\.[Rr]md$")) > 1) {
+      abort("For testing, only one .Rmd file is allowed per directory.")
     }
-    if ("index.Rmd" %in% dir(path)) {
-      return(file.path(path, "index.Rmd"))
+    app <- path
+    dir <- dirname(path)
+  } else {
+    rmds <- dir(path, pattern = "\\.Rmd$", full.names = TRUE)
+    if (length(rmds) != 1) {
+      abort(paste0(
+        "`", arg, "` doesn't contain 'app.R', 'server.R', or exactly one '.Rmd'"
+      ))
+    } else {
+      app <- rmds
+      dir <- dirname(app)
     }
   }
 
-  stop(path, " must be a directory containing app.R, server.R, or index.Rmd; or path to a .Rmd file (including the filename).")
+  list(app = app, dir = dir)
 }
-
-
 
 raw_to_utf8 <- function(data) {
   res <- rawToChar(data)
@@ -216,4 +217,23 @@ png_res_header_data <- as.raw(c(
 
 on_ci <- function() {
  isTRUE(as.logical(Sys.getenv("CI")))
+}
+
+httr_get <- function(url) {
+  pieces <- httr::parse_url(url)
+
+  if (!pingr::is_up(pieces$hostname, pieces$port)) {
+    stop("Shiny app is no longer running")
+  }
+
+  req <- httr::GET(url)
+  status <- httr::status_code(req)
+  if (status == 200) {
+    return(req)
+  }
+
+  cat("Query failed (", status, ")----------------------\n", sep = "")
+  cat(httr::content(req, "text"), "\n")
+  cat("----------------------------------------\n")
+  stop("Unable request data from server")
 }

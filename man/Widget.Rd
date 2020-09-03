@@ -4,12 +4,8 @@
 \alias{Widget}
 \title{A Shiny Widget}
 \description{
-A Shiny Widget
-
-A Shiny Widget
-}
-\details{
-A \code{Widget} object represents a Shiny input or output control.
+A \code{Widget} object represents a Shiny input or output control, and provides
+methods for finer grained interaction.
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -17,6 +13,7 @@ A \code{Widget} object represents a Shiny input or output control.
 \item \href{#method-new}{\code{Widget$new()}}
 \item \href{#method-getName}{\code{Widget$getName()}}
 \item \href{#method-getElement}{\code{Widget$getElement()}}
+\item \href{#method-getHtml}{\code{Widget$getHtml()}}
 \item \href{#method-getType}{\code{Widget$getType()}}
 \item \href{#method-getIoType}{\code{Widget$getIoType()}}
 \item \href{#method-isInput}{\code{Widget$isInput()}}
@@ -71,6 +68,16 @@ was created with).
 Underlying \code{\link[webdriver:Element]{webdriver::Element()}} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Widget$getElement()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getHtml"></a>}}
+\if{latex}{\out{\hypertarget{method-getHtml}{}}}
+\subsection{Method \code{getHtml()}}{
+retrieve the underlying HTML for a widget
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Widget$getHtml()}\if{html}{\out{</div>}}
 }
 
 }
