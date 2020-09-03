@@ -20,8 +20,8 @@ test_that("can get ui and server from app", {
   }
 
   data <- app_data(shinyApp(ui, server))
-  expect_equal(data$`_ui`, ui)
-  expect_equal(data$`_server`, server)
+  expect_equal(data$ui, ui)
+  expect_equal(data$server, server)
 })
 
 test_that("can extract globals from server", {

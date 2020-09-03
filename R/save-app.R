@@ -1,16 +1,17 @@
-app_save <- function(app, env = parent.frame()) {
-  app_dir <- tempfile()
-  dir.create(app_dir)
+app_save <- function(app, path = tempfile(), env = parent.frame()) {
+  if (!dir.exists(path)) {
+    dir.create(path)
+  }
 
   file.copy(
     system.file("app-template.R", package = "shinytest"),
-    file.path(app_dir, "app.R")
+    file.path(path, "app.R")
   )
 
   data <- app_data(app, env)
-  saveRDS(data, file.path(app_dir, "data.rds"))
+  saveRDS(data, file.path(path, "data.rds"))
 
-  app_dir
+  path
 }
 
 app_data <- function(app, env = parent.frame()) {
@@ -18,10 +19,10 @@ app_data <- function(app, env = parent.frame()) {
   globals <- app_server_globals(server, env)
 
   data <- globals$globals
-  data$`_ui` <- environment(app$httpHandler)$ui
-  data$`_server` <- server
-  data$`_resources` <- resource_paths_get()
-  data$`_packages` <- globals$packages
+  data$ui <- environment(app$httpHandler)$ui
+  data$server <- server
+  data$resources <- shiny::resourcePaths()
+  data$packages <- globals$packages
   data
 }
 
@@ -50,9 +51,4 @@ app_server_globals <- function(server, env = parent.frame()) {
     globals = globals,
     packages = pkgs
   )
-}
-
-resource_paths_get <- function() {
-  resources <- getNamespace("shiny")$.globals$resources
-  vapply(resources, "[[", "directoryPath", FUN.VALUE = character(1))
 }

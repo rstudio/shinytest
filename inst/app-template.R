@@ -1,9 +1,9 @@
 library(shiny)
-attach(readRDS('data.rds'))
+`_data` <- readRDS('data.rds')
 
-lapply(`_packages`, library, character.only = TRUE)
-for (prefix in names(`_resources`)) {
-  shiny::addResourcePath(prefix, resources[[prefix]])
+lapply(`_data`$packages, library, character.only = TRUE)
+for (prefix in names(`_data`$resources)) {
+  shiny::addResourcePath(prefix, `_data`$resources[[prefix]])
 }
 
-shinyApp(`_ui`, `_server`)
+shinyApp(`_data`$ui, `_data`$server)
