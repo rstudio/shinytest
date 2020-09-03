@@ -37,3 +37,11 @@ test_that("window size", {
     list(width = 1200L, height = 800L)
   )
 })
+
+test_that("can test app object", {
+  ui <- fluidPage(textInput("x", "x", "value"))
+  server <- function(input, output, session) {}
+
+  app <- ShinyDriver$new(shinyApp(ui, server))
+  expect_equal(app$getValue("x"), "value")
+})
