@@ -33,6 +33,8 @@ testApp <- function(
   suffix = NULL
 )
 {
+  library(shinytest)
+
   path <- app_path(appDir, "appDir")
 
   testsDir <- findTestsDir(path$dir, quiet=FALSE)
