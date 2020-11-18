@@ -83,12 +83,6 @@ used in shinytest 1.4.0 and above." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/shinytest.html">Get started</a>
 </li>
 <li>
@@ -153,7 +147,7 @@ used in shinytest 1.4.0 and above." />
 used in shinytest 1.4.0 and above.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>migrateShinytestDir</span>(<span class='kw'>appdir</span>, dryrun = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>migrateShinytestDir</span><span class='op'>(</span><span class='va'>appdir</span>, dryrun <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,9 +171,9 @@ the tests are put in <code>tests/shinytest/</code>, so that it works with the
 <code>runTests()</code> function shiny package (added in <span class="pkg">shiny</span> 1.5.0).</p>
 <p>With <span class="pkg">shinytest</span> 1.3.1 and below, the tests/ subdirectory of the
 application was used specifically for <span class="pkg">shinytest</span>, and could not be used
-for other types of tests. So the directory structure would look like this:</p><pre><span class='kw'>appdir</span><span class='op'>/</span>
- <span class='kw'>`- tests
-     `</span><span class='op'>-</span> <span class='kw'>mytest.R</span>
+for other types of tests. So the directory structure would look like this:</p><pre><span class='va'>appdir</span><span class='op'>/</span>
+ <span class='va'>`- tests
+     `</span><span class='op'>-</span> <span class='va'>mytest.R</span>
 </pre>
 
 <p>In Shiny 1.5.0, the <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runTests.html'>shiny::runTests()</a></code> function was added, and it will run
@@ -219,7 +213,7 @@ structure.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

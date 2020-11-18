@@ -81,12 +81,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/shinytest.html">Get started</a>
 </li>
 <li>
@@ -149,13 +143,13 @@
     <p><code>testthat</code> expectation for a Shiny update</p>
     </div>
 
-    <pre class="usage"><span class='fu'>expectUpdate</span>(
-  <span class='kw'>app</span>,
-  <span class='kw'>output</span>,
-  <span class='kw'>...</span>,
-  timeout = <span class='fl'>3000</span>,
-  iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>expectUpdate</span><span class='op'>(</span>
+  <span class='va'>app</span>,
+  <span class='va'>output</span>,
+  <span class='va'>...</span>,
+  timeout <span class='op'>=</span> <span class='fl'>3000</span>,
+  iotype <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,13 +181,13 @@ input widgets.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'>## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example</span>
-<span class='kw'>app</span> <span class='op'>&lt;-</span> <span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>new</span>(<span class='st'>"050-kmeans-example"</span>)
-<span class='fu'>expectUpdate</span>(<span class='kw'>app</span>, xcol = <span class='st'>"Sepal.Width"</span>, output = <span class='st'>"plot1"</span>)
-<span class='fu'>expectUpdate</span>(<span class='kw'>app</span>, ycol = <span class='st'>"Petal.Width"</span>, output = <span class='st'>"plot1"</span>)
-<span class='fu'>expectUpdate</span>(<span class='kw'>app</span>, clusters = <span class='fl'>4</span>, output = <span class='st'>"plot1"</span>)
-}
+<span class='va'>app</span> <span class='op'>&lt;-</span> <span class='va'><a href='ShinyDriver.html'>ShinyDriver</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"050-kmeans-example"</span><span class='op'>)</span>
+<span class='fu'>expectUpdate</span><span class='op'>(</span><span class='va'>app</span>, xcol <span class='op'>=</span> <span class='st'>"Sepal.Width"</span>, output <span class='op'>=</span> <span class='st'>"plot1"</span><span class='op'>)</span>
+<span class='fu'>expectUpdate</span><span class='op'>(</span><span class='va'>app</span>, ycol <span class='op'>=</span> <span class='st'>"Petal.Width"</span>, output <span class='op'>=</span> <span class='st'>"plot1"</span><span class='op'>)</span>
+<span class='fu'>expectUpdate</span><span class='op'>(</span><span class='va'>app</span>, clusters <span class='op'>=</span> <span class='fl'>4</span>, output <span class='op'>=</span> <span class='st'>"plot1"</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -210,7 +204,7 @@ input widgets.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

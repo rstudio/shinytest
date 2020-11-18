@@ -82,12 +82,6 @@ methods for finer grained interaction." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/shinytest.html">Get started</a>
 </li>
 <li>
@@ -178,7 +172,7 @@ methods for finer grained interaction.</p>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Create new <code>Widget</code></p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>name</span>, <span class='kw'>element</span>, <span class='kw'>type</span>, iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"input"</span>, <span class='st'>"output"</span>))</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>element</span>, <span class='va'>type</span>, iotype <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"input"</span>, <span class='st'>"output"</span><span class='op'>)</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -195,47 +189,47 @@ methods for finer grained interaction.</p>
 <a id="method-getName"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getName()</code></h3>
 <p>Control id (i.e. <code>inputId</code> or <code>outputId</code> that control
 was created with).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>getName</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>getName</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getElement"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/Extract.html'>getElement()</a></code></h3>
 <p>Underlying <code><a href='https://rdrr.io/pkg/webdriver/man/Element.html'>webdriver::Element()</a></code> object.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/Extract.html'>getElement</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>getElement</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getHtml"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getHtml()</code></h3>
 <p>retrieve the underlying HTML for a widget</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>getHtml</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>getHtml</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getType"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getType()</code></h3>
 <p>Widget type, e.g. <code>textInput</code>, <code>selectInput</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>getType</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>getType</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getIoType"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getIoType()</code></h3>
 <p>Is this an input or output control?</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>getIoType</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>getIoType</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-isInput"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>isInput()</code></h3>
 <p>Is this an input control?</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>isInput</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>isInput</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-isOutput"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>isOutput()</code></h3>
 <p>Is this an output control?</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>isOutput</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>isOutput</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getValue"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getValue()</code></h3>
 <p>Get current value of control.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>getValue</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>getValue</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-setValue"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>setValue()</code></h3>
 <p>Set value of control.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>setValue</span>(<span class='kw'>value</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>setValue</span><span class='op'>(</span><span class='va'>value</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -246,14 +240,14 @@ was created with).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' hre
 <a id="method-click"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>click()</code></h3>
 <p>scrolls the element into view, then clicks the in-view
 centre point of it.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>click</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>click</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>self, invisibly.</p>
 <p><hr>
 <a id="method-sendKeys"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>sendKeys()</code></h3>
 <p>Send specified key presses to control.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>sendKeys</span>(<span class='kw'>keys</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>sendKeys</span><span class='op'>(</span><span class='va'>keys</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -265,13 +259,13 @@ for how to specific special keys.</p></dd>
 <a id="method-listTabs"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>listTabs()</code></h3>
 <p>Lists the tab names of a <code><a href='https://shiny.rstudio.com/reference/shiny/latest/tabsetPanel.html'>shiny::tabsetPanel()</a></code>.
 It fails for other types of widgets.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>listTabs</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>listTabs</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-uploadFile"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>uploadFile()</code></h3>
 <p>Upload a file to a <code><a href='https://shiny.rstudio.com/reference/shiny/latest/fileInput.html'>shiny::fileInput()</a></code>.
 It fails for other types of widgets.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>uploadFile</span>(<span class='kw'>filename</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>uploadFile</span><span class='op'>(</span><span class='va'>filename</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -281,7 +275,7 @@ It fails for other types of widgets.</p><h4 class='hasAnchor' id='arguments'><a 
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Widget</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Widget</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -306,7 +300,7 @@ It fails for other types of widgets.</p><h4 class='hasAnchor' id='arguments'><a 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

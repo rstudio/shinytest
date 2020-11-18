@@ -84,12 +84,6 @@ with a live app." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/shinytest.html">Get started</a>
 </li>
 <li>
@@ -212,17 +206,17 @@ with a live app.</p>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>new</span>(
-  path = <span class='st'>"."</span>,
-  loadTimeout = <span class='kw'>NULL</span>,
-  checkNames = <span class='fl'>TRUE</span>,
-  debug = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"all"</span>, <span class='kw'>shinytest</span>::<span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='kw'>debugLogTypes</span>),
-  phantomTimeout = <span class='fl'>5000</span>,
-  seed = <span class='kw'>NULL</span>,
-  cleanLogs = <span class='fl'>TRUE</span>,
-  shinyOptions = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  renderArgs = <span class='kw'>NULL</span>
-)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
+  path <span class='op'>=</span> <span class='st'>"."</span>,
+  loadTimeout <span class='op'>=</span> <span class='cn'>NULL</span>,
+  checkNames <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  debug <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"all"</span>, <span class='fu'>shinytest</span><span class='fu'>::</span><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='va'>debugLogTypes</span><span class='op'>)</span>,
+  phantomTimeout <span class='op'>=</span> <span class='fl'>5000</span>,
+  seed <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cleanLogs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  shinyOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  renderArgs <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -256,19 +250,19 @@ Shiny process object is garbage collected.</p></dd>
 <p><hr>
 <a id="method-finalize"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>finalize()</code></h3>
 <p>Stop app and clean up logs.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>finalize</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>finalize</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-stop"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code></h3>
 <p>Stop the app, the terminate external R process that runs the app and
 the phantomjs instance.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='kw'>stop</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getValue"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getValue()</code></h3>
 <p>Finds a widget and queries its value. See the <code>getValue()</code> method of
 <a href='Widget.html'>Widget</a> for more details.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getValue</span>(<span class='kw'>name</span>, iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span>))</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getValue</span><span class='op'>(</span><span class='va'>name</span>, iotype <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span><span class='op'>)</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -283,7 +277,7 @@ input and output widget.</p></dd>
 <a id="method-setValue"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>setValue()</code></h3>
 <p>Finds a widget and sets its value. It's a shortcut for <code>findElement()</code>
 plus <code>setValue()</code>; see the <a href='Widget.html'>Widget</a> documentation for more details.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>setValue</span>(<span class='kw'>name</span>, <span class='kw'>value</span>, iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span>))</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>setValue</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>value</span>, iotype <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span><span class='op'>)</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -302,7 +296,7 @@ input and output widget.</p></dd>
 <a id="method-click"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>click()</code></h3>
 <p>Find a widget and click it. It's a shortcut for <code>findElement()</code>
 plus <code>click()</code>; see the <a href='Widget.html'>Widget</a> documentation for more details.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>click</span>(<span class='kw'>name</span>, iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span>))</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>click</span><span class='op'>(</span><span class='va'>name</span>, iotype <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span><span class='op'>)</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -316,7 +310,7 @@ input and output widget.</p></dd>
 <p><hr>
 <a id="method-getAllValues"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getAllValues()</code></h3>
 <p>Returns a named list of all inputs, outputs, and export values.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getAllValues</span>(input = <span class='fl'>TRUE</span>, output = <span class='fl'>TRUE</span>, export = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getAllValues</span><span class='op'>(</span>input <span class='op'>=</span> <span class='cn'>TRUE</span>, output <span class='op'>=</span> <span class='cn'>TRUE</span>, export <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -329,7 +323,7 @@ controls.</p></dd>
 <a id="method-sendKeys"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>sendKeys()</code></h3>
 <p>Sends the specified keys to specific HTML element. Shortcut for
 <code>findWidget()</code> plus <code>sendKeys()</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>sendKeys</span>(<span class='kw'>name</span>, <span class='kw'>keys</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>sendKeys</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>keys</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -344,7 +338,7 @@ for how to specific special keys.</p></dd>
 <p><hr>
 <a id="method-setWindowSize"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>setWindowSize()</code></h3>
 <p>Sets size of the browser window.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>setWindowSize</span>(<span class='kw'>width</span>, <span class='kw'>height</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>setWindowSize</span><span class='op'>(</span><span class='va'>width</span>, <span class='va'>height</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -357,12 +351,12 @@ for how to specific special keys.</p></dd>
 <a id="method-getWindowSize"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getWindowSize()</code></h3>
 <p>Get current size of the browser window, as list of integer scalars
 named <code>width</code> and <code>height</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getWindowSize</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getWindowSize</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getDebugLog"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getDebugLog()</code></h3>
 <p>Query one or more of the debug logs.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getDebugLog</span>(type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='kw'>debugLogTypes</span>))</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getDebugLog</span><span class='op'>(</span>type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"all"</span>, <span class='va'>ShinyDriver</span><span class='op'>$</span><span class='va'>debugLogTypes</span><span class='op'>)</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -373,7 +367,7 @@ or <code>"shinytest"</code>.</p></dd>
 <p><hr>
 <a id="method-enableDebugLogMessages"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>enableDebugLogMessages()</code></h3>
 <p>Enable/disable debugging messages</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>enableDebugLogMessages</span>(enable = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>enableDebugLogMessages</span><span class='op'>(</span>enable <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -383,7 +377,7 @@ or <code>"shinytest"</code>.</p></dd>
 <p><hr>
 <a id="method-logEvent"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>logEvent()</code></h3>
 <p>Add event to log.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>logEvent</span>(<span class='kw'>event</span>, <span class='kw'>...</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>logEvent</span><span class='op'>(</span><span class='va'>event</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -395,34 +389,34 @@ or <code>"shinytest"</code>.</p></dd>
 <p><hr>
 <a id="method-getEventLog"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getEventLog()</code></h3>
 <p>Retrieve event log.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getEventLog</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getEventLog</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getUrl"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getUrl()</code></h3>
 <p>Get current url</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getUrl</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getUrl</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getTitle"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getTitle()</code></h3>
 <p>Get page title</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getTitle</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getTitle</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getSource"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getSource()</code></h3>
 <p>Get complete source of current page.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getSource</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getSource</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-goBack"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>goBack()</code></h3>
 <p>Return to previous page</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>goBack</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>goBack</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Self, invisibly.</p>
 <p><hr>
 <a id="method-refresh"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>refresh()</code></h3>
 <p>Refresh the browser</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>refresh</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>refresh</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Self, invisibly.</p>
@@ -430,7 +424,7 @@ or <code>"shinytest"</code>.</p></dd>
 <a id="method-takeScreenshot"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>takeScreenshot()</code></h3>
 <p>Takes a screenshot of the current page and writes it to a PNG file or
 shows on current graphics device.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>takeScreenshot</span>(file = <span class='kw'>NULL</span>, id = <span class='kw'>NULL</span>, parent = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>takeScreenshot</span><span class='op'>(</span>file <span class='op'>=</span> <span class='cn'>NULL</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, parent <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -451,12 +445,12 @@ control.</p></dd>
 <p>Find an HTML element on the page, using a CSS selector, XPath expression,
 or link text (for <code>&lt;a&gt;</code> tags). If multiple elements are matched, only
 the first is returned.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>findElement</span>(
-  css = <span class='kw'>NULL</span>,
-  linkText = <span class='kw'>NULL</span>,
-  partialLinkText = <span class='kw'>NULL</span>,
-  xpath = <span class='kw'>NULL</span>
-)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>findElement</span><span class='op'>(</span>
+  css <span class='op'>=</span> <span class='cn'>NULL</span>,
+  linkText <span class='op'>=</span> <span class='cn'>NULL</span>,
+  partialLinkText <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xpath <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -474,12 +468,12 @@ the first is returned.</p><h4 class='hasAnchor' id='arguments'><a class='anchor'
 <p><hr>
 <a id="method-findElements"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>findElements()</code></h3>
 <p>Find all elements matching CSS selection, xpath, or link text.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>findElements</span>(
-  css = <span class='kw'>NULL</span>,
-  linkText = <span class='kw'>NULL</span>,
-  partialLinkText = <span class='kw'>NULL</span>,
-  xpath = <span class='kw'>NULL</span>
-)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>findElements</span><span class='op'>(</span>
+  css <span class='op'>=</span> <span class='cn'>NULL</span>,
+  linkText <span class='op'>=</span> <span class='cn'>NULL</span>,
+  partialLinkText <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xpath <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -498,7 +492,7 @@ the first is returned.</p><h4 class='hasAnchor' id='arguments'><a class='anchor'
 <a id="method-waitFor"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>waitFor()</code></h3>
 <p>Waits until a JavaScript <code>expr</code>ession evaluates to <code>true</code> or the
 <code>timeout</code> is exceeded.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>waitFor</span>(<span class='kw'>expr</span>, checkInterval = <span class='fl'>100</span>, timeout = <span class='fl'>3000</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>waitFor</span><span class='op'>(</span><span class='va'>expr</span>, checkInterval <span class='op'>=</span> <span class='fl'>100</span>, timeout <span class='op'>=</span> <span class='fl'>3000</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -519,7 +513,7 @@ timeout. Otherwise returns <code>NA</code>.</p>
 updating. This is useful, for example, if you've resized the window with
 <code>setWindowSize()</code> and want to make sure all plot redrawing is complete
 before take a screenshot.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>waitForShiny</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>waitForShiny</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p><code>TRUE</code> if done before before timeout; <code>NA</code> otherwise.</p>
@@ -529,13 +523,13 @@ before take a screenshot.</p><h4 class='hasAnchor' id='arguments'><a class='anch
 <code>ignore</code>d values, or the timeout is reached.</p>
 <p>This function can be useful in helping determine if an application
 has initialized or finished processing a complex reactive situation.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>waitForValue</span>(
-  <span class='kw'>name</span>,
-  ignore = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>NULL</span>, <span class='st'>""</span>),
-  iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"input"</span>, <span class='st'>"output"</span>, <span class='st'>"export"</span>),
-  timeout = <span class='fl'>10000</span>,
-  checkInterval = <span class='fl'>400</span>
-)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>waitForValue</span><span class='op'>(</span>
+  <span class='va'>name</span>,
+  ignore <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>""</span><span class='op'>)</span>,
+  iotype <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"input"</span>, <span class='st'>"output"</span>, <span class='st'>"export"</span><span class='op'>)</span>,
+  timeout <span class='op'>=</span> <span class='fl'>10000</span>,
+  checkInterval <span class='op'>=</span> <span class='fl'>400</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -556,19 +550,19 @@ input and output widget.</p></dd>
 <p><hr>
 <a id="method-listWidgets"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>listWidgets()</code></h3>
 <p>Lists the names of all input and output widgets</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>listWidgets</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>listWidgets</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>A list of two character vectors, named <code>input</code> and <code>output</code>.</p>
 <p><hr>
 <a id="method-checkUniqueWidgetNames"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>checkUniqueWidgetNames()</code></h3>
 <p>Check if Shiny widget names are unique.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>checkUniqueWidgetNames</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>checkUniqueWidgetNames</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-executeScript"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>executeScript()</code></h3>
 <p>Execute JS code</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>executeScript</span>(<span class='kw'>script</span>, <span class='kw'>...</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>executeScript</span><span class='op'>(</span><span class='va'>script</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -582,7 +576,7 @@ input and output widget.</p></dd>
 <p><hr>
 <a id="method-executeScriptAsync"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>executeScriptAsync()</code></h3>
 <p>Execute JS code asynchronously.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>executeScriptAsync</span>(<span class='kw'>script</span>, <span class='kw'>...</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>executeScriptAsync</span><span class='op'>(</span><span class='va'>script</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -596,7 +590,7 @@ input and output widget.</p></dd>
 <p><hr>
 <a id="method-findWidget"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>findWidget()</code></h3>
 <p>Finds the a Shiny input or output control.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>findWidget</span>(<span class='kw'>name</span>, iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span>))</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>findWidget</span><span class='op'>(</span><span class='va'>name</span>, iotype <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span><span class='op'>)</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -615,12 +609,12 @@ input and output widget.</p></dd>
 waits for the specified output(s) to update. The test succeeds if
 all specified output widgets are updated before the <code>timeout</code>.
 For updates that involve a lot of computation, increase the timeout.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'><a href='expectUpdate.html'>expectUpdate</a></span>(
-  <span class='kw'>output</span>,
-  <span class='kw'>...</span>,
-  timeout = <span class='fl'>3000</span>,
-  iotype = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span>)
-)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>expectUpdate</span><span class='op'>(</span>
+  <span class='va'>output</span>,
+  <span class='va'>...</span>,
+  timeout <span class='op'>=</span> <span class='fl'>3000</span>,
+  iotype <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"input"</span>, <span class='st'>"output"</span><span class='op'>)</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -638,14 +632,14 @@ input and output widget.</p></dd>
 <p><hr>
 <a id="method-setInputs"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>setInputs()</code></h3>
 <p>Sets input values.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>setInputs</span>(
-  <span class='kw'>...</span>,
-  wait_ = <span class='fl'>TRUE</span>,
-  values_ = <span class='fl'>TRUE</span>,
-  timeout_ = <span class='fl'>3000</span>,
-  allowInputNoBinding_ = <span class='fl'>FALSE</span>,
-  priority_ = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"input"</span>, <span class='st'>"event"</span>)
-)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>setInputs</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  wait_ <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  values_ <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  timeout_ <span class='op'>=</span> <span class='fl'>3000</span>,
+  allowInputNoBinding_ <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  priority_ <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"input"</span>, <span class='st'>"event"</span><span class='op'>)</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -671,7 +665,7 @@ an input binding.</p></dd>
 <p><hr>
 <a id="method-uploadFile"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>uploadFile()</code></h3>
 <p>Uploads a file to a file input.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>uploadFile</span>(<span class='kw'>...</span>, wait_ = <span class='fl'>TRUE</span>, values_ = <span class='fl'>TRUE</span>, timeout_ = <span class='fl'>3000</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>uploadFile</span><span class='op'>(</span><span class='va'>...</span>, wait_ <span class='op'>=</span> <span class='cn'>TRUE</span>, values_ <span class='op'>=</span> <span class='cn'>TRUE</span>, timeout_ <span class='op'>=</span> <span class='fl'>3000</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -690,7 +684,7 @@ control.</p></dd>
 <a id="method-snapshotInit"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>snapshotInit()</code></h3>
 <p>Download a snapshot. Generally, you should not call this function
 yourself; it will be generated by <code><a href='recordTest.html'>recordTest()</a></code> as needed.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>snapshotInit</span>(<span class='kw'>path</span>, screenshot = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>snapshotInit</span><span class='op'>(</span><span class='va'>path</span>, screenshot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -703,7 +697,7 @@ yourself; it will be generated by <code><a href='recordTest.html'>recordTest()</
 <a id="method-snapshot"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>snapshot()</code></h3>
 <p>Take a snapshot. Generally, you should not call this function
 yourself; it will be generated by <code><a href='recordTest.html'>recordTest()</a></code> as needed.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>snapshot</span>(items = <span class='kw'>NULL</span>, filename = <span class='kw'>NULL</span>, screenshot = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>snapshot</span><span class='op'>(</span>items <span class='op'>=</span> <span class='cn'>NULL</span>, filename <span class='op'>=</span> <span class='cn'>NULL</span>, screenshot <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -718,7 +712,7 @@ yourself; it will be generated by <code><a href='recordTest.html'>recordTest()</
 <p><hr>
 <a id="method-snapshotCompare"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='snapshotCompare.html'>snapshotCompare()</a></code></h3>
 <p>Deprecated</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'><a href='snapshotCompare.html'>snapshotCompare</a></span>(<span class='kw'>...</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>snapshotCompare</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -729,7 +723,7 @@ yourself; it will be generated by <code><a href='recordTest.html'>recordTest()</
 <a id="method-snapshotDownload"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>snapshotDownload()</code></h3>
 <p>Snapshot a file download action. Generally, you should not call this
 function yourself; it will be generated by <code><a href='recordTest.html'>recordTest()</a></code> as needed.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>snapshotDownload</span>(<span class='kw'>id</span>, filename = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>snapshotDownload</span><span class='op'>(</span><span class='va'>id</span>, filename <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -743,37 +737,37 @@ generates an ascending sequence of names: <code>001.download</code>,
 <p><hr>
 <a id="method-getAppDir"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getAppDir()</code></h3>
 <p>Directory where app is located</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getAppDir</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getAppDir</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getAppFilename"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getAppFilename()</code></h3>
 <p>App file name, i.e. <code>app.R</code> or <code>server.R</code>. <code>NULL</code> for Rmds.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getAppFilename</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getAppFilename</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getTestsDir"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getTestsDir()</code></h3>
 <p>Directory where tests are located</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getTestsDir</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getTestsDir</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getRelativePathToApp"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getRelativePathToApp()</code></h3>
 <p>Relative path to app from current directory.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getRelativePathToApp</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getRelativePathToApp</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-getSnapshotDir"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getSnapshotDir()</code></h3>
 <p>Directory where snapshots are located.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getSnapshotDir</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>getSnapshotDir</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-isRmd"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>isRmd()</code></h3>
 <p>Is this app an Shiny Rmd document?</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>isRmd</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>isRmd</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ShinyDriver</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ShinyDriver</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -798,7 +792,7 @@ generates an ascending sequence of names: <code>001.download</code>,
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
