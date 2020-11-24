@@ -1,4 +1,4 @@
-shinytest 1.4.0.9002
+shinytest 1.4.0.9003
 ===============
 
 * `ShinyDriver$takeSnapshot()` gains ability to take a snapshot of a single
@@ -6,6 +6,9 @@ shinytest 1.4.0.9002
 
 * New `Widget$getHtml()` returns the complete HTML of the selected widget 
   (#347).
+
+* Add new `osName()` function, which returns the name of the operating system.
+  (#368)
 
 * `ShinyDriver$intialize()` gains a `renderArgs` method which is passed along
   to `rmarkdown::run()` for interactive Rmds (#249); this makes it possible
