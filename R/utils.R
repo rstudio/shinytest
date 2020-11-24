@@ -43,9 +43,29 @@ package_version <- function(pkg = packageName()) {
 
 is_windows <- function() .Platform$OS.type == "windows"
 
-is_osx     <- function() Sys.info()[['sysname']] == 'Darwin'
+is_mac     <- function() Sys.info()[['sysname']] == 'Darwin'
 
 is_linux   <- function() Sys.info()[['sysname']] == 'Linux'
+
+#' Get the name of the OS
+#'
+#' Returns the name of the current OS. This can be useful for the `suffix` when
+#' running [testApp()].
+#'
+#' @export
+osName <- function() {
+  if (is_windows()) {
+    "win"
+  } else if (is_mac()) {
+    "mac"
+  } else if (is_linux()) {
+    "linux"
+  } else if (.Platform$OS.type == "unix") {
+    "unix"
+  } else {
+    stop("Unknown OS")
+  }
+}
 
 dir_exists <- function(path) utils::file_test('-d', path)
 
