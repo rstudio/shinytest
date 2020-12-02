@@ -139,7 +139,8 @@ is_app <- function(path) {
 }
 
 app_path <- function(path, arg = "path") {
-  if (!file.exists(path)) {
+  # must also check for dir (windows trailing '/')
+  if (!(file.exists(path) || dir.exists(path))) {
     stop(paste0("'", path, "' doesn't exist"), call. = FALSE)
   }
 
