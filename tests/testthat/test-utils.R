@@ -93,3 +93,8 @@ test_that("can find three styles of app", {
   expect_error(app_path(test_path("apps/two-rmd")), "exactly one")
   expect_error(app_path(test_path("apps/two-rmd/doc1.Rmd")), "only one")
 })
+
+
+test_that("app_path works with trailing slash", {
+  expect_error(app_path("../"), NA)
+})
