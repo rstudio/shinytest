@@ -96,5 +96,5 @@ test_that("can find three styles of app", {
 
 
 test_that("app_path works with trailing slash", {
-  expect_error(app_path("../"), NA)
+  expect_error(app_path("apps/stopApp/"), NA)
 })
