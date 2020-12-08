@@ -10,9 +10,9 @@ shinytest 1.4.0.9003
 * Add new `osName()` function, which returns the name of the operating system.
   (#368)
 
-* `ShinyDriver$intialize()` gains a `renderArgs` method which is passed along
-  to `rmarkdown::run()` for interactive Rmds (#249); this makes it possible
-  to set parameters for parameterised reports.
+* `ShinyDriver$intialize()` gains two new arguments:
+    * `renderArgs`: a list of arguments to `rmarkdown::run()`, making it possible to set parameters for parameterised `runtime: shiny` Rmd documents (#249).
+    * `options`: a list of arguments to `base::options()`, making it possible to set options in the child process which runs the application (#373).
 
 * `ShinyDriver$getAllValues()`, `ShinyDriver$snapshot()`, and
   `ShinyDriver$snapshotDownload()` give clear errors messages if the Shiny
