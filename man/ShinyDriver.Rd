@@ -72,7 +72,8 @@ with a live app.
   seed = NULL,
   cleanLogs = TRUE,
   shinyOptions = list(),
-  renderArgs = NULL
+  renderArgs = NULL,
+  options = list()
 )}\if{html}{\out{</div>}}
 }
 
@@ -104,6 +105,9 @@ Shiny process object is garbage collected.}
 \item{\code{shinyOptions}}{A list of options to pass to \code{\link[shiny:runApp]{shiny::runApp()}}.}
 
 \item{\code{renderArgs}}{Passed to \code{rmarkdown::run()} for interactive \code{.Rmd}s.}
+
+\item{\code{options}}{A list of \code{\link[base:options]{base::options()}} to set in the driver's child
+process.}
 }
 \if{html}{\out{</div>}}
 }
