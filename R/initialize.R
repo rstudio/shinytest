@@ -4,7 +4,7 @@
 
 sd_initialize <- function(self, private, path, loadTimeout, checkNames,
                           debug, phantomTimeout, seed, cleanLogs,
-                          shinyOptions, renderArgs) {
+                          shinyOptions, renderArgs, options) {
 
   private$cleanLogs <- cleanLogs
   if (is.null(loadTimeout)) {
@@ -30,7 +30,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
   } else {
     "!DEBUG starting shiny app from path"
     self$logEvent("Starting Shiny app")
-    private$startShiny(path, seed, loadTimeout, shinyOptions, renderArgs)
+    private$startShiny(path, seed, loadTimeout, shinyOptions, renderArgs, options)
   }
 
   "!DEBUG create new phantomjs session"
@@ -92,7 +92,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 #' @importFrom rematch re_match
 #' @importFrom withr with_envvar
 
-sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions, renderArgs) {
+sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions, renderArgs, options) {
 
   assert_that(is_string(path))
 
@@ -110,7 +110,7 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions, 
   p <- with_envvar(
     c("R_TESTS" = NA),
     callr::r_bg(
-      function(path, shinyOptions, rmd, seed, rng_kind, renderArgs) {
+      function(path, shinyOptions, rmd, seed, rng_kind, renderArgs, options) {
 
         if (!is.null(seed)) {
           # Prior to R 3.6, RNGkind has 2 args, otherwise it has 3
@@ -119,7 +119,9 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions, 
           shiny:::withPrivateSeed(set.seed(seed + 11))
         }
 
-        options(shiny.testmode = TRUE)
+        options <- as.list(options)
+        options$shiny.testmode <- TRUE
+        do.call(base::options, options)
 
         if (rmd) {
           # Shiny document
@@ -135,7 +137,8 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions, 
         rmd = is_rmd(path),
         seed = seed,
         rng_kind = rng_kind,
-        renderArgs = renderArgs
+        renderArgs = renderArgs,
+        options = options
       ),
       stdout = sprintf(tempfile_format, "shiny-stdout"),
       stderr = sprintf(tempfile_format, "shiny-stderr"),

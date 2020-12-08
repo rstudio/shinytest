@@ -39,17 +39,19 @@ ShinyDriver <- R6Class(
     #'   For apps that use R's random number generator, this can make their
     #'   behavior repeatable.
     #' @param cleanLogs Whether to remove the stdout and stderr logs when the
-    #'     Shiny process object is garbage collected.
+    #'   Shiny process object is garbage collected.
     #' @param shinyOptions A list of options to pass to [shiny::runApp()].
     #' @param renderArgs Passed to `rmarkdown::run()` for interactive `.Rmd`s.
+    #' @param options A list of [base::options()] to set in the driver's child
+    #'   process.
     initialize = function(path = ".", loadTimeout = NULL, checkNames = TRUE,
       debug = c("none", "all", shinytest::ShinyDriver$debugLogTypes),
       phantomTimeout = 5000, seed = NULL, cleanLogs = TRUE,
-      shinyOptions = list(), renderArgs = NULL)
+      shinyOptions = list(), renderArgs = NULL, options = list())
     {
       sd_initialize(self, private, path, loadTimeout, checkNames, debug,
         phantomTimeout = phantomTimeout, seed = seed, cleanLogs = cleanLogs,
-        shinyOptions = shinyOptions, renderArgs = renderArgs)
+        shinyOptions = shinyOptions, renderArgs = renderArgs, options = options)
     },
 
     #' @description Stop app and clean up logs.
@@ -477,8 +479,8 @@ ShinyDriver <- R6Class(
     cleanLogs = TRUE,                  # Whether to clean logs when GC'd
 
     startShiny = function(path, seed = NULL, loadTimeout = 10000,
-                          shinyOptions = list(), renderArgs = NULL)
-      sd_startShiny(self, private, path, seed, loadTimeout, shinyOptions, renderArgs),
+                          shinyOptions = list(), renderArgs = NULL, options = list())
+      sd_startShiny(self, private, path, seed, loadTimeout, shinyOptions, renderArgs, options),
 
     getShinyUrl = function()
       sd_getShinyUrl(self, private),
