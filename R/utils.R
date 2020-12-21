@@ -133,7 +133,15 @@ is_app <- function(path) {
       TRUE
     },
     error = function(e) {
-      FALSE
+      # shiny::shinyAppDir() throws an error of this class when the directory
+      # doesn't contain an app.R (or server.R) file
+      # https://github.com/rstudio/shiny/blob/8aee43c/R/shinyapp.R#L128-L131
+      if (inherits(e, "shiny_app_dir_missing_file")) {
+        return(FALSE)
+      }
+      # If shiny::shinyAppDir() errors out for other reasons, it's likely
+      # due to sourcing the app file(s), which the user should fix
+      stop(conditionMessage(e))
     }
   )
 }
