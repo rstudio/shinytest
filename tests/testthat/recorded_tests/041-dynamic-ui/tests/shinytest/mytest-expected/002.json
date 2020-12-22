@@ -7,20 +7,17 @@
     "dynamic_value": " int 17",
     "input_type_text": "slider",
     "ui": {
-      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"dynamic\">Dynamic<\/label>\n  <input class=\"js-range-slider\" id=\"dynamic\" data-min=\"1\" data-max=\"20\" data-from=\"10\" data-step=\"1\" data-grid=\"true\" data-grid-num=\"9.5\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"number\"/>\n<\/div>",
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"dynamic-label\" for=\"dynamic\">Dynamic<\/label>\n  <input class=\"js-range-slider\" id=\"dynamic\" data-skin=\"shiny\" data-min=\"1\" data-max=\"20\" data-from=\"10\" data-step=\"1\" data-grid=\"true\" data-grid-num=\"9.5\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"number\"/>\n<\/div>",
       "deps": [
         {
-          "name": "ionrangeslider",
-          "version": "2.1.6",
+          "name": "ionrangeslider-javascript",
+          "version": "2.3.1",
           "src": {
             "href": "shared/ionrangeslider"
           },
           "meta": null,
           "script": "js/ion.rangeSlider.min.js",
-          "stylesheet": [
-            "css/ion.rangeSlider.css",
-            "css/ion.rangeSlider.skinShiny.css"
-          ],
+          "stylesheet": null,
           "head": null,
           "attachment": null,
           "package": null,
@@ -35,6 +32,20 @@
           "meta": null,
           "script": "strftime-min.js",
           "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "ionrangeslider-css",
+          "version": "2.3.1",
+          "src": {
+            "href": "shared/ionrangeslider"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/ion.rangeSlider.css",
           "head": null,
           "attachment": null,
           "package": null,
