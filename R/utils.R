@@ -126,15 +126,12 @@ is_rmd <- function(path) {
   }
 }
 
-
-app_path <- function(path, arg = "path") {
-  # must also check for dir (windows trailing '/')
-  if (!(file.exists(path) || dir.exists(path))) {
-    stop(paste0("'", path, "' doesn't exist"), call. = FALSE)
-  }
-
-  is_app <- tryCatch(
-    { shiny::shinyAppDir(path); TRUE },
+is_app <- function(path) {
+  tryCatch(
+    {
+      shiny::shinyAppDir(path)
+      TRUE
+    },
     # shiny::shinyAppDir() throws a classed exception when path isn't a
     # directory, or it doesn't contain an app.R (or server.R) file
     # https://github.com/rstudio/shiny/blob/a60406a/R/shinyapp.R#L116-L119
@@ -143,27 +140,37 @@ app_path <- function(path, arg = "path") {
     # of the app file(s), so throw that error now
     error = function(x) abort(conditionMessage(x))
   )
+}
 
-  if (is_app) {
-    return(list(app = path, dir = path))
+app_path <- function(path, arg = "path") {
+  # must also check for dir (windows trailing '/')
+  if (!(file.exists(path) || dir.exists(path))) {
+    stop(paste0("'", path, "' doesn't exist"), call. = FALSE)
   }
 
-  if (is_rmd(path)) {
+  if (is_app(path)) {
+    app <- path
+    dir <- path
+  } else if (is_rmd(path)) {
     # Fallback for old behaviour
     if (length(dir(dirname(path), pattern = "\\.[Rr]md$")) > 1) {
       abort("For testing, only one .Rmd file is allowed per directory.")
     }
-    return(list(app = path, dir = dirname(path)))
+    app <- path
+    dir <- dirname(path)
+  } else {
+    rmds <- dir(path, pattern = "\\.Rmd$", full.names = TRUE)
+    if (length(rmds) != 1) {
+      abort(paste0(
+        "`", arg, "` doesn't contain 'app.R', 'server.R', or exactly one '.Rmd'"
+      ))
+    } else {
+      app <- rmds
+      dir <- dirname(app)
+    }
   }
 
-  rmds <- dir(path, pattern = "\\.Rmd$", full.names = TRUE)
-  if (length(rmds) == 1) {
-    return(list(app = rmds, dir = dirname(rmds)))
-  }
-
-  abort(paste0(
-    "`", arg, "` must contain a valid 'app.R', 'server.R', or exactly one '.Rmd' file."
-  ))
+  list(app = app, dir = dir)
 }
 
 raw_to_utf8 <- function(data) {
