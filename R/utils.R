@@ -126,30 +126,26 @@ is_rmd <- function(path) {
   }
 }
 
-is_app <- function(path) {
-  tryCatch(
-    {
-      shiny::shinyAppDir(path)
-      TRUE
-    },
-    error = function(e) {
-      # shiny::shinyAppDir() throws a classed exception when the directory
-      # doesn't contain an app.R (or server.R) file
-      # https://github.com/rstudio/shiny/blob/8aee43c/R/shinyapp.R#L128-L131
-      if (inherits(e, "shiny_app_dir_missing_file")) {
-        return(FALSE)
-      }
-      # If shiny::shinyAppDir() errors out for other reasons, it's likely
-      # due to sourcing the app file(s), which the user should know about
-      stop(conditionMessage(e))
-    }
-  )
-}
 
 app_path <- function(path, arg = "path") {
   # must also check for dir (windows trailing '/')
   if (!(file.exists(path) || dir.exists(path))) {
     stop(paste0("'", path, "' doesn't exist"), call. = FALSE)
+  }
+
+  is_app <- tryCatch(
+    { shiny::shinyAppDir(path); TRUE },
+    # shiny::shinyAppDir() throws a classed exception when path isn't a
+    # directory, or it doesn't contain an app.R (or server.R) file
+    # https://github.com/rstudio/shiny/blob/a60406a/R/shinyapp.R#L116-L119
+    invalidShinyAppDir = function(x) FALSE,
+    # If we get some other error, it's probably from sourcing
+    # of the app file(s), so throw that error now
+    error = function(x) abort(conditionMessage(x))
+  )
+
+  if (is_app) {
+    return(list(app = path, dir = path))
   }
 
   if (is_rmd(path)) {
@@ -160,17 +156,14 @@ app_path <- function(path, arg = "path") {
     return(list(app = path, dir = dirname(path)))
   }
 
-  if (is_app(path)) {
-    return(list(app = path, dir = path))
+  rmds <- dir(path, pattern = "\\.Rmd$", full.names = TRUE)
+  if (length(rmds) == 1) {
+    return(list(app = rmds, dir = dirname(rmds)))
   }
 
-  rmds <- dir(path, pattern = "\\.Rmd$", full.names = TRUE)
-  if (length(rmds) != 1) {
-    abort(paste0(
-      "`", arg, "` doesn't contain 'app.R', 'server.R', or exactly one '.Rmd'"
-    ))
-  }
-  list(app = rmds, dir = dirname(rmds))
+  abort(paste0(
+    "`", arg, "` must contain a valid 'app.R', 'server.R', or exactly one '.Rmd' file."
+  ))
 }
 
 raw_to_utf8 <- function(data) {
