@@ -5,9 +5,10 @@
   },
   "output": {
     "distPlot": {
-      "src": "[image data sha1: 0e9029ef927ecee77e2982a814d555d06ab824c1]",
+      "src": "[image data sha1: 508e0e3c2f8ad5cf7cf584b7879e793d902ec2f0]",
       "width": 962,
       "height": 400,
+      "alt": "Plot object",
       "coordmap": {
         "panels": [
           {
@@ -39,20 +40,17 @@
       }
     },
     "dynamic_output": {
-      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"bins\">Number of bins:<\/label>\n  <input class=\"js-range-slider\" id=\"bins\" data-min=\"1\" data-max=\"50\" data-from=\"30\" data-step=\"1\" data-grid=\"true\" data-grid-num=\"9.8\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"number\"/>\n<\/div>\n<div id=\"distPlot\" class=\"shiny-plot-output\" style=\"width: 100% ; height: 400px\"><\/div>",
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"bins-label\" for=\"bins\">Number of bins:<\/label>\n  <input class=\"js-range-slider\" id=\"bins\" data-skin=\"shiny\" data-min=\"1\" data-max=\"50\" data-from=\"30\" data-step=\"1\" data-grid=\"true\" data-grid-num=\"9.8\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"number\"/>\n<\/div>\n<div id=\"distPlot\" class=\"shiny-plot-output\" style=\"width:100%;height:400px;\"><\/div>",
       "deps": [
         {
-          "name": "ionrangeslider",
-          "version": "2.1.6",
+          "name": "ionrangeslider-javascript",
+          "version": "2.3.1",
           "src": {
             "href": "shared/ionrangeslider"
           },
           "meta": null,
           "script": "js/ion.rangeSlider.min.js",
-          "stylesheet": [
-            "css/ion.rangeSlider.css",
-            "css/ion.rangeSlider.skinShiny.css"
-          ],
+          "stylesheet": null,
           "head": null,
           "attachment": null,
           "package": null,
@@ -67,6 +65,20 @@
           "meta": null,
           "script": "strftime-min.js",
           "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "ionrangeslider-css",
+          "version": "2.3.1",
+          "src": {
+            "href": "shared/ionrangeslider"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/ion.rangeSlider.css",
           "head": null,
           "attachment": null,
           "package": null,

@@ -132,9 +132,13 @@ is_app <- function(path) {
       shiny::shinyAppDir(path)
       TRUE
     },
-    error = function(e) {
-      FALSE
-    }
+    # shiny::shinyAppDir() throws a classed exception when path isn't a
+    # directory, or it doesn't contain an app.R (or server.R) file
+    # https://github.com/rstudio/shiny/blob/a60406a/R/shinyapp.R#L116-L119
+    invalidShinyAppDir = function(x) FALSE,
+    # If we get some other error, it's probably from sourcing
+    # of the app file(s), so throw that error now
+    error = function(x) abort(conditionMessage(x))
   )
 }
 

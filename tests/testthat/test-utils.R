@@ -92,6 +92,8 @@ test_that("can find three styles of app", {
 
   expect_error(app_path(test_path("apps/two-rmd")), "exactly one")
   expect_error(app_path(test_path("apps/two-rmd/doc1.Rmd")), "only one")
+
+  expect_error(app_path(test_path("apps/user-error")), "boom")
 })
 
 
