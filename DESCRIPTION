@@ -1,6 +1,6 @@
 Package: shinytest
 Title: Test Shiny Apps
-Version: 1.4.0.9003
+Version: 1.4.1
 Authors@R:
     c(person(given = "Winston",
              family = "Chang",
@@ -48,9 +48,6 @@ Suggests:
     flexdashboard,
     globals,
     rmarkdown
-Remotes:
-    rstudio/webdriver,
-    rstudio/shiny
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

@@ -1,4 +1,4 @@
-shinytest 1.4.0.9003
+shinytest 1.4.1
 ===============
 
 * `ShinyDriver$takeSnapshot()` gains ability to take a snapshot of a single
