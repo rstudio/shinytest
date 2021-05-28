@@ -47,7 +47,7 @@ sd_initialize <- function(self, private, path, loadTimeout, checkNames,
 
   "!DEBUG wait for navigation to happen"
   nav_stop_time <- as.numeric(Sys.time()) + loadTimeout
-  while(private$web$getUrl() == "about:blank") {
+  while(identical(private$web$getUrl(), "about:blank")) {
     if (as.numeric(Sys.time()) > nav_stop_time) {
       abort(paste0(
         "Failed to navigate to Shiny app in ", loadTimeout, "ms.\n",
