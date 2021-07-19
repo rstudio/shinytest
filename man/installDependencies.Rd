@@ -3,7 +3,7 @@
 \name{dependenciesInstalled}
 \alias{dependenciesInstalled}
 \alias{installDependencies}
-\title{Checks for/install dependencies}
+\title{Checks for/installs dependencies}
 \usage{
 dependenciesInstalled()
 
@@ -18,4 +18,3 @@ PhantomJS, is installed, and \code{installDependencies()} installs it if needed.
 For more information about where PhantomJS will be installed
 see \code{\link[webdriver:install_phantomjs]{webdriver::install_phantomjs()}}.
 }
-\keyword{internal}
