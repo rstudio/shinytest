@@ -3,8 +3,9 @@ on:
     branches:
     - master
     - rc-**
-  pull:
-    branches: master
+  pull_request:
+    branches:
+    - master
 
 name: pkgdown
 
