@@ -204,7 +204,7 @@
   <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span>
   <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span>
   <span class="co"># which runs on Linux.</span>
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="st">"apps/helloworld/"</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html">test_path</a></span><span class="op">(</span><span class="st">"apps/helloworld/"</span><span class="op">)</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span></code></pre></div>
 <p>For more information about this script, see the <a href="#Test-driver-script-notes">Test driver script notes</a> section below.</p>
 </div>
@@ -234,7 +234,7 @@
   <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span>
   <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span>
   <span class="co"># which runs on Linux.</span>
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="st">"apps/helloworld/"</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html">test_path</a></span><span class="op">(</span><span class="st">"apps/helloworld/"</span><span class="op">)</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span></code></pre></div>
 <p>It has a few unusual features:</p>
 <p>If you will submit the package to CRAN, it is best to configure the application tests to <strong>not</strong> run on the CRAN build servers. If you are using testthat, use <code><a href="https://testthat.r-lib.org/reference/skip.html">skip_on_cran()</a></code> in the test block, as in the example.</p>
