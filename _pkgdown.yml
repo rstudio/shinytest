@@ -7,8 +7,13 @@ reference:
   - testApp
   - migrateShinytestDir
   - expect_pass
+  - osName
 
 - title: Remote control
   contents:
   - Widget
   - ShinyDriver
+
+- title: Dependencies
+  contents:
+  - installDependencies
