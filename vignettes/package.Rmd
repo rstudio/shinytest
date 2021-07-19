@@ -181,6 +181,8 @@ If you will be testing the package on multiple different platforms, then when ca
 
 You may have noticed the `expect_pass()` function, which is from the shinytest package (instead of most `expect_` functions, which are from the testthat package).
 
+Also note that the `shinytest` scripts require your package to be *installed*. [`testthat::test_local()`](https://testthat.r-lib.org/reference/test_package.html) (and related wrappers) eventually call `pkgload::load_all()` to temporarily source the local R package. You can use `test_local()` to test non-`shinytest` tests, but you will need to install your R package to safely execute your `shinytest` tests. If not installed, it will create a confusing situation where your `shinytest` tests run on a *different* version of your R package (whichever was last installed), than the rest of your tests (the current source).
+
 
 ## Continuous integration
 
