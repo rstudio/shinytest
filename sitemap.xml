@@ -10,9 +10,6 @@
     <loc>https://rstudio.github.io/shinytest/reference/Widget.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/shinytest/reference/dependenciesInstalled.html</loc>
-  </url>
-  <url>
     <loc>https://rstudio.github.io/shinytest/reference/diffviewer_widget.html</loc>
   </url>
   <url>
@@ -22,7 +19,13 @@
     <loc>https://rstudio.github.io/shinytest/reference/expect_pass.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/shinytest/reference/installDependencies.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/shinytest/reference/migrateShinytestDir.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/reference/osName.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/shinytest/reference/recordTest.html</loc>

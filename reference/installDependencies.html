@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Installs missing dependencies — installDependencies • shinytest</title>
+<title>Checks for/installs dependencies — dependenciesInstalled • shinytest</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,11 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Installs missing dependencies — installDependencies" />
-<meta property="og:description" content="Installs all the required system depencies to record and run tests. This will
-install a headless web browser, PhantomJS." />
+<meta property="og:title" content="Checks for/installs dependencies — dependenciesInstalled" />
+<meta property="og:description" content="dependenciesInstalled() that all the required system dependency,
+PhantomJS, is installed, and installDependencies() installs it if needed.
+For more information about where PhantomJS will be installed
+see webdriver::install_phantomjs()." />
 
 
 
@@ -75,7 +77,7 @@ install a headless web browser, PhantomJS." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9001</span>
       </span>
     </div>
 
@@ -83,7 +85,7 @@ install a headless web browser, PhantomJS." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -124,7 +126,7 @@ install a headless web browser, PhantomJS." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/shinytest/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -141,34 +143,27 @@ install a headless web browser, PhantomJS." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Installs missing dependencies</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/install.R'><code>R/install.R</code></a></small>
+    <h1>Checks for/installs dependencies</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/phantom.R'><code>R/phantom.R</code></a></small>
     <div class="hidden name"><code>installDependencies.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Installs all the required system depencies to record and run tests. This will
-install a headless web browser, PhantomJS.</p>
+    <p><code>dependenciesInstalled()</code> that all the required system dependency,
+PhantomJS, is installed, and <code>installDependencies()</code> installs it if needed.
+For more information about where PhantomJS will be installed
+see <code><a href='https://rdrr.io/pkg/webdriver/man/install_phantomjs.html'>webdriver::install_phantomjs()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>installDependencies</span>()</pre>
+    <pre class="usage"><span class='fu'>dependenciesInstalled</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>installDependencies</span><span class='op'>(</span><span class='op'>)</span></pre>
 
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <div class='dont-index'><p><code><a href='dependenciesInstalled.html'>dependenciesInstalled()</a></code> to check if dependencies are
-missing. For more information about where PhantomJS will be installed, see
-<code><a href='https://rdrr.io/pkg/webdriver/man/install_phantomjs.html'>webdriver::install_phantomjs()</a></code>.</p></div>
+    <p><code>TRUE</code> when all dependencies are fulfilled; otherwise, <code>FALSE</code>.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-
-<span class='kw'>if</span> (!<span class='fu'><a href='dependenciesInstalled.html'>dependenciesInstalled</a></span>() <span class='kw'>&amp;&amp;</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/menu.html'>menu</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>), <span class='st'>"Install missing dependencies?"</span>), <span class='fl'>1L</span>)) {
-  <span class='fu'>installDependencies</span>()
-}
-
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -184,7 +179,7 @@ missing. For more information about where PhantomJS will be installed, see
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -73,13 +73,19 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9001</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/shinytest.html">Get started</a>
 </li>
 <li>
@@ -116,7 +122,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/shinytest/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -137,16 +143,34 @@
       <small>Source: <a href='https://github.com/rstudio/shinytest/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="shinytest-1409002" class="section level1">
-<h1 class="page-header" data-toc-text="1.4.0.9002">
-<a href="#shinytest-1409002" class="anchor"></a>shinytest 1.4.0.9002<small> Unreleased </small>
+    <div id="shinytest-1509001" class="section level1">
+<h1 class="page-header" data-toc-text="1.5.0.9001">
+<a href="#shinytest-1509001" class="anchor"></a>shinytest 1.5.0.9001<small> Unreleased </small>
+</h1>
+<ul>
+<li><p><code>ShinyDriver$initialize()</code> now waits for the browser to navigate to the page before it injects the JavaScript testing code. This is needed when using phantomjs 2.5.0-beta. (<a href='https://github.com/rstudio/shinytest/issues/388'>#388</a>)</p></li>
+<li><p>The diffviewer widget previously ignored some very minor pixel differences, but now it will show every difference in red. (<a href='https://github.com/rstudio/shinytest/issues/391'>#391</a>)</p></li>
+</ul>
+</div>
+    <div id="shinytest-150" class="section level1">
+<h1 class="page-header" data-toc-text="1.5.0">
+<a href="#shinytest-150" class="anchor"></a>shinytest 1.5.0<small> 2021-01-13 </small>
 </h1>
 <ul>
 <li><p><code>ShinyDriver$takeSnapshot()</code> gains ability to take a snapshot of a single element (<a href='https://github.com/rstudio/shinytest/issues/260'>#260</a>).</p></li>
 <li><p>New <code>Widget$getHtml()</code> returns the complete HTML of the selected widget (<a href='https://github.com/rstudio/shinytest/issues/347'>#347</a>).</p></li>
-<li><p><code>ShinyDriver$intialize()</code> gains a <code>renderArgs</code> method which is passed along to <code><a href="https://rdrr.io/pkg/rmarkdown/man/run.html">rmarkdown::run()</a></code> for interactive Rmds (<a href='https://github.com/rstudio/shinytest/issues/249'>#249</a>); this makes it possible to set parameters for parameterised reports.</p></li>
-<li><p><code>ShinyDriver$getAllValues()</code>, <code>ShinyDriver$snapshot()</code>, and <code>ShinyDriver$snapshotDownload()</code> give clear errors messages if the Shiny app is no longer running (e.g. because you’ve trigged a <code><a href="https://shiny.rstudio.com/reference/shiny/latest/stopApp.html">stopApp()</a></code>) (<a href='https://github.com/rstudio/shinytest/issues/192'>#192</a>).</p></li>
-<li><p><code>ShinyDriver$snapshotDownload()</code> gives a clear error message if the <code><a href="https://shiny.rstudio.com/reference/shiny/latest/fileInput.html">fileInput()</a></code> does not exist (<a href='https://github.com/rstudio/shinytest/issues/191'>#191</a>)</p></li>
+<li><p>Add new <code><a href="../reference/osName.html">osName()</a></code> function, which returns the name of the operating system. (<a href='https://github.com/rstudio/shinytest/issues/368'>#368</a>)</p></li>
+<li>
+<p><code>ShinyDriver$intialize()</code> gains two new arguments:</p>
+<ul>
+<li>
+<code>renderArgs</code>: a list of arguments to <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/run.html">rmarkdown::run()</a></code>, making it possible to set parameters for parameterised <code>runtime: shiny</code> Rmd documents (<a href='https://github.com/rstudio/shinytest/issues/249'>#249</a>).</li>
+<li>
+<code>options</code>: a list of arguments to <code><a href="https://rdrr.io/r/base/options.html">base::options()</a></code>, making it possible to set options in the child process which runs the application (<a href='https://github.com/rstudio/shinytest/issues/373'>#373</a>).</li>
+</ul>
+</li>
+<li><p><code>ShinyDriver$getAllValues()</code>, <code>ShinyDriver$snapshot()</code>, and <code>ShinyDriver$snapshotDownload()</code> give clear errors messages if the Shiny app is no longer running (e.g. because you’ve trigged a <code><a href="https://rdrr.io/pkg/shiny/man/stopApp.html">stopApp()</a></code>) (<a href='https://github.com/rstudio/shinytest/issues/192'>#192</a>).</p></li>
+<li><p><code>ShinyDriver$snapshotDownload()</code> gives a clear error message if the <code><a href="https://rdrr.io/pkg/shiny/man/fileInput.html">fileInput()</a></code> does not exist (<a href='https://github.com/rstudio/shinytest/issues/191'>#191</a>)</p></li>
 <li><p>New <code>Widget$click()</code> method to click buttons (<a href='https://github.com/rstudio/shinytest/issues/325'>#325</a>).</p></li>
 <li><p>New <code>ShinyDriver$waitForShiny()</code> that waits until Shiny is done computing on the reactive graph (<a href='https://github.com/rstudio/shinytest/issues/327'>#327</a>).</p></li>
 <li><p><code><a href="../reference/testApp.html">testApp()</a></code> can now take a path to a directory containing a single interactive <code>.Rmd</code> (<a href='https://github.com/rstudio/shinytest/issues/334'>#334</a>).</p></li>
@@ -220,7 +244,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

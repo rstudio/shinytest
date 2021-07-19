@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compare current and expected snapshots — snapshotCompare • shinytest</title>
+<title>Get the name of the OS — osName • shinytest</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Compare current and expected snapshots — snapshotCompare" />
-<meta property="og:description" content="This compares current and expected snapshots for a test set, and prints any
-differences to the console." />
+<meta property="og:title" content="Get the name of the OS — osName" />
+<meta property="og:description" content="Returns the name of the current OS. This can be useful for the suffix when
+running testApp()." />
 
 
 
@@ -141,73 +141,19 @@ differences to the console." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compare current and expected snapshots</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/snapshot.R'><code>R/snapshot.R</code></a></small>
-    <div class="hidden name"><code>snapshotCompare.Rd</code></div>
+    <h1>Get the name of the OS</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/shinytest/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>osName.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This compares current and expected snapshots for a test set, and prints any
-differences to the console.</p>
+    <p>Returns the name of the current OS. This can be useful for the <code>suffix</code> when
+running <code><a href='testApp.html'>testApp()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>snapshotCompare</span><span class='op'>(</span>
-  <span class='va'>appDir</span>,
-  testnames <span class='op'>=</span> <span class='cn'>NULL</span>,
-  autoremove <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  images <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  interactive <span class='op'>=</span> <span class='fu'>is_interactive</span><span class='op'>(</span><span class='op'>)</span>,
-  suffix <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span>
+    <pre class="usage"><span class='fu'>osName</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-<span class='fu'>snapshotUpdate</span><span class='op'>(</span>appDir <span class='op'>=</span> <span class='st'>"."</span>, testnames <span class='op'>=</span> <span class='cn'>NULL</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span>, suffix <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>appDir</th>
-      <td><p>Directory that holds the tests for an application. This is the
-parent directory for the expected and current snapshot directories.</p></td>
-    </tr>
-    <tr>
-      <th>testnames</th>
-      <td><p>Name or names of a test. If NULL, compare all test results.</p></td>
-    </tr>
-    <tr>
-      <th>autoremove</th>
-      <td><p>If the current results match the expected results, should
-the current results be removed automatically? Defaults to TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>images</th>
-      <td><p>Should screenshots and PNG images be compared? It can be useful
-to set this to <code>FALSE</code> when the expected results were taken on a
-different platform from the current results.</p></td>
-    </tr>
-    <tr>
-      <th>quiet</th>
-      <td><p>Should output be suppressed? This is useful for automated
-testing.</p></td>
-    </tr>
-    <tr>
-      <th>interactive</th>
-      <td><p>If there are any differences between current results and
-expected results, provide an interactive graphical viewer that shows the
-changes and allows the user to accept or reject the changes.</p></td>
-    </tr>
-    <tr>
-      <th>suffix</th>
-      <td><p>An optional suffix for the expected results directory. For
-example, if the suffix is <code>"mac"</code>, the expected directory would be
-<code>mytest-expected-mac</code>.</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='testApp.html'>testApp()</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

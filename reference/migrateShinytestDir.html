@@ -76,13 +76,19 @@ used in shinytest 1.4.0 and above." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9001</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/shinytest.html">Get started</a>
 </li>
 <li>
@@ -119,7 +125,7 @@ used in shinytest 1.4.0 and above." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/shinytest/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -176,7 +182,7 @@ for other types of tests. So the directory structure would look like this:</p><p
      `</span><span class='op'>-</span> <span class='va'>mytest.R</span>
 </pre>
 
-<p>In Shiny 1.5.0, the <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runTests.html'>shiny::runTests()</a></code> function was added, and it will run
+<p>In Shiny 1.5.0, the <code><a href='https://rdrr.io/pkg/shiny/man/runTests.html'>shiny::runTests()</a></code> function was added, and it will run
 test scripts tests/ subdirectory of the application. This makes it possible
 to use other testing systems in addition to shinytest. <span class="pkg">shinytest</span> 1.4.0
 is designed to work with this new directory structure. The directory
@@ -192,7 +198,7 @@ structure looks something like this:</p><pre>appdir/
 </pre>
 
 <p>This allows for tests using the <span class="pkg">shinytest</span> package as well as other
-testing tools, such as the <code><a href='https://shiny.rstudio.com/reference/shiny/latest/testServer.html'>shiny::testServer()</a></code> function, which can be used
+testing tools, such as the <code><a href='https://rdrr.io/pkg/shiny/man/testServer.html'>shiny::testServer()</a></code> function, which can be used
 for testing module and server logic, and for unit tests of functions in an R/
 subdirectory.</p>
 <p>In <span class="pkg">shinytest</span> 1.4.0 and above, it defaults to creating the new directory
@@ -213,7 +219,7 @@ structure.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
