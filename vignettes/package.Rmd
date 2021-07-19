@@ -46,7 +46,8 @@ Assuming you are using testthat for automated tests, you would create a test dri
 ```{r}
 context("app-file")
 # This file is for testing the applications in the inst/ directory.
-
+# in-development package must be loaded again
+devtools::load_all()
 library(shinytest)
 
 test_that("sampleapp works", {
@@ -107,7 +108,8 @@ helloWorldApp <- function() {
 To use shinytest to test the application, the key is to add an app.R file that simply calls the function, and then use shinytest on that app.R. You can see the example application. In this case, the application lives at tests/testthat/apps/helloworld/app.R, and contains the following:
 
 ```{r}
-library(shinytestPackageExample)
+# in-development package must be loaded again
+devtools::load_all()
 
 helloWorldApp()
 ```
