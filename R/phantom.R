@@ -1,4 +1,4 @@
-#' Checks for/install dependencies
+#' Checks for/installs dependencies
 #'
 #' `dependenciesInstalled()` that all the required system dependency,
 #' PhantomJS, is installed, and `installDependencies()` installs it if needed.
@@ -7,13 +7,13 @@
 #'
 #' @return `TRUE` when all dependencies are fulfilled; otherwise, `FALSE`.
 #' @export
-#' @keywords internal
+#' @rdname installDependencies
 dependenciesInstalled <- function() {
   !is.null(find_phantom(quiet = TRUE))
 }
 
+#' @rdname installDependencies
 #' @export
-#' @rdname dependenciesInstalled
 installDependencies <- function() {
   if (is.null(find_phantom(quiet = TRUE))) {
     webdriver::install_phantomjs()
