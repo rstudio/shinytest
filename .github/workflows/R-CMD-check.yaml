@@ -106,7 +106,7 @@ jobs:
 
       - name: Install shinytest (so that phantomJS can be installed)
         run: |
-          Rscript -e "remotes::install_local('.')"
+          Rscript -e "pak::local_install('.')"
       - name: Find PhantomJS path
         id: phantomjs
         run: |
