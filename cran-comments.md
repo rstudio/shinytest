@@ -32,7 +32,6 @@ Winston
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
 
-
 ## revdepcheck results
 
 We checked 31 reverse dependencies (30 from CRAN + 1 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
