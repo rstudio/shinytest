@@ -4,6 +4,13 @@
 
 Bug fixes.
 
+I have removed the `LazyData` field in the DESCRIPTION to address the NOTE:
+```
+Check: LazyData
+Result: NOTE
+     'LazyData' is specified without a 'data' directory
+```
+
 Thank you,
 Winston
 
