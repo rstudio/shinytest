@@ -7,3 +7,4 @@
 ^vignettes$
 ^pkgdown$
 ^\.github$
+^revdep$
