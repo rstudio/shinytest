@@ -4,8 +4,7 @@
 
 * The diffviewer widget previously ignored some very minor pixel differences, but now it will show every difference in red. (#391)
 
-shinytest 1.5.0
-===============
+# shinytest 1.5.0
 
 * `ShinyDriver$takeSnapshot()` gains ability to take a snapshot of a single
   element (#260).
@@ -39,8 +38,7 @@ shinytest 1.5.0
 
 * Added `registerInputProcessor()`, which allows other packages to control how code is generated when recording input values from input bindings from that package. ([#321])
 
-shinytest 1.4.0
-===============
+# shinytest 1.4.0
 
 * Recommend that tests be placed in `tests/shinytest/` instead of directly in the tests directory. Users with their tests in the `tests/` directory will now see a message about this change. Storing shinytests directly in `tests/` will be deprecated in the future. The new function `migrateShinytestDir()` will migrate from the old to the new directory layout.
 
@@ -52,8 +50,7 @@ shinytest 1.4.0
 
 * Added new `ShinyDriver` method `app$waitForValue()` which will wait until the current application's `input` (or `output`) value is not one of the supplied invalid values.  ([#304](https://github.com/rstudio/shinytest/pull/304))
 
-shinytest 1.3.1
-===============
+# shinytest 1.3.1
 
 ## New features
 
@@ -71,7 +68,6 @@ shinytest 1.3.1
 
 * `ShinyDriver` now passes the current `RNGkind()` to the background R process that serves up the app being tested. This allows for better control over randomness across mutliple versions of R with different `RNGkind()` defaults (e.g., 3.5 and 3.6)
 
-shinytest 1.3.0
-===============
+# shinytest 1.3.0
 
 * First public release
