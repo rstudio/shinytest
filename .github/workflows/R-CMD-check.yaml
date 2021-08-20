@@ -137,6 +137,8 @@ jobs:
         env:
           _R_CHECK_CRAN_INCOMING_: false
         run: |
+          options(keep.source.pkgs = TRUE)
+          install.packages("httr", type = "source", INSTALL_opts = "--with-keep.source")
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
