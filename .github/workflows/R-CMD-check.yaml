@@ -104,7 +104,7 @@ jobs:
           options(keep.source.pkgs = TRUE)
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("rcmdcheck")
-          install.packages("httr", INSTALL_opts = "--with-keep.source")
+          install.packages("httr", type = "source", INSTALL_opts = "--with-keep.source")
         shell: Rscript {0}
 
       - name: Install shinytest (so that phantomJS can be installed)
