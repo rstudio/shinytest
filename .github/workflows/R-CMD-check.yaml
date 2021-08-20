@@ -13,6 +13,7 @@ on:
     branches:
       - main
       - master
+      - rc-v**
 
 name: R-CMD-check
 
