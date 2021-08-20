@@ -139,8 +139,8 @@ jobs:
         run: |
           options(keep.source.pkgs = TRUE )
           pak::pkg_install('remotes')
-          remotes::install_github("schloerke/webdriver@patch-1", INSTALL_opts = c("--with-keep.source"))
-          remotes::install_github("r-lib/httr", INSTALL_opts = c("--with-keep.source"))
+          remotes::install_github("schloerke/webdriver@patch-1", INSTALL_opts = c("--with-keep.source"), force = TRUE)
+          remotes::install_cran("httr", INSTALL_opts = c("--with-keep.source"), force = TRUE)
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
