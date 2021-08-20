@@ -138,7 +138,9 @@ jobs:
           _R_CHECK_CRAN_INCOMING_: false
         run: |
           options(keep.source.pkgs = TRUE)
-          install.packages("httr", type = "source", INSTALL_opts = "--with-keep.source")
+          pak::pkg_install('remotes')
+          remotes::install_github("schloerke/webdriver@patch-1", INSTALL_opts = c("--with-keep.source"))
+          remotes::install_github("r-lib/httr", INSTALL_opts = c("--with-keep.source"))
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
