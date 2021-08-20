@@ -251,7 +251,21 @@ httr_get <- function(url) {
     stop("Shiny app is no longer running")
   }
 
-  req <- httr::GET(url)
+  tryCatch(
+    {
+      req <- httr::GET(url)
+    },
+    # Attempt to capture empty reply error and provide better message
+    error = function(e) {
+      error_text <- as.character(e)
+      if (grepl("Empty reply from server", as.character(e), fixed = TRUE)) {
+        stop("Shiny app is no longer running")
+      }
+      # Unknown error, rethrow
+      stop(e)
+    }
+  )
+
   status <- httr::status_code(req)
   if (status == 200) {
     return(req)
