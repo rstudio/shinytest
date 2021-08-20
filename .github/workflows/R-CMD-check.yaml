@@ -137,7 +137,7 @@ jobs:
         env:
           _R_CHECK_CRAN_INCOMING_: false
         run: |
-          options(keep.source.pkgs = TRUE)
+          options(keep.source.pkgs = TRUE )
           pak::pkg_install('remotes')
           remotes::install_github("schloerke/webdriver@patch-1", INSTALL_opts = c("--with-keep.source"))
           remotes::install_github("r-lib/httr", INSTALL_opts = c("--with-keep.source"))
