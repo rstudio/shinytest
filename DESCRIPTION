@@ -55,4 +55,5 @@ SystemRequirements: PhantomJS (http://phantomjs.org/)
 Remotes:
   r-lib/testthat,
   schloerke/webdriver@patch-1,
-  schloerke/httr@patch-1
+  schloerke/httr@patch-1,
+  r-lib/rlang
