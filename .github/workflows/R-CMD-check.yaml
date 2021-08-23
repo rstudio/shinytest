@@ -63,6 +63,7 @@ jobs:
     env:
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
 
     steps:
       - uses: actions/checkout@v2
@@ -89,8 +90,8 @@ jobs:
           path: |
             ${{ env.R_LIBS_USER }}/*
             !${{ env.R_LIBS_USER }}/pak
-          key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-2-${{ hashFiles('.github/r-depends.rds') }}
-          restore-keys: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-2-
+          key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-3-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-3-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
