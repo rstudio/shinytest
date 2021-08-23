@@ -53,6 +53,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 SystemRequirements: PhantomJS (http://phantomjs.org/)
 Remotes:
-  r-lib/testthat,
-  schloerke/webdriver@patch-1,
-  schloerke/httr@patch-1
+  r-lib/testthat
