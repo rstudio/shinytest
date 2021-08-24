@@ -37,7 +37,6 @@ jobs:
     - { name: oldrel/3, uses: r-lib/actions/setup-r@master, id: oldrel3, with: { r-version: oldrel/3, install-r: false }}
     - { name: oldrel/4, uses: r-lib/actions/setup-r@master, id: oldrel4, with: { r-version: oldrel/4, install-r: false }}
 
-
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
