@@ -2,17 +2,30 @@ test_that("pre-recorded tests still pass", {
   skip_on_cran()
   skip_on_os("windows") # https://github.com/rstudio/shinytest/issues/270
 
-  test_app <- function(x) {
-    testApp(test_path(x), compareImages = FALSE, interactive = FALSE, quiet = TRUE)
+  sleep_on_ci <- function() {
+    on_ci <- isTRUE(as.logical(Sys.getenv("CI")))
+    if (on_ci) {
+      # Wait between tests to deter random phantomjs shutdowns on GHA
+      Sys.sleep(1)
+    }
   }
 
-  expect_pass(test_app("recorded_tests/009-upload"))
-  expect_pass(test_app("recorded_tests/041-dynamic-ui"))
-  expect_pass(test_app("recorded_tests/app-waitForValue"))
-  expect_pass(test_app("recorded_tests/inline-img-src"))
+  test_app <- function(...) {
+    testApp(test_path(...), compareImages = FALSE, interactive = FALSE, quiet = TRUE)
+  }
+
+  expect_recorded_app <- function(subpath) {
+    expect_pass(test_app("recorded_tests", subpath))
+    sleep_on_ci()
+  }
+
+  expect_recorded_app("009-upload")
+  expect_recorded_app("041-dynamic-ui")
+  expect_recorded_app("app-waitForValue")
+  expect_recorded_app("inline-img-src")
 
   skip_on_os("linux") # recorded on mac
   skip("testing Rmds is very fragile")
-  expect_pass(test_app("recorded_tests/rmd"))
-  expect_pass(test_app("recorded_tests/rmd-prerendered"))
+  expect_recorded_app("rmd")
+  expect_recorded_app("rmd-prerendered")
 })
