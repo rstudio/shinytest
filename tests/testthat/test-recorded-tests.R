@@ -2,13 +2,7 @@ test_that("pre-recorded tests still pass", {
   skip_on_cran()
   skip_on_os("windows") # https://github.com/rstudio/shinytest/issues/270
 
-  sleep_on_ci <- function() {
-    on_ci <- isTRUE(as.logical(Sys.getenv("CI")))
-    if (on_ci) {
-      # Wait between tests to deter random phantomjs shutdowns on GHA
-      Sys.sleep(1)
-    }
-  }
+  sleep_on_ci()
 
   test_app <- function(...) {
     testApp(test_path(...), compareImages = FALSE, interactive = FALSE, quiet = TRUE)

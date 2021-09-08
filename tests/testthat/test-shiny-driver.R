@@ -1,3 +1,4 @@
+sleep_on_ci()
 app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
 test_that("getValue", {
@@ -33,6 +34,7 @@ test_that("window size", {
 })
 
 test_that("can change pass render_args to rmarkdown::run()", {
+  sleep_on_ci()
   doc <- ShinyDriver$new(
     test_path("apps/render-args/doc.Rmd"),
     renderArgs = list(params = list(name = "Mary"))
@@ -43,6 +45,7 @@ test_that("can change pass render_args to rmarkdown::run()", {
 test_that("useful error message if app terminated", {
   skip_on_os("windows") # errors with "Empty reply from server"
 
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/stopApp"))
   app$findWidget("quit")$click()
   expect_error(app$getAllValues(), "no longer running")
@@ -52,6 +55,7 @@ test_that("can test app object", {
   ui <- fluidPage(textInput("x", "x", "value"))
   server <- function(input, output, session) {}
 
+  sleep_on_ci()
   app <- ShinyDriver$new(shinyApp(ui, server))
   expect_equal(app$getValue("x"), "value")
 })

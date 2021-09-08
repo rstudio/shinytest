@@ -1,3 +1,4 @@
+sleep_on_ci()
 app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
 test_that("app$setInputs for all input widgets", {

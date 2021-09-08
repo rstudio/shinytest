@@ -1,5 +1,6 @@
 test_that("updates for all widget in the gallery", {
 
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
   app$waitForValue("checkboxOut", iotype = "output") # ensure app fully initialised
 
@@ -58,6 +59,7 @@ test_that("updates for all widget in the gallery", {
 
 test_that("simple updates", {
 
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/050-kmeans-example"))
 
   expectUpdate(app, xcol = "Sepal.Width", output = "plot1")
