@@ -39,6 +39,9 @@ test_that("can change pass render_args to rmarkdown::run()", {
     test_path("apps/render-args/doc.Rmd"),
     renderArgs = list(params = list(name = "Mary"))
   )
+  # Wait for value to appear as there are a couple of ticks
+  # to wait for when displaying on an Rmd file
+  doc$waitForValue("test")
   expect_equal(doc$getValue("test"), "Mary")
 })
 
