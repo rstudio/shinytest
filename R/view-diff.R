@@ -41,7 +41,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
     bin_data <- read_raw(filename)
 
     # Assume .json and .download files are text
-    if (grepl("\\.json$", filename) || grepl("\\.download$", filename)) {
+    if (grepl("\\.(json|download|txt)$", filename)) {
       raw_to_utf8(bin_data)
     } else if (grepl("\\.png$", filename)) {
       paste0("data:image/png;base64,", jsonlite::base64_enc(bin_data))
