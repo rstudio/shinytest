@@ -46,7 +46,12 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
     } else if (grepl("\\.png$", filename)) {
       paste0("data:image/png;base64,", jsonlite::base64_enc(bin_data))
     } else {
-      ""
+      # provide hash of file contents as a proxy to display binary differences
+      paste0(
+        "{shinytest} - [Spooky]Hash of file contents: ", digest::digest(bin_data, algo = "spookyhash"), "\n",
+        "\n",
+        "Currently, only `.json`, `.download`, `.txt`, and `.png` file extensions will display full differences."
+      )
     }
   }
 
