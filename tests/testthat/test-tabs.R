@@ -1,5 +1,9 @@
 test_that("tabs are found, names are good", {
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/embedded-tabs"))
+  sleep_on_ci()
+  app$waitForValue("tabset1") # Wait for outer tab value to appear
+  app$waitForValue("tabset11") # Wait for inner tab value to appear
 
   expect_equal(app$findWidget("tabset1")$listTabs(), c("tab1", "tab2"))
   expect_equal(
@@ -13,7 +17,11 @@ test_that("tabs are found, names are good", {
 })
 
 test_that("getting and setting active tab", {
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/embedded-tabs"))
+  sleep_on_ci()
+  app$waitForValue("tabset1") # Wait for outer tab value to appear
+  app$waitForValue("tabset11") # Wait for inner tab value to appear
 
   expect_equal(app$findWidget("tabset1")$getValue(), "tab1")
   expect_equal(app$findWidget("tabset11")$getValue(), "tab11")
@@ -51,6 +59,7 @@ test_that("getting and setting active tab", {
 })
 
 test_that("tabs in expectUpdate", {
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/006-tabsets-id"))
 
   expectUpdate(app, dist = "unif", output = "plot")

@@ -1,4 +1,5 @@
 test_that("can run saved app", {
+  sleep_on_ci()
   x <- 10
   ui <- fluidPage(
     textOutput("x")

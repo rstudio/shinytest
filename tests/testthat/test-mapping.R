@@ -1,5 +1,6 @@
 test_that("input widgets", {
 
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
   expect_equal(app$findWidget("action")$getType(),     "actionButton")
@@ -19,6 +20,7 @@ test_that("input widgets", {
 
 test_that("output widgets with the same name", {
 
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
   names <- c(
