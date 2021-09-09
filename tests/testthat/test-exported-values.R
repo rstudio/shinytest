@@ -1,3 +1,4 @@
+sleep_on_ci()
 app <- ShinyDriver$new(test_path("apps/test-exports/"))
 
 test_that("Exported values", {

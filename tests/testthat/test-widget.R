@@ -1,4 +1,5 @@
 test_that("can find value of input controls", {
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
   expect_identical(app$getValue("checkbox"), TRUE)
   expect_identical(app$getValue("checkGroup"), "1")
@@ -13,6 +14,7 @@ test_that("can find value of input controls", {
 })
 
 test_that("can set values of all input controls", {
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/081-widgets-gallery"))
 
   roundtrip <- function(app, name, value) {
@@ -61,6 +63,7 @@ test_that("can set values of all input controls", {
 })
 
 test_that("can find value of output controls", {
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/outputs"))
   expect_identical(app$getValue("html"), "<div><p>This is a paragraph.</p></div>")
   expect_identical(app$getValue("verbatim"),"This is verbatim, really. <div></div>")
@@ -73,6 +76,7 @@ test_that("can find value of output controls", {
 })
 
 test_that("can click buttons", {
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/click-me"))
 
   w <- app$findWidget("click")
@@ -84,6 +88,7 @@ test_that("can click buttons", {
 })
 
 test_that("can retrieve widget metadata", {
+  sleep_on_ci()
   app <- ShinyDriver$new(test_path("apps/click-me"))
   w <- app$findWidget("click")
   expect_match(w$getHtml(), "<button")
