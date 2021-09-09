@@ -8,7 +8,7 @@ articles:
   in-depth: in-depth.html
   package: package.html
   shinytest: shinytest.html
-last_built: 2021-09-09T20:23Z
+last_built: 2021-09-09T20:32Z
 urls:
   reference: https://rstudio.github.io/shinytest/reference
   article: https://rstudio.github.io/shinytest/articles
