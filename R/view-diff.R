@@ -48,7 +48,7 @@ diffviewer_widget <- function(old, new, width = NULL, height = NULL,
     } else {
       # provide hash of file contents as a proxy to display binary differences
       paste0(
-        "{shinytest} - [Spooky]Hash of file contents: ", digest::digest(bin_data, algo = "spookyhash"), "\n",
+        "{shinytest} - SHA-1 hash of file contents: ", digest::digest(bin_data, algo = "sha1"), "\n",
         "\n",
         "Currently, only `.json`, `.download`, `.txt`, and `.png` file extensions will display full differences."
       )
