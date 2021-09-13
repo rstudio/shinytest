@@ -1,0 +1,15 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  ci: ci.html
+  faq: faq.html
+  ide: ide.html
+  in-depth: in-depth.html
+  package: package.html
+  shinytest: shinytest.html
+last_built: 2021-09-13T20:24Z
+urls:
+  reference: https://rstudio.github.io/shinytest/reference
+  article: https://rstudio.github.io/shinytest/articles
+
