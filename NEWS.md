@@ -1,3 +1,5 @@
+# shinytest (development version)
+
 # shinytest 1.5.1
 
 * `ShinyDriver$initialize()` now waits for the browser to navigate to the page before it injects the JavaScript testing code. This is needed when using phantomjs 2.5.0-beta. (#388)
