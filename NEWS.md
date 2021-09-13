@@ -1,17 +1,17 @@
-shinytest 1.5.0.9001
-===============
+# shinytest 1.5.1
 
 * `ShinyDriver$initialize()` now waits for the browser to navigate to the page before it injects the JavaScript testing code. This is needed when using phantomjs 2.5.0-beta. (#388)
 
 * The diffviewer widget previously ignored some very minor pixel differences, but now it will show every difference in red. (#391)
 
-shinytest 1.5.0
-===============
+* Added support for displaying text differences for files with a `.txt` extension. Files that do not display text differences will now display a hash of the file contents (#407)
+
+# shinytest 1.5.0
 
 * `ShinyDriver$takeSnapshot()` gains ability to take a snapshot of a single
   element (#260).
 
-* New `Widget$getHtml()` returns the complete HTML of the selected widget 
+* New `Widget$getHtml()` returns the complete HTML of the selected widget
   (#347).
 
 * Add new `osName()` function, which returns the name of the operating system.
@@ -25,23 +25,22 @@ shinytest 1.5.0
   `ShinyDriver$snapshotDownload()` give clear errors messages if the Shiny
   app is no longer running (e.g. because you've trigged a `stopApp()`) (#192).
 
-* `ShinyDriver$snapshotDownload()` gives a clear error message if the 
+* `ShinyDriver$snapshotDownload()` gives a clear error message if the
   `fileInput()` does not exist (#191)
 
 * New `Widget$click()` method to click buttons (#325).
 
 * New `ShinyDriver$waitForShiny()` that waits until Shiny is done computing
-  on the reactive graph (#327). 
+  on the reactive graph (#327).
 
-* `testApp()` can now take a path to a directory containing a single 
+* `testApp()` can now take a path to a directory containing a single
   interactive `.Rmd` (#334).
 
 * Fixed [#206](https://github.com/rstudio/shinytest/issues/206): On Windows, non-ASCII characters in JSON snapshots were written using the native encoding, instead of UTF-8. ([#318](https://github.com/rstudio/shinytest/pull/318), [#320](https://github.com/rstudio/shinytest/pull/320))
 
 * Added `registerInputProcessor()`, which allows other packages to control how code is generated when recording input values from input bindings from that package. ([#321])
 
-shinytest 1.4.0
-===============
+# shinytest 1.4.0
 
 * Recommend that tests be placed in `tests/shinytest/` instead of directly in the tests directory. Users with their tests in the `tests/` directory will now see a message about this change. Storing shinytests directly in `tests/` will be deprecated in the future. The new function `migrateShinytestDir()` will migrate from the old to the new directory layout.
 
@@ -53,8 +52,7 @@ shinytest 1.4.0
 
 * Added new `ShinyDriver` method `app$waitForValue()` which will wait until the current application's `input` (or `output`) value is not one of the supplied invalid values.  ([#304](https://github.com/rstudio/shinytest/pull/304))
 
-shinytest 1.3.1
-===============
+# shinytest 1.3.1
 
 ## New features
 
@@ -72,7 +70,6 @@ shinytest 1.3.1
 
 * `ShinyDriver` now passes the current `RNGkind()` to the background R process that serves up the app being tested. This allows for better control over randomness across mutliple versions of R with different `RNGkind()` defaults (e.g., 3.5 and 3.6)
 
-shinytest 1.3.0
-===============
+# shinytest 1.3.0
 
 * First public release

@@ -7,3 +7,5 @@
 ^vignettes$
 ^pkgdown$
 ^\.github$
+^revdep$
+^cran-comments\.md$

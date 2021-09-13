@@ -1,5 +1,11 @@
 url: https://rstudio.github.io/shinytest
 
+template:
+  params:
+    docsearch:
+      api_key: '7030758f1dfae4baea1a66de46029355'
+      index_name: 'shinytest'
+
 reference:
 - title: Record and replay tests
   contents:

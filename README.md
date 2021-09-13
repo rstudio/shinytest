@@ -1,9 +1,3 @@
----
-output: github_document
----
-
-
-
 # shinytest
 
 <!-- badges: start -->
