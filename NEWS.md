@@ -4,6 +4,8 @@
 
 * The diffviewer widget previously ignored some very minor pixel differences, but now it will show every difference in red. (#391)
 
+* Added support for displaying text differences for files with a `.txt` extension. Files that do not display text differences will now display a hash of the file contents (#407)
+
 # shinytest 1.5.0
 
 * `ShinyDriver$takeSnapshot()` gains ability to take a snapshot of a single
