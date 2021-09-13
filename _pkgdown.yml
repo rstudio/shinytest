@@ -1,5 +1,10 @@
 url: https://rstudio.github.io/shinytest
 
+# Do not display dev docs on main website
+# Dev website: https://rstudio.github.io/shinytest/dev/
+development:
+  mode: auto
+
 template:
   params:
     docsearch:

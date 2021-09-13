@@ -44,7 +44,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: '${{ needs.rversions.outputs.devel }}'}
           - {os: macOS-latest,   r: '${{ needs.rversions.outputs.release }}'}
           - {os: windows-latest, r: '${{ needs.rversions.outputs.release }}'}
           - {os: windows-latest, r: '3.6'}
