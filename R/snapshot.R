@@ -65,6 +65,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   # Convert to text, then replace base64-encoded images with hashes of them.
   content <- raw_to_utf8(req$content)
   content <- hash_snapshot_image_data(content)
+  content <- sort_second_level_keys(content)
   content <- jsonlite::prettify(content, indent = 2)
   write_utf8(content, file.path(current_dir, filename))
 
@@ -77,6 +78,19 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
   # Invisibly return JSON content as a string
   invisible(raw_to_utf8(req$content))
 }
+
+
+sort_second_level_keys <- function(x) {
+  lapply(x, funtion(items) {
+    if (length(items) == 0) return(items)
+
+    # get names and sort keys for consistent ordering
+    items_names <- names(items)
+    items_names <- sort(items_names)
+    items[items_names]
+  })
+}
+
 
 sd_snapshotDownload <- function(self, private, id, filename) {
 
