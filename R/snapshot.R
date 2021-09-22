@@ -81,7 +81,7 @@ sd_snapshot <- function(self, private, items, filename, screenshot)
 
 
 sort_second_level_keys <- function(x) {
-  lapply(x, funtion(items) {
+  lapply(x, function(items) {
     if (length(items) == 0) return(items)
 
     # get names and sort keys for consistent ordering
