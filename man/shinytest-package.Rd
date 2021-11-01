@@ -6,8 +6,7 @@
 \alias{shinytest-package}
 \title{shinytest: Test Shiny Apps}
 \description{
-For automated testing of Shiny applications, using
-    a headless browser, driven through 'WebDriver'.
+For automated testing of Shiny applications, using a headless browser, driven through 'WebDriver'.
 }
 \seealso{
 Useful links:
