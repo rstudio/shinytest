@@ -3,7 +3,7 @@ title: "Using shinytest with continuous integration"
 output:
   html_document: default
   pdf_document: default
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -11,9 +11,9 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Shinytest can be used not only when developing applications locally -- it can also be used with continuous integration (CI) platforms, such as [GitHub Actions](https://help.github.com/en/actions) or [Travis CI](https://travis-ci.org/). 
+Shinytest can be used not only when developing applications locally -- it can also be used with continuous integration (CI) platforms, such as [GitHub Actions](https://help.github.com/en/actions) or [Travis CI](https://travis-ci.org/).
 
-Our recommendation nowadays is to use Github Actions over Travis CI, especially if testing on Windows is important. To learn about Shiny testing with Github Actions, see <https://github.com/rstudio/shiny-testing-gha-example>. 
+Our recommendation nowadays is to use Github Actions over Travis CI, especially if testing on Windows is important. To learn about Shiny testing with Github Actions, see <https://github.com/rstudio/shiny-testing-gha-example>.
 
 The rest of this document explains how to use shinytest with GitHub and Travis CI in two use cases: with applications that stand alone (are not part of an R package), and with an application that are part of an R package.
 
@@ -226,7 +226,7 @@ See the [Using shinytest with R packages](package.html) article.
 
 In your `README.md` file, you can add a build status badge, like the one below, so that you can see the status of your code at a glance:
 
-[![shinytest Build Status](https://travis-ci.org/rstudio/shinytest.svg?branch=master)](https://travis-ci.org/rstudio/shinytest)
+[![shinytest Build Status](https://travis-ci.org/rstudio/shinytest.svg?branch=main)](https://travis-ci.org/rstudio/shinytest)
 
 You can get the link by visiting your project's Travis page (something like like https://travis-ci.org/rstudio/shinytest-ci-example) and clicking on the status badge that is displayed on that page. It will display a dialog box with the URL. Select "Markdown", then copy and paste the code into your `README.md` file.
 
@@ -272,4 +272,4 @@ Remotes:
   rstudio/shinytest@dev
 ```
 
-This tells Travis to install the shiny package from the `master` branch of https://github.com/rstudio/shiny, the shinytest package from the `dev` branch of https://github.com/rstudio/shinytest. In addition to branch names like `dev`, you can use commit hashes or tags.
+This tells Travis to install the shiny package from the `main` branch of https://github.com/rstudio/shiny, the shinytest package from the `dev` branch of https://github.com/rstudio/shinytest. In addition to branch names like `dev`, you can use commit hashes or tags.

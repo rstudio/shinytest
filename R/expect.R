@@ -15,7 +15,7 @@
 #' @importFrom utils compareVersion
 #' @examples
 #' \dontrun{
-#' ## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
+#' ## https://github.com/rstudio/shiny-examples/tree/main/050-kmeans-example
 #' app <- ShinyDriver$new("050-kmeans-example")
 #' expectUpdate(app, xcol = "Sepal.Width", output = "plot1")
 #' expectUpdate(app, ycol = "Petal.Width", output = "plot1")

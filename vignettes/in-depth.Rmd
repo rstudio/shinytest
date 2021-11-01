@@ -183,7 +183,7 @@ This creates exported values called `xy` and `yz`. When a test snapshot is taken
     "xy": 40,
     "yz": 110
   }
-} 
+}
 ```
 
 Note that the expression (i.e. `xy()` and `yz()`) is saved `exportTestValues()` is called, not the specific values. Generally, you should keep these expressions as simple as possible so that test failures yield informative outputs. Note that any value here has to be serializable to JSON, so it's not suitable for testing complex objects.
@@ -209,7 +209,7 @@ To make such applications exactly repeatable, you can set the random seed. This 
 knitr::include_graphics("screenshot-recorder-random-seed.png")
 ```
 
-If your test script has already been created, you can set the random seed by editing the test script so that the `ShinyDriver$new()` call has a value for `seed`. Moreover, if you need these tests to pass on multiple versions of R with different `RNGkind()` defaults (e.g., 3.5 and 3.6), you may want to set a fixed `RNGkind()` across your tests (perhaps via `RNGversion("3.5.0")`). The **shinytest** package does this in its own automated tests [via a **testthat** helper](https://github.com/rstudio/shinytest/tree/master/tests/testthat/test-helper-rng.R).
+If your test script has already been created, you can set the random seed by editing the test script so that the `ShinyDriver$new()` call has a value for `seed`. Moreover, if you need these tests to pass on multiple versions of R with different `RNGkind()` defaults (e.g., 3.5 and 3.6), you may want to set a fixed `RNGkind()` across your tests (perhaps via `RNGversion("3.5.0")`). The **shinytest** package does this in its own automated tests [via a **testthat** helper](https://github.com/rstudio/shinytest/tree/main/tests/testthat/test-helper-rng.R).
 
 ```{r}
 app <- ShinyDriver$new("../", seed = 4323)
@@ -245,7 +245,7 @@ app$uploadFile(file1 = "mtcars.csv")
 
 Notice that the filename mtcars.csv appears in the script without a path. This is because the test recorder does not know where the file came from; it only knows the name of the file.
 
-Before you run the test script, you must copy the file to the tests/ directory.  See the tests/ subdirectory of [this app](https://github.com/rstudio/shinytest/tree/master/tests/testthat/recorded_tests/009-upload) for an example.
+Before you run the test script, you must copy the file to the tests/ directory.  See the tests/ subdirectory of [this app](https://github.com/rstudio/shinytest/tree/main/tests/testthat/recorded_tests/009-upload) for an example.
 
 After copying the file to that directory, run `testApp()` as usual.
 
