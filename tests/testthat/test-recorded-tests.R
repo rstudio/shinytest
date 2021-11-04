@@ -4,12 +4,14 @@ test_that("pre-recorded tests still pass", {
 
   sleep_on_ci()
 
-  test_app <- function(...) {
-    testApp(test_path(...), compareImages = FALSE, interactive = FALSE, quiet = TRUE)
+  test_app <- function(..., updateExpected = FALSE) {
+    testApp(test_path(...), compareImages = FALSE, interactive = FALSE,
+            quiet = TRUE, updateExpected = updateExpected)
   }
 
   expect_recorded_app <- function(subpath) {
     expect_pass(test_app("recorded_tests", subpath))
+    expect_pass(test_app("recorded_tests", subpath, updateExpected = TRUE))
     sleep_on_ci()
   }
 
