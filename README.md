@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/shinytest)](https://www.r-pkg.org/pkg/shinytest)
-[![R build status](https://github.com/rstudio/shinytest/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/shinytest/actions)
+[![R build status](https://github.com/rstudio/shinytest/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/shinytest/actions)
 [![RStudio community](https://img.shields.io/badge/community-shinytest-blue?style=social&logo=rstudio&logoColor=75AADB)](https://community.rstudio.com/tags/c/shiny/8/shinytest)
 <!-- badges: end -->
 
