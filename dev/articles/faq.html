@@ -135,7 +135,7 @@
 <div id="how-can-my-app-detect-if-its-running-in-shinytest" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-can-my-app-detect-if-its-running-in-shinytest" class="anchor"></a>How can my app detect if it’s running in shinytest?</h2>
-<p>Sometimes it can be useful to alter the behavior of your application when it’s being tested. To detect when it’s being tested, you can use <code><a href="https://rdrr.io/r/base/Logic.html">isTRUE(getOption("shiny.testmode"))</a></code>, as in:</p>
+<p>Sometimes it can be useful to alter the behavior of your application when it’s being tested. To detect when it’s being tested, you can use <code>isTRUE(getOption("shiny.testmode"))</code>, as in:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html">getOption</a></span><span class="op">(</span><span class="st">"shiny.testmode"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
    <span class="co"># Do something special here</span>
