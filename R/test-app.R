@@ -14,6 +14,7 @@
 #' @param interactive If there are any differences between current results and
 #'   expected results, provide an interactive graphical viewer that shows the
 #'   changes and allows the user to accept or reject the changes.
+#' @param updateExpected Update snapshots in case of differences after testing.
 #' @param suffix An optional suffix for the expected results directory. For
 #'   example, if the suffix is `"mac"`, the expected directory would be
 #'   `mytest-expected-mac`.
@@ -30,6 +31,7 @@ testApp <- function(
   quiet = FALSE,
   compareImages = TRUE,
   interactive = is_interactive(),
+  updateExpected = FALSE,
   suffix = NULL
 )
 {
@@ -64,10 +66,26 @@ testApp <- function(
     }
     env <- new.env(parent = .GlobalEnv)
     source(testname, local = env)
+
+    # Update expected results
+    if (updateExpected) {
+      snapshotUpdate(
+        "../..",
+        testnames = sub("\\.[rR]$", "", testname),
+        quiet = quiet,
+        suffix = suffix
+      )
+    }
   })
 
   gc()
   if (!quiet) message("")  # New line
+
+  if (updateExpected) {
+    # To return an (empty) result from snapshotCompare()
+    # (e.g, for expect_pass()), empty found_testnames:
+    found_testnames <- c()
+  }
 
   # Compare all results
   snapshotCompare(
