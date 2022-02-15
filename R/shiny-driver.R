@@ -465,6 +465,8 @@ ShinyDriver <- R6Class(
     path = NULL,                        # Full path to app (including filename if it's a .Rmd)
     shinyUrlProtocol = NULL,            # "http" or "https"
     shinyUrlHost = NULL,                # usually 127.0.0.1
+    shinyUrlUser = NULL,
+    shinyUrlPass = NULL,
     shinyUrlPort = NULL,
     shinyUrlPath = NULL,
     shinyProcess = NULL,                # process object

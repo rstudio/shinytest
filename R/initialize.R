@@ -201,7 +201,17 @@ sd_startShiny <- function(self, private, path, seed, loadTimeout, shinyOptions, 
 
 sd_getShinyUrl <- function(self, private) {
   paste0(
-    private$shinyUrlProtocol, "://", private$shinyUrlHost,
+    private$shinyUrlProtocol, "://",
+    if (isTRUE(nchar(private$shinyUrlUser) > 0)) {
+      paste0(
+        private$shinyUrlUser,
+        if (isTRUE(nchar(private$shinyUrlPass) > 0)) {
+          paste0(":", private$shinyUrlPass)
+        },
+        "@"
+      )
+    },
+    private$shinyUrlHost,
     if (!is.null(private$shinyUrlPort)) paste0(":", private$shinyUrlPort),
     private$shinyUrlPath
   )
@@ -223,6 +233,8 @@ sd_setShinyUrl <- function(self, private, url) {
   assert_that(is_url_path(res$path))
 
   private$shinyUrlProtocol <- res$protocol
+  private$shinyUrlUser     <- res$user
+  private$shinyUrlPass     <- res$pass
   private$shinyUrlHost     <- res$host
   private$shinyUrlPort     <- res$port
   private$shinyUrlPath     <- res$path

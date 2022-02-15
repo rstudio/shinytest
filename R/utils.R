@@ -95,7 +95,7 @@ rel_path <- function(path, base = getwd()) {
 }
 
 parse_url <- function(url) {
-  res <- regexpr("^(?<protocol>https?)://(?<host>[^:/]+)(:(?<port>\\d+))?(?<path>/.*)?$", url, perl = TRUE)
+  res <- regexpr("^(?<protocol>https?)://((?<user>[^:]*)(:(?<pass>.*))?@)?(?<host>[^:/]+)(:(?<port>\\d+))?(?<path>/.*)?$", url, perl = TRUE)
 
   if (res == -1) abort(paste0(url, " is not a valid URL."))
 
@@ -110,6 +110,8 @@ parse_url <- function(url) {
 
   list(
     protocol = get_piece("protocol"),
+    user     = get_piece("user"),
+    pass     = get_piece("pass"),
     host     = get_piece("host"),
     port     = get_piece("port"),
     path     = get_piece("path")
@@ -246,6 +248,10 @@ on_ci <- function() {
 
 httr_get <- function(url) {
   pieces <- httr::parse_url(url)
+
+  if (is.null(pieces$port)) {
+    pieces$port <- switch(pieces$scheme, "http" = 80, "https" = 443)
+  }
 
   if (!pingr::is_up(pieces$hostname, pieces$port)) {
     stop("Shiny app is no longer running")

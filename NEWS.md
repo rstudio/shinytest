@@ -2,6 +2,8 @@
 
 # shinytest 1.5.1
 
+* HTTP authentication using username and password is now supported in URLs (#427).
+
 * `ShinyDriver$initialize()` now waits for the browser to navigate to the page before it injects the JavaScript testing code. This is needed when using phantomjs 2.5.0-beta. (#388)
 
 * The diffviewer widget previously ignored some very minor pixel differences, but now it will show every difference in red. (#391)
