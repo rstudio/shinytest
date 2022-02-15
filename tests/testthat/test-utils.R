@@ -26,35 +26,73 @@ test_that("rel_path works", {
 test_that("parse_url", {
   expect_identical(
     parse_url("http://a.b.com"),
-    list(protocol = "http", host = "a.b.com", port = "", path = "")
+    list(
+      protocol = "http", user = "", pass = "", host = "a.b.com", port = "",
+      path = ""
+    )
   )
   expect_identical(
     parse_url("https://a.b.com/"),
-    list(protocol = "https", host = "a.b.com", port = "", path = "/")
+    list(
+      protocol = "https", user = "", pass = "", host = "a.b.com", port = "",
+      path = "/"
+    )
   )
   expect_identical(
     parse_url("http://a.b.com:1020"),
-    list(protocol = "http", host = "a.b.com", port = "1020", path = "")
+    list(
+      protocol = "http", user = "", pass = "", host = "a.b.com", port = "1020",
+      path = ""
+    )
   )
   expect_identical(
     parse_url("http://a.b.com:1020/"),
-    list(protocol = "http", host = "a.b.com", port = "1020", path = "/")
+    list(
+      protocol = "http", user = "", pass = "", host = "a.b.com", port = "1020",
+      path = "/"
+    )
   )
   expect_identical(
     parse_url("http://a.b.com:1020/abc"),
-    list(protocol = "http", host = "a.b.com", port = "1020", path = "/abc")
+    list(
+      protocol = "http", user = "", pass = "", host = "a.b.com", port = "1020",
+      path = "/abc"
+    )
   )
   expect_identical(
     parse_url("http://a.b.com:1020/abc/"),
-    list(protocol = "http", host = "a.b.com", port = "1020", path = "/abc/")
+    list(
+      protocol = "http", user = "", pass = "", host = "a.b.com", port = "1020",
+      path = "/abc/"
+    )
   )
   expect_identical(
     parse_url("http://a.b.com/abc/"),
-    list(protocol = "http", host = "a.b.com", port = "", path = "/abc/")
+    list(
+      protocol = "http", user = "", pass = "", host = "a.b.com", port = "",
+      path = "/abc/"
+    )
   )
   expect_identical(
     parse_url("http://a.b.com/abc/"),
-    list(protocol = "http", host = "a.b.com", port = "", path = "/abc/")
+    list(
+      protocol = "http", user = "", pass = "", host = "a.b.com", port = "",
+      path = "/abc/"
+    )
+  )
+  expect_identical(
+    parse_url("http://user@a.b.com/"),
+    list(
+      protocol = "http", user = "user", pass = "", host = "a.b.com",
+      port = "", path = "/"
+    )
+  )
+  expect_identical(
+    parse_url("http://user:pass@a.b.com/"),
+    list(
+      protocol = "http", user = "user", pass = "pass", host = "a.b.com",
+      port = "", path = "/"
+    )
   )
 
   # Malformed URLs, or non-http/https protocol
