@@ -249,6 +249,10 @@ on_ci <- function() {
 httr_get <- function(url) {
   pieces <- httr::parse_url(url)
 
+  if (is.null(pieces$port)) {
+    pieces$port <- switch(pieces$scheme, "http" = 80, "https" = 443)
+  }
+
   if (!pingr::is_up(pieces$hostname, pieces$port)) {
     stop("Shiny app is no longer running")
   }
