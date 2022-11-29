@@ -13,7 +13,7 @@
           "name": "selectize",
           "version": "0.12.4",
           "src": {
-            "href": "shared/selectize"
+            "href": "selectize-0.12.4"
           },
           "meta": null,
           "script": [
@@ -23,7 +23,6 @@
           "stylesheet": "css/selectize.bootstrap3.css",
           "head": null,
           "attachment": null,
-          "package": null,
           "all_files": true
         }
       ]
