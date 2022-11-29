@@ -1,6 +1,7 @@
 test_that("pre-recorded tests still pass", {
   skip_on_cran()
   skip_on_os("windows") # https://github.com/rstudio/shinytest/issues/270
+  skip_if_not_installed("shiny", "1.7.4")
 
   sleep_on_ci()
 
