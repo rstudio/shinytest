@@ -9,7 +9,7 @@
   withCallingHandlers(
     find_phantom(),
     message = function(cnd) {
-      packageStartupMessage(conditionMessage(cnd), appendLF = FALSE)
+      packageStartupMessage(conditionMessage(cnd))
       tryInvokeRestart("muffleMessage")
     }
   )
