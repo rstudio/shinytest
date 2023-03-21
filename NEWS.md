@@ -1,5 +1,7 @@
 # shinytest (development version)
 
+* Messages emitted at load time are now converted to `packageStartupMessage`s so that they can be suppressed with `suppressPackageStartupMessages()`.
+
 # shinytest 1.5.1
 
 * `ShinyDriver$initialize()` now waits for the browser to navigate to the page before it injects the JavaScript testing code. This is needed when using phantomjs 2.5.0-beta. (#388)
