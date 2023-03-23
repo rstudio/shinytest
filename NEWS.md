@@ -1,4 +1,4 @@
-# shinytest 1.5.2.9000
+# shinytest 1.5.3
 
 * The `tryInvokeRestart()` function (used in shinytest 1.5.2) was added in R 4.0. This version replaces it with code that will work in older versions of R.
 
