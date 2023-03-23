@@ -1,3 +1,6 @@
+# shinytest 1.5.2.9000
+
+
 # shinytest 1.5.2
 
 * Messages emitted at load time are now converted to `packageStartupMessage`s so that they can be suppressed with `suppressPackageStartupMessages()`.

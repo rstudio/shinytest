@@ -1,6 +1,6 @@
 Package: shinytest
 Title: Test Shiny Apps
-Version: 1.5.2
+Version: 1.5.2.9000
 Authors@R:
     c(person(given = "Winston",
              family = "Chang",
