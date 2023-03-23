@@ -23,6 +23,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -35,18 +37,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.5.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.5.2.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/shinytest.html">Get started</a>
 </li>
@@ -54,7 +50,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -83,7 +79,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rstudio/shinytest/">
+  <a href="https://github.com/rstudio/shinytest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,25 +100,25 @@
 
       
 
-      </header><script src="ci_files/header-attrs-2.11/header-attrs.js"></script><script src="ci_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="ci_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Using shinytest with continuous integration</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/shinytest/blob/master/vignettes/ci.Rmd"><code>vignettes/ci.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/shinytest/blob/HEAD/vignettes/ci.Rmd" class="external-link"><code>vignettes/ci.Rmd</code></a></small>
       <div class="hidden name"><code>ci.Rmd</code></div>
 
     </div>
 
     
     
-<p>Shinytest can be used not only when developing applications locally – it can also be used with continuous integration (CI) platforms, such as <a href="https://help.github.com/en/actions">GitHub Actions</a> or <a href="https://travis-ci.org/">Travis CI</a>.</p>
-<p>Our recommendation nowadays is to use Github Actions over Travis CI, especially if testing on Windows is important. To learn about Shiny testing with Github Actions, see <a href="https://github.com/rstudio/shiny-testing-gha-example" class="uri">https://github.com/rstudio/shiny-testing-gha-example</a>.</p>
+<p>Shinytest can be used not only when developing applications locally – it can also be used with continuous integration (CI) platforms, such as <a href="https://help.github.com/en/actions" class="external-link">GitHub Actions</a> or <a href="https://travis-ci.org/" class="external-link">Travis CI</a>.</p>
+<p>Our recommendation nowadays is to use Github Actions over Travis CI, especially if testing on Windows is important. To learn about Shiny testing with Github Actions, see <a href="https://github.com/rstudio/shiny-testing-gha-example" class="external-link uri">https://github.com/rstudio/shiny-testing-gha-example</a>.</p>
 <p>The rest of this document explains how to use shinytest with GitHub and Travis CI in two use cases: with applications that stand alone (are not part of an R package), and with an application that are part of an R package.</p>
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
 <p>The overall procedure for enabling tests on a CI platform is this:</p>
 <ul>
 <li>First create tests locally (on your development machine) and save the expected results.</li>
@@ -136,21 +132,21 @@
 </ul>
 <p>As you develop your application, it may also be appropriate to add, remove, or modify tests, or re-run tests and save new expected results.</p>
 </div>
-<div id="travis-setup" class="section level2">
-<h2 class="hasAnchor">
-<a href="#travis-setup" class="anchor"></a>Travis setup</h2>
-<p>You will first need to create an account on <a href="https://travis-ci.org/">Travis CI</a>. You can sign in to Travis with your GitHub account.</p>
-<p>If you have not created a GitHub repository for your project, do that. Then, on the Travis <a href="https://travis-ci.org/profile">profile page</a>, you can enable Travis CI for your project. This means that whenever you push commits to GitHub, it will trigger a test run on Travis.</p>
+<div class="section level2">
+<h2 id="travis-setup">Travis setup<a class="anchor" aria-label="anchor" href="#travis-setup"></a>
+</h2>
+<p>You will first need to create an account on <a href="https://travis-ci.org/" class="external-link">Travis CI</a>. You can sign in to Travis with your GitHub account.</p>
+<p>If you have not created a GitHub repository for your project, do that. Then, on the Travis <a href="https://travis-ci.org/profile" class="external-link">profile page</a>, you can enable Travis CI for your project. This means that whenever you push commits to GitHub, it will trigger a test run on Travis.</p>
 </div>
-<div id="a-repository-with-a-single-application" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-repository-with-a-single-application" class="anchor"></a>A repository with a single application</h2>
+<div class="section level2">
+<h2 id="a-repository-with-a-single-application">A repository with a single application<a class="anchor" aria-label="anchor" href="#a-repository-with-a-single-application"></a>
+</h2>
 <p>For Shiny applications that aren’t part of an R package, there are two common ways that the repository will be set up:</p>
 <ol style="list-style-type: decimal">
 <li>The repository contains one application, and the application files (like <code>server.R</code>, <code>ui.R</code>, or <code>app.R</code>) are contained at the top level of the repository.</li>
 <li>The repository contains more than one application files, and each application is contained in a subdirectory.</li>
 </ol>
-<p>This section explains how to set up Travis to test a repository with a single application. See <a href="https://github.com/rstudio/shinytest-ci-example" class="uri">https://github.com/rstudio/shinytest-ci-example</a> for an example.</p>
+<p>This section explains how to set up Travis to test a repository with a single application. See <a href="https://github.com/rstudio/shinytest-ci-example" class="external-link uri">https://github.com/rstudio/shinytest-ci-example</a> for an example.</p>
 <p>The directory structure of such a project will look something like this:</p>
 <pre><code>/
 ├── .travis.yml
@@ -167,9 +163,9 @@
 └── packrat
     └── packrat.lock</code></pre>
 <p>The files that you will need to add are described below.</p>
-<div id="travis-yml" class="section level3">
-<h3 class="hasAnchor">
-<a href="#travis-yml" class="anchor"></a><code>.travis.yml</code>
+<div class="section level3">
+<h3 id="travis-yml">
+<code>.travis.yml</code><a class="anchor" aria-label="anchor" href="#travis-yml"></a>
 </h3>
 <p>This file contains information for Travis to build and test your application. It should look like this:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode yml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">dist</span><span class="kw">:</span><span class="at"> trusty</span><span class="co">   # Use Ubuntu 14.04 image (instead of 12.04)</span></span>
@@ -208,48 +204,48 @@
 <span id="cb2-34"><a href="#cb2-34"></a><span class="at">  </span><span class="kw">-</span><span class="at"> R -f run_tests.R</span></span></code></pre></div>
 <p>You should change the R version (set to <code>3.4.1</code> above) to whatever R version is being used on the platform that your application will be deployed to.</p>
 </div>
-<div id="run_tests-r" class="section level3">
-<h3 class="hasAnchor">
-<a href="#run_tests-r" class="anchor"></a><code>run_tests.R</code>
+<div class="section level3">
+<h3 id="run_tests-r">
+<code>run_tests.R</code><a class="anchor" aria-label="anchor" href="#run_tests-r"></a>
 </h3>
 <p>The <code>run_tests.R</code> script should look like this. It simply runs the tests for the app, and if the tests fail, it raises error (so that Travis knows the test failed) and outputs logging information:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://testthat.r-lib.org">testthat</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/shinytest">shinytest</a></span><span class="op">)</span>
-
-<span class="fu"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span><span class="op">(</span><span class="st">"Application works"</span>, <span class="op">{</span>
-  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span>
-  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span>
-  <span class="co"># which runs on Linux.</span>
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="st">"."</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://testthat.r-lib.org" class="external-link">testthat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/shinytest" class="external-link">shinytest</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_that.html" class="external-link">test_that</a></span><span class="op">(</span><span class="st">"Application works"</span>, <span class="op">{</span></span>
+<span>  <span class="co"># Use compareImages=FALSE because the expected image screenshots were created</span></span>
+<span>  <span class="co"># on a Mac, and they will differ from screenshots taken on the CI platform,</span></span>
+<span>  <span class="co"># which runs on Linux.</span></span>
+<span>  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="st">"."</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <p>Notice the use of <code>compareImages=FALSE</code>. When the expected results are generated on one platform (like Mac or Windows) and then tested on another (Travis uses Linux), this option is needed to avoid spurious test failures. This is because R’s plot rendering engine generates slightly different results across platforms, and also because the headless browser generates slightly different results across platforms. When this option is used, the test will only compare the JSON representation of application state, and not the screenshots or plots.</p>
 <p>If you develop on Linux and create the expected test results on Linux, then you should be able to leave out the <code>compareImages</code> argument; it defaults to <code>TRUE</code>.</p>
 </div>
-<div id="packratpackrat-lock" class="section level3">
-<h3 class="hasAnchor">
-<a href="#packratpackrat-lock" class="anchor"></a><code>packrat/packrat.lock</code>
+<div class="section level3">
+<h3 id="packratpackrat-lock">
+<code>packrat/packrat.lock</code><a class="anchor" aria-label="anchor" href="#packratpackrat-lock"></a>
 </h3>
 <p>This file contains a list of packages used by your application, and the version of each package that you currently have installed on your system. It is the same mechanism that is used by shinyapps.io and RStudio Connect. This file ensures that Travis will use the same versions of packages that you are using locally.</p>
 <p>To create the <code>packrat/packrat.lock</code> file, run:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">packrat</span><span class="fu">::</span><span class="fu">.snapshotImpl</span><span class="op">(</span><span class="st">"."</span>, snapshot.sources <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">packrat</span><span class="fu">::</span><span class="fu">.snapshotImpl</span><span class="op">(</span><span class="st">"."</span>, snapshot.sources <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>NOTE: Future versions of packrat (0.4.8-15 and higher) will be able to use use <code>snapshot(snapshot.sources=FALSE)</code> instead of <code>.snapshotImpl</code>.</p>
 <p><strong>Whenever you update packages on your development machine, you should run this command again to make sure the packages used on Travis stay in sync.</strong></p>
 <p>An alternative to using packrat is to create a DESCRIPTION file. This will not lock package versions; instead, it will use the latest version of each package from CRAN.</p>
 </div>
-<div id="running-the-first-build" class="section level3">
-<h3 class="hasAnchor">
-<a href="#running-the-first-build" class="anchor"></a>Running the first build</h3>
+<div class="section level3">
+<h3 id="running-the-first-build">Running the first build<a class="anchor" aria-label="anchor" href="#running-the-first-build"></a>
+</h3>
 <p>Once you’ve added these files, commit them and push to GitHub. This will trigger a build on Travis. (There may be a delay of a few minutes before the tests begin.)</p>
 <p>The first time the test runs, Travis will send you an email with the result. After a successful build, Travis will send emails when a build fails.</p>
 <p>The first build of your package on Travis will generally take much longer than subsequent runs, because it needs to install all the R packages the first time. After that, the packages are cached, so the builds should be much faster.</p>
 </div>
 </div>
-<div id="a-repository-with-multiple-applications" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-repository-with-multiple-applications" class="anchor"></a>A repository with multiple applications</h2>
-<p>Another way to run your tests is using a repository with multiple applications, each in its own subdirectory. See <a href="https://github.com/rstudio/shinytest-ci-example-multi" class="uri">https://github.com/rstudio/shinytest-ci-example-multi</a> for an example.</p>
+<div class="section level2">
+<h2 id="a-repository-with-multiple-applications">A repository with multiple applications<a class="anchor" aria-label="anchor" href="#a-repository-with-multiple-applications"></a>
+</h2>
+<p>Another way to run your tests is using a repository with multiple applications, each in its own subdirectory. See <a href="https://github.com/rstudio/shinytest-ci-example-multi" class="external-link uri">https://github.com/rstudio/shinytest-ci-example-multi</a> for an example.</p>
 <p>The directory structure would look something like this:</p>
 <pre><code>/
 ├── .travis.yml
@@ -279,39 +275,39 @@
 └── packrat
     └── packrat.lock</code></pre>
 <p>For a repository with this structure, the configuration is largely the same as a repository with a single app, as described above. The only difference is in the <code>run_tests.R</code> file.</p>
-<div id="run_tests-r-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#run_tests-r-1" class="anchor"></a><code>run_tests.R</code>
+<div class="section level3">
+<h3 id="run_tests-r-1">
+<code>run_tests.R</code><a class="anchor" aria-label="anchor" href="#run_tests-r-1"></a>
 </h3>
 <p>The <code>run_tests.R</code> script should test each application in the respective directory, instead of testing just one application in the current directory.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://testthat.r-lib.org">testthat</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/shinytest">shinytest</a></span><span class="op">)</span>
-
-<span class="fu"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span><span class="op">(</span><span class="st">"Application works"</span>, <span class="op">{</span>
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="st">"01_hello"</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
-  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="st">"06_tabsets"</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://testthat.r-lib.org" class="external-link">testthat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/shinytest" class="external-link">shinytest</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_that.html" class="external-link">test_that</a></span><span class="op">(</span><span class="st">"Application works"</span>, <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="st">"01_hello"</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/expect_pass.html">expect_pass</a></span><span class="op">(</span><span class="fu"><a href="../reference/testApp.html">testApp</a></span><span class="op">(</span><span class="st">"06_tabsets"</span>, compareImages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
-<div id="testing-applications-in-a-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#testing-applications-in-a-package" class="anchor"></a>Testing applications in a package</h2>
+<div class="section level2">
+<h2 id="testing-applications-in-a-package">Testing applications in a package<a class="anchor" aria-label="anchor" href="#testing-applications-in-a-package"></a>
+</h2>
 <p>See the <a href="package.html">Using shinytest with R packages</a> article.</p>
 </div>
-<div id="frequently-asked-questions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#frequently-asked-questions" class="anchor"></a>Frequently asked questions</h2>
-<div id="how-do-i-add-a-status-badge-to-my-project" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-do-i-add-a-status-badge-to-my-project" class="anchor"></a>How do I add a status badge to my project?</h3>
+<div class="section level2">
+<h2 id="frequently-asked-questions">Frequently asked questions<a class="anchor" aria-label="anchor" href="#frequently-asked-questions"></a>
+</h2>
+<div class="section level3">
+<h3 id="how-do-i-add-a-status-badge-to-my-project">How do I add a status badge to my project?<a class="anchor" aria-label="anchor" href="#how-do-i-add-a-status-badge-to-my-project"></a>
+</h3>
 <p>In your <code>README.md</code> file, you can add a build status badge, like the one below, so that you can see the status of your code at a glance:</p>
-<p><a href="https://travis-ci.org/rstudio/shinytest"><img src="https://travis-ci.org/rstudio/shinytest.svg?branch=main" alt="shinytest Build Status"></a></p>
-<p>You can get the link by visiting your project’s Travis page (something like like <a href="https://travis-ci.org/rstudio/shinytest-ci-example" class="uri">https://travis-ci.org/rstudio/shinytest-ci-example</a>) and clicking on the status badge that is displayed on that page. It will display a dialog box with the URL. Select “Markdown”, then copy and paste the code into your <code>README.md</code> file.</p>
+<p><a href="https://travis-ci.org/rstudio/shinytest" class="external-link"><img src="https://travis-ci.org/rstudio/shinytest.svg?branch=main" alt="shinytest Build Status"></a></p>
+<p>You can get the link by visiting your project’s Travis page (something like like <a href="https://travis-ci.org/rstudio/shinytest-ci-example" class="external-link uri">https://travis-ci.org/rstudio/shinytest-ci-example</a>) and clicking on the status badge that is displayed on that page. It will display a dialog box with the URL. Select “Markdown”, then copy and paste the code into your <code>README.md</code> file.</p>
 </div>
-<div id="how-do-i-use-a-description-file-instead-of-packrat" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-do-i-use-a-description-file-instead-of-packrat" class="anchor"></a>How do I use a <code>DESCRIPTION</code> file instead of packrat?</h3>
+<div class="section level3">
+<h3 id="how-do-i-use-a-description-file-instead-of-packrat">How do I use a <code>DESCRIPTION</code> file instead of packrat?<a class="anchor" aria-label="anchor" href="#how-do-i-use-a-description-file-instead-of-packrat"></a>
+</h3>
 <p>Instead of using packrat, you can use a <code>DESCRIPTION</code> file can be used to tell Travis which packages are needed to test the application. Instead of locking each package to a specific version like packat, this will result in the latest version of each package being downloaded from CRAN. This may be appropriate if you want to make sure your application works with the latest version of each package, instead of a frozen set of packages.</p>
 <p>To use a <code>DESCRIPTION</code> file, you need to modify your <code>.travis.yml</code> file to use Travis’s default package installation system instead of packrat. Remove these lines from the template provided above:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode yml"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Install packrat if needed and have it restore packages.</span></span>
@@ -331,7 +327,7 @@
 <pre><code>Remotes:
   rstudio/shiny,
   rstudio/shinytest@dev</code></pre>
-<p>This tells Travis to install the shiny package from the <code>main</code> branch of <a href="https://github.com/rstudio/shiny" class="uri">https://github.com/rstudio/shiny</a>, the shinytest package from the <code>dev</code> branch of <a href="https://github.com/rstudio/shinytest" class="uri">https://github.com/rstudio/shinytest</a>. In addition to branch names like <code>dev</code>, you can use commit hashes or tags.</p>
+<p>This tells Travis to install the shiny package from the <code>main</code> branch of <a href="https://github.com/rstudio/shiny" class="external-link uri">https://github.com/rstudio/shiny</a>, the shinytest package from the <code>dev</code> branch of <a href="https://github.com/rstudio/shinytest" class="external-link uri">https://github.com/rstudio/shinytest</a>. In addition to branch names like <code>dev</code>, you can use commit hashes or tags.</p>
 </div>
 </div>
   </div>
@@ -347,11 +343,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Winston Chang, Gábor Csárdi, <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p></p>
+<p>Developed by Winston Chang, Gábor Csárdi, Hadley Wickham, RStudio.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

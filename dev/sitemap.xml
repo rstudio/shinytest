@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://rstudio.github.io/shinytest/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/articles/ci.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/articles/faq.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/articles/ide.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/articles/in-depth.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/articles/package.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/articles/shinytest.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/authors.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/shinytest/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/news/index.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/shinytest/reference/ShinyDriver.html</loc>
@@ -17,6 +47,9 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/shinytest/reference/expect_pass.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinytest/reference/index.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/shinytest/reference/installDependencies.html</loc>
@@ -50,23 +83,5 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/shinytest/reference/viewTestDiffWidget.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/shinytest/articles/ci.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/shinytest/articles/faq.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/shinytest/articles/ide.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/shinytest/articles/in-depth.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/shinytest/articles/package.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/shinytest/articles/shinytest.html</loc>
   </url>
 </urlset>
