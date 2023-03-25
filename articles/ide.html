@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -34,18 +36,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/shinytest.html">Get started</a>
 </li>
@@ -53,7 +49,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -82,7 +78,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rstudio/shinytest/">
+  <a href="https://github.com/rstudio/shinytest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -109,16 +105,16 @@
       <h1 data-toc-skip>Integration with RStudio IDE</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/shinytest/blob/master/vignettes/ide.Rmd"><code>vignettes/ide.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/shinytest/blob/HEAD/vignettes/ide.Rmd" class="external-link"><code>vignettes/ide.Rmd</code></a></small>
       <div class="hidden name"><code>ide.Rmd</code></div>
 
     </div>
 
     
     
-<div id="shinytest-in-the-rstudio-ide" class="section level2">
-<h2 class="hasAnchor">
-<a href="#shinytest-in-the-rstudio-ide" class="anchor"></a>Shinytest in the RStudio IDE</h2>
+<div class="section level2">
+<h2 id="shinytest-in-the-rstudio-ide">Shinytest in the RStudio IDE<a class="anchor" aria-label="anchor" href="#shinytest-in-the-rstudio-ide"></a>
+</h2>
 <p>The RStudio IDE provides a graphical interface that make it even easier to create tests for Shiny applications. The GUI provides buttons for running shinytest commands, so that you don’t have to remember them. These features are available in version 1.2 of the IDE and above.</p>
 <p>When an application file (app.R, server.R, ui.R, or global.R) is open in the editor, a button labeled <strong>Run App</strong> will show at the top of the editor pane. If you click on the small black triangle next to <strong>Run App</strong>, a menu will appear.</p>
 <p><img src="ide-menu.png" width="631"></p>
@@ -144,11 +140,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Winston Chang, Gábor Csárdi, <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p></p>
+<p>Developed by Winston Chang, Gábor Csárdi, Hadley Wickham, RStudio.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

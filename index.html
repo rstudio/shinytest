@@ -23,6 +23,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -35,18 +37,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/shinytest.html">Get started</a>
 </li>
@@ -54,7 +50,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -83,7 +79,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rstudio/shinytest/">
+  <a href="https://github.com/rstudio/shinytest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -106,22 +102,21 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="shinytest" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#shinytest" class="anchor"></a>shinytest</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="shinytest">shinytest<a class="anchor" aria-label="anchor" href="#shinytest"></a>
+</h1></div>
 <!-- badges: start -->
-
 <p>shinytest provides a simulation of a Shiny app that you can control in order to automate testing. shinytest uses a snapshot-based testing strategy: the first time it runs a set of tests for an application, it performs some scripted interactions with the app and takes one or more snapshots of the application’s state. Subsequent runs perform the same scripted interactions then compare the results; you’ll get an error if they’re different.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>To install the current release version:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"shinytest"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"shinytest"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>See the <a href="https://rstudio.github.io/shinytest/articles/shinytest.html">getting started guide</a> to learn how to use shinytest.</p>
 </div>
 </div>
@@ -129,55 +124,56 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=shinytest">https://​cloud.r-project.org/​package=shinytest</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/rstudio/shinytest/">https://​github.com/​rstudio/​shinytest/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/rstudio/shinytest/issues">https://​github.com/​rstudio/​shinytest/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
-</li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Winston Chang <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Gábor Csárdi <br><small class="roles"> Author </small>  </li>
-<li>
-<a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author </small>  </li>
-<li>
-<a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://cloud.r-project.org/package=shinytest" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/rstudio/shinytest/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/rstudio/shinytest/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-pkg.org/pkg/shinytest"><img src="http://cranlogs.r-pkg.org/badges/shinytest" alt="CRAN RStudio mirror downloads"></a></li>
-<li><a href="https://github.com/rstudio/shinytest/actions"><img src="https://github.com/rstudio/shinytest/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://community.rstudio.com/tags/c/shiny/8/shinytest"><img src="https://img.shields.io/badge/community-shinytest-blue?style=social&amp;logo=rstudio&amp;logoColor=75AADB" alt="RStudio community"></a></li>
+<li>
+<a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing shinytest</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Winston Chang <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Gábor Csárdi <br><small class="roles"> Author </small>  </li>
+<li>Hadley Wickham <br><small class="roles"> Author </small>  </li>
+<li>RStudio <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Winston Chang, Gábor Csárdi, <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p></p>
+<p>Developed by Winston Chang, Gábor Csárdi, Hadley Wickham, RStudio.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
