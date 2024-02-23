@@ -6,6 +6,8 @@
 [![RStudio community](https://img.shields.io/badge/community-shinytest-blue?style=social&logo=rstudio&logoColor=75AADB)](https://community.rstudio.com/tags/c/shiny/8/shinytest)
 <!-- badges: end -->
 
+NOTE: shinytest is currently in maintenance mode. It is based on a headless browser, PhantomJS, which is no longer being developed. Going forward, please use [shinytest2](https://github.com/rstudio/shinytest2), which makes use of headless Chromium-based browsers.
+
 shinytest provides a simulation of a Shiny app that you can control in order to automate testing. shinytest uses a snapshot-based testing strategy: the first time it runs a set of tests for an application, it performs some scripted interactions with the app and takes one or more snapshots of the application’s state. Subsequent runs perform the same scripted interactions then compare the results; you'll get an error if they're different.
 
 ## Installation
