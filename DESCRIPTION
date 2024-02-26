@@ -5,18 +5,18 @@ Authors@R:
     c(person(given = "Winston",
              family = "Chang",
              role = c("aut", "cre"),
-             email = "winston@rstudio.com"),
+             email = "winston@posit.co"),
       person(given = "Gábor",
              family = "Csárdi",
              role = "aut",
-             email = "gabor@rstudio.com"),
+             email = "gabor@posit.co"),
       person(given = "Hadley",
              family = "Wickham",
              role = "aut",
-             email = "hadley@rstudio.com"),
-      person(given = "RStudio",
+             email = "hadley@posit.co"),
+      person(given = "Posit Software, PBC",
              role = c("cph", "fnd")),
-      person(given = "Mango Solutions",
+      person(given = "Ascent Digital Services",
              role = c("cph", "ccp")))
 Description: For automated testing of Shiny applications, using
     a headless browser, driven through 'WebDriver'.
