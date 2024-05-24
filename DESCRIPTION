@@ -18,8 +18,7 @@ Authors@R:
              role = c("cph", "fnd")),
       person(given = "Ascent Digital Services",
              role = c("cph", "ccp")))
-Description: For automated testing of Shiny applications, using
-    a headless browser, driven through 'WebDriver'.
+Description: Shinytest is deprecated! Please switch to shinytest2.
 License: MIT + file LICENSE
 URL: https://github.com/rstudio/shinytest
 BugReports: https://github.com/rstudio/shinytest/issues

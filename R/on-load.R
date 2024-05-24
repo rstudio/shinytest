@@ -4,6 +4,11 @@
 .onLoad <- function(libname, pkgname) {
   debugme()
 
+  packageStartupMessage(
+    "IMPORTANT! shinytest is deprecated and may not work with shiny>1.8.1.1.\n",
+    "Please switch to shinytest2.",
+  )
+
   # This will issue a message if phantomjs isn't found, converting the regular
   # message to a packageStartupMessage.
   convert_message_to_package_startup_message({
