@@ -18,7 +18,7 @@ Authors@R:
              role = c("cph", "fnd")),
       person(given = "Ascent Digital Services",
              role = c("cph", "ccp")))
-Description: Shinytest is deprecated! Please switch to shinytest2.
+Description: This package is deprecated! Please switch to shinytest2.
 License: MIT + file LICENSE
 URL: https://github.com/rstudio/shinytest
 BugReports: https://github.com/rstudio/shinytest/issues

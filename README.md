@@ -3,7 +3,6 @@
 <!-- badges: start -->
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/shinytest)](https://www.r-pkg.org/pkg/shinytest)
 [![R build status](https://github.com/rstudio/shinytest/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/shinytest/actions)
-[![RStudio community](https://img.shields.io/badge/community-shinytest-blue?style=social&logo=rstudio&logoColor=75AADB)](https://community.rstudio.com/tags/c/shiny/8/shinytest)
 <!-- badges: end -->
 
 NOTE: **shinytest is deprecated** and may not work with Shiny after version 1.8.1, which was released on 2024-04-02. This is because it is based on a headless browser, PhantomJS, which was last released on 2016-01-24 and is no longer being developed. Going forward, please use [shinytest2](https://github.com/rstudio/shinytest2), which makes use of headless Chromium-based browsers.
