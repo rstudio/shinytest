@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Frequently Asked Questions • shinytest</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinytest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@
 </h2>
 <p>For some kinds of outputs, it is problematic to record the raw value directly in a JSON snapshot. The output might be very large (e.g., image data or a large table), or it may contain randomly-generated values for which the specific value is unimportant for testing (such as randomly-generated DOM element IDs).</p>
 <p>In these situations, you can use an <em>output preprocessor</em> function. This is most commonly done by the author of component used in an application, although it can also be done by an application author. An output preprocessor function is passed an object representing the output value, and it should return a value. If the problem is that the value is large, the preprocessor function can modify the value by hashing it and returning the hash. If the problem is that the value contains some random values, the preprocessor function can replace the random values with fixed ones.</p>
-<p>To add an output preprocessor, use <code><a href="https://shiny.rstudio.com/reference/shiny/latest/snapshotPreprocessOutput.html" class="external-link">shiny::snapshotPreprocessOutput()</a></code> to modify an output renderer. For example, see <a href="https://github.com/rstudio/shiny/blob/81cc7c5/R/shinywrappers.R#L656-L663" class="external-link">this section</a> of the <code>renderDataTable()</code> function. It takes the object that <em>would be</em> returned by <code>renderDataTable()</code>, and modifies it by adding an output preprocessor which removes strings that contain random values.</p>
+<p>To add an output preprocessor, use <code><a href="https://rdrr.io/pkg/shiny/man/snapshotPreprocessOutput.html" class="external-link">shiny::snapshotPreprocessOutput()</a></code> to modify an output renderer. For example, see <a href="https://github.com/rstudio/shiny/blob/81cc7c5/R/shinywrappers.R#L656-L663" class="external-link">this section</a> of the <code>renderDataTable()</code> function. It takes the object that <em>would be</em> returned by <code>renderDataTable()</code>, and modifies it by adding an output preprocessor which removes strings that contain random values.</p>
 <p>For some outputs (notably htmlwidgets), the output value is text string containing JSON, and if you want to modify the JSON, you will have to either (1) do text processing on the JSON, or (2) convert the JSON to an R object, modify the R object, and convert the R object back to JSON. The plotly R package uses this method in <a href="https://github.com/ropensci/plotly/blob/2eef4ab/R/shiny.R#L46-L53" class="external-link"><code>renderPlotly()</code></a>.</p>
 <p>The examples above modify the output renderer from inside the output renderer function, and this would have to be done by the author of the component. It is also possible for an application author to modify a renderer with something like the following:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -165,7 +165,7 @@
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="dt">"random"</span><span class="fu">:</span> <span class="st">"This is a random number: &lt;a random number&gt;"</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">}</span></span></code></pre></div>
 <p>(This example is just for illustration purposes. Note that for this example, the screenshots will still change each time the test is run, so there are better solutions, like <a href="in-depth.html#controlling-randomness">setting the random seed</a>.)</p>
-<p>Input values can face the same issues, and they can also be modified with <code><a href="https://shiny.rstudio.com/reference/shiny/latest/snapshotPreprocessInput.html" class="external-link">shiny::snapshotPreprocessInput()</a></code>.</p>
+<p>Input values can face the same issues, and they can also be modified with <code><a href="https://rdrr.io/pkg/shiny/man/snapshotPreprocessInput.html" class="external-link">shiny::snapshotPreprocessInput()</a></code>.</p>
 </div>
   </div>
 
@@ -181,12 +181,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Winston Chang, Gábor Csárdi, Hadley Wickham, RStudio.</p>
+<p>Developed by Winston Chang, Gábor Csárdi, Hadley Wickham, Posit Software, PBC.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
