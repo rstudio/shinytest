@@ -1,3 +1,7 @@
+# shinytest 1.6.0
+
+* shinytest is now officially deprecated. Please use shinytest2 instead.
+
 # shinytest 1.5.4
 
 * Updated contact information in DESCRIPTION file. (#436)
