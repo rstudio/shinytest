@@ -10,26 +10,26 @@ methods for finer grained interaction.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Widget$new()}}
-\item \href{#method-getName}{\code{Widget$getName()}}
-\item \href{#method-getElement}{\code{Widget$getElement()}}
-\item \href{#method-getHtml}{\code{Widget$getHtml()}}
-\item \href{#method-getType}{\code{Widget$getType()}}
-\item \href{#method-getIoType}{\code{Widget$getIoType()}}
-\item \href{#method-isInput}{\code{Widget$isInput()}}
-\item \href{#method-isOutput}{\code{Widget$isOutput()}}
-\item \href{#method-getValue}{\code{Widget$getValue()}}
-\item \href{#method-setValue}{\code{Widget$setValue()}}
-\item \href{#method-click}{\code{Widget$click()}}
-\item \href{#method-sendKeys}{\code{Widget$sendKeys()}}
-\item \href{#method-listTabs}{\code{Widget$listTabs()}}
-\item \href{#method-uploadFile}{\code{Widget$uploadFile()}}
-\item \href{#method-clone}{\code{Widget$clone()}}
+\item \href{#method-Widget-new}{\code{Widget$new()}}
+\item \href{#method-Widget-getName}{\code{Widget$getName()}}
+\item \href{#method-Widget-getElement}{\code{Widget$getElement()}}
+\item \href{#method-Widget-getHtml}{\code{Widget$getHtml()}}
+\item \href{#method-Widget-getType}{\code{Widget$getType()}}
+\item \href{#method-Widget-getIoType}{\code{Widget$getIoType()}}
+\item \href{#method-Widget-isInput}{\code{Widget$isInput()}}
+\item \href{#method-Widget-isOutput}{\code{Widget$isOutput()}}
+\item \href{#method-Widget-getValue}{\code{Widget$getValue()}}
+\item \href{#method-Widget-setValue}{\code{Widget$setValue()}}
+\item \href{#method-Widget-click}{\code{Widget$click()}}
+\item \href{#method-Widget-sendKeys}{\code{Widget$sendKeys()}}
+\item \href{#method-Widget-listTabs}{\code{Widget$listTabs()}}
+\item \href{#method-Widget-uploadFile}{\code{Widget$uploadFile()}}
+\item \href{#method-Widget-clone}{\code{Widget$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Widget-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-new}{}}}
 \subsection{Method \code{new()}}{
 Create new \code{Widget}
 \subsection{Usage}{
@@ -51,8 +51,8 @@ Create new \code{Widget}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getName"></a>}}
-\if{latex}{\out{\hypertarget{method-getName}{}}}
+\if{html}{\out{<a id="method-Widget-getName"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-getName}{}}}
 \subsection{Method \code{getName()}}{
 Control id (i.e. \code{inputId} or \code{outputId} that control
 was created with).
@@ -62,8 +62,8 @@ was created with).
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getElement"></a>}}
-\if{latex}{\out{\hypertarget{method-getElement}{}}}
+\if{html}{\out{<a id="method-Widget-getElement"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-getElement}{}}}
 \subsection{Method \code{getElement()}}{
 Underlying \code{\link[webdriver:Element]{webdriver::Element()}} object.
 \subsection{Usage}{
@@ -72,8 +72,8 @@ Underlying \code{\link[webdriver:Element]{webdriver::Element()}} object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getHtml"></a>}}
-\if{latex}{\out{\hypertarget{method-getHtml}{}}}
+\if{html}{\out{<a id="method-Widget-getHtml"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-getHtml}{}}}
 \subsection{Method \code{getHtml()}}{
 retrieve the underlying HTML for a widget
 \subsection{Usage}{
@@ -82,8 +82,8 @@ retrieve the underlying HTML for a widget
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getType"></a>}}
-\if{latex}{\out{\hypertarget{method-getType}{}}}
+\if{html}{\out{<a id="method-Widget-getType"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-getType}{}}}
 \subsection{Method \code{getType()}}{
 Widget type, e.g. \code{textInput}, \code{selectInput}.
 \subsection{Usage}{
@@ -92,8 +92,8 @@ Widget type, e.g. \code{textInput}, \code{selectInput}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getIoType"></a>}}
-\if{latex}{\out{\hypertarget{method-getIoType}{}}}
+\if{html}{\out{<a id="method-Widget-getIoType"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-getIoType}{}}}
 \subsection{Method \code{getIoType()}}{
 Is this an input or output control?
 \subsection{Usage}{
@@ -102,8 +102,8 @@ Is this an input or output control?
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-isInput"></a>}}
-\if{latex}{\out{\hypertarget{method-isInput}{}}}
+\if{html}{\out{<a id="method-Widget-isInput"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-isInput}{}}}
 \subsection{Method \code{isInput()}}{
 Is this an input control?
 \subsection{Usage}{
@@ -112,8 +112,8 @@ Is this an input control?
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-isOutput"></a>}}
-\if{latex}{\out{\hypertarget{method-isOutput}{}}}
+\if{html}{\out{<a id="method-Widget-isOutput"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-isOutput}{}}}
 \subsection{Method \code{isOutput()}}{
 Is this an output control?
 \subsection{Usage}{
@@ -122,8 +122,8 @@ Is this an output control?
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getValue"></a>}}
-\if{latex}{\out{\hypertarget{method-getValue}{}}}
+\if{html}{\out{<a id="method-Widget-getValue"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-getValue}{}}}
 \subsection{Method \code{getValue()}}{
 Get current value of control.
 \subsection{Usage}{
@@ -132,8 +132,8 @@ Get current value of control.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setValue"></a>}}
-\if{latex}{\out{\hypertarget{method-setValue}{}}}
+\if{html}{\out{<a id="method-Widget-setValue"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-setValue}{}}}
 \subsection{Method \code{setValue()}}{
 Set value of control.
 \subsection{Usage}{
@@ -149,8 +149,8 @@ Set value of control.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-click"></a>}}
-\if{latex}{\out{\hypertarget{method-click}{}}}
+\if{html}{\out{<a id="method-Widget-click"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-click}{}}}
 \subsection{Method \code{click()}}{
 scrolls the element into view, then clicks the in-view
 centre point of it.
@@ -163,8 +163,8 @@ self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-sendKeys"></a>}}
-\if{latex}{\out{\hypertarget{method-sendKeys}{}}}
+\if{html}{\out{<a id="method-Widget-sendKeys"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-sendKeys}{}}}
 \subsection{Method \code{sendKeys()}}{
 Send specified key presses to control.
 \subsection{Usage}{
@@ -181,8 +181,8 @@ for how to specific special keys.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-listTabs"></a>}}
-\if{latex}{\out{\hypertarget{method-listTabs}{}}}
+\if{html}{\out{<a id="method-Widget-listTabs"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-listTabs}{}}}
 \subsection{Method \code{listTabs()}}{
 Lists the tab names of a \code{\link[shiny:tabsetPanel]{shiny::tabsetPanel()}}.
 It fails for other types of widgets.
@@ -192,8 +192,8 @@ It fails for other types of widgets.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-uploadFile"></a>}}
-\if{latex}{\out{\hypertarget{method-uploadFile}{}}}
+\if{html}{\out{<a id="method-Widget-uploadFile"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-uploadFile}{}}}
 \subsection{Method \code{uploadFile()}}{
 Upload a file to a \code{\link[shiny:fileInput]{shiny::fileInput()}}.
 It fails for other types of widgets.
@@ -210,8 +210,8 @@ It fails for other types of widgets.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Widget-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Widget-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

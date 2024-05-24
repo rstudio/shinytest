@@ -12,55 +12,55 @@ with a live app.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{ShinyDriver$new()}}
-\item \href{#method-finalize}{\code{ShinyDriver$finalize()}}
-\item \href{#method-stop}{\code{ShinyDriver$stop()}}
-\item \href{#method-getValue}{\code{ShinyDriver$getValue()}}
-\item \href{#method-setValue}{\code{ShinyDriver$setValue()}}
-\item \href{#method-click}{\code{ShinyDriver$click()}}
-\item \href{#method-getAllValues}{\code{ShinyDriver$getAllValues()}}
-\item \href{#method-sendKeys}{\code{ShinyDriver$sendKeys()}}
-\item \href{#method-setWindowSize}{\code{ShinyDriver$setWindowSize()}}
-\item \href{#method-getWindowSize}{\code{ShinyDriver$getWindowSize()}}
-\item \href{#method-getDebugLog}{\code{ShinyDriver$getDebugLog()}}
-\item \href{#method-enableDebugLogMessages}{\code{ShinyDriver$enableDebugLogMessages()}}
-\item \href{#method-logEvent}{\code{ShinyDriver$logEvent()}}
-\item \href{#method-getEventLog}{\code{ShinyDriver$getEventLog()}}
-\item \href{#method-getUrl}{\code{ShinyDriver$getUrl()}}
-\item \href{#method-getTitle}{\code{ShinyDriver$getTitle()}}
-\item \href{#method-getSource}{\code{ShinyDriver$getSource()}}
-\item \href{#method-goBack}{\code{ShinyDriver$goBack()}}
-\item \href{#method-refresh}{\code{ShinyDriver$refresh()}}
-\item \href{#method-takeScreenshot}{\code{ShinyDriver$takeScreenshot()}}
-\item \href{#method-findElement}{\code{ShinyDriver$findElement()}}
-\item \href{#method-findElements}{\code{ShinyDriver$findElements()}}
-\item \href{#method-waitFor}{\code{ShinyDriver$waitFor()}}
-\item \href{#method-waitForShiny}{\code{ShinyDriver$waitForShiny()}}
-\item \href{#method-waitForValue}{\code{ShinyDriver$waitForValue()}}
-\item \href{#method-listWidgets}{\code{ShinyDriver$listWidgets()}}
-\item \href{#method-checkUniqueWidgetNames}{\code{ShinyDriver$checkUniqueWidgetNames()}}
-\item \href{#method-executeScript}{\code{ShinyDriver$executeScript()}}
-\item \href{#method-executeScriptAsync}{\code{ShinyDriver$executeScriptAsync()}}
-\item \href{#method-findWidget}{\code{ShinyDriver$findWidget()}}
-\item \href{#method-expectUpdate}{\code{ShinyDriver$expectUpdate()}}
-\item \href{#method-setInputs}{\code{ShinyDriver$setInputs()}}
-\item \href{#method-uploadFile}{\code{ShinyDriver$uploadFile()}}
-\item \href{#method-snapshotInit}{\code{ShinyDriver$snapshotInit()}}
-\item \href{#method-snapshot}{\code{ShinyDriver$snapshot()}}
-\item \href{#method-snapshotCompare}{\code{ShinyDriver$snapshotCompare()}}
-\item \href{#method-snapshotDownload}{\code{ShinyDriver$snapshotDownload()}}
-\item \href{#method-getAppDir}{\code{ShinyDriver$getAppDir()}}
-\item \href{#method-getAppFilename}{\code{ShinyDriver$getAppFilename()}}
-\item \href{#method-getTestsDir}{\code{ShinyDriver$getTestsDir()}}
-\item \href{#method-getRelativePathToApp}{\code{ShinyDriver$getRelativePathToApp()}}
-\item \href{#method-getSnapshotDir}{\code{ShinyDriver$getSnapshotDir()}}
-\item \href{#method-isRmd}{\code{ShinyDriver$isRmd()}}
-\item \href{#method-clone}{\code{ShinyDriver$clone()}}
+\item \href{#method-ShinyDriver-new}{\code{ShinyDriver$new()}}
+\item \href{#method-ShinyDriver-finalize}{\code{ShinyDriver$finalize()}}
+\item \href{#method-ShinyDriver-stop}{\code{ShinyDriver$stop()}}
+\item \href{#method-ShinyDriver-getValue}{\code{ShinyDriver$getValue()}}
+\item \href{#method-ShinyDriver-setValue}{\code{ShinyDriver$setValue()}}
+\item \href{#method-ShinyDriver-click}{\code{ShinyDriver$click()}}
+\item \href{#method-ShinyDriver-getAllValues}{\code{ShinyDriver$getAllValues()}}
+\item \href{#method-ShinyDriver-sendKeys}{\code{ShinyDriver$sendKeys()}}
+\item \href{#method-ShinyDriver-setWindowSize}{\code{ShinyDriver$setWindowSize()}}
+\item \href{#method-ShinyDriver-getWindowSize}{\code{ShinyDriver$getWindowSize()}}
+\item \href{#method-ShinyDriver-getDebugLog}{\code{ShinyDriver$getDebugLog()}}
+\item \href{#method-ShinyDriver-enableDebugLogMessages}{\code{ShinyDriver$enableDebugLogMessages()}}
+\item \href{#method-ShinyDriver-logEvent}{\code{ShinyDriver$logEvent()}}
+\item \href{#method-ShinyDriver-getEventLog}{\code{ShinyDriver$getEventLog()}}
+\item \href{#method-ShinyDriver-getUrl}{\code{ShinyDriver$getUrl()}}
+\item \href{#method-ShinyDriver-getTitle}{\code{ShinyDriver$getTitle()}}
+\item \href{#method-ShinyDriver-getSource}{\code{ShinyDriver$getSource()}}
+\item \href{#method-ShinyDriver-goBack}{\code{ShinyDriver$goBack()}}
+\item \href{#method-ShinyDriver-refresh}{\code{ShinyDriver$refresh()}}
+\item \href{#method-ShinyDriver-takeScreenshot}{\code{ShinyDriver$takeScreenshot()}}
+\item \href{#method-ShinyDriver-findElement}{\code{ShinyDriver$findElement()}}
+\item \href{#method-ShinyDriver-findElements}{\code{ShinyDriver$findElements()}}
+\item \href{#method-ShinyDriver-waitFor}{\code{ShinyDriver$waitFor()}}
+\item \href{#method-ShinyDriver-waitForShiny}{\code{ShinyDriver$waitForShiny()}}
+\item \href{#method-ShinyDriver-waitForValue}{\code{ShinyDriver$waitForValue()}}
+\item \href{#method-ShinyDriver-listWidgets}{\code{ShinyDriver$listWidgets()}}
+\item \href{#method-ShinyDriver-checkUniqueWidgetNames}{\code{ShinyDriver$checkUniqueWidgetNames()}}
+\item \href{#method-ShinyDriver-executeScript}{\code{ShinyDriver$executeScript()}}
+\item \href{#method-ShinyDriver-executeScriptAsync}{\code{ShinyDriver$executeScriptAsync()}}
+\item \href{#method-ShinyDriver-findWidget}{\code{ShinyDriver$findWidget()}}
+\item \href{#method-ShinyDriver-expectUpdate}{\code{ShinyDriver$expectUpdate()}}
+\item \href{#method-ShinyDriver-setInputs}{\code{ShinyDriver$setInputs()}}
+\item \href{#method-ShinyDriver-uploadFile}{\code{ShinyDriver$uploadFile()}}
+\item \href{#method-ShinyDriver-snapshotInit}{\code{ShinyDriver$snapshotInit()}}
+\item \href{#method-ShinyDriver-snapshot}{\code{ShinyDriver$snapshot()}}
+\item \href{#method-ShinyDriver-snapshotCompare}{\code{ShinyDriver$snapshotCompare()}}
+\item \href{#method-ShinyDriver-snapshotDownload}{\code{ShinyDriver$snapshotDownload()}}
+\item \href{#method-ShinyDriver-getAppDir}{\code{ShinyDriver$getAppDir()}}
+\item \href{#method-ShinyDriver-getAppFilename}{\code{ShinyDriver$getAppFilename()}}
+\item \href{#method-ShinyDriver-getTestsDir}{\code{ShinyDriver$getTestsDir()}}
+\item \href{#method-ShinyDriver-getRelativePathToApp}{\code{ShinyDriver$getRelativePathToApp()}}
+\item \href{#method-ShinyDriver-getSnapshotDir}{\code{ShinyDriver$getSnapshotDir()}}
+\item \href{#method-ShinyDriver-isRmd}{\code{ShinyDriver$isRmd()}}
+\item \href{#method-ShinyDriver-clone}{\code{ShinyDriver$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ShinyDriver$new(
@@ -113,8 +113,8 @@ process.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-finalize"></a>}}
-\if{latex}{\out{\hypertarget{method-finalize}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-finalize"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-finalize}{}}}
 \subsection{Method \code{finalize()}}{
 Stop app and clean up logs.
 \subsection{Usage}{
@@ -123,8 +123,8 @@ Stop app and clean up logs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-stop"></a>}}
-\if{latex}{\out{\hypertarget{method-stop}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-stop"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-stop}{}}}
 \subsection{Method \code{stop()}}{
 Stop the app, the terminate external R process that runs the app and
 the phantomjs instance.
@@ -134,8 +134,8 @@ the phantomjs instance.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getValue"></a>}}
-\if{latex}{\out{\hypertarget{method-getValue}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getValue"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getValue}{}}}
 \subsection{Method \code{getValue()}}{
 Finds a widget and queries its value. See the \code{getValue()} method of
 \link{Widget} for more details.
@@ -156,8 +156,8 @@ input and output widget.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setValue"></a>}}
-\if{latex}{\out{\hypertarget{method-setValue}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-setValue"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-setValue}{}}}
 \subsection{Method \code{setValue()}}{
 Finds a widget and sets its value. It's a shortcut for \code{findElement()}
 plus \code{setValue()}; see the \link{Widget} documentation for more details.
@@ -183,8 +183,8 @@ Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-click"></a>}}
-\if{latex}{\out{\hypertarget{method-click}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-click"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-click}{}}}
 \subsection{Method \code{click()}}{
 Find a widget and click it. It's a shortcut for \code{findElement()}
 plus \code{click()}; see the \link{Widget} documentation for more details.
@@ -205,8 +205,8 @@ input and output widget.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getAllValues"></a>}}
-\if{latex}{\out{\hypertarget{method-getAllValues}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getAllValues"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getAllValues}{}}}
 \subsection{Method \code{getAllValues()}}{
 Returns a named list of all inputs, outputs, and export values.
 \subsection{Usage}{
@@ -224,8 +224,8 @@ controls.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-sendKeys"></a>}}
-\if{latex}{\out{\hypertarget{method-sendKeys}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-sendKeys"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-sendKeys}{}}}
 \subsection{Method \code{sendKeys()}}{
 Sends the specified keys to specific HTML element. Shortcut for
 \code{findWidget()} plus \code{sendKeys()}.
@@ -248,8 +248,8 @@ Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setWindowSize"></a>}}
-\if{latex}{\out{\hypertarget{method-setWindowSize}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-setWindowSize"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-setWindowSize}{}}}
 \subsection{Method \code{setWindowSize()}}{
 Sets size of the browser window.
 \subsection{Usage}{
@@ -268,8 +268,8 @@ Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getWindowSize"></a>}}
-\if{latex}{\out{\hypertarget{method-getWindowSize}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getWindowSize"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getWindowSize}{}}}
 \subsection{Method \code{getWindowSize()}}{
 Get current size of the browser window, as list of integer scalars
 named \code{width} and \code{height}.
@@ -279,8 +279,8 @@ named \code{width} and \code{height}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getDebugLog"></a>}}
-\if{latex}{\out{\hypertarget{method-getDebugLog}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getDebugLog"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getDebugLog}{}}}
 \subsection{Method \code{getDebugLog()}}{
 Query one or more of the debug logs.
 \subsection{Usage}{
@@ -297,8 +297,8 @@ or \code{"shinytest"}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-enableDebugLogMessages"></a>}}
-\if{latex}{\out{\hypertarget{method-enableDebugLogMessages}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-enableDebugLogMessages"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-enableDebugLogMessages}{}}}
 \subsection{Method \code{enableDebugLogMessages()}}{
 Enable/disable debugging messages
 \subsection{Usage}{
@@ -314,8 +314,8 @@ Enable/disable debugging messages
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-logEvent"></a>}}
-\if{latex}{\out{\hypertarget{method-logEvent}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-logEvent"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-logEvent}{}}}
 \subsection{Method \code{logEvent()}}{
 Add event to log.
 \subsection{Usage}{
@@ -333,8 +333,8 @@ Add event to log.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getEventLog"></a>}}
-\if{latex}{\out{\hypertarget{method-getEventLog}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getEventLog"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getEventLog}{}}}
 \subsection{Method \code{getEventLog()}}{
 Retrieve event log.
 \subsection{Usage}{
@@ -343,8 +343,8 @@ Retrieve event log.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getUrl"></a>}}
-\if{latex}{\out{\hypertarget{method-getUrl}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getUrl"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getUrl}{}}}
 \subsection{Method \code{getUrl()}}{
 Get current url
 \subsection{Usage}{
@@ -353,8 +353,8 @@ Get current url
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getTitle"></a>}}
-\if{latex}{\out{\hypertarget{method-getTitle}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getTitle"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getTitle}{}}}
 \subsection{Method \code{getTitle()}}{
 Get page title
 \subsection{Usage}{
@@ -363,8 +363,8 @@ Get page title
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getSource"></a>}}
-\if{latex}{\out{\hypertarget{method-getSource}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getSource"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getSource}{}}}
 \subsection{Method \code{getSource()}}{
 Get complete source of current page.
 \subsection{Usage}{
@@ -373,8 +373,8 @@ Get complete source of current page.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-goBack"></a>}}
-\if{latex}{\out{\hypertarget{method-goBack}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-goBack"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-goBack}{}}}
 \subsection{Method \code{goBack()}}{
 Return to previous page
 \subsection{Usage}{
@@ -386,8 +386,8 @@ Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-refresh"></a>}}
-\if{latex}{\out{\hypertarget{method-refresh}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-refresh"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-refresh}{}}}
 \subsection{Method \code{refresh()}}{
 Refresh the browser
 \subsection{Usage}{
@@ -399,8 +399,8 @@ Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-takeScreenshot"></a>}}
-\if{latex}{\out{\hypertarget{method-takeScreenshot}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-takeScreenshot"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-takeScreenshot}{}}}
 \subsection{Method \code{takeScreenshot()}}{
 Takes a screenshot of the current page and writes it to a PNG file or
 shows on current graphics device.
@@ -427,8 +427,8 @@ Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-findElement"></a>}}
-\if{latex}{\out{\hypertarget{method-findElement}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-findElement"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-findElement}{}}}
 \subsection{Method \code{findElement()}}{
 Find an HTML element on the page, using a CSS selector, XPath expression,
 or link text (for \verb{<a>} tags). If multiple elements are matched, only
@@ -460,8 +460,8 @@ A \link[webdriver:Element]{webdriver::Element}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-findElements"></a>}}
-\if{latex}{\out{\hypertarget{method-findElements}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-findElements"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-findElements}{}}}
 \subsection{Method \code{findElements()}}{
 Find all elements matching CSS selection, xpath, or link text.
 \subsection{Usage}{
@@ -491,8 +491,8 @@ A list of \link[webdriver:Element]{webdriver::Element}s.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-waitFor"></a>}}
-\if{latex}{\out{\hypertarget{method-waitFor}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-waitFor"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-waitFor}{}}}
 \subsection{Method \code{waitFor()}}{
 Waits until a JavaScript \code{expr}ession evaluates to \code{true} or the
 \code{timeout} is exceeded.
@@ -518,8 +518,8 @@ timeout. Otherwise returns \code{NA}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-waitForShiny"></a>}}
-\if{latex}{\out{\hypertarget{method-waitForShiny}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-waitForShiny"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-waitForShiny}{}}}
 \subsection{Method \code{waitForShiny()}}{
 Waits until Shiny is not busy, i.e. the reactive graph has finished
 updating. This is useful, for example, if you've resized the window with
@@ -534,8 +534,8 @@ before take a screenshot.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-waitForValue"></a>}}
-\if{latex}{\out{\hypertarget{method-waitForValue}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-waitForValue"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-waitForValue}{}}}
 \subsection{Method \code{waitForValue()}}{
 Waits until the \code{input} or \code{output} with name \code{name} is not one of
 \code{ignore}d values, or the timeout is reached.
@@ -572,8 +572,8 @@ input and output widget.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-listWidgets"></a>}}
-\if{latex}{\out{\hypertarget{method-listWidgets}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-listWidgets"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-listWidgets}{}}}
 \subsection{Method \code{listWidgets()}}{
 Lists the names of all input and output widgets
 \subsection{Usage}{
@@ -585,8 +585,8 @@ A list of two character vectors, named \code{input} and \code{output}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-checkUniqueWidgetNames"></a>}}
-\if{latex}{\out{\hypertarget{method-checkUniqueWidgetNames}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-checkUniqueWidgetNames"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-checkUniqueWidgetNames}{}}}
 \subsection{Method \code{checkUniqueWidgetNames()}}{
 Check if Shiny widget names are unique.
 \subsection{Usage}{
@@ -595,8 +595,8 @@ Check if Shiny widget names are unique.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-executeScript"></a>}}
-\if{latex}{\out{\hypertarget{method-executeScript}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-executeScript"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-executeScript}{}}}
 \subsection{Method \code{executeScript()}}{
 Execute JS code
 \subsection{Usage}{
@@ -617,8 +617,8 @@ Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-executeScriptAsync"></a>}}
-\if{latex}{\out{\hypertarget{method-executeScriptAsync}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-executeScriptAsync"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-executeScriptAsync}{}}}
 \subsection{Method \code{executeScriptAsync()}}{
 Execute JS code asynchronously.
 \subsection{Usage}{
@@ -639,8 +639,8 @@ Self, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-findWidget"></a>}}
-\if{latex}{\out{\hypertarget{method-findWidget}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-findWidget"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-findWidget}{}}}
 \subsection{Method \code{findWidget()}}{
 Finds the a Shiny input or output control.
 \subsection{Usage}{
@@ -663,8 +663,8 @@ A \link{Widget}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-expectUpdate"></a>}}
-\if{latex}{\out{\hypertarget{method-expectUpdate}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-expectUpdate"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-expectUpdate}{}}}
 \subsection{Method \code{expectUpdate()}}{
 It performs one or more update operations via the browser, thens
 waits for the specified output(s) to update. The test succeeds if
@@ -696,8 +696,8 @@ input and output widget.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setInputs"></a>}}
-\if{latex}{\out{\hypertarget{method-setInputs}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-setInputs"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-setInputs}{}}}
 \subsection{Method \code{setInputs()}}{
 Sets input values.
 \subsection{Usage}{
@@ -737,8 +737,8 @@ Returns updated values, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-uploadFile"></a>}}
-\if{latex}{\out{\hypertarget{method-uploadFile}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-uploadFile"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-uploadFile}{}}}
 \subsection{Method \code{uploadFile()}}{
 Uploads a file to a file input.
 \subsection{Usage}{
@@ -762,8 +762,8 @@ control.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-snapshotInit"></a>}}
-\if{latex}{\out{\hypertarget{method-snapshotInit}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-snapshotInit"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-snapshotInit}{}}}
 \subsection{Method \code{snapshotInit()}}{
 Download a snapshot. Generally, you should not call this function
 yourself; it will be generated by \code{\link[=recordTest]{recordTest()}} as needed.
@@ -782,8 +782,8 @@ yourself; it will be generated by \code{\link[=recordTest]{recordTest()}} as nee
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-snapshot"></a>}}
-\if{latex}{\out{\hypertarget{method-snapshot}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-snapshot"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-snapshot}{}}}
 \subsection{Method \code{snapshot()}}{
 Take a snapshot. Generally, you should not call this function
 yourself; it will be generated by \code{\link[=recordTest]{recordTest()}} as needed.
@@ -806,8 +806,8 @@ file extension.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-snapshotCompare"></a>}}
-\if{latex}{\out{\hypertarget{method-snapshotCompare}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-snapshotCompare"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-snapshotCompare}{}}}
 \subsection{Method \code{snapshotCompare()}}{
 Deprecated
 \subsection{Usage}{
@@ -823,8 +823,8 @@ Deprecated
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-snapshotDownload"></a>}}
-\if{latex}{\out{\hypertarget{method-snapshotDownload}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-snapshotDownload"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-snapshotDownload}{}}}
 \subsection{Method \code{snapshotDownload()}}{
 Snapshot a file download action. Generally, you should not call this
 function yourself; it will be generated by \code{\link[=recordTest]{recordTest()}} as needed.
@@ -845,8 +845,8 @@ generates an ascending sequence of names: \verb{001.download},
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getAppDir"></a>}}
-\if{latex}{\out{\hypertarget{method-getAppDir}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getAppDir"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getAppDir}{}}}
 \subsection{Method \code{getAppDir()}}{
 Directory where app is located
 \subsection{Usage}{
@@ -855,8 +855,8 @@ Directory where app is located
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getAppFilename"></a>}}
-\if{latex}{\out{\hypertarget{method-getAppFilename}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getAppFilename"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getAppFilename}{}}}
 \subsection{Method \code{getAppFilename()}}{
 App file name, i.e. \code{app.R} or \code{server.R}. \code{NULL} for Rmds.
 \subsection{Usage}{
@@ -865,8 +865,8 @@ App file name, i.e. \code{app.R} or \code{server.R}. \code{NULL} for Rmds.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getTestsDir"></a>}}
-\if{latex}{\out{\hypertarget{method-getTestsDir}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getTestsDir"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getTestsDir}{}}}
 \subsection{Method \code{getTestsDir()}}{
 Directory where tests are located
 \subsection{Usage}{
@@ -875,8 +875,8 @@ Directory where tests are located
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getRelativePathToApp"></a>}}
-\if{latex}{\out{\hypertarget{method-getRelativePathToApp}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getRelativePathToApp"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getRelativePathToApp}{}}}
 \subsection{Method \code{getRelativePathToApp()}}{
 Relative path to app from current directory.
 \subsection{Usage}{
@@ -885,8 +885,8 @@ Relative path to app from current directory.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getSnapshotDir"></a>}}
-\if{latex}{\out{\hypertarget{method-getSnapshotDir}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-getSnapshotDir"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-getSnapshotDir}{}}}
 \subsection{Method \code{getSnapshotDir()}}{
 Directory where snapshots are located.
 \subsection{Usage}{
@@ -895,8 +895,8 @@ Directory where snapshots are located.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-isRmd"></a>}}
-\if{latex}{\out{\hypertarget{method-isRmd}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-isRmd"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-isRmd}{}}}
 \subsection{Method \code{isRmd()}}{
 Is this app an Shiny Rmd document?
 \subsection{Usage}{
@@ -905,8 +905,8 @@ Is this app an Shiny Rmd document?
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ShinyDriver-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ShinyDriver-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

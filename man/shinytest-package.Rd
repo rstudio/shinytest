@@ -6,7 +6,7 @@
 \alias{shinytest-package}
 \title{shinytest: Test Shiny Apps}
 \description{
-For automated testing of Shiny applications, using a headless browser, driven through 'WebDriver'.
+Please see the shinytest to shinytest2 migration guide at https://rstudio.github.io/shinytest2/articles/z-migration.html
 }
 \seealso{
 Useful links:
@@ -17,18 +17,18 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Winston Chang \email{winston@rstudio.com}
+\strong{Maintainer}: Winston Chang \email{winston@posit.co}
 
 Authors:
 \itemize{
-  \item Gábor Csárdi \email{gabor@rstudio.com}
-  \item Hadley Wickham \email{hadley@rstudio.com}
+  \item Gábor Csárdi \email{gabor@posit.co}
+  \item Hadley Wickham \email{hadley@posit.co}
 }
 
 Other contributors:
 \itemize{
-  \item RStudio [copyright holder, funder]
-  \item Mango Solutions [copyright holder, conceptor]
+  \item Posit Software, PBC [copyright holder, funder]
+  \item Ascent Digital Services [copyright holder, conceptor]
 }
 
 }

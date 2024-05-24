@@ -25,16 +25,20 @@ the tests are put in \verb{tests/shinytest/}, so that it works with the
 
 With \pkg{shinytest} 1.3.1 and below, the tests/ subdirectory of the
 application was used specifically for \pkg{shinytest}, and could not be used
-for other types of tests. So the directory structure would look like this:\preformatted{appdir/
+for other types of tests. So the directory structure would look like this:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{appdir/
  `- tests
      `- mytest.R
-}
+}\if{html}{\out{</div>}}
 
 In Shiny 1.5.0, the \code{shiny::runTests()} function was added, and it will run
 test scripts tests/ subdirectory of the application. This makes it possible
 to use other testing systems in addition to shinytest. \pkg{shinytest} 1.4.0
 is designed to work with this new directory structure. The directory
-structure looks something like this:\preformatted{appdir/
+structure looks something like this:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{appdir/
  |- R
  |- tests
      |- shinytest.R
@@ -43,7 +47,7 @@ structure looks something like this:\preformatted{appdir/
      |- testthat.R
      `- testthat
          `- test-script.R
-}
+}\if{html}{\out{</div>}}
 
 This allows for tests using the \pkg{shinytest} package as well as other
 testing tools, such as the \code{shiny::testServer()} function, which can be used
