@@ -6,7 +6,8 @@
 
   packageStartupMessage(
     "IMPORTANT! shinytest is deprecated and may not work with shiny>1.8.1.1.\n",
-    "Please switch to shinytest2."
+    "Please switch to shinytest2.\n",
+    "See https://rstudio.github.io/shinytest2/articles/z-migration.html"
   )
 
   # This will issue a message if phantomjs isn't found, converting the regular
